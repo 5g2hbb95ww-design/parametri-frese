@@ -1,0 +1,132 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+}
+
+body{
+    background:#111827;
+    color:#fff;
+    padding:20px;
+}
+
+header{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+h1{
+    font-size:32px;
+    font-weight:700;
+}
+
+h2{
+    margin-bottom:15px;
+    font-size:22px;
+}
+
+.card{
+    background:#1f2937;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:20px;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:14px;
+    margin-bottom:12px;
+    border:none;
+    border-radius:12px;
+    background:#374151;
+    color:white;
+    font-size:16px;
+    outline:none;
+}
+
+textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+button{
+    width:100%;
+    padding:16px;
+    margin-top:10px;
+    border:none;
+    border-radius:14px;
+    background:#0A84FF;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+#lista{
+    margin-top:15px;
+}
+
+.record{
+    background:#374151;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:12px;
+}
+
+.record h3{
+    margin-bottom:8px;
+    color:#5ac8fa;
+}
+
+.record p{
+    margin:4px 0;
+    font-size:15px;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.actions button{
+    flex:1;
+    font-size:15px;
+    padding:10px;
+}
+
+.modifica{
+    background:#34C759;
+}
+
+.elimina{
+    background:#FF3B30;
+}
+
+@media (max-width:600px){
+
+body{
+padding:15px;
+}
+
+h1{
+font-size:28px;
+}
+
+.card{
+padding:15px;
+}
+
+button{
+font-size:17px;
+}
+
+}
