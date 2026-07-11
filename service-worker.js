@@ -1,12 +1,18 @@
-const CACHE_NAME = "parametri-frese-v3";   // cambia versione quando aggiorni
+const CACHE_NAME = "parametri-frese-v4";   // aggiorna versione quando modifichi
 const FILES_TO_CACHE = [
   "/parametri-frese/",
   "/parametri-frese/index.html",
   "/parametri-frese/style.css",
   "/parametri-frese/app.js",
   "/parametri-frese/manifest.json",
-  "/parametri-frese/icons/icon-192.png",
-  "/parametri-frese/icons/icon-512.png"
+
+  // Icone corrette
+  "/parametri-frese/icon/icon-192.png",
+  "/parametri-frese/icon/icon-512.png",
+
+  // Screenshot PWA
+  "/parametri-frese/icon/screen-wide.png",
+  "/parametri-frese/icon/screen-mobile.png"
 ];
 
 // Install SW → cache dei file statici
@@ -35,7 +41,7 @@ self.addEventListener("activate", (event) => {
   self.clients.claim(); // prende controllo immediato
 });
 
-// Fetch → offline mode
+// Fetch → offline mode + fallback
 self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(event.request).then((cached) => {
