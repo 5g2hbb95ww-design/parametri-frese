@@ -120,4 +120,25 @@ placeholder="Cerca">
 <script src="app.js"></script>
 
 </body>
+  <button id="installaApp" style="margin:20px; padding:10px;">
+📲 Installa App
+</button>
+
+<script>
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('installaApp').style.display = 'block';
+});
+
+document.getElementById('installaApp').addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+});
+</script>
+
 </html>
