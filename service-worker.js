@@ -1,47 +1,32 @@
-const CACHE_NAME = "parametri-frese-v4";   // aggiorna versione quando modifichi
+const CACHE_NAME = "parametri-frese-v4";
 const FILES_TO_CACHE = [
   "/parametri-frese/",
   "/parametri-frese/index.html",
   "/parametri-frese/style.css",
   "/parametri-frese/app.js",
   "/parametri-frese/manifest.json",
-
-  // Icone corrette
   "/parametri-frese/icon/icon-192.png",
   "/parametri-frese/icon/icon-512.png",
-
-  // Screenshot PWA
   "/parametri-frese/icon/screen-wide.png",
   "/parametri-frese/icon/screen-mobile.png"
 ];
 
-// Install SW → cache dei file statici
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(FILES_TO_CACHE);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE))
   );
-  self.skipWaiting(); // attiva subito
+  self.skipWaiting();
 });
 
-// Attivazione → elimina vecchie versioni
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      )
+      Promise.all(keys.map((key) => key !== CACHE_NAME && caches.delete(key)))
     )
   );
-  self.clients.claim(); // prende controllo immediato
+  self.clients.claim();
 });
 
-// Fetch → offline mode + fallback
 self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(event.request).then((cached) => {
