@@ -1,64 +1,47 @@
 <!DOCTYPE html>
 <html lang="it">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Parametri Frese">
-<meta name="format-detection" content="telephone=no">
-
-<link rel="apple-touch-icon" sizes="192x192" href="icon/icon-192.png">
-<link rel="apple-touch-icon" sizes="512x512" href="icon/icon-512.png">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Parametri Frese</title>
 
+<!-- PWA -->
 <link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
-
 <meta name="theme-color" content="#111111">
-<link rel="apple-touch-icon" href="icon/icon-192.png">
 
+<!-- iPhone / iPad -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Parametri Frese">
+<meta name="format-detection" content="telephone=no">
+
+<!-- Apple Touch Icons (corrette) -->
+<link rel="apple-touch-icon" sizes="192x192" href="icon/icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="icon/icon-512.png">
+
+<!-- CSS -->
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <header>
-
 <h1>⚙️ Parametri Frese</h1>
-
 </header>
 
 <main>
 
 <section class="card">
-
 <h2>Nuovo Inserimento</h2>
 
 <input id="fresa" placeholder="Fresa">
-
 <input id="pastiglie" placeholder="Pastiglie">
 
-<input
-id="sm"
-type="number"
-placeholder="S-M/Minuto">
-
-<input
-id="fm"
-type="number"
-step="0.01"
-placeholder="F-Mm/Dente">
-
-<input
-id="zap"
-type="number"
-step="0.01"
-placeholder="Z-Ap">
+<input id="sm" type="number" placeholder="S-M/Minuto">
+<input id="fm" type="number" step="0.01" placeholder="F-Mm/Dente">
+<input id="zap" type="number" step="0.01" placeholder="Z-Ap">
 
 <select id="materiale">
-
 <option>Acciaio</option>
 <option>Inox</option>
 <option>Ghisa</option>
@@ -68,61 +51,39 @@ placeholder="Z-Ap">
 <option>Rame</option>
 <option>Plastica</option>
 <option>Altro</option>
-
 </select>
 
 <select id="refrigerante">
-
 <option>Acqua</option>
 <option>Aria</option>
 <option>Niente</option>
 <option>Acqua int.</option>
 <option>Aria int.</option>
-
 </select>
 
-<textarea
-id="dettagli"
-placeholder="Dettagli"></textarea>
+<textarea id="dettagli" placeholder="Dettagli"></textarea>
 
-<button id="salva">
-
-💾 Salva
-
-</button>
-
+<button id="salva">💾 Salva</button>
 </section>
 
 <section class="card">
-
 <h2>Archivio</h2>
-
-<input
-id="ricerca"
-placeholder="Cerca">
-
+<input id="ricerca" placeholder="Cerca">
 <div id="lista"></div>
-
 </section>
 
 <section class="card">
-
-<button id="csv">
-
-📄 Esporta CSV
-
-</button>
-
+<button id="csv">📄 Esporta CSV</button>
 </section>
 
 </main>
 
-<script src="app.js"></script>
-
-<button id="installaApp" style="margin:20px; padding:10px;">
+<!-- Bottone installa PWA -->
+<button id="installaApp" style="margin:20px; padding:10px; display:none;">
 📲 Installa App
 </button>
-</body>
+
+<script src="app.js"></script>
 
 <script>
 let deferredPrompt;
@@ -136,9 +97,10 @@ window.addEventListener('beforeinstallprompt', (e) => {
 document.getElementById('installaApp').addEventListener('click', async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
+    await deferredPrompt.userChoice;
     deferredPrompt = null;
 });
 </script>
 
+</body>
 </html>
