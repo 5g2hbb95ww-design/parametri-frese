@@ -1,374 +1,187 @@
-// ===============================
-// PARAMETRI FRESE
-// Versione 1.0
-// ===============================
+// Caricamento iniziale dati da LocalStorage
+let archivio = JSON.parse(localStorage.getItem("parametri_frese") || "[]");
 
-let archivio = JSON.parse(localStorage.getItem("parametriFrese")) || [];
+// Riferimenti elementi
+const diametroEl = document.getElementById("diametro");
+const mminEl = document.getElementById("mmin");
+const sCalcEl = document.getElementById("s_calc");
 
-const fresa = document.getElementById("fresa");
-const pastiglie = document.getElementById("pastiglie");
-const sm = document.getElementById("sm");
-const fm = document.getElementById("fm");
-const zap = document.getElementById("zap");
-const materiale = document.getElementById("materiale");
-const refrigerante = document.getElementById("refrigerante");
-const dettagli = document.getElementById("dettagli");
+const fEl = document.getElementById("f");
+const avAdEl = document.getElementById("av_ad");
+const fCalcEl = document.getElementById("f_calc");
 
-const lista = document.getElementById("lista");
-const ricerca = document.getElementById("ricerca");
+const pastiglieEl = document.getElementById("pastiglie");
+const zapEl = document.getElementById("zap");
+const materialeEl = document.getElementById("materiale");
+const refrigeranteEl = document.getElementById("refrigerante");
+const dettagliEl = document.getElementById("dettagli");
 
-document.getElementById("salva").addEventListener("click", salva);
+const salvaBtn = document.getElementById("salva");
+const listaEl = document.getElementById("lista");
+const ricercaEl = document.getElementById("ricerca");
+const csvBtn = document.getElementById("csv");
 
-document.getElementById("csv").addEventListener("click", esportaCSV);
+// --- CALCOLI ---
 
-ricerca.addEventListener("input", mostraArchivio);
+// S calcolata = (1000 * M/Minuto) / (3.14 * Diametro)
+function calcolaS() {
+    const mmin = parseFloat(mminEl.value) || 0;
+    const diametro = parseFloat(diametroEl.value) || 0;
 
-// =========================================
-// ESPORTA CSV COMPATIBILE NUMBERS
-// =========================================
-
-function esportaCSV() {
-
-    if (archivio.length === 0) {
-        alert("Nessun dato da esportare.");
+    if (!diametro) {
+        sCalcEl.value = "";
+        calcolaF();
         return;
     }
 
-    const intestazioni = [
-        "Fresa",
-        "Pastiglie",
-        "S-M/Minuto",
-        "F-Mm/Dente",
-        "Z-Ap",
-        "Materiale",
-        "Refrigerante",
-        "Dettagli"
-    ];
+    const sCalc = (1000 * mmin) / (3.14 * diametro);
+    sCalcEl.value = sCalc.toFixed(2);
 
-    let csv = "\uFEFF"; // BOM UTF-8 per Numbers
-
-    csv += intestazioni.join(";") + "\n";
-
-    archivio.forEach(r => {
-
-        let riga = [
-
-            r.fresa,
-
-            r.pastiglie,
-
-            r.sm,
-
-            r.fm,
-
-            r.zap,
-
-            r.materiale,
-
-            r.refrigerante,
-
-            r.dettagli
-
-        ].map(valore => {
-
-            if (valore == null)
-                valore = "";
-
-            valore = valore.toString();
-
-            valore = valore.replace(/"/g,'""');
-
-            return `"${valore}"`;
-
-        });
-
-        csv += riga.join(";") + "\n";
-
-    });
-
-    const blob = new Blob(
-        [csv],
-        {
-            type:"text/csv;charset=utf-8;"
-        }
-    );
-
-    const link = document.createElement("a");
-
-    link.href = URL.createObjectURL(blob);
-
-    link.download = "Parametri Frese.csv";
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    document.body.removeChild(link);
-
-    URL.revokeObjectURL(link.href);
-
+    calcolaF(); // aggiorna F calcolata
 }
 
+// F calcolata = Av.Ad * Pastiglie * S calcolata
+function calcolaF() {
+    const avAd = parseFloat(avAdEl.value) || 0;
+    const pastiglie = parseFloat(pastiglieEl.value) || 0;
+    const sCalc = parseFloat(sCalcEl.value) || 0;
 
-// ===============================
-// SALVA
-// ===============================
+    const fCalc = avAd * pastiglie * sCalc;
+    fCalcEl.value = fCalc.toFixed(2);
+}
 
-function salva(){
+// Eventi per calcolo automatico
+mminEl.addEventListener("input", calcolaS);
+diametroEl.addEventListener("input", calcolaS);
 
-    if(fresa.value.trim()==""){
-        alert("Inserisci il nome della fresa");
-        return;
-    }
+fEl.addEventListener("input", calcolaF);
+avAdEl.addEventListener("input", calcolaF);
+pastiglieEl.addEventListener("input", calcolaF);
 
-    let record={
+// --- SALVATAGGIO ---
 
-        id:Date.now(),
+salvaBtn.addEventListener("click", () => {
+    const dati = {
+        diametro: diametroEl.value,
+        mmin: mminEl.value,
+        s_calc: sCalcEl.value,
 
-        fresa:fresa.value,
+        f: fEl.value,
+        av_ad: avAdEl.value,
+        f_calc: fCalcEl.value,
 
-        pastiglie:pastiglie.value,
-
-        sm:sm.value,
-
-        fm:fm.value,
-
-        zap:zap.value,
-
-        materiale:materiale.value,
-
-        refrigerante:refrigerante.value,
-
-        dettagli:dettagli.value
-
+        pastiglie: pastiglieEl.value,
+        zap: zapEl.value,
+        materiale: materialeEl.value,
+        refrigerante: refrigeranteEl.value,
+        dettagli: dettagliEl.value
     };
 
-    archivio.push(record);
-
-    salvaArchivio();
-
+    archivio.push(dati);
+    localStorage.setItem("parametri_frese", JSON.stringify(archivio));
     pulisciCampi();
+    renderArchivio();
+});
 
-    mostraArchivio();
+// Pulizia campi
+function pulisciCampi() {
+    diametroEl.value = "";
+    mminEl.value = "";
+    sCalcEl.value = "";
 
+    fEl.value = "";
+    avAdEl.value = "";
+    fCalcEl.value = "";
+
+    pastiglieEl.value = "";
+    zapEl.value = "";
+    materialeEl.value = "Acciaio";
+    refrigeranteEl.value = "Acqua";
+    dettagliEl.value = "";
 }
 
+// --- ARCHIVIO ---
 
-
-// ===============================
-// LOCAL STORAGE
-// ===============================
-
-function salvaArchivio(){
-
-    localStorage.setItem(
-
-        "parametriFrese",
-
-        JSON.stringify(archivio)
-
-    );
-
-}
-
-
-
-// ===============================
-// PULISCI CAMPI
-// ===============================
-
-function pulisciCampi(){
-
-    fresa.value="";
-
-    pastiglie.value="";
-
-    sm.value="";
-
-    fm.value="";
-
-    zap.value="";
-
-    dettagli.value="";
-
-}
-
-
-
-// ===============================
-// MOSTRA ARCHIVIO
-// ===============================
-
-function mostraArchivio(){
-
-    lista.innerHTML="";
-
-    let testo=ricerca.value.toLowerCase();
+function renderArchivio() {
+    listaEl.innerHTML = "";
+    const filtro = (ricercaEl.value || "").toLowerCase();
 
     archivio
+        .filter(item => {
+            const testo = JSON.stringify(item).toLowerCase();
+            return testo.includes(filtro);
+        })
+        .forEach((item, index) => {
+            const div = document.createElement("div");
+            div.className = "riga";
 
-    .filter(r=>{
+            div.innerHTML = `
+                <strong>Diametro:</strong> ${item.diametro}<br>
+                M/Minuto: ${item.mmin}<br>
+                S calcolata: ${item.s_calc}<br><br>
 
-        return (
+                F: ${item.f}<br>
+                Av. Ad: ${item.av_ad}<br>
+                F calcolata: ${item.f_calc}<br><br>
 
-            r.fresa.toLowerCase().includes(testo)
+                Pastiglie: ${item.pastiglie}<br>
+                Z-Ap: ${item.zap}<br>
+                Materiale: ${item.materiale}<br>
+                Refrigerante: ${item.refrigerante}<br>
+                Dettagli: ${item.dettagli}<br><br>
 
-            ||
+                <button data-index="${index}" class="elimina">🗑 Elimina</button>
+            `;
 
-            r.materiale.toLowerCase().includes(testo)
+            listaEl.appendChild(div);
+        });
 
-            ||
-
-            r.pastiglie.toLowerCase().includes(testo)
-
-        );
-
-    })
-
-    .forEach(r=>{
-
-        let card=document.createElement("div");
-
-        card.className="record";
-
-        card.innerHTML=`
-
-        <h3>${r.fresa}</h3>
-
-        <p><b>Pastiglie:</b> ${r.pastiglie}</p>
-
-        <p><b>S-M/Min:</b> ${r.sm}</p>
-
-        <p><b>F-Mm/Dente:</b> ${r.fm}</p>
-
-        <p><b>Z-Ap:</b> ${r.zap}</p>
-
-        <p><b>Materiale:</b> ${r.materiale}</p>
-
-        <p><b>Refrigerante:</b> ${r.refrigerante}</p>
-
-        <p>${r.dettagli}</p>
-
-        <div class="actions">
-
-            <button class="modifica"
-
-            onclick="modifica(${r.id})">
-
-            Modifica
-
-            </button>
-
-            <button class="elimina"
-
-            onclick="elimina(${r.id})">
-
-            Elimina
-
-            </button>
-
-        </div>
-
-        `;
-
-        lista.appendChild(card);
-
+    // Pulsanti elimina
+    document.querySelectorAll(".elimina").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const idx = parseInt(btn.getAttribute("data-index"), 10);
+            archivio.splice(idx, 1);
+            localStorage.setItem("parametri_frese", JSON.stringify(archivio));
+            renderArchivio();
+        });
     });
-
 }
 
+ricercaEl.addEventListener("input", renderArchivio);
 
+// --- CSV ---
 
-// ===============================
-// ELIMINA
-// ===============================
+csvBtn.addEventListener("click", () => {
+    if (!archivio.length) return;
 
-function elimina(id){
+    const header = "Diametro;M/Minuto;S calcolata;F;Av. Ad;F calcolata;Pastiglie;Z-Ap;Materiale;Refrigerante;Dettagli\n";
 
-    if(!confirm("Eliminare questo record?"))
+    const righe = archivio.map(item =>
+        `${item.diametro};${item.mmin};${item.s_calc};${item.f};${item.av_ad};${item.f_calc};${item.pastiglie};${item.zap};${item.materiale};${item.refrigerante};${item.dettagli}`
+    ).join("\n");
 
-        return;
+    const blob = new Blob([header + righe], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
 
-    archivio=archivio.filter(
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "parametri_frese.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+});
 
-        r=>r.id!=id
-
-    );
-
-    salvaArchivio();
-
-    mostraArchivio();
-
-}
-
-
-
-// ===============================
-// MODIFICA
-// ===============================
-
-function modifica(id){
-
-    let r=archivio.find(
-
-        x=>x.id==id
-
-    );
-
-    if(!r) return;
-
-    fresa.value=r.fresa;
-
-    pastiglie.value=r.pastiglie;
-
-    sm.value=r.sm;
-
-    fm.value=r.fm;
-
-    zap.value=r.zap;
-
-    materiale.value=r.materiale;
-
-    refrigerante.value=r.refrigerante;
-
-    dettagli.value=r.dettagli;
-
-    elimina(id);
-
-}
-
-
-
-// ===============================
-// AVVIO
-// ===============================
-
-mostraArchivio();
-
-// ===================================
-// REGISTRA SERVICE WORKER
-// ===================================
+// --- SERVICE WORKER ---
 
 if ("serviceWorker" in navigator) {
-
     window.addEventListener("load", () => {
-
         navigator.serviceWorker
-
             .register("service-worker.js")
-
-            .then(() => {
-
-                console.log("Service Worker registrato");
-
-            })
-
-            .catch(err => {
-
-                console.error(err);
-
-            });
-
+            .then(() => console.log("Service Worker registrato"))
+            .catch(err => console.error(err));
     });
-
 }
+
+// Render iniziale
+renderArchivio();
