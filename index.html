@@ -15,7 +15,7 @@
 <meta name="apple-mobile-web-app-title" content="Parametri Frese">
 <meta name="format-detection" content="telephone=no">
 
-<!-- Apple Touch Icons (corrette) -->
+<!-- Apple Touch Icons -->
 <link rel="apple-touch-icon" sizes="192x192" href="icon/icon-192.png">
 <link rel="apple-touch-icon" sizes="512x512" href="icon/icon-512.png">
 
@@ -26,54 +26,69 @@
 <body>
 
 <header>
-<h1>⚙️ Parametri Frese</h1>
+  <h1>⚙️ Parametri Frese</h1>
 </header>
 
 <main>
 
 <section class="card">
-<h2>Nuovo Inserimento</h2>
+  <h2>Nuovo Inserimento</h2>
 
-<input id="fresa" placeholder="Fresa">
-<input id="pastiglie" placeholder="Pastiglie">
+  <!-- Diametro -->
+  <input id="diametro" type="number" step="0.01" placeholder="Diametro">
 
-<input id="sm" type="number" placeholder="S-M/Minuto">
-<input id="fm" type="number" step="0.01" placeholder="F-Mm/Dente">
-<input id="zap" type="number" step="0.01" placeholder="Z-Ap">
+  <!-- S / M/Minuto / S calcolata -->
+  <input id="mmin" type="number" step="0.01" placeholder="M/Minuto">
+  <input id="s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
 
-<select id="materiale">
-<option>Acciaio</option>
-<option>Inox</option>
-<option>Ghisa</option>
-<option>Alluminio</option>
-<option>Titanio</option>
-<option>Ottone</option>
-<option>Rame</option>
-<option>Plastica</option>
-<option>Altro</option>
-</select>
+  <!-- F / Av.Ad / F calcolata -->
+  <input id="f" type="number" step="0.01" placeholder="F">
+  <input id="av_ad" type="number" step="0.01" placeholder="Av. Ad">
+  <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
 
-<select id="refrigerante">
-<option>Acqua</option>
-<option>Aria</option>
-<option>Niente</option>
-<option>Acqua int.</option>
-<option>Aria int.</option>
-</select>
+  <!-- Pastiglie -->
+  <input id="pastiglie" type="number" placeholder="Pastiglie">
 
-<textarea id="dettagli" placeholder="Dettagli"></textarea>
+  <!-- Z-Ap -->
+  <input id="zap" type="number" step="0.01" placeholder="Z-Ap">
 
-<button id="salva">💾 Salva</button>
+  <!-- Materiale -->
+  <select id="materiale">
+    <option>Acciaio</option>
+    <option>Inox</option>
+    <option>Ghisa</option>
+    <option>Alluminio</option>
+    <option>Titanio</option>
+    <option>Ottone</option>
+    <option>Rame</option>
+    <option>Plastica</option>
+    <option>Altro</option>
+  </select>
+
+  <!-- Refrigerante -->
+  <select id="refrigerante">
+    <option>Acqua</option>
+    <option>Aria</option>
+    <option>Niente</option>
+    <option>Acqua int.</option>
+    <option>Aria int.</option>
+  </select>
+
+  <!-- Dettagli -->
+  <textarea id="dettagli" placeholder="Dettagli"></textarea>
+
+  <!-- Salva -->
+  <button id="salva">💾 Salva</button>
 </section>
 
 <section class="card">
-<h2>Archivio</h2>
-<input id="ricerca" placeholder="Cerca">
-<div id="lista"></div>
+  <h2>Archivio</h2>
+  <input id="ricerca" placeholder="Cerca">
+  <div id="lista"></div>
 </section>
 
 <section class="card">
-<button id="csv">📄 Esporta CSV</button>
+  <button id="csv">📄 Esporta CSV</button>
 </section>
 
 </main>
