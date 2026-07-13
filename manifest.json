@@ -13,7 +13,7 @@
     "productivity",
     "utilities"
   ],
-  "icons": [
+  "icon": [
     {
       "src": "icon/icon-192.png",
       "sizes": "192x192",
