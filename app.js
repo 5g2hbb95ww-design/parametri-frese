@@ -25,6 +25,14 @@ const listaEl = document.getElementById("lista");
 const ricercaEl = document.getElementById("ricerca");
 const csvBtn = document.getElementById("csv");
 
+// Debug: verifica elementi
+console.log("DEBUG - Elementi trovati:");
+console.log("denominazionefresaEl:", denominazionefresaEl);
+console.log("diametroEl:", diametroEl);
+console.log("ntaglientiinsertiEl:", ntaglientiinsertiEl);
+console.log("salvaBtn:", salvaBtn);
+console.log("csvBtn:", csvBtn);
+
 // --- CALCOLI ---
 
 // S calcolata = (1000 * M/Minuto) / (3.14 * Diametro)
@@ -55,66 +63,78 @@ function calcolaF() {
 }
 
 // Eventi per calcolo automatico
-mminEl.addEventListener("input", calcolaS);
-diametroEl.addEventListener("input", calcolaS);
+if (mminEl) mminEl.addEventListener("input", calcolaS);
+if (diametroEl) diametroEl.addEventListener("input", calcolaS);
 
-fEl.addEventListener("input", calcolaF);
-avAdEl.addEventListener("input", calcolaF);
-ntaglientiinsertiEl.addEventListener("input", calcolaF);
+if (fEl) fEl.addEventListener("input", calcolaF);
+if (avAdEl) avAdEl.addEventListener("input", calcolaF);
+if (ntaglientiinsertiEl) ntaglientiinsertiEl.addEventListener("input", calcolaF);
 
 // --- SALVATAGGIO ---
 
-salvaBtn.addEventListener("click", () => {
-    const dati = {
-        denominazionefresa: denominazionefresaEl.value,
-        diametro: diametroEl.value,
-        ntaglientiinserti: ntaglientiinsertiEl.value,
-        s: sEl.value,
-        mmin: mminEl.value,
-        s_calc: sCalcEl.value,
+if (salvaBtn) {
+    salvaBtn.addEventListener("click", () => {
+        console.log("DEBUG - Click su Salva");
+        
+        const dati = {
+            denominazionefresa: denominazionefresaEl ? denominazionefresaEl.value : "",
+            diametro: diametroEl ? diametroEl.value : "",
+            ntaglientiinserti: ntaglientiinsertiEl ? ntaglientiinsertiEl.value : "",
+            s: sEl ? sEl.value : "",
+            mmin: mminEl ? mminEl.value : "",
+            s_calc: sCalcEl ? sCalcEl.value : "",
 
-        f: fEl.value,
-        av_ad: avAdEl.value,
-        f_calc: fCalcEl.value,
+            f: fEl ? fEl.value : "",
+            av_ad: avAdEl ? avAdEl.value : "",
+            f_calc: fCalcEl ? fCalcEl.value : "",
 
-        zap: zapEl.value,
-        materiale: materialeEl.value,
-        refrigerante: refrigeranteEl.value,
-        codicefresa: codicefresaEl.value,
-        dettagli: dettagliEl.value
-    };
+            zap: zapEl ? zapEl.value : "",
+            materiale: materialeEl ? materialeEl.value : "",
+            refrigerante: refrigeranteEl ? refrigeranteEl.value : "",
+            codicefresa: codicefresaEl ? codicefresaEl.value : "",
+            dettagli: dettagliEl ? dettagliEl.value : ""
+        };
 
-    archivio.push(dati);
-    localStorage.setItem("parametri_frese", JSON.stringify(archivio));
-    pulisciCampi();
-    renderArchivio();
-});
+        console.log("DEBUG - Dati da salvare:", dati);
+        
+        archivio.push(dati);
+        localStorage.setItem("parametri_frese", JSON.stringify(archivio));
+        console.log("DEBUG - Archivio salvato:", archivio);
+        
+        pulisciCampi();
+        renderArchivio();
+    });
+} else {
+    console.error("DEBUG - salvaBtn NON trovato!");
+}
 
 // Pulizia campi
 function pulisciCampi() {
-    denominazionefresaEl.value = "";
-    diametroEl.value = "";
-    ntaglientiinsertiEl.value = "";
-    sEl.value = "";
-    mminEl.value = "";
-    sCalcEl.value = "";
+    if (denominazionefresaEl) denominazionefresaEl.value = "";
+    if (diametroEl) diametroEl.value = "";
+    if (ntaglientiinsertiEl) ntaglientiinsertiEl.value = "";
+    if (sEl) sEl.value = "";
+    if (mminEl) mminEl.value = "";
+    if (sCalcEl) sCalcEl.value = "";
 
-    fEl.value = "";
-    avAdEl.value = "";
-    fCalcEl.value = "";
+    if (fEl) fEl.value = "";
+    if (avAdEl) avAdEl.value = "";
+    if (fCalcEl) fCalcEl.value = "";
 
-    zapEl.value = "";
-    materialeEl.value = "Acciaio";
-    refrigeranteEl.value = "Acqua";
-    codicefresaEl.value = "";
-    dettagliEl.value = "";
+    if (zapEl) zapEl.value = "";
+    if (materialeEl) materialeEl.value = "Acciaio";
+    if (refrigeranteEl) refrigeranteEl.value = "Acqua";
+    if (codicefresaEl) codicefresaEl.value = "";
+    if (dettagliEl) dettagliEl.value = "";
 }
 
 // --- ARCHIVIO ---
 
 function renderArchivio() {
+    if (!listaEl) return;
+    
     listaEl.innerHTML = "";
-    const filtro = (ricercaEl.value || "").toLowerCase();
+    const filtro = (ricercaEl && ricercaEl.value) ? ricercaEl.value.toLowerCase() : "";
 
     archivio
         .filter(item => {
@@ -159,30 +179,48 @@ function renderArchivio() {
     });
 }
 
-ricercaEl.addEventListener("input", renderArchivio);
+if (ricercaEl) {
+    ricercaEl.addEventListener("input", renderArchivio);
+}
 
 // --- CSV ---
 
-csvBtn.addEventListener("click", () => {
-    if (!archivio.length) return;
+if (csvBtn) {
+    csvBtn.addEventListener("click", () => {
+        console.log("DEBUG - Click su CSV Export");
+        console.log("DEBUG - Archivio:", archivio);
+        
+        if (!archivio.length) {
+            console.log("DEBUG - Archivio vuoto, niente da esportare");
+            alert("Nessun dato da esportare!");
+            return;
+        }
 
-    const header = "Denominazione Fresa;Diametro;N.Taglienti/Inserti;S;M/Minuto;S calcolata;F;Av. Ad;F calcolata;Z-Ap;Materiale;Refrigerante;Codice fresa;Dettagli\n";
+        const header = "Denominazione Fresa;Diametro;N.Taglienti/Inserti;S;M/Minuto;S calcolata;F;Av. Ad;F calcolata;Z-Ap;Materiale;Refrigerante;Codice fresa;Dettagli\n";
 
-    const righe = archivio.map(item =>
-        `${item.denominazionefresa};${item.diametro};${item.ntaglientiinserti};${item.s};${item.mmin};${item.s_calc};${item.f};${item.av_ad};${item.f_calc};${item.zap};${item.materiale};${item.refrigerante};${item.codicefresa};${item.dettagli}`
-    ).join("\n");
+        const righe = archivio.map(item =>
+            `${item.denominazionefresa};${item.diametro};${item.ntaglientiinserti};${item.s};${item.mmin};${item.s_calc};${item.f};${item.av_ad};${item.f_calc};${item.zap};${item.materiale};${item.refrigerante};${item.codicefresa};${item.dettagli}`
+        ).join("\n");
 
-    const blob = new Blob([header + righe], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
+        const csvContent = header + righe;
+        console.log("DEBUG - CSV Content:", csvContent);
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "parametri_frese.csv";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-});
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "parametri_frese.csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        console.log("DEBUG - CSV scaricato");
+    });
+} else {
+    console.error("DEBUG - csvBtn NON trovato!");
+}
 
 // --- SERVICE WORKER ---
 
@@ -196,4 +234,5 @@ if ("serviceWorker" in navigator) {
 }
 
 // Render iniziale
+console.log("DEBUG - Render iniziale");
 renderArchivio();
