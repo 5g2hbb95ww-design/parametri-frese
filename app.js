@@ -5,6 +5,8 @@ let archivio = JSON.parse(localStorage.getItem("parametri_frese") || "[]");
 const denominazionefresaEl = document.getElementById("denominazione_fresa");
 const diametroEl = document.getElementById("diametro");
 const ntaglientiinsertiEl = document.getElementById("ntaglientiinserti");
+
+const sEl = document.getElementById("s");
 const mminEl = document.getElementById("mmin");
 const sCalcEl = document.getElementById("s_calc");
 
@@ -65,6 +67,8 @@ salvaBtn.addEventListener("click", () => {
     const dati = {
         denominazionegresa: denominazionefresaEl.value,
         diametro: diametroEl.value,
+        ntaglientiinserti: ntaglientiinsertiEl.value,
+        s: sEl.value,
         mmin: mminEl.value,
         s_calc: sCalcEl.value,
 
@@ -72,7 +76,6 @@ salvaBtn.addEventListener("click", () => {
         av_ad: avAdEl.value,
         f_calc: fCalcEl.value,
 
-        ntaglientiinserti: ntaglientiinsertiEl.value,
         zap: zapEl.value,
         materiale: materialeEl.value,
         refrigerante: refrigeranteEl.value,
@@ -90,6 +93,7 @@ function pulisciCampi() {
     denominazionefresaEl.value = "";
     diametroEl.value = "";
     ntaglientiinsertiEl.value = "";
+    sEl.value = "";
     mminEl.value = "";
     sCalcEl.value = "";
 
@@ -119,7 +123,9 @@ function renderArchivio() {
             div.className = "riga";
 
             div.innerHTML = `
+                N.Taglienti/inserti: ${item.ntaglientiinserti}<br>
                 <strong>Diametro:</strong> ${item.diametro}<br>
+                S: ${item.s}<br>
                 M/Minuto: ${item.mmin}<br>
                 S calcolata: ${item.s_calc}<br><br>
 
@@ -127,7 +133,6 @@ function renderArchivio() {
                 Av. Ad: ${item.av_ad}<br>
                 F calcolata: ${item.f_calc}<br><br>
 
-                N.Taglienti/inserti: ${item.pastiglie}<br>
                 Z-Ap: ${item.zap}<br>
                 Materiale: ${item.materiale}<br>
                 Refrigerante: ${item.refrigerante}<br>
@@ -157,10 +162,10 @@ ricercaEl.addEventListener("input", renderArchivio);
 csvBtn.addEventListener("click", () => {
     if (!archivio.length) return;
 
-    const header = "Denominazione Fresa;Diametro;N.Taglienti/Inserti;M/Minuto;S calcolata;F;Av. Ad;F calcolata;Z-Ap;Materiale;Refrigerante;Dettagli\n";
+    const header = "Denominazione Fresa;Diametro;N.Taglienti/Inserti;S;M/Minuto;S calcolata;F;Av. Ad;F calcolata;Z-Ap;Materiale;Refrigerante;Dettagli\n";
 
     const righe = archivio.map(item =>
-        `${item.denominazionefresa};${item.diametro};${item.ntaglientiinserti};${item.mmin};${item.s_calc};${item.f};${item.av_ad};${item.f_calc};${item.zap};${item.materiale};${item.refrigerante};${item.dettagli}`
+        `${item.denominazionefresa};${item.diametro};${item.ntaglientiinserti};${item.s};${item.mmin};${item.s_calc};${item.f};${item.av_ad};${item.f_calc};${item.zap};${item.materiale};${item.refrigerante};${item.dettagli}`
     ).join("\n");
 
     const blob = new Blob([header + righe], { type: "text/csv;charset=utf-8;" });
