@@ -5,21 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Parametri Frese</title>
 
-<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#111111">
 
-<!-- iPhone / iPad -->
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Parametri Frese">
-<meta name="format-detection" content="telephone=no">
-
-<!-- Apple Touch Icons -->
-<link rel="apple-touch-icon" sizes="192x192" href="icon/icon-192.png">
-<link rel="apple-touch-icon" sizes="512x512" href="icon/icon-512.png">
-
-<!-- CSS -->
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -27,8 +15,7 @@
 
 <header>
   <h1>⚙️ Parametri Frese</h1>
-  
-  <!-- Navigation Menu -->
+
   <nav class="menu-nav">
     <button id="btn-nuovo" class="nav-btn active">➕ Nuovo</button>
     <button id="btn-archivio" class="nav-btn">📚 Archivio</button>
@@ -37,18 +24,16 @@
 
 <main>
 
-<!-- ============== PAGINA 1: NUOVO INSERIMENTO ============== -->
+<!-- ================= PAGINA NUOVO ================= -->
 <section id="pagina-nuovo" class="page active">
   <section class="card">
     <h2>Nuovo Inserimento</h2>
 
-    <!-- Denominazione -->
     <div class="field">
       <div class="field-icon">🧩</div>
       <input id="denominazione_fresa" type="text" placeholder="Denominazione Fresa">
     </div>
 
-    <!-- Diametro + Taglienti -->
     <div class="field-row">
       <div class="field">
         <div class="field-icon">📏</div>
@@ -61,13 +46,11 @@
       </div>
     </div>
 
-    <!-- S -->
     <div class="field">
       <div class="field-icon">⚙️</div>
       <input id="s" type="number" step="0.01" placeholder="S">
     </div>
 
-    <!-- M/Minuto + S calcolata -->
     <div class="field-row">
       <div class="field">
         <div class="field-icon">⏱️</div>
@@ -76,17 +59,15 @@
 
       <div class="field field-calculated">
         <div class="field-icon">🚀</div>
-        <input id="s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
+        <input id="s_calc" type="number" placeholder="S calcolata" readonly>
       </div>
     </div>
 
-    <!-- F -->
     <div class="field">
       <div class="field-icon">📊</div>
       <input id="f" type="number" step="0.01" placeholder="F">
     </div>
 
-    <!-- Av.Ad + F calcolata -->
     <div class="field-row">
       <div class="field">
         <div class="field-icon">🪛</div>
@@ -95,17 +76,15 @@
 
       <div class="field field-calculated">
         <div class="field-icon">📈</div>
-        <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
+        <input id="f_calc" type="number" placeholder="F calcolata" readonly>
       </div>
     </div>
 
-    <!-- Z-Ap -->
     <div class="field">
       <div class="field-icon">⛰️</div>
       <input id="zap" type="number" step="0.01" placeholder="Z-Ap">
     </div>
 
-    <!-- Materiale + Refrigerante -->
     <div class="field-row">
       <div class="field">
         <div class="field-icon">🏭</div>
@@ -134,176 +113,40 @@
       </div>
     </div>
 
-    <!-- Codice Fresa -->
     <div class="field">
       <div class="field-icon">🔩</div>
       <input id="codice_fresa" type="text" placeholder="Codice fresa">
     </div>
 
-    <!-- Codice Inserto -->
     <div class="field">
       <div class="field-icon">🧱</div>
       <input id="codice_inserto" type="text" placeholder="Codice inserto">
     </div>
 
-    <!-- Dettagli -->
     <div class="field">
       <div class="field-icon">📝</div>
       <textarea id="dettagli" placeholder="Dettagli"></textarea>
     </div>
 
-    <!-- Salva -->
     <button id="salva">💾 Salva</button>
   </section>
 </section>
 
-<!-- ============== PAGINA 2: ARCHIVIO FRESE ============== -->
+<!-- ================= PAGINA ARCHIVIO ================= -->
 <section id="pagina-archivio" class="page">
   <section class="card">
     <h2>📚 Archivio Frese</h2>
+
     <input id="ricerca" placeholder="Cerca...">
+
     <div id="lista"></div>
-    
-    <!-- Esporta CSV -->
-    <button id="csv" style="margin-top: 20px; width: 100%;">📄 Esporta CSV</button>
+
+    <button id="csv">📄 Esporta CSV</button>
   </section>
 </section>
 
 </main>
 
-<!-- ============== MODAL POPUP MODIFICA ============== -->
-<div id="modal-overlay" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>✏️ Modifica Fresa</h2>
-      <button class="modal-close" id="modal-close-btn">&times;</button>
-    </div>
-
-    <!-- Form di modifica -->
-<div class="card">
-
-  <div class="field">
-    <div class="field-icon">🧩</div>
-    <div class="field-label">Denominazione Fresa</div>
-    <input id="denominazione" type="text">
-  </div>
-
-  <div class="field-row">
-    <div class="field">
-      <div class="field-icon">📏</div>
-      <div class="field-label">Diametro</div>
-      <input id="diametro" type="number">
-    </div>
-
-    <div class="field">
-      <div class="field-icon">🛠️</div>
-      <div class="field-label">N.Taglienti/Inserti</div>
-      <input id="taglienti" type="number">
-    </div>
-  </div>
-
-  <div class="field">
-    <div class="field-icon">⚙️</div>
-    <div class="field-label">S</div>
-    <input id="s" type="number">
-  </div>
-
-  <div class="field-row">
-    <div class="field">
-      <div class="field-icon">⏱️</div>
-      <div class="field-label">M/Minuto</div>
-      <input id="mminuto" type="number">
-    </div>
-
-    <div class="field field-calculated">
-      <div class="field-icon">🚀</div>
-      <div class="field-label">S calcolata</div>
-      <input id="s_calcolata" type="number" readonly>
-    </div>
-  </div>
-
-  <div class="field">
-    <div class="field-icon">📊</div>
-    <div class="field-label">F</div>
-    <input id="f" type="number">
-  </div>
-
-  <div class="field-row">
-    <div class="field">
-      <div class="field-icon">🪛</div>
-      <div class="field-label">Av. Ad</div>
-      <input id="avad" type="number">
-    </div>
-
-    <div class="field field-calculated">
-      <div class="field-icon">📈</div>
-      <div class="field-label">F calcolata</div>
-      <input id="f_calcolata" type="number" readonly>
-    </div>
-  </div>
-
-  <div class="field">
-    <div class="field-icon">⛰️</div>
-    <div class="field-label">Z-Ap</div>
-    <input id="zap" type="number">
-  </div>
-
-  <div class="field-row">
-    <div class="field field-material">
-      <div class="field-icon">🏭</div>
-      <div class="field-label">Materiale</div>
-      <select id="materiale">
-        <option>Acciaio</option>
-        <option>Alluminio</option>
-        <option>Inox</option>
-      </select>
-    </div>
-
-    <div class="field field-refrigerante">
-      <div class="field-icon">💧</div>
-      <div class="field-label">Refrigerante</div>
-      <select id="refrigerante">
-        <option>Acqua</option>
-        <option>Olio</option>
-        <option>Emulsione</option>
-      </select>
-    </div>
-  </div>
-
-</div>
-
-
-    <!-- Pulsanti azioni -->
-    <div class="modal-actions">
-      <button class="btn-annulla" id="modal-annulla">❌ Annulla</button>
-      <button class="btn-salva-modifica" id="modal-salva">✅ Salva</button>
-    </div>
-  </div>
-</div>
-
-<!-- Bottone installa PWA -->
-<button id="installaApp" style="margin:20px; padding:10px; display:none;">
-📲 Installa App
-</button>
-
 <script src="app.js"></script>
-
-<script>
-let deferredPrompt;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    document.getElementById('installaApp').style.display = 'block';
-});
-
-document.getElementById('installaApp').addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    deferredPrompt = null;
-});
-</script>
-
 </body>
 </html>
