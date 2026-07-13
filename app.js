@@ -41,10 +41,10 @@ function calcolaS() {
     calcolaF(); // aggiorna F calcolata
 }
 
-// F calcolata = Av.Ad * Pastiglie * S calcolata
+// F calcolata = Av.Ad * N.Taglienti/Inserti * S calcolata
 function calcolaF() {
     const avAd = parseFloat(avAdEl.value) || 0;
-    const pastiglie = parseFloat(pastiglieEl.value) || 0;
+    const ntaglientiinsertiEl = parseFloat(ntaglientiinsertiEl.value) || 0;
     const sCalc = parseFloat(sCalcEl.value) || 0;
 
     const fCalc = avAd * pastiglie * sCalc;
@@ -57,7 +57,7 @@ diametroEl.addEventListener("input", calcolaS);
 
 fEl.addEventListener("input", calcolaF);
 avAdEl.addEventListener("input", calcolaF);
-pastiglieEl.addEventListener("input", calcolaF);
+ntaglientiinsertiEl.addEventListener("input", calcolaF);
 
 // --- SALVATAGGIO ---
 
@@ -71,7 +71,7 @@ salvaBtn.addEventListener("click", () => {
         av_ad: avAdEl.value,
         f_calc: fCalcEl.value,
 
-        pastiglie: pastiglieEl.value,
+        ntaglientiinserti: ntaglientiinsertiEl.value,
         zap: zapEl.value,
         materiale: materialeEl.value,
         refrigerante: refrigeranteEl.value,
@@ -86,7 +86,9 @@ salvaBtn.addEventListener("click", () => {
 
 // Pulizia campi
 function pulisciCampi() {
+    denominazionefresaEl.value = "";
     diametroEl.value = "";
+    ntaglientiinsertiEl.value = "";
     mminEl.value = "";
     sCalcEl.value = "";
 
@@ -94,7 +96,6 @@ function pulisciCampi() {
     avAdEl.value = "";
     fCalcEl.value = "";
 
-    pastiglieEl.value = "";
     zapEl.value = "";
     materialeEl.value = "Acciaio";
     refrigeranteEl.value = "Acqua";
@@ -125,7 +126,7 @@ function renderArchivio() {
                 Av. Ad: ${item.av_ad}<br>
                 F calcolata: ${item.f_calc}<br><br>
 
-                Pastiglie: ${item.pastiglie}<br>
+                N.Taglienti/inserti: ${item.pastiglie}<br>
                 Z-Ap: ${item.zap}<br>
                 Materiale: ${item.materiale}<br>
                 Refrigerante: ${item.refrigerante}<br>
@@ -155,7 +156,7 @@ ricercaEl.addEventListener("input", renderArchivio);
 csvBtn.addEventListener("click", () => {
     if (!archivio.length) return;
 
-    const header = "Diametro;M/Minuto;S calcolata;F;Av. Ad;F calcolata;Pastiglie;Z-Ap;Materiale;Refrigerante;Dettagli\n";
+    const header = "Denominazione Fresa;Diametro;N.Taglienti/Inserti;M/Minuto;S calcolata;F;Av. Ad;F calcolata;Z-Ap;Materiale;Refrigerante;Dettagli\n";
 
     const righe = archivio.map(item =>
         `${item.diametro};${item.mmin};${item.s_calc};${item.f};${item.av_ad};${item.f_calc};${item.pastiglie};${item.zap};${item.materiale};${item.refrigerante};${item.dettagli}`
