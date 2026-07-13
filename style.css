@@ -167,6 +167,7 @@ button:hover{
     font-size:14px;
 }
 
+
 /* ===== MODAL POPUP ===== */
 .modal-overlay{
     display:none;
@@ -252,6 +253,7 @@ button:hover{
     background:#34C759 !important;
 }
 
+
 /* ===== RESPONSIVE ===== */
 @media (max-width:600px){
     body{
@@ -326,4 +328,52 @@ textarea.uniform {
     min-height: 60px;
     height: 60px;
     resize: none;
+}
+
+
+/* ===== INDUSTRIAL CNC STYLE ===== */
+.input-icon {
+  position: relative;
+}
+
+.input-icon i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #9ca3af;
+}
+
+.input-icon input,
+.input-icon select,
+.input-icon textarea {
+  padding-left: 42px;
+}
+
+/* Animazioni fluide */
+input, select, textarea {
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  background: #2b3648;
+  box-shadow: 0 0 8px rgba(10,132,255,0.4);
+}
+
+/* Layout a due colonne */
+.row-2 {
+  display: flex;
+  gap: 12px;
+}
+
+.row-2 > * {
+  flex: 1;
+}
+
+/* Uniformare textarea */
+textarea.uniform {
+  min-height: 60px;
+  height: 60px;
+  resize: none;
 }
