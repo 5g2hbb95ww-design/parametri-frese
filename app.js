@@ -57,6 +57,7 @@ function calcolaF() {
 mminEl.addEventListener("input", calcolaS);
 diametroEl.addEventListener("input", calcolaS);
 
+fEl.addEventListener("input", calcolaF);
 avAdEl.addEventListener("input", calcolaF);
 ntaglientiinsertiEl.addEventListener("input", calcolaF);
 
