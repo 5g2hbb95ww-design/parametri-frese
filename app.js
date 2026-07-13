@@ -17,7 +17,7 @@ const fCalcEl = document.getElementById("f_calc");
 const zapEl = document.getElementById("zap");
 const materialeEl = document.getElementById("materiale");
 const refrigeranteEl = document.getElementById("refrigerante");
-const codicefresaEl = document.getElementById("codicefresa");
+const codicefresaEl = document.getElementById("codice_fresa");
 const dettagliEl = document.getElementById("dettagli");
 
 const salvaBtn = document.getElementById("salva");
