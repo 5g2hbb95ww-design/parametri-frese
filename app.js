@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Caricamento iniziale dati da LocalStorage
     let archivio = JSON.parse(localStorage.getItem("parametri_frese") || "[]");
 
-    // Riferimenti elementi
+    // Riferimenti elementi FORM
     const denominazionefresaEl = document.getElementById("denominazione_fresa");
     const diametroEl = document.getElementById("diametro");
     const ntaglientiinsertiEl = document.getElementById("ntaglientiinserti");
@@ -24,19 +24,59 @@ document.addEventListener('DOMContentLoaded', function() {
     const codicefresaEl = document.getElementById("codice_fresa");
     const dettagliEl = document.getElementById("dettagli");
 
+    // Riferimenti elementi BUTTONS
     const salvaBtn = document.getElementById("salva");
+    const csvBtn = document.getElementById("csv");
+
+    // Riferimenti elementi ARCHIVIO
     const listaEl = document.getElementById("lista");
     const ricercaEl = document.getElementById("ricerca");
-    const csvBtn = document.getElementById("csv");
+
+    // Riferimenti NAVIGAZIONE
+    const btnNuovo = document.getElementById("btn-nuovo");
+    const btnArchivio = document.getElementById("btn-archivio");
+    const paginaNuovo = document.getElementById("pagina-nuovo");
+    const paginaArchivio = document.getElementById("pagina-archivio");
 
     // Debug: verifica elementi
     console.log("DEBUG - Elementi trovati:");
     console.log("denominazionefresaEl:", denominazionefresaEl);
-    console.log("diametroEl:", diametroEl);
-    console.log("ntaglientiinsertiEl:", ntaglientiinsertiEl);
     console.log("salvaBtn:", salvaBtn);
     console.log("csvBtn:", csvBtn);
-    console.log("listaEl:", listaEl);
+    console.log("btnNuovo:", btnNuovo);
+    console.log("btnArchivio:", btnArchivio);
+
+    // --- NAVIGAZIONE PAGINE ---
+    
+    function mostraPagina(pagina) {
+        console.log("Mostrando pagina:", pagina);
+        
+        // Nascondi tutte le pagine
+        paginaNuovo.classList.remove("active");
+        paginaArchivio.classList.remove("active");
+        
+        // Rimuovi active da tutti i bottoni
+        btnNuovo.classList.remove("active");
+        btnArchivio.classList.remove("active");
+        
+        // Mostra pagina selezionata
+        if (pagina === "nuovo") {
+            paginaNuovo.classList.add("active");
+            btnNuovo.classList.add("active");
+        } else if (pagina === "archivio") {
+            paginaArchivio.classList.add("active");
+            btnArchivio.classList.add("active");
+            renderArchivio(); // Aggiorna archivio quando si apre
+        }
+    }
+    
+    // Event listeners navigazione
+    if (btnNuovo) {
+        btnNuovo.addEventListener("click", () => mostraPagina("nuovo"));
+    }
+    if (btnArchivio) {
+        btnArchivio.addEventListener("click", () => mostraPagina("archivio"));
+    }
 
     // --- CALCOLI ---
 
@@ -112,9 +152,11 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem("parametri_frese", JSON.stringify(archivio));
             console.log("DEBUG - Archivio salvato, lunghezza:", archivio.length);
             
-            alert("✅ Dati salvati!");
+            alert("✅ Fresa salvata!");
             pulisciCampi();
-            renderArchivio();
+            
+            // Vai automaticamente all'archivio
+            mostraPagina("archivio");
         });
     } else {
         console.error("DEBUG - salvaBtn NON trovato!");
@@ -152,6 +194,11 @@ document.addEventListener('DOMContentLoaded', function() {
         listaEl.innerHTML = "";
         const filtro = (ricercaEl && ricercaEl.value) ? ricercaEl.value.toLowerCase() : "";
 
+        if (archivio.length === 0) {
+            listaEl.innerHTML = "<p style='text-align:center; color:#999;'>Nessuna fresa salvata ancora</p>";
+            return;
+        }
+
         archivio
             .filter(item => {
                 const testo = JSON.stringify(item).toLowerCase();
@@ -162,24 +209,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 div.className = "riga";
 
                 div.innerHTML = `
-                    Denominazione: ${item.denominazionefresa}<br>
-                    N.Taglienti/inserti: ${item.ntaglientiinserti}<br>
+                    <strong style="color:#5ac8fa; font-size:17px;">📌 ${item.denominazionefresa || "Senza nome"}</strong><br>
+                    <br>
                     <strong>Diametro:</strong> ${item.diametro}<br>
-                    S: ${item.s}<br>
-                    M/Minuto: ${item.mmin}<br>
+                    N.Taglienti/inserti: ${item.ntaglientiinserti}<br>
+                    S: ${item.s} | M/Minuto: ${item.mmin}<br>
                     S calcolata: ${item.s_calc}<br><br>
 
-                    F: ${item.f}<br>
-                    Av. Ad: ${item.av_ad}<br>
+                    F: ${item.f} | Av. Ad: ${item.av_ad}<br>
                     F calcolata: ${item.f_calc}<br><br>
 
                     Z-Ap: ${item.zap}<br>
-                    Materiale: ${item.materiale}<br>
-                    Refrigerante: ${item.refrigerante}<br>
+                    <strong>Materiale:</strong> ${item.materiale}<br>
+                    <strong>Refrigerante:</strong> ${item.refrigerante}<br>
                     Codice fresa: ${item.codicefresa}<br>
                     Dettagli: ${item.dettagli}<br>
 
-                    <button data-index="${index}" class="elimina">🗑 Elimina</button>
+                    <button data-index="${index}" class="elimina" style="background:#FF3B30;">🗑 Elimina</button>
                 `;
 
                 listaEl.appendChild(div);
@@ -189,9 +235,13 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll(".elimina").forEach(btn => {
             btn.addEventListener("click", () => {
                 const idx = parseInt(btn.getAttribute("data-index"), 10);
-                archivio.splice(idx, 1);
-                localStorage.setItem("parametri_frese", JSON.stringify(archivio));
-                renderArchivio();
+                const nomeFresa = archivio[idx].denominazionefresa || "Fresa";
+                
+                if (confirm(`Sei sicuro di voler eliminare "${nomeFresa}"?`)) {
+                    archivio.splice(idx, 1);
+                    localStorage.setItem("parametri_frese", JSON.stringify(archivio));
+                    renderArchivio();
+                }
             });
         });
     }
