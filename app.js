@@ -2,6 +2,7 @@
 let archivio = JSON.parse(localStorage.getItem("parametri_frese") || "[]");
 
 // Riferimenti elementi
+const denominazionefresaEl = document.getElementById("denominazione_fresa");
 const diametroEl = document.getElementById("diametro");
 const mminEl = document.getElementById("mmin");
 const sCalcEl = document.getElementById("s_calc");
