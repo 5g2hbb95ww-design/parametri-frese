@@ -17,7 +17,7 @@ document.getElementById("btn-archivio").addEventListener("click", () => {
 });
 
 /* ============================
-   CALCOLI AUTOMATICI
+   CALCOLI AUTOMATICI (pagina nuovo)
 ============================ */
 
 function calcolaS() {
@@ -129,19 +129,18 @@ function modifica(i) {
   const fresa = archivio[i];
   indexInModifica = i;
 
-  // Carica dati nel modal
-  document.getElementById("denominazione").value = fresa.denominazione;
-  document.getElementById("diametro").value = fresa.diametro;
-  document.getElementById("taglienti").value = fresa.taglienti;
-  document.getElementById("s").value = fresa.s;
-  document.getElementById("mminuto").value = fresa.mmin;
-  document.getElementById("s_calcolata").value = fresa.s_calc;
-  document.getElementById("f").value = fresa.f;
-  document.getElementById("avad").value = fresa.av_ad;
-  document.getElementById("f_calcolata").value = fresa.f_calc;
-  document.getElementById("zap").value = fresa.zap;
-  document.getElementById("materiale").value = fresa.materiale;
-  document.getElementById("refrigerante").value = fresa.refrigerante;
+  mod_denom.value = fresa.denominazione;
+  mod_diametro.value = fresa.diametro;
+  mod_taglienti.value = fresa.taglienti;
+  mod_s.value = fresa.s;
+  mod_mmin.value = fresa.mmin;
+  mod_s_calc.value = fresa.s_calc;
+  mod_f.value = fresa.f;
+  mod_av_ad.value = fresa.av_ad;
+  mod_f_calc.value = fresa.f_calc;
+  mod_zap.value = fresa.zap;
+  mod_materiale.value = fresa.materiale;
+  mod_refrigerante.value = fresa.refrigerante;
 
   modalOverlay.style.display = "flex";
 }
@@ -155,6 +154,44 @@ modalAnnulla.addEventListener("click", () => {
 });
 
 /* ============================
+   CALCOLI AUTOMATICI NEL MODAL
+============================ */
+
+function modCalcolaS() {
+  const D = parseFloat(mod_diametro.value);
+  const M = parseFloat(mod_mmin.value);
+
+  if (!D || !M) {
+    mod_s_calc.value = "";
+    return;
+  }
+
+  const S = (M * 1000) / (Math.PI * D);
+  mod_s_calc.value = S.toFixed(2);
+}
+
+function modCalcolaF() {
+  const Z = parseFloat(mod_taglienti.value);
+  const S = parseFloat(mod_s_calc.value);
+  const AvAd = parseFloat(mod_av_ad.value);
+
+  if (!Z || !S || !AvAd) {
+    mod_f_calc.value = "";
+    return;
+  }
+
+  const F = Z * S * AvAd;
+  mod_f_calc.value = F.toFixed(2);
+}
+
+mod_diametro.addEventListener("input", modCalcolaS);
+mod_mmin.addEventListener("input", modCalcolaS);
+
+mod_taglienti.addEventListener("input", modCalcolaF);
+mod_av_ad.addEventListener("input", modCalcolaF);
+mod_s_calc.addEventListener("input", modCalcolaF);
+
+/* ============================
    SALVA MODIFICHE
 ============================ */
 
@@ -162,18 +199,18 @@ modalSalva.addEventListener("click", () => {
   let archivio = JSON.parse(localStorage.getItem("freselist")) || [];
 
   archivio[indexInModifica] = {
-    denominazione: document.getElementById("denominazione").value,
-    diametro: document.getElementById("diametro").value,
-    taglienti: document.getElementById("taglienti").value,
-    s: document.getElementById("s").value,
-    mmin: document.getElementById("mminuto").value,
-    s_calc: document.getElementById("s_calcolata").value,
-    f: document.getElementById("f").value,
-    av_ad: document.getElementById("avad").value,
-    f_calc: document.getElementById("f_calcolata").value,
-    zap: document.getElementById("zap").value,
-    materiale: document.getElementById("materiale").value,
-    refrigerante: document.getElementById("refrigerante").value
+    denominazione: mod_denom.value,
+    diametro: mod_diametro.value,
+    taglienti: mod_taglienti.value,
+    s: mod_s.value,
+    mmin: mod_mmin.value,
+    s_calc: mod_s_calc.value,
+    f: mod_f.value,
+    av_ad: mod_av_ad.value,
+    f_calc: mod_f_calc.value,
+    zap: mod_zap.value,
+    materiale: mod_materiale.value,
+    refrigerante: mod_refrigerante.value
   };
 
   localStorage.setItem("freselist", JSON.stringify(archivio));
