@@ -27,7 +27,7 @@ h2{
     font-size:22px;
 }
 
-/* ===== NAVIGATION MENU ===== */
+/* ===== NAVIGATION ===== */
 .menu-nav{
     display:flex;
     gap:10px;
@@ -36,9 +36,7 @@ h2{
 }
 
 .nav-btn{
-    width:auto;
     padding:12px 24px;
-    margin:0;
     border:none;
     border-radius:14px;
     background:#374151;
@@ -54,11 +52,7 @@ h2{
     box-shadow:0 4px 12px rgba(10,132,255,.3);
 }
 
-.nav-btn:hover{
-    opacity:.9;
-}
-
-/* ===== PAGE VISIBILITY ===== */
+/* ===== PAGE ===== */
 .page{
     display:none;
 }
@@ -69,17 +63,11 @@ h2{
 }
 
 @keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(10px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
 }
 
-/* ===== CARD & FORMS ===== */
+/* ===== CARD ===== */
 .card{
     background:#1f2937;
     border-radius:18px;
@@ -88,6 +76,7 @@ h2{
     box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
+/* ===== FORM ===== */
 input,
 select,
 textarea{
@@ -102,15 +91,33 @@ textarea{
     outline:none;
 }
 
-textarea{
-    min-height:120px;
-    resize:vertical;
+/* TEXTAREA UNIFORMI */
+textarea#denominazione_fresa,
+textarea#codice_fresa,
+textarea#codice_inserto,
+textarea#mod-denominazione_fresa,
+textarea#mod-codice_fresa,
+textarea#mod-codice_inserto{
+    min-height:50px;
+    height:50px;
 }
 
+/* ROW (2 elementi affiancati) */
+.row{
+    display:flex;
+    gap:12px;
+}
+
+.row input,
+.row select,
+.row textarea{
+    flex:1;
+}
+
+/* ===== BUTTON ===== */
 button{
     width:100%;
     padding:16px;
-    margin-top:10px;
     border:none;
     border-radius:14px;
     background:#0A84FF;
@@ -139,35 +146,11 @@ button:hover{
     line-height:1.6;
 }
 
-.riga button{
-    width:100%;
-    margin-top:12px;
-    padding:12px;
-    font-size:16px;
-}
-
 .elimina{
     background:#FF3B30 !important;
 }
 
-.modifica{
-    background:#34C759 !important;
-}
-
-.riga-actions{
-    display:flex;
-    gap:10px;
-    margin-top:12px;
-}
-
-.riga-actions button{
-    flex:1;
-    margin:0;
-    padding:12px;
-    font-size:14px;
-}
-
-/* ===== MODAL POPUP ===== */
+/* ===== MODAL ===== */
 .modal-overlay{
     display:none;
     position:fixed;
@@ -177,7 +160,6 @@ button:hover{
     height:100%;
     background:rgba(0,0,0,.7);
     z-index:1000;
-    animation:fadeIn 0.3s ease;
 }
 
 .modal-overlay.active{
@@ -197,12 +179,8 @@ button:hover{
 }
 
 @keyframes slideUp{
-    from{
-        transform:translateY(100%);
-    }
-    to{
-        transform:translateY(0);
-    }
+    from{transform:translateY(100%);}
+    to{transform:translateY(0);}
 }
 
 .modal-header{
@@ -212,36 +190,18 @@ button:hover{
     margin-bottom:20px;
 }
 
-.modal-header h2{
-    margin:0;
-    font-size:22px;
-}
-
 .modal-close{
     background:none;
     border:none;
     color:#fff;
     font-size:28px;
     cursor:pointer;
-    padding:0;
-    width:auto;
-    margin:0;
-}
-
-.modal-close:hover{
-    opacity:.7;
 }
 
 .modal-actions{
     display:flex;
     gap:10px;
     margin-top:20px;
-}
-
-.modal-actions button{
-    flex:1;
-    padding:14px;
-    margin:0;
 }
 
 .btn-annulla{
@@ -254,60 +214,14 @@ button:hover{
 
 /* ===== RESPONSIVE ===== */
 @media (max-width:600px){
-    body{
-        padding:15px;
-    }
-
-    h1{
-        font-size:28px;
-        margin-bottom:15px;
-    }
-
-    .menu-nav{
-        gap:8px;
-    }
-
-    .nav-btn{
-        padding:10px 18px;
-        font-size:14px;
-    }
-
-    .card{
-        padding:15px;
-    }
-
-    button{
-        font-size:17px;
-        padding:14px;
-    }
-
-    input,
-    select,
-    textarea{
-        font-size:16px;
-        padding:12px;
-    }
-
-    .modal-content{
-        padding:20px;
-    }
-
-    .riga-actions{
-        gap:8px;
-    }
-
-    .riga-actions button{
-        font-size:13px;
-        padding:10px;
-    }
+    body{padding:15px;}
+    h1{font-size:28px;}
+    .nav-btn{padding:10px 18px; font-size:14px;}
+    .card{padding:15px;}
+    button{font-size:17px; padding:14px;}
+    input,select,textarea{font-size:16px; padding:12px;}
 }
 
 @media (max-width:400px){
-    .riga-actions{
-        flex-direction:column;
-    }
-
-    .riga-actions button{
-        width:100%;
-    }
+    .row{flex-direction:column;}
 }
