@@ -1,137 +1,313 @@
-/* RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
 }
 
-/* BODY */
-body {
-    background: #f4f4f6;
-    color: #222;
-    padding: 20px;
+body{
+    background:#111827;
+    color:#fff;
+    padding:20px;
 }
 
-/* CONTAINER */
-.container {
-    max-width: 640px;
-    margin: 0 auto;
+header{
+    text-align:center;
+    margin-bottom:25px;
 }
 
-/* NAV */
-.nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+h1{
+    font-size:32px;
+    font-weight:700;
+    margin-bottom:20px;
 }
 
-.logo {
-    font-weight: 700;
-    font-size: 18px;
+h2{
+    margin-bottom:15px;
+    font-size:22px;
 }
 
-/* CARD */
-.card {
-    background: #fff;
-    padding: 18px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    margin-bottom: 20px;
+/* ===== NAVIGATION MENU ===== */
+.menu-nav{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-bottom:20px;
 }
 
-h2 {
-    font-size: 20px;
-    margin-bottom: 12px;
-    font-weight: 600;
+.nav-btn{
+    width:auto;
+    padding:12px 24px;
+    margin:0;
+    border:none;
+    border-radius:14px;
+    background:#374151;
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.3s ease;
 }
 
-/* INPUTS */
-.input-group {
-    margin-bottom: 14px;
+.nav-btn.active{
+    background:#0A84FF;
+    box-shadow:0 4px 12px rgba(10,132,255,.3);
 }
 
-label {
-    font-size: 14px;
-    margin-bottom: 6px;
-    display: block;
+.nav-btn:hover{
+    opacity:.9;
 }
 
-input {
-    width: 100%;
-    padding: 9px 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 15px;
-    background: #fff;
+/* ===== PAGE VISIBILITY ===== */
+.page{
+    display:none;
 }
 
-/* BUTTONS */
-button {
-    padding: 10px 14px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-    transition: background 0.2s, transform 0.1s;
+.page.active{
+    display:block;
+    animation:fadeIn 0.3s ease;
 }
 
-button:active {
-    transform: scale(0.98);
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
-.btn-primary {
-    background: #0078ff;
-    color: #fff;
-    width: 100%;
-    margin-top: 6px;
+/* ===== CARD & FORMS ===== */
+.card{
+    background:#1f2937;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:20px;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
-.btn-primary:hover {
-    background: #005fcc;
+input,
+select,
+textarea{
+    width:100%;
+    padding:14px;
+    margin-bottom:12px;
+    border:none;
+    border-radius:12px;
+    background:#374151;
+    color:white;
+    font-size:16px;
+    outline:none;
 }
 
-.btn-secondary {
-    background: #e0e0e0;
-    color: #222;
+textarea{
+    min-height:120px;
+    resize:vertical;
 }
 
-.btn-secondary:hover {
-    background: #c8c8c8;
+button{
+    width:100%;
+    padding:16px;
+    margin-top:10px;
+    border:none;
+    border-radius:14px;
+    background:#0A84FF;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:opacity 0.2s ease;
 }
 
-/* ARCHIVE LIST */
-#archive-list {
-    margin-top: 10px;
+button:hover{
+    opacity:.9;
 }
 
-.item {
-    background: #fafafa;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 8px;
+/* ===== ARCHIVIO ===== */
+#lista{
+    margin-top:15px;
 }
 
-.item-title {
-    font-weight: 600;
-    margin-bottom: 4px;
+.riga{
+    background:#374151;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:12px;
+    font-size:15px;
+    line-height:1.6;
 }
 
-.item-meta {
-    font-size: 13px;
-    color: #555;
+.riga button{
+    width:100%;
+    margin-top:12px;
+    padding:12px;
+    font-size:16px;
 }
 
-.item-actions {
-    margin-top: 6px;
-    display: flex;
-    gap: 8px;
+.elimina{
+    background:#FF3B30 !important;
 }
 
-.item-actions button {
-    font-size: 13px;
-    padding: 6px 8px;
+.modifica{
+    background:#34C759 !important;
+}
+
+.riga-actions{
+    display:flex;
+    gap:10px;
+    margin-top:12px;
+}
+
+.riga-actions button{
+    flex:1;
+    margin:0;
+    padding:12px;
+    font-size:14px;
+}
+
+/* ===== MODAL POPUP ===== */
+.modal-overlay{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.7);
+    z-index:1000;
+    animation:fadeIn 0.3s ease;
+}
+
+.modal-overlay.active{
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+}
+
+.modal-content{
+    background:#1f2937;
+    border-radius:24px 24px 0 0;
+    padding:24px;
+    width:100%;
+    max-height:90vh;
+    overflow-y:auto;
+    animation:slideUp 0.3s ease;
+}
+
+@keyframes slideUp{
+    from{
+        transform:translateY(100%);
+    }
+    to{
+        transform:translateY(0);
+    }
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.modal-header h2{
+    margin:0;
+    font-size:22px;
+}
+
+.modal-close{
+    background:none;
+    border:none;
+    color:#fff;
+    font-size:28px;
+    cursor:pointer;
+    padding:0;
+    width:auto;
+    margin:0;
+}
+
+.modal-close:hover{
+    opacity:.7;
+}
+
+.modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.modal-actions button{
+    flex:1;
+    padding:14px;
+    margin:0;
+}
+
+.btn-annulla{
+    background:#6B7280 !important;
+}
+
+.btn-salva-modifica{
+    background:#34C759 !important;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:600px){
+    body{
+        padding:15px;
+    }
+
+    h1{
+        font-size:28px;
+        margin-bottom:15px;
+    }
+
+    .menu-nav{
+        gap:8px;
+    }
+
+    .nav-btn{
+        padding:10px 18px;
+        font-size:14px;
+    }
+
+    .card{
+        padding:15px;
+    }
+
+    button{
+        font-size:17px;
+        padding:14px;
+    }
+
+    input,
+    select,
+    textarea{
+        font-size:16px;
+        padding:12px;
+    }
+
+    .modal-content{
+        padding:20px;
+    }
+
+    .riga-actions{
+        gap:8px;
+    }
+
+    .riga-actions button{
+        font-size:13px;
+        padding:10px;
+    }
+}
+
+@media (max-width:400px){
+    .riga-actions{
+        flex-direction:column;
+    }
+
+    .riga-actions button{
+        width:100%;
+    }
 }
