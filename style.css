@@ -311,3 +311,19 @@ button:hover{
         width:100%;
     }
 }
+/* ===== LAYOUT A DUE COLONNE ===== */
+.row-2 {
+    display: flex;
+    gap: 12px;
+}
+
+.row-2 > * {
+    flex: 1;
+}
+
+/* Uniformare textarea alle altre celle */
+textarea.uniform {
+    min-height: 60px;
+    height: 60px;
+    resize: none;
+}
