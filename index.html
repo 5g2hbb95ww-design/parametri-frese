@@ -1,76 +1,194 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <title>Parametri Frese</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parametri Frese</title>
 
-    <!-- Manifest -->
-    <link rel="manifest" href="manifest.json">
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111">
 
-    <!-- Icona -->
-    <link rel="icon" type="image/png" href="icons/icon-192.png">
+<!-- iPhone / iPad -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Parametri Frese">
+<meta name="format-detection" content="telephone=no">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+<!-- Apple Touch Icons -->
+<link rel="apple-touch-icon" sizes="192x192" href="icon/icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="icon/icon-512.png">
+
+<!-- CSS -->
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="container">
-        <nav class="nav">
-            <span class="logo">Parametri Frese</span>
-            <button id="btn-archive" class="btn-secondary">Archivio</button>
-        </nav>
 
-        <div class="card">
-            <h2>Nuovo parametro</h2>
+<header>
+  <h1>⚙️ Parametri Frese</h1>
+  
+  <!-- Navigation Menu -->
+  <nav class="menu-nav">
+    <button id="btn-nuovo" class="nav-btn active">➕ Nuovo</button>
+    <button id="btn-archivio" class="nav-btn">📚 Archivio</button>
+  </nav>
+</header>
 
-            <div class="input-group">
-                <label for="nome">Nome lavorazione</label>
-                <input type="text" id="nome" placeholder="Es. Spianatura C45">
-            </div>
+<main>
 
-            <div class="input-group">
-                <label for="materiale">Materiale</label>
-                <input type="text" id="materiale" placeholder="Es. C45, Ergal, Inox...">
-            </div>
+<!-- ============== PAGINA 1: NUOVO INSERIMENTO ============== -->
+<section id="pagina-nuovo" class="page active">
+  <section class="card">
+    <h2>Nuovo Inserimento</h2>
+    
+    <!-- Denominazione Fresa -->
+    <textarea id="denominazione_fresa" placeholder="Denominazione Fresa"></textarea>
 
-            <div class="input-group">
-                <label for="diametro">Diametro fresa (mm)</label>
-                <input type="number" id="diametro" step="0.1" placeholder="Es. 20">
-            </div>
+    <!-- Diametro -->
+    <input id="diametro" type="number" step="0.01" placeholder="Diametro">
+      
+    <!-- N.Taglienti/Inserti -->
+    <input id="ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
 
-            <div class="input-group">
-                <label for="z">Numero taglienti (Z)</label>
-                <input type="number" id="z" placeholder="Es. 4">
-            </div>
+    <!-- S / M/Minuto / S calcolata -->
+    <input id="s" type="number" step="0.01" placeholder="S">
+    <input id="mmin" type="number" step="0.01" placeholder="M/Minuto">
+    <input id="s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
 
-            <div class="input-group">
-                <label for="vc">Velocità di taglio Vc (m/min)</label>
-                <input type="number" id="vc" step="1" placeholder="Es. 180">
-            </div>
+    <!-- F / Av.Ad / F calcolata -->
+    <input id="f" type="number" step="0.01" placeholder="F">
+    <input id="av_ad" type="number" step="0.01" placeholder="Av. Ad">
+    <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
 
-            <div class="input-group">
-                <label for="fz">Avanzamento per dente fz (mm/dente)</label>
-                <input type="number" id="fz" step="0.01" placeholder="Es. 0.12">
-            </div>
+    <!-- Z-Ap -->
+    <input id="zap" type="number" step="0.01" placeholder="Z-Ap">
 
-            <button id="btn-calcola" class="btn-primary">Calcola e salva</button>
-        </div>
+    <!-- Materiale -->
+    <select id="materiale">
+      <option>Acciaio</option>
+      <option>Inox</option>
+      <option>Ghisa</option>
+      <option>Alluminio</option>
+      <option>Titanio</option>
+      <option>Ottone</option>
+      <option>Rame</option>
+      <option>Plastica</option>
+      <option>Altro</option>
+    </select>
 
-        <div class="card">
-            <h2>Risultati</h2>
-            <p><strong>Giri mandrino (n):</strong> <span id="out-n">-</span> rpm</p>
-            <p><strong>Avanzamento (Vf):</strong> <span id="out-vf">-</span> mm/min</p>
-        </div>
+    <!-- Refrigerante -->
+    <select id="refrigerante">
+      <option>Acqua</option>
+      <option>Aria</option>
+      <option>Niente</option>
+      <option>Acqua int.</option>
+      <option>Aria int.</option>
+    </select>
 
-        <div class="card" id="archive-card" style="display:none;">
-            <h2>Archivio parametri salvati</h2>
-            <div id="archive-list"></div>
-            <button id="btn-close-archive" class="btn-secondary">Chiudi archivio</button>
-        </div>
+    <!-- Codice Fresa e Inserti -->
+    <textarea id="codice_fresa" placeholder="Codice fresa"></textarea>
+
+    <!-- Dettagli -->
+    <textarea id="dettagli" placeholder="Dettagli"></textarea>
+
+    <!-- Salva -->
+    <button id="salva">💾 Salva</button>
+  </section>
+</section>
+
+<!-- ============== PAGINA 2: ARCHIVIO FRESE ============== -->
+<section id="pagina-archivio" class="page">
+  <section class="card">
+    <h2>📚 Archivio Frese</h2>
+    <input id="ricerca" placeholder="Cerca...">
+    <div id="lista"></div>
+    
+    <!-- Esporta CSV -->
+    <button id="csv" style="margin-top: 20px; width: 100%;">📄 Esporta CSV</button>
+  </section>
+</section>
+
+</main>
+
+<!-- ============== MODAL POPUP MODIFICA ============== -->
+<div id="modal-overlay" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>✏️ Modifica Fresa</h2>
+      <button class="modal-close" id="modal-close-btn">&times;</button>
     </div>
 
-    <!-- JS -->
-    <script src="app.js"></script>
+    <!-- Form di modifica -->
+    <textarea id="mod-denominazione_fresa" placeholder="Denominazione Fresa"></textarea>
+    <input id="mod-diametro" type="number" step="0.01" placeholder="Diametro">
+    <input id="mod-ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
+
+    <input id="mod-s" type="number" step="0.01" placeholder="S">
+    <input id="mod-mmin" type="number" step="0.01" placeholder="M/Minuto">
+    <input id="mod-s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
+
+    <input id="mod-f" type="number" step="0.01" placeholder="F">
+    <input id="mod-av_ad" type="number" step="0.01" placeholder="Av. Ad">
+    <input id="mod-f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
+
+    <input id="mod-zap" type="number" step="0.01" placeholder="Z-Ap">
+
+    <select id="mod-materiale">
+      <option>Acciaio</option>
+      <option>Inox</option>
+      <option>Ghisa</option>
+      <option>Alluminio</option>
+      <option>Titanio</option>
+      <option>Ottone</option>
+      <option>Rame</option>
+      <option>Plastica</option>
+      <option>Altro</option>
+    </select>
+
+    <select id="mod-refrigerante">
+      <option>Acqua</option>
+      <option>Aria</option>
+      <option>Niente</option>
+      <option>Acqua int.</option>
+      <option>Aria int.</option>
+    </select>
+
+    <textarea id="mod-codice_fresa" placeholder="Codice fresa"></textarea>
+    <textarea id="mod-dettagli" placeholder="Dettagli"></textarea>
+
+    <!-- Pulsanti azioni -->
+    <div class="modal-actions">
+      <button class="btn-annulla" id="modal-annulla">❌ Annulla</button>
+      <button class="btn-salva-modifica" id="modal-salva">✅ Salva</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bottone installa PWA -->
+<button id="installaApp" style="margin:20px; padding:10px; display:none;">
+📲 Installa App
+</button>
+
+<script src="app.js"></script>
+
+<script>
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('installaApp').style.display = 'block';
+});
+
+document.getElementById('installaApp').addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+});
+</script>
+
 </body>
 </html>
