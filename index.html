@@ -27,75 +27,86 @@
 
 <header>
   <h1>⚙️ Parametri Frese</h1>
+  
+  <!-- Navigation Menu -->
+  <nav class="menu-nav">
+    <button id="btn-nuovo" class="nav-btn active">➕ Nuovo</button>
+    <button id="btn-archivio" class="nav-btn">📚 Archivio</button>
+  </nav>
 </header>
 
 <main>
 
-<section class="card">
-  <h2>Nuovo Inserimento</h2>
-  
-  <!-- Denominazione Fresa -->
-  <textarea id="denominazione_fresa" placeholder="Denominazione Fresa"></textarea>
-
-  <!-- Diametro -->
-  <input id="diametro" type="number" step="0.01" placeholder="Diametro">
+<!-- ============== PAGINA 1: NUOVO INSERIMENTO ============== -->
+<section id="pagina-nuovo" class="page active">
+  <section class="card">
+    <h2>Nuovo Inserimento</h2>
     
-  <!-- N.Taglienti/Inserti -->
-  <input id="ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
+    <!-- Denominazione Fresa -->
+    <textarea id="denominazione_fresa" placeholder="Denominazione Fresa"></textarea>
 
-  <!-- S / M/Minuto / S calcolata -->
-  <input id="s" type="number" step="0.01" placeholder="S">
-  <input id="mmin" type="number" step="0.01" placeholder="M/Minuto">
-  <input id="s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
+    <!-- Diametro -->
+    <input id="diametro" type="number" step="0.01" placeholder="Diametro">
+      
+    <!-- N.Taglienti/Inserti -->
+    <input id="ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
 
-  <!-- F / Av.Ad / F calcolata -->
-  <input id="f" type="number" step="0.01" placeholder="F">
-  <input id="av_ad" type="number" step="0.01" placeholder="Av. Ad">
-  <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
+    <!-- S / M/Minuto / S calcolata -->
+    <input id="s" type="number" step="0.01" placeholder="S">
+    <input id="mmin" type="number" step="0.01" placeholder="M/Minuto">
+    <input id="s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
 
-  <!-- Z-Ap -->
-  <input id="zap" type="number" step="0.01" placeholder="Z-Ap">
+    <!-- F / Av.Ad / F calcolata -->
+    <input id="f" type="number" step="0.01" placeholder="F">
+    <input id="av_ad" type="number" step="0.01" placeholder="Av. Ad">
+    <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
 
-  <!-- Materiale -->
-  <select id="materiale">
-    <option>Acciaio</option>
-    <option>Inox</option>
-    <option>Ghisa</option>
-    <option>Alluminio</option>
-    <option>Titanio</option>
-    <option>Ottone</option>
-    <option>Rame</option>
-    <option>Plastica</option>
-    <option>Altro</option>
-  </select>
+    <!-- Z-Ap -->
+    <input id="zap" type="number" step="0.01" placeholder="Z-Ap">
 
-  <!-- Refrigerante -->
-  <select id="refrigerante">
-    <option>Acqua</option>
-    <option>Aria</option>
-    <option>Niente</option>
-    <option>Acqua int.</option>
-    <option>Aria int.</option>
-  </select>
+    <!-- Materiale -->
+    <select id="materiale">
+      <option>Acciaio</option>
+      <option>Inox</option>
+      <option>Ghisa</option>
+      <option>Alluminio</option>
+      <option>Titanio</option>
+      <option>Ottone</option>
+      <option>Rame</option>
+      <option>Plastica</option>
+      <option>Altro</option>
+    </select>
 
-  <!-- Codice Fresa e Inserti -->
-  <textarea id="codice_fresa" placeholder="Codice fresa"></textarea>
+    <!-- Refrigerante -->
+    <select id="refrigerante">
+      <option>Acqua</option>
+      <option>Aria</option>
+      <option>Niente</option>
+      <option>Acqua int.</option>
+      <option>Aria int.</option>
+    </select>
 
-  <!-- Dettagli -->
-  <textarea id="dettagli" placeholder="Dettagli"></textarea>
+    <!-- Codice Fresa e Inserti -->
+    <textarea id="codice_fresa" placeholder="Codice fresa"></textarea>
 
-  <!-- Salva -->
-  <button id="salva">💾 Salva</button>
+    <!-- Dettagli -->
+    <textarea id="dettagli" placeholder="Dettagli"></textarea>
+
+    <!-- Salva -->
+    <button id="salva">💾 Salva</button>
+  </section>
 </section>
 
-<section class="card">
-  <h2>Archivio</h2>
-  <input id="ricerca" placeholder="Cerca">
-  <div id="lista"></div>
-</section>
-
-<section class="card">
-  <button id="csv">📄 Esporta CSV</button>
+<!-- ============== PAGINA 2: ARCHIVIO FRESE ============== -->
+<section id="pagina-archivio" class="page">
+  <section class="card">
+    <h2>📚 Archivio Frese</h2>
+    <input id="ricerca" placeholder="Cerca...">
+    <div id="lista"></div>
+    
+    <!-- Esporta CSV -->
+    <button id="csv" style="margin-top: 20px; width: 100%;">📄 Esporta CSV</button>
+  </section>
 </section>
 
 </main>
