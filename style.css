@@ -1,26 +1,32 @@
-/* === DARK PRO NEON GLASSMORPHISM — COMPATIBILE CON IL TUO HTML === */
+/* === DARK PRO NEON GLASSMORPHISM — VERSIONE COMPLETA === */
 
-/* Sfondo generale */
+/* RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* SFONDO GENERALE */
 body {
   background: linear-gradient(135deg, #02030a, #05060a);
   color: #fff;
   font-family: system-ui, sans-serif;
   padding: 20px;
-  margin: 0;
 }
 
-/* Header */
+/* HEADER */
 header h1 {
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
-/* Menu */
+/* MENU */
 .menu-nav {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .nav-btn {
@@ -37,7 +43,7 @@ header h1 {
   background: linear-gradient(135deg, #4cc9f0, #7209b7);
 }
 
-/* Card principale */
+/* CARD */
 .card {
   background: rgba(12,16,30,0.85);
   border-radius: 20px;
@@ -45,10 +51,10 @@ header h1 {
   border: 1px solid rgba(255,255,255,0.1);
   backdrop-filter: blur(20px);
   position: relative;
-  z-index: 1;
+  margin-bottom: 30px;
 }
 
-/* Bordo neon */
+/* BORDO NEON */
 .card::before {
   content: "";
   position: absolute;
@@ -56,8 +62,8 @@ header h1 {
   border-radius: inherit;
   padding: 2px;
   background: linear-gradient(135deg, #4cc9f0, #7209b7, #f72585);
-  -webkit-mask: 
-    linear-gradient(#000 0 0) content-box, 
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -65,57 +71,68 @@ header h1 {
   z-index: -1;
 }
 
-/* Input, textarea, select */
-input, textarea, select {
-  width: 100%;
-  padding: 12px 12px 12px 40px; /* spazio per icona */
-  margin: 8px 0;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.15);
-  background: rgba(20,20,40,0.7);
-  color: #fff;
-  backdrop-filter: blur(10px);
-  font-size: 15px;
-  box-sizing: border-box;
-}
-
-/* Icone neon integrate */
-input, textarea, select {
-  background-repeat: no-repeat;
-  background-size: 22px;
-  background-position: 10px center;
-}
-
-/* Icone per ogni campo */
-#denominazione_fresa { background-image: url("icons/denominazione.png"); }
-#diametro            { background-image: url("icons/diametro.png"); }
-#ntaglientiinserti   { background-image: url("icons/taglienti.png"); }
-#s                   { background-image: url("icons/s.png"); }
-#mmin                { background-image: url("icons/mmin.png"); }
-#s_calc              { background-image: url("icons/scalc.png"); }
-#f                   { background-image: url("icons/f.png"); }
-#av_ad               { background-image: url("icons/avad.png"); }
-#f_calc              { background-image: url("icons/fcalc.png"); }
-#zap                 { background-image: url("icons/zap.png"); }
-#materiale           { background-image: url("icons/materiale.png"); }
-#refrigerante        { background-image: url("icons/refrigerante.png"); }
-#codice_fresa        { background-image: url("icons/codice.png"); }
-#codice_inserto      { background-image: url("icons/inserto.png"); }
-#dettagli            { background-image: url("icons/info.png"); }
-
-/* Righe affiancate */
-.row-2 {
+/* CAMPO GENERICO */
+.field {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
+  background: rgba(20,20,40,0.7);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 12px;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  backdrop-filter: blur(12px);
 }
 
-.row-2 input,
-.row-2 select {
+/* ICONA */
+.field-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #4cc9f0, #7209b7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+/* INPUT / SELECT / TEXTAREA */
+.field input,
+.field select,
+.field textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+}
+
+/* TEXTAREA */
+.field textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+/* RIGHE AFFIANCATE */
+.field-row {
+  display: flex;
+  gap: 12px;
+}
+
+.field-row .field {
   flex: 1;
 }
 
-/* Pulsanti */
-#salva, #csv {
+/* CAMPI CALCOLATI */
+.field-calculated {
+  background: rgba(50,200,120,0.25);
+  border-color: rgba(50,200,120,0.4);
+}
+
+/* PULSANTI */
+#salva,
+#csv {
   width: 100%;
   padding: 12px;
   border-radius: 12px;
@@ -126,7 +143,7 @@ input, textarea, select {
   cursor: pointer;
 }
 
-/* Modal overlay */
+/* MODAL OVERLAY */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -136,7 +153,7 @@ input, textarea, select {
   align-items: center;
 }
 
-/* Modal contenuto */
+/* MODAL */
 .modal-content {
   background: rgba(12,16,30,0.9);
   padding: 20px;
@@ -147,21 +164,22 @@ input, textarea, select {
   backdrop-filter: blur(20px);
 }
 
-/* Header modal */
+/* HEADER MODAL */
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Azioni modal */
+/* AZIONI MODAL */
 .modal-actions {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
 
-.btn-annulla, .btn-salva-modifica {
+.btn-annulla,
+.btn-salva-modifica {
   flex: 1;
   padding: 10px;
   margin: 5px;
