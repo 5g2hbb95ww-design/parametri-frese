@@ -1,10 +1,12 @@
 /* === DARK PRO NEON GLASSMORPHISM — COMPATIBILE CON IL TUO HTML === */
 
+/* Sfondo generale */
 body {
   background: linear-gradient(135deg, #02030a, #05060a);
   color: #fff;
   font-family: system-ui, sans-serif;
   padding: 20px;
+  margin: 0;
 }
 
 /* Header */
@@ -28,13 +30,14 @@ header h1 {
   background: rgba(20,20,40,0.6);
   backdrop-filter: blur(10px);
   color: #fff;
+  cursor: pointer;
 }
 
 .nav-btn.active {
   background: linear-gradient(135deg, #4cc9f0, #7209b7);
 }
 
-/* Card */
+/* Card principale */
 .card {
   background: rgba(12,16,30,0.85);
   border-radius: 20px;
@@ -45,6 +48,7 @@ header h1 {
   z-index: 1;
 }
 
+/* Bordo neon */
 .card::before {
   content: "";
   position: absolute;
@@ -61,17 +65,43 @@ header h1 {
   z-index: -1;
 }
 
-/* Input generici */
+/* Input, textarea, select */
 input, textarea, select {
   width: 100%;
-  padding: 10px;
+  padding: 12px 12px 12px 40px; /* spazio per icona */
   margin: 8px 0;
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.15);
   background: rgba(20,20,40,0.7);
   color: #fff;
   backdrop-filter: blur(10px);
+  font-size: 15px;
+  box-sizing: border-box;
 }
+
+/* Icone neon integrate */
+input, textarea, select {
+  background-repeat: no-repeat;
+  background-size: 22px;
+  background-position: 10px center;
+}
+
+/* Icone per ogni campo */
+#denominazione_fresa { background-image: url("icons/denominazione.png"); }
+#diametro            { background-image: url("icons/diametro.png"); }
+#ntaglientiinserti   { background-image: url("icons/taglienti.png"); }
+#s                   { background-image: url("icons/s.png"); }
+#mmin                { background-image: url("icons/mmin.png"); }
+#s_calc              { background-image: url("icons/scalc.png"); }
+#f                   { background-image: url("icons/f.png"); }
+#av_ad               { background-image: url("icons/avad.png"); }
+#f_calc              { background-image: url("icons/fcalc.png"); }
+#zap                 { background-image: url("icons/zap.png"); }
+#materiale           { background-image: url("icons/materiale.png"); }
+#refrigerante        { background-image: url("icons/refrigerante.png"); }
+#codice_fresa        { background-image: url("icons/codice.png"); }
+#codice_inserto      { background-image: url("icons/inserto.png"); }
+#dettagli            { background-image: url("icons/info.png"); }
 
 /* Righe affiancate */
 .row-2 {
@@ -84,7 +114,7 @@ input, textarea, select {
   flex: 1;
 }
 
-/* Pulsante Salva */
+/* Pulsanti */
 #salva, #csv {
   width: 100%;
   padding: 12px;
@@ -93,9 +123,10 @@ input, textarea, select {
   border: none;
   color: #fff;
   margin-top: 15px;
+  cursor: pointer;
 }
 
-/* Modal */
+/* Modal overlay */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -105,6 +136,7 @@ input, textarea, select {
   align-items: center;
 }
 
+/* Modal contenuto */
 .modal-content {
   background: rgba(12,16,30,0.9);
   padding: 20px;
@@ -115,12 +147,14 @@ input, textarea, select {
   backdrop-filter: blur(20px);
 }
 
+/* Header modal */
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+/* Azioni modal */
 .modal-actions {
   display: flex;
   justify-content: space-between;
@@ -134,6 +168,7 @@ input, textarea, select {
   border-radius: 12px;
   border: none;
   color: #fff;
+  cursor: pointer;
 }
 
 .btn-annulla {
