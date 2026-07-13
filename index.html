@@ -129,53 +129,98 @@
     </div>
 
     <!-- Form di modifica -->
-    <textarea id="mod-denominazione_fresa" class="uniform" placeholder="Denominazione Fresa"></textarea>
-    <div class="row-2">
-    <input id="mod-diametro" type="number" step="0.01" placeholder="Diametro">
-    <input id="mod-ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
+<div class="card">
+
+  <div class="field">
+    <div class="field-icon">🧩</div>
+    <div class="field-label">Denominazione Fresa</div>
+    <input id="denominazione" type="text">
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <div class="field-icon">📏</div>
+      <div class="field-label">Diametro</div>
+      <input id="diametro" type="number">
     </div>
 
+    <div class="field">
+      <div class="field-icon">🛠️</div>
+      <div class="field-label">N.Taglienti/Inserti</div>
+      <input id="taglienti" type="number">
+    </div>
+  </div>
 
-    <input id="mod-s" type="number" step="0.01" placeholder="S">
-    <div class="row-2">
-    <input id="mod-mmin" type="number" step="0.01" placeholder="M/Minuto">
-    <input id="mod-s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
+  <div class="field">
+    <div class="field-icon">⚙️</div>
+    <div class="field-label">S</div>
+    <input id="s" type="number">
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <div class="field-icon">⏱️</div>
+      <div class="field-label">M/Minuto</div>
+      <input id="mminuto" type="number">
     </div>
 
+    <div class="field field-calculated">
+      <div class="field-icon">🚀</div>
+      <div class="field-label">S calcolata</div>
+      <input id="s_calcolata" type="number" readonly>
+    </div>
+  </div>
 
+  <div class="field">
+    <div class="field-icon">📊</div>
+    <div class="field-label">F</div>
+    <input id="f" type="number">
+  </div>
 
-    <input id="mod-f" type="number" step="0.01" placeholder="F">
-    <div class="row-2">
-    <input id="mod-av_ad" type="number" step="0.01" placeholder="Av. Ad">
-    <input id="mod-f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
+  <div class="field-row">
+    <div class="field">
+      <div class="field-icon">🪛</div>
+      <div class="field-label">Av. Ad</div>
+      <input id="avad" type="number">
     </div>
 
+    <div class="field field-calculated">
+      <div class="field-icon">📈</div>
+      <div class="field-label">F calcolata</div>
+      <input id="f_calcolata" type="number" readonly>
+    </div>
+  </div>
 
-    <input id="mod-zap" type="number" step="0.01" placeholder="Z-Ap">
+  <div class="field">
+    <div class="field-icon">⛰️</div>
+    <div class="field-label">Z-Ap</div>
+    <input id="zap" type="number">
+  </div>
 
-    <select id="mod-materiale">
-      <option>Acciaio</option>
-      <option>Inox</option>
-      <option>Ghisa</option>
-      <option>Alluminio</option>
-      <option>Titanio</option>
-      <option>Ottone</option>
-      <option>Rame</option>
-      <option>Plastica</option>
-      <option>Altro</option>
-    </select>
+  <div class="field-row">
+    <div class="field field-material">
+      <div class="field-icon">🏭</div>
+      <div class="field-label">Materiale</div>
+      <select id="materiale">
+        <option>Acciaio</option>
+        <option>Alluminio</option>
+        <option>Inox</option>
+      </select>
+    </div>
 
-    <select id="mod-refrigerante">
-      <option>Acqua</option>
-      <option>Aria</option>
-      <option>Niente</option>
-      <option>Acqua int.</option>
-      <option>Aria int.</option>
-    </select>
+    <div class="field field-refrigerante">
+      <div class="field-icon">💧</div>
+      <div class="field-label">Refrigerante</div>
+      <select id="refrigerante">
+        <option>Acqua</option>
+        <option>Olio</option>
+        <option>Emulsione</option>
+      </select>
+    </div>
+  </div>
 
-    <textarea id="mod-codice_fresa" class="uniform" placeholder="Codice fresa"></textarea>
-    <textarea id="mod-codice_inserto" class="uniform" placeholder="Codice inserto"></textarea>
-    <textarea id="mod-dettagli" placeholder="Dettagli"></textarea>
+</div>
+
 
     <!-- Pulsanti azioni -->
     <div class="modal-actions">
