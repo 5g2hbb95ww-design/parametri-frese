@@ -4,6 +4,7 @@ let archivio = JSON.parse(localStorage.getItem("parametri_frese") || "[]");
 // Riferimenti elementi
 const denominazionefresaEl = document.getElementById("denominazione_fresa");
 const diametroEl = document.getElementById("diametro");
+const ntaglientiinsertiE1 = document.getElementById("ntaglientiinserti");
 const mminEl = document.getElementById("mmin");
 const sCalcEl = document.getElementById("s_calc");
 
@@ -11,7 +12,6 @@ const fEl = document.getElementById("f");
 const avAdEl = document.getElementById("av_ad");
 const fCalcEl = document.getElementById("f_calc");
 
-const pastiglieEl = document.getElementById("pastiglie");
 const zapEl = document.getElementById("zap");
 const materialeEl = document.getElementById("materiale");
 const refrigeranteEl = document.getElementById("refrigerante");
