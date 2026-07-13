@@ -41,65 +41,116 @@
 <section id="pagina-nuovo" class="page active">
   <section class="card">
     <h2>Nuovo Inserimento</h2>
-    
-    <!-- Denominazione Fresa -->
-    <textarea id="denominazione_fresa" class="uniform" placeholder="Denominazione Fresa"></textarea>
 
-    <!-- Diametro-N.Taglienti/Inserti -->
-    <div class="row-2">
-    <input id="diametro" type="number" step="0.01" placeholder="Diametro">
-    <input id="ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
+    <!-- Denominazione -->
+    <div class="field">
+      <div class="field-icon">🧩</div>
+      <input id="denominazione_fresa" type="text" placeholder="Denominazione Fresa">
     </div>
 
+    <!-- Diametro + Taglienti -->
+    <div class="field-row">
+      <div class="field">
+        <div class="field-icon">📏</div>
+        <input id="diametro" type="number" step="0.01" placeholder="Diametro">
+      </div>
 
-    <!-- S / M/Minuto / S calcolata -->
-    <input id="s" type="number" step="0.01" placeholder="S">
-    <div class="row-2">
-    <input id="mmin" type="number" step="0.01" placeholder="M/Minuto">
-    <input id="s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
+      <div class="field">
+        <div class="field-icon">🛠️</div>
+        <input id="ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
+      </div>
     </div>
 
-
-    <!-- F / Av.Ad / F calcolata -->
-    <input id="f" type="number" step="0.01" placeholder="F">
-    <div class="row-2">
-    <input id="av_ad" type="number" step="0.01" placeholder="Av. Ad">
-    <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
+    <!-- S -->
+    <div class="field">
+      <div class="field-icon">⚙️</div>
+      <input id="s" type="number" step="0.01" placeholder="S">
     </div>
 
+    <!-- M/Minuto + S calcolata -->
+    <div class="field-row">
+      <div class="field">
+        <div class="field-icon">⏱️</div>
+        <input id="mmin" type="number" step="0.01" placeholder="M/Minuto">
+      </div>
+
+      <div class="field field-calculated">
+        <div class="field-icon">🚀</div>
+        <input id="s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
+      </div>
+    </div>
+
+    <!-- F -->
+    <div class="field">
+      <div class="field-icon">📊</div>
+      <input id="f" type="number" step="0.01" placeholder="F">
+    </div>
+
+    <!-- Av.Ad + F calcolata -->
+    <div class="field-row">
+      <div class="field">
+        <div class="field-icon">🪛</div>
+        <input id="av_ad" type="number" step="0.01" placeholder="Av. Ad">
+      </div>
+
+      <div class="field field-calculated">
+        <div class="field-icon">📈</div>
+        <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
+      </div>
+    </div>
 
     <!-- Z-Ap -->
-    <input id="zap" type="number" step="0.01" placeholder="Z-Ap">
+    <div class="field">
+      <div class="field-icon">⛰️</div>
+      <input id="zap" type="number" step="0.01" placeholder="Z-Ap">
+    </div>
 
-    <!-- Materiale -->
-    <select id="materiale">
-      <option>Acciaio</option>
-      <option>Inox</option>
-      <option>Ghisa</option>
-      <option>Alluminio</option>
-      <option>Titanio</option>
-      <option>Ottone</option>
-      <option>Rame</option>
-      <option>Plastica</option>
-      <option>Altro</option>
-    </select>
+    <!-- Materiale + Refrigerante -->
+    <div class="field-row">
+      <div class="field">
+        <div class="field-icon">🏭</div>
+        <select id="materiale">
+          <option>Acciaio</option>
+          <option>Inox</option>
+          <option>Ghisa</option>
+          <option>Alluminio</option>
+          <option>Titanio</option>
+          <option>Ottone</option>
+          <option>Rame</option>
+          <option>Plastica</option>
+          <option>Altro</option>
+        </select>
+      </div>
 
-    <!-- Refrigerante -->
-    <select id="refrigerante">
-      <option>Acqua</option>
-      <option>Aria</option>
-      <option>Niente</option>
-      <option>Acqua int.</option>
-      <option>Aria int.</option>
-    </select>
+      <div class="field">
+        <div class="field-icon">💧</div>
+        <select id="refrigerante">
+          <option>Acqua</option>
+          <option>Aria</option>
+          <option>Niente</option>
+          <option>Acqua int.</option>
+          <option>Aria int.</option>
+        </select>
+      </div>
+    </div>
 
-    <!-- Codice Fresa e Inserti -->
-   <textarea id="codice_fresa" class="uniform" placeholder="Codice fresa"></textarea>
-   <textarea id="codice_inserto" class="uniform" placeholder="Codice inserto"></textarea>
+    <!-- Codice Fresa -->
+    <div class="field">
+      <div class="field-icon">🔩</div>
+      <input id="codice_fresa" type="text" placeholder="Codice fresa">
+    </div>
 
+    <!-- Codice Inserto -->
+    <div class="field">
+      <div class="field-icon">🧱</div>
+      <input id="codice_inserto" type="text" placeholder="Codice inserto">
+    </div>
 
     <!-- Dettagli -->
-    <textarea id="dettagli" placeholder="Dettagli"></textarea>
+    <div class="field">
+      <div class="field-icon">📝</div>
+      <textarea id="dettagli" placeholder="Dettagli"></textarea>
+    </div>
 
     <!-- Salva -->
     <button id="salva">💾 Salva</button>
