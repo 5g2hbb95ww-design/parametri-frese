@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -29,7 +28,6 @@
 <header>
   <h1>⚙️ Parametri Frese</h1>
   
-  <!-- Navigation Menu -->
   <nav class="menu-nav">
     <button id="btn-nuovo" class="nav-btn active">➕ Nuovo</button>
     <button id="btn-archivio" class="nav-btn">📚 Archivio</button>
@@ -42,59 +40,69 @@
 <section id="pagina-nuovo" class="page active">
   <section class="card">
     <h2>Nuovo Inserimento</h2>
-    
+
     <!-- Denominazione Fresa -->
     <textarea id="denominazione_fresa" placeholder="Denominazione Fresa"></textarea>
 
-    <!-- Diametro -->
-    <input id="diametro" type="number" step="0.01" placeholder="Diametro">
-      
-    <!-- N.Taglienti/Inserti -->
-    <input id="ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
+    <!-- Diametro + N.Taglienti -->
+    <div class="row">
+      <input id="diametro" type="number" step="0.01" placeholder="Diametro">
+      <input id="ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
+    </div>
 
-    <!-- S / M/Minuto / S calcolata -->
+    <!-- S -->
     <input id="s" type="number" step="0.01" placeholder="S">
-    <input id="mmin" type="number" step="0.01" placeholder="M/Minuto">
-    <input id="s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
 
-    <!-- F / Av.Ad / F calcolata -->
+    <!-- M/Minuto + S calcolata -->
+    <div class="row">
+      <input id="mmin" type="number" step="0.01" placeholder="M/Minuto">
+      <input id="s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
+    </div>
+
+    <!-- F -->
     <input id="f" type="number" step="0.01" placeholder="F">
-    <input id="av_ad" type="number" step="0.01" placeholder="Av. Ad">
-    <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
+
+    <!-- Avanzamento Ad + F calcolata -->
+    <div class="row">
+      <input id="av_ad" type="number" step="0.01" placeholder="Avanzamento Ad">
+      <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
+    </div>
 
     <!-- Z-Ap -->
     <input id="zap" type="number" step="0.01" placeholder="Z-Ap">
 
-    <!-- Materiale -->
-    <select id="materiale">
-      <option>Acciaio</option>
-      <option>Inox</option>
-      <option>Ghisa</option>
-      <option>Alluminio</option>
-      <option>Titanio</option>
-      <option>Ottone</option>
-      <option>Rame</option>
-      <option>Plastica</option>
-      <option>Altro</option>
-    </select>
+    <!-- Materiale + Refrigerante -->
+    <div class="row">
+      <select id="materiale">
+        <option>Acciaio</option>
+        <option>Inox</option>
+        <option>Ghisa</option>
+        <option>Alluminio</option>
+        <option>Titanio</option>
+        <option>Ottone</option>
+        <option>Rame</option>
+        <option>Plastica</option>
+        <option>Altro</option>
+      </select>
 
-    <!-- Refrigerante -->
-    <select id="refrigerante">
-      <option>Acqua</option>
-      <option>Aria</option>
-      <option>Niente</option>
-      <option>Acqua int.</option>
-      <option>Aria int.</option>
-    </select>
+      <select id="refrigerante">
+        <option>Acqua</option>
+        <option>Aria</option>
+        <option>Niente</option>
+        <option>Acqua int.</option>
+        <option>Aria int.</option>
+      </select>
+    </div>
 
-    <!-- Codice Fresa e Inserti -->
+    <!-- Codice Fresa -->
     <textarea id="codice_fresa" placeholder="Codice fresa"></textarea>
+
+    <!-- Codice Inserto -->
     <textarea id="codice_inserto" placeholder="Codice inserto"></textarea>
 
     <!-- Dettagli -->
     <textarea id="dettagli" placeholder="Dettagli"></textarea>
 
-    <!-- Salva -->
     <button id="salva">💾 Salva</button>
   </section>
 </section>
@@ -105,15 +113,13 @@
     <h2>📚 Archivio Frese</h2>
     <input id="ricerca" placeholder="Cerca...">
     <div id="lista"></div>
-    
-    <!-- Esporta CSV -->
     <button id="csv" style="margin-top: 20px; width: 100%;">📄 Esporta CSV</button>
   </section>
 </section>
 
 </main>
 
-<!-- ============== MODAL POPUP MODIFICA ============== -->
+<!-- MODAL -->
 <div id="modal-overlay" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header">
@@ -121,46 +127,55 @@
       <button class="modal-close" id="modal-close-btn">&times;</button>
     </div>
 
-    <!-- Form di modifica -->
     <textarea id="mod-denominazione_fresa" placeholder="Denominazione Fresa"></textarea>
-    <input id="mod-diametro" type="number" step="0.01" placeholder="Diametro">
-    <input id="mod-ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
+
+    <div class="row">
+      <input id="mod-diametro" type="number" step="0.01" placeholder="Diametro">
+      <input id="mod-ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
+    </div>
 
     <input id="mod-s" type="number" step="0.01" placeholder="S">
-    <input id="mod-mmin" type="number" step="0.01" placeholder="M/Minuto">
-    <input id="mod-s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
+
+    <div class="row">
+      <input id="mod-mmin" type="number" step="0.01" placeholder="M/Minuto">
+      <input id="mod-s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
+    </div>
 
     <input id="mod-f" type="number" step="0.01" placeholder="F">
-    <input id="mod-av_ad" type="number" step="0.01" placeholder="Av. Ad">
-    <input id="mod-f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
+
+    <div class="row">
+      <input id="mod-av_ad" type="number" step="0.01" placeholder="Avanzamento Ad">
+      <input id="mod-f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
+    </div>
 
     <input id="mod-zap" type="number" step="0.01" placeholder="Z-Ap">
 
-    <select id="mod-materiale">
-      <option>Acciaio</option>
-      <option>Inox</option>
-      <option>Ghisa</option>
-      <option>Alluminio</option>
-      <option>Titanio</option>
-      <option>Ottone</option>
-      <option>Rame</option>
-      <option>Plastica</option>
-      <option>Altro</option>
-    </select>
+    <div class="row">
+      <select id="mod-materiale">
+        <option>Acciaio</option>
+        <option>Inox</option>
+        <option>Ghisa</option>
+        <option>Alluminio</option>
+        <option>Titanio</option>
+        <option>Ottone</option>
+        <option>Rame</option>
+        <option>Plastica</option>
+        <option>Altro</option>
+      </select>
 
-    <select id="mod-refrigerante">
-      <option>Acqua</option>
-      <option>Aria</option>
-      <option>Niente</option>
-      <option>Acqua int.</option>
-      <option>Aria int.</option>
-    </select>
+      <select id="mod-refrigerante">
+        <option>Acqua</option>
+        <option>Aria</option>
+        <option>Niente</option>
+        <option>Acqua int.</option>
+        <option>Aria int.</option>
+      </select>
+    </div>
 
     <textarea id="mod-codice_fresa" placeholder="Codice fresa"></textarea>
     <textarea id="mod-codice_inserto" placeholder="Codice inserto"></textarea>
     <textarea id="mod-dettagli" placeholder="Dettagli"></textarea>
 
-    <!-- Pulsanti azioni -->
     <div class="modal-actions">
       <button class="btn-annulla" id="modal-annulla">❌ Annulla</button>
       <button class="btn-salva-modifica" id="modal-salva">✅ Salva</button>
@@ -168,7 +183,6 @@
   </div>
 </div>
 
-<!-- Bottone installa PWA -->
 <button id="installaApp" style="margin:20px; padding:10px; display:none;">
 📲 Installa App
 </button>
