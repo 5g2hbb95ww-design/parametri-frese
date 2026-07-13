@@ -47,7 +47,7 @@ function calcolaF() {
     const ntaglientiinsertiEl = parseFloat(ntaglientiinsertiEl.value) || 0;
     const sCalc = parseFloat(sCalcEl.value) || 0;
 
-    const fCalc = avAd * pastiglie * sCalc;
+    const fCalc = avAd * ntaglientiinserti * sCalc;
     fCalcEl.value = fCalc.toFixed(2);
 }
 
@@ -159,7 +159,7 @@ csvBtn.addEventListener("click", () => {
     const header = "Denominazione Fresa;Diametro;N.Taglienti/Inserti;M/Minuto;S calcolata;F;Av. Ad;F calcolata;Z-Ap;Materiale;Refrigerante;Dettagli\n";
 
     const righe = archivio.map(item =>
-        `${item.diametro};${item.mmin};${item.s_calc};${item.f};${item.av_ad};${item.f_calc};${item.pastiglie};${item.zap};${item.materiale};${item.refrigerante};${item.dettagli}`
+        `${item.denominazionefresa};${item.diametro};${item.ntaglientiinserti};${item.mmin};${item.s_calc};${item.f};${item.av_ad};${item.f_calc};${item.zap};${item.materiale};${item.refrigerante};${item.dettagli}`
     ).join("\n");
 
     const blob = new Blob([header + righe], { type: "text/csv;charset=utf-8;" });
