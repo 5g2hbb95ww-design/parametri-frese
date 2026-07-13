@@ -17,6 +17,7 @@ const fCalcEl = document.getElementById("f_calc");
 const zapEl = document.getElementById("zap");
 const materialeEl = document.getElementById("materiale");
 const refrigeranteEl = document.getElementById("refrigerante");
+const codicefresaEl = document.getElementById("codicefresa");
 const dettagliEl = document.getElementById("dettagli");
 
 const salvaBtn = document.getElementById("salva");
@@ -104,6 +105,7 @@ function pulisciCampi() {
     zapEl.value = "";
     materialeEl.value = "Acciaio";
     refrigeranteEl.value = "Acqua";
+    codicefresaEl.value = "";
     dettagliEl.value = "";
 }
 
@@ -136,7 +138,8 @@ function renderArchivio() {
                 Z-Ap: ${item.zap}<br>
                 Materiale: ${item.materiale}<br>
                 Refrigerante: ${item.refrigerante}<br>
-                Dettagli: ${item.dettagli}<br><br>
+                Codice fresa: ${item.codicefresa}<br>
+                Dettagli: ${item.dettagli}<br>
 
                 <button data-index="${index}" class="elimina">🗑 Elimina</button>
             `;
@@ -162,10 +165,10 @@ ricercaEl.addEventListener("input", renderArchivio);
 csvBtn.addEventListener("click", () => {
     if (!archivio.length) return;
 
-    const header = "Denominazione Fresa;Diametro;N.Taglienti/Inserti;S;M/Minuto;S calcolata;F;Av. Ad;F calcolata;Z-Ap;Materiale;Refrigerante;Dettagli\n";
+    const header = "Denominazione Fresa;Diametro;N.Taglienti/Inserti;S;M/Minuto;S calcolata;F;Av. Ad;F calcolata;Z-Ap;Materiale;Refrigerante;Codice fresa;Dettagli\n";
 
     const righe = archivio.map(item =>
-        `${item.denominazionefresa};${item.diametro};${item.ntaglientiinserti};${item.s};${item.mmin};${item.s_calc};${item.f};${item.av_ad};${item.f_calc};${item.zap};${item.materiale};${item.refrigerante};${item.dettagli}`
+        `${item.denominazionefresa};${item.diametro};${item.ntaglientiinserti};${item.s};${item.mmin};${item.s_calc};${item.f};${item.av_ad};${item.f_calc};${item.zap};${item.materiale};${item.refrigerante};${codicefresa};${item.dettagli}`
     ).join("\n");
 
     const blob = new Blob([header + righe], { type: "text/csv;charset=utf-8;" });
