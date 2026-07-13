@@ -147,6 +147,109 @@
 
 </main>
 
+<!-- ================= MODAL DI MODIFICA ================= -->
+<div id="modal-overlay" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>✏️ Modifica Fresa</h2>
+      <button class="modal-close" id="modal-close-btn">&times;</button>
+    </div>
+
+    <div class="card">
+
+      <div class="field">
+        <div class="field-icon">🧩</div>
+        <input id="mod_denom" type="text" placeholder="Denominazione Fresa">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <div class="field-icon">📏</div>
+          <input id="mod_diametro" type="number" placeholder="Diametro">
+        </div>
+
+        <div class="field">
+          <div class="field-icon">🛠️</div>
+          <input id="mod_taglienti" type="number" placeholder="N.Taglienti/Inserti">
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-icon">⚙️</div>
+        <input id="mod_s" type="number" placeholder="S">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <div class="field-icon">⏱️</div>
+          <input id="mod_mmin" type="number" placeholder="M/Minuto">
+        </div>
+
+        <div class="field field-calculated">
+          <div class="field-icon">🚀</div>
+          <input id="mod_s_calc" type="number" placeholder="S calcolata" readonly>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-icon">📊</div>
+        <input id="mod_f" type="number" placeholder="F">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <div class="field-icon">🪛</div>
+          <input id="mod_av_ad" type="number" placeholder="Av. Ad">
+        </div>
+
+        <div class="field field-calculated">
+          <div class="field-icon">📈</div>
+          <input id="mod_f_calc" type="number" placeholder="F calcolata" readonly>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-icon">⛰️</div>
+        <input id="mod_zap" type="number" placeholder="Z-Ap">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <div class="field-icon">🏭</div>
+          <select id="mod_materiale">
+            <option>Acciaio</option>
+            <option>Inox</option>
+            <option>Ghisa</option>
+            <option>Alluminio</option>
+            <option>Titanio</option>
+            <option>Ottone</option>
+            <option>Rame</option>
+            <option>Plastica</option>
+            <option>Altro</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <div class="field-icon">💧</div>
+          <select id="mod_refrigerante">
+            <option>Acqua</option>
+            <option>Aria</option>
+            <option>Niente</option>
+            <option>Acqua int.</option>
+            <option>Aria int.</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-annulla" id="modal-annulla">❌ Annulla</button>
+      <button class="btn-salva-modifica" id="modal-salva">💾 Salva</button>
+    </div>
+  </div>
+</div>
+
 <script src="app.js"></script>
 </body>
 </html>
