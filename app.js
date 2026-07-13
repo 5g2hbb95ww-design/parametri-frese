@@ -55,7 +55,7 @@ av_ad.addEventListener("input", calcolaF);
 s_calc.addEventListener("input", calcolaF);
 
 /* ============================
-   SALVATAGGIO
+   SALVATAGGIO NUOVA FRESA
 ============================ */
 
 salva.addEventListener("click", () => {
@@ -99,6 +99,7 @@ function caricaArchivio() {
       <h3>${fresa.denominazione}</h3>
       <p>Diametro: ${fresa.diametro}</p>
       <p>Taglienti: ${fresa.taglienti}</p>
+      <button onclick="modifica(${index})">✏️ Modifica</button>
       <button onclick="elimina(${index})">🗑️ Elimina</button>
     `;
     lista.appendChild(div);
@@ -111,3 +112,72 @@ function elimina(i) {
   localStorage.setItem("freselist", JSON.stringify(archivio));
   caricaArchivio();
 }
+
+/* ============================
+   MODAL DI MODIFICA
+============================ */
+
+const modalOverlay = document.getElementById("modal-overlay");
+const modalCloseBtn = document.getElementById("modal-close-btn");
+const modalSalva = document.getElementById("modal-salva");
+const modalAnnulla = document.getElementById("modal-annulla");
+
+let indexInModifica = null;
+
+function modifica(i) {
+  const archivio = JSON.parse(localStorage.getItem("freselist")) || [];
+  const fresa = archivio[i];
+  indexInModifica = i;
+
+  // Carica dati nel modal
+  document.getElementById("denominazione").value = fresa.denominazione;
+  document.getElementById("diametro").value = fresa.diametro;
+  document.getElementById("taglienti").value = fresa.taglienti;
+  document.getElementById("s").value = fresa.s;
+  document.getElementById("mminuto").value = fresa.mmin;
+  document.getElementById("s_calcolata").value = fresa.s_calc;
+  document.getElementById("f").value = fresa.f;
+  document.getElementById("avad").value = fresa.av_ad;
+  document.getElementById("f_calcolata").value = fresa.f_calc;
+  document.getElementById("zap").value = fresa.zap;
+  document.getElementById("materiale").value = fresa.materiale;
+  document.getElementById("refrigerante").value = fresa.refrigerante;
+
+  modalOverlay.style.display = "flex";
+}
+
+modalCloseBtn.addEventListener("click", () => {
+  modalOverlay.style.display = "none";
+});
+
+modalAnnulla.addEventListener("click", () => {
+  modalOverlay.style.display = "none";
+});
+
+/* ============================
+   SALVA MODIFICHE
+============================ */
+
+modalSalva.addEventListener("click", () => {
+  let archivio = JSON.parse(localStorage.getItem("freselist")) || [];
+
+  archivio[indexInModifica] = {
+    denominazione: document.getElementById("denominazione").value,
+    diametro: document.getElementById("diametro").value,
+    taglienti: document.getElementById("taglienti").value,
+    s: document.getElementById("s").value,
+    mmin: document.getElementById("mminuto").value,
+    s_calc: document.getElementById("s_calcolata").value,
+    f: document.getElementById("f").value,
+    av_ad: document.getElementById("avad").value,
+    f_calc: document.getElementById("f_calcolata").value,
+    zap: document.getElementById("zap").value,
+    materiale: document.getElementById("materiale").value,
+    refrigerante: document.getElementById("refrigerante").value
+  };
+
+  localStorage.setItem("freselist", JSON.stringify(archivio));
+
+  modalOverlay.style.display = "none";
+  caricaArchivio();
+});
