@@ -66,7 +66,7 @@ ntaglientiinsertiEl.addEventListener("input", calcolaF);
 
 salvaBtn.addEventListener("click", () => {
     const dati = {
-        denominazionegresa: denominazionefresaEl.value,
+        denominazionefresa: denominazionefresaEl.value,
         diametro: diametroEl.value,
         ntaglientiinserti: ntaglientiinsertiEl.value,
         s: sEl.value,
