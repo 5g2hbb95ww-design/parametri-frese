@@ -1,91 +1,78 @@
 # ⚙️ Parametri Frese  
-Archivio digitale dei parametri di taglio per frese CNC, con calcolo automatico di S e F, archivio consultabile, modifica tramite popup e esportazione CSV compatibile con Apple Numbers ed Excel.
+Gestione parametri di taglio per frese, con archivio locale, calcoli automatici e supporto PWA.
 
-![Screenshot](icon/screen-wide.png)
+![Schermata](icon/screen-wide.png)
 
 ---
 
 ## 📌 Funzionalità principali
 
-### 🔢 Calcolo automatico parametri
-- **S calcolata** = (1000 × M/min) / (3.14 × Diametro)  
-- **F calcolata** = Av.Ad × N.Taglienti × S calcolata  
-- Aggiornamento in tempo reale mentre l’utente digita.
+### ✏️ Inserimento parametri
+- Denominazione fresa  
+- Diametro  
+- Numero taglienti/inserti  
+- S, M/minuto e **S calcolata automatica**  
+- F, Avanzamento Ad e **F calcolata automatica**  
+- Z-Ap  
+- Materiale  
+- Refrigerante  
+- Codice fresa  
+- Codice inserto  
+- Note e dettagli
 
-### 📚 Archivio frese
-- Salvataggio locale tramite **LocalStorage**
+### 📚 Archivio locale
+- Salvataggio automatico in **LocalStorage**
 - Ricerca istantanea
-- Pulsanti **Modifica** e **Elimina**
-- Popup di modifica con ricalcolo automatico dei parametri
+- Pulsante **Modifica** con popup dedicato
+- Eliminazione singola voce
+- Esportazione CSV compatibile con **Apple Numbers**
 
-### 📄 Esportazione CSV
-- Esporta l’intero archivio in formato CSV
-- Compatibile con:
-  - Apple Numbers
-  - Microsoft Excel
-  - Google Sheets
-
-### 📱 PWA – App installabile
-- Installabile su:
-  - iPhone / iPad
-  - Android
-  - Desktop (Chrome / Edge)
-- Funziona offline grazie al **Service Worker**
-- Icone e screenshot ottimizzati
+### 📲 PWA – App installabile
+- Installabile su **iPhone, iPad, Android e PC**
+- Funziona **offline**
+- Service Worker con cache automatica
+- Icone Apple e Android
+- Manifest completo
 
 ---
 
-## 🧩 Struttura del progetto
+## 🚀 Installazione
+
+### 🔹 Uso locale (PC)
+1. Scarica la repo  
+2. Apri `index.html` con il browser  
+3. Per attivare la PWA e il Service Worker usa un server locale:
+   ```bash
+   python -m http.server
+
+
+https://5g2hbb95ww-design.github.io/parametri-frese/
+
+
+parametri-frese/
+│
+├── index.html
+├── style.css
+├── app.js
+├── manifest.json
+├── service-worker.js
+│
+└── icon/
+    ├── icon-192.png
+    ├── icon-512.png
+    ├── screen-wide.png
+    └── screen-mobile.png
+
 
 
 ---
 
-## 🚀 Installazione (GitHub Pages)
+# 🎉 README pronto, professionale e completo  
+Se vuoi, posso anche:
 
-1. Carica tutti i file nel repository.
-2. Vai su **Settings → Pages**.
-3. Imposta:
-   - **Source:** `main`
-   - **Folder:** `/root`
-4. L’app sarà disponibile su:
+- aggiungere badge (versione, PWA ready, GitHub Pages)  
+- aggiungere GIF animate  
+- aggiungere sezione “Roadmap”  
+- aggiungere changelog automatico  
 
-
----
-
-## 🔧 Tecnologie utilizzate
-
-- **HTML5**
-- **CSS3 (mobile-first)**
-- **JavaScript Vanilla**
-- **LocalStorage**
-- **Service Worker**
-- **PWA Manifest**
-
----
-
-## 🛠️ Sviluppo
-
-### Modifica dei parametri
-Tutti i calcoli sono centralizzati in `app.js`:
-
-```js
-const sCalc = (1000 * mmin) / (3.14 * diametro);
-const fCalc = avAd * ntaglienti * sCalc;
-
-Denominazione Fresa;
-Diametro;
-N.Taglienti/Inserti;
-S;
-M/Minuto;
-S calcolata;
-F;
-Av.Ad;
-F calcolata;
-Z-Ap;
-Materiale;
-Refrigerante;
-Codice fresa;
-Codice inserto;
-Dettagli
-
-
+Dimmi tu cosa vuoi aggiungere.
