@@ -44,7 +44,7 @@ function calcolaS() {
 // F calcolata = Av.Ad * N.Taglienti/Inserti * S calcolata
 function calcolaF() {
     const avAd = parseFloat(avAdEl.value) || 0;
-    const ntaglientiinsertiEl = parseFloat(ntaglientiinsertiEl.value) || 0;
+    const ntaglientiinserti = parseFloat(ntaglientiinsertiEl.value) || 0;
     const sCalc = parseFloat(sCalcEl.value) || 0;
 
     const fCalc = avAd * ntaglientiinserti * sCalc;
@@ -63,6 +63,7 @@ ntaglientiinsertiEl.addEventListener("input", calcolaF);
 
 salvaBtn.addEventListener("click", () => {
     const dati = {
+        denominazionegresa: denominazionefresaEl.value,
         diametro: diametroEl.value,
         mmin: mminEl.value,
         s_calc: sCalcEl.value,
