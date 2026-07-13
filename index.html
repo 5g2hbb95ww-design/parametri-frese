@@ -1,357 +1,76 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Parametri Frese</title>
+    <meta charset="UTF-8">
+    <title>Parametri Frese</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#111111">
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
 
-<link rel="stylesheet" href="style.css">
+    <!-- Icona -->
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <div class="container">
+        <nav class="nav">
+            <span class="logo">Parametri Frese</span>
+            <button id="btn-archive" class="btn-secondary">Archivio</button>
+        </nav>
 
-<header>
-  <h1>⚙️ Parametri Frese</h1>
+        <div class="card">
+            <h2>Nuovo parametro</h2>
 
-  <nav class="menu-nav">
-    <button id="btn-nuovo" class="nav-btn active">➕ Nuovo</button>
-    <button id="btn-archivio" class="nav-btn">📚 Archivio</button>
-  </nav>
-</header>
+            <div class="input-group">
+                <label for="nome">Nome lavorazione</label>
+                <input type="text" id="nome" placeholder="Es. Spianatura C45">
+            </div>
 
-<main>
+            <div class="input-group">
+                <label for="materiale">Materiale</label>
+                <input type="text" id="materiale" placeholder="Es. C45, Ergal, Inox...">
+            </div>
 
-<!-- ================= PAGINA NUOVO ================= -->
-<section id="pagina-nuovo" class="page active">
-  <section class="card">
-    <h2>Nuovo Inserimento</h2>
+            <div class="input-group">
+                <label for="diametro">Diametro fresa (mm)</label>
+                <input type="number" id="diametro" step="0.1" placeholder="Es. 20">
+            </div>
 
-    <div class="field">
-      <div class="field-icon">🧩</div>
-      <input id="denominazione_fresa" type="text" placeholder="Denominazione Fresa">
-    </div>
+            <div class="input-group">
+                <label for="z">Numero taglienti (Z)</label>
+                <input type="number" id="z" placeholder="Es. 4">
+            </div>
 
-    <div class="field-row">
-      <div class="field">
-        <div class="field-icon">📏</div>
-        <input id="diametro" type="number" step="0.01" placeholder="Diametro">
-      </div>
+            <div class="input-group">
+                <label for="vc">Velocità di taglio Vc (m/min)</label>
+                <input type="number" id="vc" step="1" placeholder="Es. 180">
+            </div>
 
-      <div class="field">
-        <div class="field-icon">🛠️</div>
-        <input id="ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
-      </div>
-    </div>
+            <div class="input-group">
+                <label for="fz">Avanzamento per dente fz (mm/dente)</label>
+                <input type="number" id="fz" step="0.01" placeholder="Es. 0.12">
+            </div>
 
-    <div class="field">
-      <div class="field-icon">⚙️</div>
-      <input id="s" type="number" step="0.01" placeholder="S">
-    </div>
-
-    <div class="field-row">
-      <div class="field">
-        <div class="field-icon">⏱️</div>
-        <input id="mmin" type="number" step="0.01" placeholder="M/Minuto">
-      </div>
-
-      <div class="field field-calculated">
-        <div class="field-icon">🚀</div>
-        <input id="s_calc" type="number" placeholder="S calcolata" readonly>
-      </div>
-    </div>
-
-    <div class="field">
-      <div class="field-icon">📊</div>
-      <input id="f" type="number" step="0.01" placeholder="F">
-    </div>
-
-    <div class="field-row">
-      <div class="field">
-        <div class="field-icon">🪛</div>
-        <input id="av_ad" type="number" step="0.01" placeholder="Av. Ad">
-      </div>
-
-      <div class="field field-calculated">
-        <div class="field-icon">📈</div>
-        <input id="f_calc" type="number" placeholder="F calcolata" readonly>
-      </div>
-    </div>
-
-    <div class="field">
-      <div class="field-icon">⛰️</div>
-      <input id="zap" type="number" step="0.01" placeholder="Z-Ap">
-    </div>
-
-    <div class="field-row">
-      <div class="field">
-        <div class="field-icon">🏭</div>
-        <select id="materiale">
-          <option>Acciaio</option>
-          <option>Inox</option>
-          <option>Ghisa</option>
-          <option>Alluminio</option>
-          <option>Titanio</option>
-          <option>Ottone</option>
-          <option>Rame</option>
-          <option>Plastica</option>
-          <option>Altro</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <div class="field-icon">💧</div>
-        <select id="refrigerante">
-          <option>Acqua</option>
-          <option>Aria</option>
-          <option>Niente</option>
-          <option>Acqua int.</option>
-          <option>Aria int.</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="field">
-      <div class="field-icon">🔩</div>
-      <input id="codice_fresa" type="text" placeholder="Codice fresa">
-    </div>
-
-    <div class="field">
-      <div class="field-icon">🧱</div>
-      <input id="codice_inserto" type="text" placeholder="Codice inserto">
-    </div>
-
-    <div class="field">
-      <div class="field-icon">📝</div>
-      <textarea id="dettagli" placeholder="Dettagli"></textarea>
-    </div>
-
-    <button id="salva">💾 Salva</button>
-  </section>
-</section>
-
-<!-- ================= PAGINA ARCHIVIO ================= -->
-<section id="pagina-archivio" class="page">
-  <section class="card">
-    <h2>📚 Archivio Frese</h2>
-
-    <input id="ricerca" placeholder="Cerca...">
-
-    <div id="lista"></div>
-
-    <button id="csv">📄 Esporta CSV</button>
-  </section>
-</section>
-
-</main>
-
-<!-- ================= MODAL DI MODIFICA ================= -->
-<div id="modal-overlay" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>✏️ Modifica Fresa</h2>
-      <button class="modal-close" id="modal-close-btn">&times;</button>
-    </div>
-
-    <div class="card">
-
-      <div class="field">
-        <div class="field-icon">🧩</div>
-        <input id="mod_denom" type="text" placeholder="Denominazione Fresa">
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <div class="field-icon">📏</div>
-          <input id="mod_diametro" type="number" placeholder="Diametro">
+            <button id="btn-calcola" class="btn-primary">Calcola e salva</button>
         </div>
 
-        <div class="field">
-          <div class="field-icon">🛠️</div>
-          <input id="mod_taglienti" type="number" placeholder="N.Taglienti/Inserti">
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="field-icon">⚙️</div>
-        <input id="mod_s" type="number" placeholder="S">
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <div class="field-icon">⏱️</div>
-          <input id="mod_mmin" type="number" placeholder="M/Minuto">
+        <div class="card">
+            <h2>Risultati</h2>
+            <p><strong>Giri mandrino (n):</strong> <span id="out-n">-</span> rpm</p>
+            <p><strong>Avanzamento (Vf):</strong> <span id="out-vf">-</span> mm/min</p>
         </div>
 
-        <div class="field field-calculated">
-          <div class="field-icon">🚀</div>
-          <input id="mod_s_calc" type="number" placeholder="S calcolata" readonly>
+        <div class="card" id="archive-card" style="display:none;">
+            <h2>Archivio parametri salvati</h2>
+            <div id="archive-list"></div>
+            <button id="btn-close-archive" class="btn-secondary">Chiudi archivio</button>
         </div>
-      </div>
-
-      <div class="field">
-        <div class="field-icon">📊</div>
-        <input id="mod_f" type="number" placeholder="F">
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <div class="field-icon">🪛</div>
-          <input id="mod_av_ad" type="number" placeholder="Av. Ad">
-        </div>
-
-        <div class="field field-calculated">
-          <div class="field-icon">📈</div>
-          <input id="mod_f_calc" type="number" placeholder="F calcolata" readonly>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="field-icon">⛰️</div>
-        <input id="mod_zap" type="number" placeholder="Z-Ap">
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <div class="field-icon">🏭</div>
-          <select id="mod_materiale">
-            <option>Acciaio</option>
-            <option>Inox</option>
-            <option>Ghisa</option>
-            <option>Alluminio</option>
-            <option>Titanio</option>
-            <option>Ottone</option>
-            <option>Rame</option>
-            <option>Plastica</option>
-            <option>Altro</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <div class="field-icon">💧</div>
-          <select id="mod_refrigerante">
-            <option>Acqua</option>
-            <option>Aria</option>
-            <option>Niente</option>
-            <option>Acqua int.</option>
-            <option>Aria int.</option>
-          </select>
-        </div>
-      </div>
-
     </div>
 
-    <div class="modal-actions">
-      <button class="btn-annulla" id="modal-annulla">❌ Annulla</button>
-      <button class="btn-salva-modifica" id="modal-salva">💾 Salva</button>
-    </div>
-  </div>
-</div>
-<!-- ================= MODAL DI MODIFICA ================= -->
-<div id="modal-overlay" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>✏️ Modifica Fresa</h2>
-      <button class="modal-close" id="modal-close-btn">&times;</button>
-    </div>
-
-    <div class="card">
-
-      <div class="field">
-        <div class="field-icon">🧩</div>
-        <input id="mod_denom" type="text" placeholder="Denominazione Fresa">
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <div class="field-icon">📏</div>
-          <input id="mod_diametro" type="number" placeholder="Diametro">
-        </div>
-
-        <div class="field">
-          <div class="field-icon">🛠️</div>
-          <input id="mod_taglienti" type="number" placeholder="N.Taglienti/Inserti">
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="field-icon">⚙️</div>
-        <input id="mod_s" type="number" placeholder="S">
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <div class="field-icon">⏱️</div>
-          <input id="mod_mmin" type="number" placeholder="M/Minuto">
-        </div>
-
-        <div class="field field-calculated">
-          <div class="field-icon">🚀</div>
-          <input id="mod_s_calc" type="number" placeholder="S calcolata" readonly>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="field-icon">📊</div>
-        <input id="mod_f" type="number" placeholder="F">
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <div class="field-icon">🪛</div>
-          <input id="mod_av_ad" type="number" placeholder="Av. Ad">
-        </div>
-
-        <div class="field field-calculated">
-          <div class="field-icon">📈</div>
-          <input id="mod_f_calc" type="number" placeholder="F calcolata" readonly>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="field-icon">⛰️</div>
-        <input id="mod_zap" type="number" placeholder="Z-Ap">
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <div class="field-icon">🏭</div>
-          <select id="mod_materiale">
-            <option>Acciaio</option>
-            <option>Inox</option>
-            <option>Ghisa</option>
-            <option>Alluminio</option>
-            <option>Titanio</option>
-            <option>Ottone</option>
-            <option>Rame</option>
-            <option>Plastica</option>
-            <option>Altro</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <div class="field-icon">💧</div>
-          <select id="mod_refrigerante">
-            <option>Acqua</option>
-            <option>Aria</option>
-            <option>Niente</option>
-            <option>Acqua int.</option>
-            <option>Aria int.</option>
-          </select>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn-annulla" id="modal-annulla">❌ Annulla</button>
-      <button class="btn-salva-modifica" id="modal-salva">💾 Salva</button>
-    </div>
-  </div>
-</div>
-
-<script src="app.js"></script>
+    <!-- JS -->
+    <script src="app.js"></script>
 </body>
 </html>
