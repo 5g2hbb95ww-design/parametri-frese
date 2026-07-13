@@ -80,6 +80,7 @@ salvaBtn.addEventListener("click", () => {
         zap: zapEl.value,
         materiale: materialeEl.value,
         refrigerante: refrigeranteEl.value,
+        codicefresa: codicefresaEl.value,
         dettagli: dettagliEl.value
     };
 
