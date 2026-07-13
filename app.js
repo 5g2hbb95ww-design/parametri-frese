@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const materialeEl = document.getElementById("materiale");
     const refrigeranteEl = document.getElementById("refrigerante");
     const codicefresaEl = document.getElementById("codice_fresa");
+    const codiceinsertoEl = document.getElementById("codice_inserto");
     const dettagliEl = document.getElementById("dettagli");
 
     // Riferimenti elementi BUTTONS
@@ -143,6 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 materiale: materialeEl ? materialeEl.value : "",
                 refrigerante: refrigeranteEl ? refrigeranteEl.value : "",
                 codicefresa: codicefresaEl ? codicefresaEl.value : "",
+                codiceinserto: codiceinsertoEl ? codiceinsertoEl.value : "",
                 dettagli: dettagliEl ? dettagliEl.value : ""
             };
 
@@ -179,6 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (materialeEl) materialeEl.value = "Acciaio";
         if (refrigeranteEl) refrigeranteEl.value = "Acqua";
         if (codicefresaEl) codicefresaEl.value = "";
+        if (codiceinsertoEl) codiceinsertoEl.value = "";
         if (dettagliEl) dettagliEl.value = "";
     }
 
@@ -223,6 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <strong>Materiale:</strong> ${item.materiale}<br>
                     <strong>Refrigerante:</strong> ${item.refrigerante}<br>
                     Codice fresa: ${item.codicefresa}<br>
+                    Codice inserto: ${item.codiceinserto}<br>
                     Dettagli: ${item.dettagli}<br>
 
                     <button data-index="${index}" class="elimina" style="background:#FF3B30;">🗑 Elimina</button>
@@ -265,10 +269,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            const header = "Denominazione Fresa;Diametro;N.Taglienti/Inserti;S;M/Minuto;S calcolata;F;Av. Ad;F calcolata;Z-Ap;Materiale;Refrigerante;Codice fresa;Dettagli\n";
+            const header = "Denominazione Fresa;Diametro;N.Taglienti/Inserti;S;M/Minuto;S calcolata;F;Av. Ad;F calcolata;Z-Ap;Materiale;Refrigerante;Codice fresa;Codice inserto;Dettagli\n";
 
             const righe = archivio.map(item =>
-                `${item.denominazionefresa};${item.diametro};${item.ntaglientiinserti};${item.s};${item.mmin};${item.s_calc};${item.f};${item.av_ad};${item.f_calc};${item.zap};${item.materiale};${item.refrigerante};${item.codicefresa};${item.dettagli}`
+                `${item.denominazionefresa};${item.diametro};${item.ntaglientiinserti};${item.s};${item.mmin};${item.s_calc};${item.f};${item.av_ad};${item.f_calc};${item.zap};${item.materiale};${item.refrigerante};${item.codicefresa};${item.codiceinserto};${item.dettagli}`
             ).join("\n");
 
             const csvContent = header + righe;
