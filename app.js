@@ -268,8 +268,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // XY-Ae con valore + unità
 const [valore, unita] = item.xyae.split(" ");
-modXYAeValEl.value = valore || "";
-modXYAeUnitEl.value = unita || "mm";
+        modXYAeValEl.value = valore || "";
+        modXYAeUnitEl.value = unita || "mm";
 
         modMaterialeEl.value = item.materiale;
         modRefrigeranteEl.value = item.refrigerante;
@@ -306,7 +306,9 @@ modXYAeUnitEl.value = unita || "mm";
         item.f_calc = modFCalcEl.value;
 
         item.zap = modZapEl.value;
-        item.xyae = modXYaeEl.value;
+        
+        item.xyae = modXYAeValEl.value + " " + modXYAeUnitEl.value;
+
         item.materiale = modMaterialeEl.value;
         item.refrigerante = modRefrigeranteEl.value;
 
