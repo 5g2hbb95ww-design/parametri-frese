@@ -7,7 +7,6 @@
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#111111">
-
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -15,7 +14,6 @@
 
 <header>
   <h1>⚙️ Parametri Frese</h1>
-  
   <nav class="menu-nav">
     <button id="btn-nuovo" class="nav-btn active">➕ Nuovo</button>
     <button id="btn-archivio" class="nav-btn">📚 Archivio</button>
@@ -24,7 +22,7 @@
 
 <main>
 
-<!-- ============== PAGINA 1: NUOVO INSERIMENTO ============== -->
+<!-- ================= PAGINA NUOVO ================= -->
 <section id="pagina-nuovo" class="page active">
   <section class="card">
     <h2>Nuovo Inserimento</h2>
@@ -53,10 +51,10 @@
 
     <!-- Z-Ap + XY-Ae -->
     <div class="row">
-      <input id="zap" type="number" step="0.01" placeholder="Z-Ap" class="cell">
+      <textarea id="zap" placeholder="Z-Ap" class="cell"></textarea>
 
       <div class="xy-ae-wrapper cell">
-        <input id="xyae" type="number" step="0.01" placeholder="XY-Ae">
+        <textarea id="xyae" placeholder="XY-Ae"></textarea>
         <select id="xyae_unit" class="xy-ae-select">
           <option value="mm">mm</option>
           <option value="%">%</option>
@@ -95,7 +93,7 @@
   </section>
 </section>
 
-<!-- ============== PAGINA 2: ARCHIVIO FRESE ============== -->
+<!-- ================= PAGINA ARCHIVIO ================= -->
 <section id="pagina-archivio" class="page">
   <section class="card">
     <h2>📚 Archivio Frese</h2>
@@ -106,7 +104,7 @@
 
 </main>
 
-<!-- MODAL -->
+<!-- ================= MODAL ================= -->
 <div id="modal-overlay" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header">
@@ -138,10 +136,10 @@
 
     <!-- MODAL Z-Ap + XY-Ae -->
     <div class="row">
-      <input id="mod-zap" type="number" step="0.01" placeholder="Z-Ap" class="cell">
+      <textarea id="mod-zap" placeholder="Z-Ap" class="cell"></textarea>
 
       <div class="xy-ae-wrapper cell">
-        <input id="mod-xyae_val" type="number" step="0.01" placeholder="XY-Ae">
+        <textarea id="mod-xyae_val" placeholder="XY-Ae"></textarea>
         <select id="mod-xyae_unit" class="xy-ae-select">
           <option value="mm">mm</option>
           <option value="%">%</option>
