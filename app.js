@@ -1,4 +1,3 @@
-// 
 document.addEventListener('DOMContentLoaded', function() {
     console.log("App inizializzata");
 
@@ -25,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const xyaeUnitEl = document.getElementById("xyae_unit");
 
     const materialeEl = document.getElementById("materiale");
-
     const refrigeranteEl = document.getElementById("refrigerante");
     const codicefresaEl = document.getElementById("codice_fresa");
     const codiceinsertoEl = document.getElementById("codice_inserto");
@@ -61,7 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const modFCalcEl = document.getElementById("mod-f_calc");
 
     const modZapEl = document.getElementById("mod-zap");
-    
+
+    // XY-Ae MODAL
     const modXYAeValEl = document.getElementById("mod-xyae_val");
     const modXYAeUnitEl = document.getElementById("mod-xyae_unit");
 
@@ -133,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
 
         const dati = {
-            denominazionefresa: denominazionefresaEl.value,
+            denominazionefresa: denominazionionefresaEl.value,
             diametro: diametroEl.value,
             ntaglientiinserti: ntaglientiinsertiEl.value,
             s: sEl.value,
@@ -170,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
         avAdEl.value = "";
         fCalcEl.value = "";
         zapEl.value = "";
-        xyaeValEl.value = "";
+        xyaeEl.value = "";
         xyaeUnitEl.value = "mm";
         materialeEl.value = "Acciaio";
         refrigeranteEl.value = "Acqua";
@@ -266,14 +265,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         modZapEl.value = item.zap;
 
-        // XY-Ae con valore + unità
+        // XY-Ae compatibile con vecchie e nuove frese
         const [valore, unita] = item.xyae.split(" ");
         modXYAeValEl.value = valore || "";
         modXYAeUnitEl.value = unita || "mm";
 
         modMaterialeEl.value = item.materiale;
         modRefrigeranteEl.value = item.refrigerante;
-
 
         modCodiceFresaEl.value = item.codicefresa;
         modCodiceInsertoEl.value = item.codiceinserto;
@@ -306,6 +304,8 @@ document.addEventListener('DOMContentLoaded', function() {
         item.f_calc = modFCalcEl.value;
 
         item.zap = modZapEl.value;
+
+        // XY-Ae MODAL
         item.xyae = modXYAeValEl.value + " " + modXYAeUnitEl.value;
 
         item.materiale = modMaterialeEl.value;
