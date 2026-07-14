@@ -191,10 +191,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     N.Taglienti/inserti: ${item.ntaglientiinserti}<br>
                     S: ${item.s} | M/Minuto: ${item.mmin}<br>
                     S calcolata: ${item.s_calc}<br><br>
-
                     F: ${item.f} | Avanzamento Ad: ${item.av_ad}<br>
                     F calcolata: ${item.f_calc}<br><br>
-
                     Z-Ap: ${item.zap}<br>
                     <strong>Materiale:</strong> ${item.materiale}<br>
                     <strong>Refrigerante:</strong> ${item.refrigerante}<br>
