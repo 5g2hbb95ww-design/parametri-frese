@@ -228,11 +228,10 @@ button:hover{
 
 /* === XY-Ae + Z-Ap FIX === */
 
-/* Rende Z-Ap e XY-Ae identiche alle celle S e F */
-.row textarea,
-.row .xy-ae-wrapper {
+/* Celle identiche alle celle S e F */
+.cell {
     flex: 1;
-    height: 50px;        /* stessa altezza delle celle S e F */
+    height: 50px;
     min-height: 50px;
 }
 
@@ -240,13 +239,15 @@ button:hover{
 .xy-ae-wrapper {
     position: relative;
     display: flex;
+    flex-direction: column;
 }
 
 /* Textarea XY-Ae */
-.xy-ae-wrapper textarea {
+.xy-ae-wrapper textarea,
+.xy-ae-wrapper input {
     width: 100%;
     height: 100%;
-    resize: none;        /* niente espansione verticale */
+    resize: none;
 }
 
 /* Select mm/% dentro XY-Ae */
@@ -258,6 +259,6 @@ button:hover{
     font-size: 12px;
     background: #4b5563;
     border-radius: 6px;
+    width: auto;
     z-index: 10;
-    width: auto;         /* NON prende tutta la cella */
 }
