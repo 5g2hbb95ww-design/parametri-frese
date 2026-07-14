@@ -61,7 +61,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const modFCalcEl = document.getElementById("mod-f_calc");
 
     const modZapEl = document.getElementById("mod-zap");
-    const modXYAeEl = document.getElementById("mod-xyae");
+    
+    const modXYAeValEl = document.getElementById("mod-xyae_val");
+    const modXYAeUnitEl = document.getElementById("mod-xyae_unit");
+
     const modMaterialeEl = document.getElementById("mod-materiale");
     const modRefrigeranteEl = document.getElementById("mod-refrigerante");
 
