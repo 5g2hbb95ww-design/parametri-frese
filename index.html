@@ -5,18 +5,19 @@
     <title>Parametri Frese</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- CSS principale -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="app-shell">
+
         <header class="app-header">
             <h1>Parametri Frese</h1>
             <p>Gestione parametri con salvataggio locale</p>
         </header>
 
         <main class="app-layout">
-            <!-- Sezione XY-Ae -->
+
+            <!-- ===================== XY-Ae ===================== -->
             <section class="app-section">
                 <div class="section-header">
                     <h2>XY-Ae</h2>
@@ -27,13 +28,11 @@
                 <div class="app-row">
                     <div class="app-card">
                         <label class="field-label">Campo SX 1</label>
-                        <!-- INSERISCI QUI IL TUO INPUT / TEXTAREA SX -->
-                        <input type="text" class="field-input" placeholder="Valore SX 1">
+                        <input type="text" id="xy_sx1" class="field-input">
                     </div>
                     <div class="app-card">
                         <label class="field-label">Campo DX 1</label>
-                        <!-- INSERISCI QUI IL TUO INPUT / TEXTAREA DX -->
-                        <input type="text" class="field-input" placeholder="Valore DX 1">
+                        <input type="text" id="xy_dx1" class="field-input">
                     </div>
                 </div>
 
@@ -41,22 +40,22 @@
                 <div class="app-row">
                     <div class="app-card">
                         <label class="field-label">Campo SX 2</label>
-                        <input type="text" class="field-input" placeholder="Valore SX 2">
+                        <input type="text" id="xy_sx2" class="field-input">
                     </div>
                     <div class="app-card">
                         <label class="field-label">Campo DX 2</label>
-                        <input type="text" class="field-input" placeholder="Valore DX 2">
+                        <input type="text" id="xy_dx2" class="field-input">
                     </div>
                 </div>
 
-                <!-- QUI PUOI AGGIUNGERE ALTRE RIGHE XY-Ae CON LO STESSO SCHEMA -->
+                <!-- AGGIUNGI QUI ALTRE RIGHE XY-Ae -->
 
                 <div class="section-footer">
-                    <button class="btn-primary">Salva XY-Ae</button>
+                    <button class="btn-primary" onclick="salvaXY()">Salva XY-Ae</button>
                 </div>
             </section>
 
-            <!-- Sezione Z-Ap -->
+            <!-- ===================== Z-Ap ===================== -->
             <section class="app-section">
                 <div class="section-header">
                     <h2>Z-Ap</h2>
@@ -67,13 +66,11 @@
                 <div class="app-row">
                     <div class="app-card">
                         <label class="field-label">Campo SX 1</label>
-                        <!-- INSERISCI QUI IL TUO INPUT / TEXTAREA SX -->
-                        <input type="text" class="field-input" placeholder="Valore SX 1">
+                        <input type="text" id="z_sx1" class="field-input">
                     </div>
                     <div class="app-card">
                         <label class="field-label">Campo DX 1</label>
-                        <!-- INSERISCI QUI IL TUO INPUT / TEXTAREA DX -->
-                        <input type="text" class="field-input" placeholder="Valore DX 1">
+                        <input type="text" id="z_dx1" class="field-input">
                     </div>
                 </div>
 
@@ -81,28 +78,29 @@
                 <div class="app-row">
                     <div class="app-card">
                         <label class="field-label">Campo SX 2</label>
-                        <input type="text" class="field-input" placeholder="Valore SX 2">
+                        <input type="text" id="z_sx2" class="field-input">
                     </div>
                     <div class="app-card">
                         <label class="field-label">Campo DX 2</label>
-                        <input type="text" class="field-input" placeholder="Valore DX 2">
+                        <input type="text" id="z_dx2" class="field-input">
                     </div>
                 </div>
 
-                <!-- QUI PUOI AGGIUNGERE ALTRE RIGHE Z-Ap CON LO STESSO SCHEMA -->
+                <!-- AGGIUNGI QUI ALTRE RIGHE Z-Ap -->
 
                 <div class="section-footer">
-                    <button class="btn-primary">Salva Z-Ap</button>
+                    <button class="btn-primary" onclick="salvaZ()">Salva Z-Ap</button>
                 </div>
             </section>
+
         </main>
 
         <footer class="app-footer">
             <p>Archivio parametri frese · LocalStorage attivo</p>
         </footer>
+
     </div>
 
-    <!-- Il tuo JS esistente rimane invariato -->
     <script src="app.js"></script>
 </body>
 </html>
