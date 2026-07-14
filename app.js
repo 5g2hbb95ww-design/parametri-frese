@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const modFCalcEl = document.getElementById("mod-f_calc");
 
     const modZapEl = document.getElementById("mod-zap");
+    const modXYAeEl = document.getElementById("mod-xy-ae");
     const modMaterialeEl = document.getElementById("mod-materiale");
     const modRefrigeranteEl = document.getElementById("mod-refrigerante");
 
@@ -133,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
             av_ad: avAdEl.value,
             f_calc: fCalcEl.value,
             zap: zapEl.value,
+            xyae: xyaeEl.value,
             materiale: materialeEl.value,
             refrigerante: refrigeranteEl.value,
             codicefresa: codicefresaEl.value,
@@ -159,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
         avAdEl.value = "";
         fCalcEl.value = "";
         zapEl.value = "";
+        xyaeEl.value = "";
         materialeEl.value = "Acciaio";
         refrigeranteEl.value = "Acqua";
         codicefresaEl.value = "";
@@ -194,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     F: ${item.f} | Avanzamento Ad: ${item.av_ad}<br>
                     F calcolata: ${item.f_calc}<br>
                     Z-Ap: ${item.zap}<br>
+                    XY-Ae: ${item.xyae}<br>
                     <strong>Materiale:</strong> ${item.materiale}<br>
                     <strong>Refrigerante:</strong> ${item.refrigerante}<br>
                     Codice fresa: ${item.codicefresa}<br>
@@ -251,6 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modFCalcEl.value = item.f_calc;
 
         modZapEl.value = item.zap;
+        modXYaeEl.value = item.xyae;
         modMaterialeEl.value = item.materiale;
         modRefrigeranteEl.value = item.refrigerante;
 
@@ -285,6 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
         item.f_calc = modFCalcEl.value;
 
         item.zap = modZapEl.value;
+        item.xyae = modXYaeEl.value;
         item.materiale = modMaterialeEl.value;
         item.refrigerante = modRefrigeranteEl.value;
 
