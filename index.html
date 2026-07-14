@@ -5,16 +5,24 @@
     <title>Parametri Frese</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <meta name="theme-color" content="#2563eb">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="app-shell">
 
+        <!-- HEADER -->
         <header class="app-header">
             <h1>Parametri Frese</h1>
             <p>Gestione parametri con salvataggio locale</p>
         </header>
 
+        <!-- LAYOUT PRINCIPALE -->
         <main class="app-layout">
 
             <!-- ===================== XY-Ae ===================== -->
@@ -95,12 +103,21 @@
 
         </main>
 
+        <!-- FOOTER -->
         <footer class="app-footer">
             <p>Archivio parametri frese · LocalStorage attivo</p>
         </footer>
 
     </div>
 
+    <!-- SERVICE WORKER -->
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("service-worker.js");
+        }
+    </script>
+
+    <!-- JS PRINCIPALE -->
     <script src="app.js"></script>
 </body>
 </html>
