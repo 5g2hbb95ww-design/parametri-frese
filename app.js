@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
 
         const dati = {
-            denominazionefresa: denominazionionefresaEl.value,
+            denominazionefresa: denominazionefresaEl.value,
             diametro: diametroEl.value,
             ntaglientiinserti: ntaglientiinsertiEl.value,
             s: sEl.value,
@@ -266,9 +266,9 @@ document.addEventListener('DOMContentLoaded', function() {
         modZapEl.value = item.zap;
 
         // XY-Ae compatibile con vecchie e nuove frese
-        const [valore, unita] = item.xyae.split(" ");
-        modXYAeValEl.value = valore || "";
-        modXYAeUnitEl.value = unita || "mm";
+        const parts = item.xyae.split(" ");
+        modXYAeValEl.value = parts[0] || "";
+        modXYAeUnitEl.value = parts[1] || "mm";
 
         modMaterialeEl.value = item.materiale;
         modRefrigeranteEl.value = item.refrigerante;
