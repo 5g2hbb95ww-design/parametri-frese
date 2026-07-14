@@ -240,3 +240,20 @@ button:hover{
 .xy-ae-cell select {
   width: 70px;
 }
+.xy-ae-cell {
+  position: relative;
+  width: 100%;
+}
+
+.xy-ae-cell textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+.xy-ae-select {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  padding: 3px;
+  font-size: 12px;
+}
