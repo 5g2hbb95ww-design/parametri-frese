@@ -225,3 +225,18 @@ button:hover{
 @media (max-width:400px){
     .row{flex-direction:column;}
 }
+
+.xy-ae-cell {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  width: 100%;
+}
+
+.xy-ae-cell input {
+  flex: 1;
+}
+
+.xy-ae-cell select {
+  width: 70px;
+}
