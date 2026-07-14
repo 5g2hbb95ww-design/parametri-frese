@@ -111,7 +111,7 @@ textarea#mod-dettagli{
     flex:1;
 }
 
-/* ===== CELLE Z-AP & XY-AE IDENTICHE ===== */
+/* === CELLE Z-AP & XY-AE IDENTICHE === */
 
 /* Z-AP */
 #zap,
@@ -125,7 +125,7 @@ textarea#mod-dettagli{
 
 /* XY-AE wrapper */
 .xy-ae-wrapper{
-    flex:1;
+    flex:1; /* ← QUESTA È LA RIGA CHE MANCA NEL TUO FILE */
     height:50px;
     position:relative;
     display:flex;
@@ -136,7 +136,7 @@ textarea#mod-dettagli{
     width:100%;
     height:100%;
     resize:none;
-    padding-right:0; /* ← CORREZIONE IMPORTANTE */
+    padding-right:0; /* ← QUESTA È LA RIGA CHE DEVI CAMBIARE */
 }
 
 /* Select mm/% */
