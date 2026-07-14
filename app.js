@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const zapEl = document.getElementById("zap");
 
     // XY-Ae nuovo (valore + unità)
-    const xyaeValEl = document.getElementById("xyae_val");
+    const xyaeEl = document.getElementById("xyae");
     const xyaeUnitEl = document.getElementById("xyae_unit");
 
     const materialeEl = document.getElementById("materiale");
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
             av_ad: avAdEl.value,
             f_calc: fCalcEl.value,
             zap: zapEl.value,
-            xyae: xyaeEl.value,
+            xyae: xyaeEl.value + " " + xyaeUnitEl.value,
             materiale: materialeEl.value,
             refrigerante: refrigeranteEl.value,
             codicefresa: codicefresaEl.value,
