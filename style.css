@@ -136,7 +136,7 @@ textarea#mod-dettagli{
     width:100%;
     height:100%;
     resize:none;
-    padding-right:48px; /* spazio per il select */
+    padding-right:0; /* ← CORREZIONE IMPORTANTE */
 }
 
 /* Select mm/% */
