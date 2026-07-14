@@ -78,6 +78,20 @@ textarea{
     outline:none;
 }
 
+/* TEXTAREA basse */
+textarea{
+    height:50px;
+    min-height:50px;
+    max-height:50px;
+    resize:none;
+}
+
+/* Solo dettagli alto */
+textarea#dettagli,
+textarea#mod-dettagli{
+    height:120px !important;
+}
+
 .row{
     display:flex;
     gap:12px;
@@ -89,10 +103,9 @@ textarea{
     flex:1;
 }
 
-/* Celle identiche a S e F */
+/* Celle identiche */
 .cell{
     height:50px;
-    min-height:50px;
 }
 
 /* XY-Ae */
@@ -101,7 +114,7 @@ textarea{
     display:flex;
 }
 
-.xy-ae-wrapper input{
+.xy-ae-wrapper textarea{
     height:100%;
 }
 
@@ -117,6 +130,39 @@ textarea{
     z-index:10;
 }
 
+/* Archivio */
+.riga{
+    background:#374151;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:12px;
+    font-size:15px;
+    line-height:1.6;
+}
+
+.riga-actions{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+}
+
+.riga-actions button{
+    flex:1;
+    padding:12px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:600;
+}
+
+button.modifica{
+    background:#0A84FF !important;
+}
+
+button.elimina{
+    background:#FF3B30 !important;
+}
+
+/* Modal */
 .modal-overlay{
     display:none;
     position:fixed;
