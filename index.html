@@ -1,187 +1,108 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Parametri Frese</title>
+    <meta charset="UTF-8">
+    <title>Parametri Frese</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#111111">
-<link rel="stylesheet" href="style.css?v=7">
+    <!-- CSS principale -->
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <div class="app-shell">
+        <header class="app-header">
+            <h1>Parametri Frese</h1>
+            <p>Gestione parametri con salvataggio locale</p>
+        </header>
 
-<header>
-  <h1>⚙️ Parametri Frese</h1>
-  <nav class="menu-nav">
-    <button id="btn-nuovo" class="nav-btn active">➕ Nuovo</button>
-    <button id="btn-archivio" class="nav-btn">📚 Archivio</button>
-  </nav>
-</header>
+        <main class="app-layout">
+            <!-- Sezione XY-Ae -->
+            <section class="app-section">
+                <div class="section-header">
+                    <h2>XY-Ae</h2>
+                    <p>Parametri asse XY</p>
+                </div>
 
-<main>
+                <!-- RIGA 1 -->
+                <div class="app-row">
+                    <div class="app-card">
+                        <label class="field-label">Campo SX 1</label>
+                        <!-- INSERISCI QUI IL TUO INPUT / TEXTAREA SX -->
+                        <input type="text" class="field-input" placeholder="Valore SX 1">
+                    </div>
+                    <div class="app-card">
+                        <label class="field-label">Campo DX 1</label>
+                        <!-- INSERISCI QUI IL TUO INPUT / TEXTAREA DX -->
+                        <input type="text" class="field-input" placeholder="Valore DX 1">
+                    </div>
+                </div>
 
-<!-- ================= PAGINA NUOVO ================= -->
-<section id="pagina-nuovo" class="page active">
-  <section class="card">
-    <h2>Nuovo Inserimento</h2>
+                <!-- RIGA 2 -->
+                <div class="app-row">
+                    <div class="app-card">
+                        <label class="field-label">Campo SX 2</label>
+                        <input type="text" class="field-input" placeholder="Valore SX 2">
+                    </div>
+                    <div class="app-card">
+                        <label class="field-label">Campo DX 2</label>
+                        <input type="text" class="field-input" placeholder="Valore DX 2">
+                    </div>
+                </div>
 
-    <textarea id="denominazione_fresa" placeholder="Denominazione Fresa"></textarea>
+                <!-- QUI PUOI AGGIUNGERE ALTRE RIGHE XY-Ae CON LO STESSO SCHEMA -->
 
-    <div class="row">
-      <input id="diametro" type="number" step="0.01" placeholder="Diametro">
-      <input id="ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
+                <div class="section-footer">
+                    <button class="btn-primary">Salva XY-Ae</button>
+                </div>
+            </section>
+
+            <!-- Sezione Z-Ap -->
+            <section class="app-section">
+                <div class="section-header">
+                    <h2>Z-Ap</h2>
+                    <p>Parametri asse Z</p>
+                </div>
+
+                <!-- RIGA 1 -->
+                <div class="app-row">
+                    <div class="app-card">
+                        <label class="field-label">Campo SX 1</label>
+                        <!-- INSERISCI QUI IL TUO INPUT / TEXTAREA SX -->
+                        <input type="text" class="field-input" placeholder="Valore SX 1">
+                    </div>
+                    <div class="app-card">
+                        <label class="field-label">Campo DX 1</label>
+                        <!-- INSERISCI QUI IL TUO INPUT / TEXTAREA DX -->
+                        <input type="text" class="field-input" placeholder="Valore DX 1">
+                    </div>
+                </div>
+
+                <!-- RIGA 2 -->
+                <div class="app-row">
+                    <div class="app-card">
+                        <label class="field-label">Campo SX 2</label>
+                        <input type="text" class="field-input" placeholder="Valore SX 2">
+                    </div>
+                    <div class="app-card">
+                        <label class="field-label">Campo DX 2</label>
+                        <input type="text" class="field-input" placeholder="Valore DX 2">
+                    </div>
+                </div>
+
+                <!-- QUI PUOI AGGIUNGERE ALTRE RIGHE Z-Ap CON LO STESSO SCHEMA -->
+
+                <div class="section-footer">
+                    <button class="btn-primary">Salva Z-Ap</button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <p>Archivio parametri frese · LocalStorage attivo</p>
+        </footer>
     </div>
 
-    <div class="row">
-      <input id="s" type="number" step="0.01" placeholder="S">
-      <input id="f" type="number" step="0.01" placeholder="F">
-    </div>
-
-    <div class="row">
-      <input id="mmin" type="number" step="0.01" placeholder="M/Minuto">
-      <input id="s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
-    </div>
-
-    <div class="row">
-      <input id="av_ad" type="number" step="0.01" placeholder="Avanzamento Ad">
-      <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
-    </div>
-
-    <!-- Z-Ap + XY-Ae -->
-    <div class="row">
-      <textarea id="zap" placeholder="Z-Ap" class="cell"></textarea>
-
-      <div class="xy-ae-wrapper cell">
-        <textarea id="xyae" placeholder="XY-Ae"></textarea>
-        <select id="xyae_unit" class="xy-ae-select">
-          <option value="mm">mm</option>
-          <option value="%">%</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="row">
-      <select id="materiale">
-        <option>Acciaio</option>
-        <option>Temprato</option>
-        <option>Inox</option>
-        <option>Ghisa</option>
-        <option>Alluminio</option>
-        <option>Titanio</option>
-        <option>Ottone</option>
-        <option>Rame</option>
-        <option>Plastica</option>
-        <option>Altro</option>
-      </select>
-
-      <select id="refrigerante">
-        <option>Acqua</option>
-        <option>Aria</option>
-        <option>Niente</option>
-        <option>Acqua int.</option>
-        <option>Aria int.</option>
-      </select>
-    </div>
-
-    <textarea id="codice_fresa" placeholder="Codice fresa"></textarea>
-    <textarea id="codice_inserto" placeholder="Codice inserto"></textarea>
-    <textarea id="dettagli" placeholder="Dettagli"></textarea>
-
-    <button id="salva">💾 Salva</button>
-  </section>
-</section>
-
-<!-- ================= PAGINA ARCHIVIO ================= -->
-<section id="pagina-archivio" class="page">
-  <section class="card">
-    <h2>📚 Archivio Frese</h2>
-    <input id="ricerca" placeholder="Cerca...">
-    <div id="lista"></div>
-  </section>
-</section>
-
-</main>
-
-<!-- ================= MODAL ================= -->
-<div id="modal-overlay" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>✏️ Modifica Fresa</h2>
-      <button class="modal-close" id="modal-close-btn">&times;</button>
-    </div>
-
-    <textarea id="mod-denominazione_fresa" placeholder="Denominazione Fresa"></textarea>
-
-    <div class="row">
-      <input id="mod-diametro" type="number" step="0.01" placeholder="Diametro">
-      <input id="mod-ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
-    </div>
-
-    <div class="row">
-      <input id="mod-s" type="number" step="0.01" placeholder="S">
-      <input id="mod-f" type="number" step="0.01" placeholder="F">
-    </div>
-
-    <div class="row">
-      <input id="mod-mmin" type="number" step="0.01" placeholder="M/Minuto">
-      <input id="mod-s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
-    </div>
-
-    <div class="row">
-      <input id="mod-av_ad" type="number" step="0.01" placeholder="Avanzamento Ad">
-      <input id="mod-f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
-    </div>
-
-    <!-- MODAL Z-Ap + XY-Ae -->
-    <div class="row">
-      <textarea id="mod-zap" placeholder="Z-Ap" class="cell"></textarea>
-
-      <div class="xy-ae-wrapper cell">
-        <textarea id="mod-xyae_val" placeholder="XY-Ae"></textarea>
-        <select id="mod-xyae_unit" class="xy-ae-select">
-          <option value="mm">mm</option>
-          <option value="%">%</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="row">
-      <select id="mod-materiale">
-        <option>Acciaio</option>
-        <option>Temprato</option>
-        <option>Inox</option>
-        <option>Ghisa</option>
-        <option>Alluminio</option>
-        <option>Titanio</option>
-        <option>Ottone</option>
-        <option>Rame</option>
-        <option>Plastica</option>
-        <option>Altro</option>
-      </select>
-
-      <select id="mod-refrigerante">
-        <option>Acqua</option>
-        <option>Aria</option>
-        <option>Niente</option>
-        <option>Acqua int.</option>
-        <option>Aria int.</option>
-      </select>
-    </div>
-
-    <textarea id="mod-codice_fresa" placeholder="Codice fresa"></textarea>
-    <textarea id="mod-codice_inserto" placeholder="Codice inserto"></textarea>
-    <textarea id="mod-dettagli" placeholder="Dettagli"></textarea>
-
-    <div class="modal-actions">
-      <button class="btn-annulla" id="modal-annulla">❌ Annulla</button>
-      <button class="btn-salva-modifica" id="modal-salva">✅ Salva</button>
-    </div>
-  </div>
-</div>
-
-<script src="app.js"></script>
-
+    <!-- Il tuo JS esistente rimane invariato -->
+    <script src="app.js"></script>
 </body>
 </html>
