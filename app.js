@@ -265,9 +265,15 @@ document.addEventListener('DOMContentLoaded', function() {
         modFCalcEl.value = item.f_calc;
 
         modZapEl.value = item.zap;
-        modXYaeEl.value = item.xyae;
+
+// XY-Ae con valore + unità
+const [valore, unita] = item.xyae.split(" ");
+modXYAeValEl.value = valore || "";
+modXYAeUnitEl.value = unita || "mm";
+
         modMaterialeEl.value = item.materiale;
         modRefrigeranteEl.value = item.refrigerante;
+
 
         modCodiceFresaEl.value = item.codicefresa;
         modCodiceInsertoEl.value = item.codiceinserto;
