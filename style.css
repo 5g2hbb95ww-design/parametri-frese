@@ -1,4 +1,4 @@
-/* === Reset base === */
+/* ===================== RESET ===================== */
 *,
 *::before,
 *::after {
@@ -7,164 +7,134 @@
     padding: 0;
 }
 
-html, body {
-    height: 100%;
-}
-
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
     background: #f2f3f7;
     color: #111827;
 }
 
-/* === Shell principale === */
+/* ===================== SHELL ===================== */
 .app-shell {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-/* === Header === */
+/* ===================== HEADER ===================== */
 .app-header {
-    padding: 16px 20px;
+    padding: 20px;
     text-align: center;
 }
 
 .app-header h1 {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     font-weight: 700;
-    color: #111827;
-    margin-bottom: 4px;
 }
 
 .app-header p {
-    font-size: 0.9rem;
     color: #6b7280;
+    font-size: 0.9rem;
 }
 
-/* === Layout principale === */
+/* ===================== LAYOUT ===================== */
 .app-layout {
     max-width: 1200px;
-    width: 100%;
     margin: 0 auto;
-    padding: 12px 16px 24px;
+    padding: 16px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 18px;
 }
 
-/* === Sezioni (XY-Ae, Z-Ap) === */
+/* ===================== SEZIONI ===================== */
 .app-section {
     background: #ffffff;
     border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
-    padding: 14px 14px 16px;
-    display: flex;
-    flex-direction: column;
+    padding: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.10);
 }
 
 .section-header {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .section-header h2 {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    color: #111827;
-    margin-bottom: 2px;
 }
 
 .section-header p {
-    font-size: 0.85rem;
     color: #6b7280;
+    font-size: 0.85rem;
 }
 
-/* === Righe interne === */
+/* ===================== RIGHE ===================== */
 .app-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 8px;
+    gap: 10px;
+    margin-bottom: 10px;
 }
 
-/* === Card === */
+/* ===================== CARD ===================== */
 .app-card {
     background: #f7f8fa;
     border-radius: 14px;
-    padding: 10px 12px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
 }
 
-/* === Label e input === */
+/* ===================== CAMPI ===================== */
 .field-label {
     font-size: 0.8rem;
-    font-weight: 500;
     color: #4b5563;
 }
 
-.field-input,
-textarea.field-input {
+.field-input {
     width: 100%;
+    padding: 8px 10px;
     border-radius: 10px;
     border: 1px solid #d1d5db;
-    padding: 6px 8px;
     font-size: 0.85rem;
-    color: #111827;
     background: #ffffff;
-    outline: none;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    transition: 0.15s;
 }
 
-.field-input:focus,
-textarea.field-input:focus {
+.field-input:focus {
     border-color: #2563eb;
-    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.35);
-    background: #f9fafb;
+    box-shadow: 0 0 0 1px rgba(37,99,235,0.35);
 }
 
-/* === Footer sezione === */
-.section-footer {
-    margin-top: 10px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-/* === Pulsanti === */
+/* ===================== BOTTONI ===================== */
 .btn-primary {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff;
     border: none;
     border-radius: 999px;
-    padding: 8px 16px;
+    padding: 10px 18px;
     font-size: 0.85rem;
     font-weight: 600;
-    color: #ffffff;
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
     cursor: pointer;
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
-    transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.1s ease;
-}
-
-.btn-primary:hover {
-    box-shadow: 0 10px 26px rgba(37, 99, 235, 0.45);
+    box-shadow: 0 8px 20px rgba(37,99,235,0.35);
+    transition: 0.1s;
 }
 
 .btn-primary:active {
     transform: scale(0.97);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
-    opacity: 0.9;
 }
 
-/* === Footer app === */
+/* ===================== FOOTER ===================== */
 .app-footer {
     margin-top: auto;
-    padding: 10px 16px 14px;
+    padding: 14px;
     text-align: center;
-    font-size: 0.8rem;
     color: #9ca3af;
+    font-size: 0.8rem;
 }
 
-/* === Responsivo (mobile) === */
+/* ===================== MOBILE ===================== */
 @media (max-width: 900px) {
     .app-layout {
         grid-template-columns: 1fr;
@@ -172,21 +142,11 @@ textarea.field-input:focus {
 }
 
 @media (max-width: 640px) {
-    .app-layout {
-        padding: 8px 10px 16px;
-        gap: 12px;
-    }
-
     .app-section {
-        border-radius: 16px;
-        padding: 12px 12px 14px;
+        padding: 14px;
     }
 
     .app-row {
         grid-template-columns: 1fr;
-    }
-
-    .app-header h1 {
-        font-size: 1.4rem;
     }
 }
