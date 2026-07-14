@@ -266,8 +266,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         modZapEl.value = item.zap;
 
-// XY-Ae con valore + unità
-const [valore, unita] = item.xyae.split(" ");
+        // XY-Ae con valore + unità
+        const [valore, unita] = item.xyae.split(" ");
         modXYAeValEl.value = valore || "";
         modXYAeUnitEl.value = unita || "mm";
 
@@ -306,7 +306,6 @@ const [valore, unita] = item.xyae.split(" ");
         item.f_calc = modFCalcEl.value;
 
         item.zap = modZapEl.value;
-        
         item.xyae = modXYAeValEl.value + " " + modXYAeUnitEl.value;
 
         item.materiale = modMaterialeEl.value;
