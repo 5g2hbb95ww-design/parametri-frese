@@ -226,34 +226,34 @@ button:hover{
     .row{flex-direction:column;}
 }
 
-.xy-ae-cell {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  width: 100%;
+/* === XY-Ae + Z-Ap FIX === */
+
+/* Wrapper delle due celle */
+.row textarea,
+.row .xy-ae-wrapper {
+    flex: 1;
 }
 
-.xy-ae-cell input {
-  flex: 1;
+/* Wrapper XY-Ae */
+.xy-ae-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
-.xy-ae-cell select {
-  width: 70px;
-}
-.xy-ae-cell {
-  position: relative;
-  width: 100%;
+/* Textarea XY-Ae */
+.xy-ae-wrapper textarea {
+    width: 100%;
+    resize: vertical;
 }
 
-.xy-ae-cell textarea {
-  width: 100%;
-  resize: vertical;
-}
-
+/* Select mm/% dentro XY-Ae */
 .xy-ae-select {
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  padding: 3px;
-  font-size: 12px;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 6px;
+    font-size: 12px;
+    background: #4b5563;
+    border-radius: 6px;
 }
