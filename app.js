@@ -19,7 +19,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const fCalcEl = document.getElementById("f_calc");
 
     const zapEl = document.getElementById("zap");
+
+    // XY-Ae nuovo (valore + unità)
+    const xyaeValEl = document.getElementById("xyae_val");
+    const xyaeUnitEl = document.getElementById("xyae_unit");
+
     const materialeEl = document.getElementById("materiale");
+
     const refrigeranteEl = document.getElementById("refrigerante");
     const codicefresaEl = document.getElementById("codice_fresa");
     const codiceinsertoEl = document.getElementById("codice_inserto");
@@ -55,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const modFCalcEl = document.getElementById("mod-f_calc");
 
     const modZapEl = document.getElementById("mod-zap");
-    const modXYAeEl = document.getElementById("mod-xy-ae");
+    const modXYAeEl = document.getElementById("mod-xyae");
     const modMaterialeEl = document.getElementById("mod-materiale");
     const modRefrigeranteEl = document.getElementById("mod-refrigerante");
 
@@ -161,7 +167,8 @@ document.addEventListener('DOMContentLoaded', function() {
         avAdEl.value = "";
         fCalcEl.value = "";
         zapEl.value = "";
-        xyaeEl.value = "";
+        xyaeValEl.value = "";
+        xyaeUnitEl.value = "mm";
         materialeEl.value = "Acciaio";
         refrigeranteEl.value = "Acqua";
         codicefresaEl.value = "";
