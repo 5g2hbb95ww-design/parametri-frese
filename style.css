@@ -1,3 +1,4 @@
+/* ===== RESET ===== */
 *{
     margin:0;
     padding:0;
@@ -11,6 +12,7 @@ body{
     padding:20px;
 }
 
+/* ===== HEADER ===== */
 header{
     text-align:center;
     margin-bottom:25px;
@@ -27,7 +29,7 @@ h2{
     font-size:22px;
 }
 
-/* ===== NAVIGAZIONE ===== */
+/* ===== NAV ===== */
 .menu-nav{
     display:flex;
     gap:10px;
@@ -51,7 +53,7 @@ h2{
     background:#0A84FF;
 }
 
-/* ===== PAGINE ===== */
+/* ===== PAGE ===== */
 .page{
     display:none;
 }
@@ -68,7 +70,7 @@ h2{
     margin-bottom:20px;
 }
 
-/* ===== CAMPI BASE ===== */
+/* ===== CAMPI ===== */
 input,
 select,
 textarea{
@@ -83,7 +85,7 @@ textarea{
     outline:none;
 }
 
-/* TEXTAREA basse di default */
+/* TEXTAREA basse */
 textarea{
     height:50px;
     min-height:50px;
@@ -97,7 +99,7 @@ textarea#mod-dettagli{
     height:120px !important;
 }
 
-/* ROW (2 elementi affiancati) */
+/* ===== ROW ===== */
 .row{
     display:flex;
     gap:12px;
@@ -109,19 +111,26 @@ textarea#mod-dettagli{
     flex:1;
 }
 
-/* Celle uniformi (Z-Ap, XY-Ae) */
-.cell{
+/* ===== CELLE Z-AP & XY-AE ===== */
+#zap,
+#mod-zap{
     height:50px;
+    min-height:50px;
+    max-height:50px;
+    resize:none;
 }
 
-/* ===== XY-Ae ===== */
 .xy-ae-wrapper{
+    flex:1;
+    height:50px;
     position:relative;
     display:flex;
 }
 
 .xy-ae-wrapper textarea{
+    width:100%;
     height:100%;
+    resize:none;
 }
 
 .xy-ae-select{
@@ -132,6 +141,7 @@ textarea#mod-dettagli{
     font-size:12px;
     background:#4b5563;
     border-radius:6px;
+    color:white;
     width:auto;
     z-index:10;
 }
@@ -150,14 +160,13 @@ textarea#mod-dettagli{
     line-height:1.6;
 }
 
-/* Azioni riga */
+/* ===== BOTTONI AZIONI ===== */
 .riga-actions{
     display:flex;
     gap:12px;
     margin-top:12px;
 }
 
-/* Bottoni azioni + salva + annulla uniformi */
 .riga-actions button,
 button.btn-salva-modifica,
 button.btn-annulla,
@@ -174,41 +183,30 @@ button.btn-annulla,
     justify-content:center;
     gap:8px;
     cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    transition:transform 0.1s ease, opacity 0.15s ease;
 }
 
 /* SALVA – verde */
 #salva,
 button.btn-salva-modifica{
     background:#34C759 !important;
-    color:white !important;
 }
 
 /* MODIFICA – blu */
 button.modifica{
     background:#0A84FF !important;
-    color:white !important;
 }
 
 /* ELIMINA – rosso scuro */
 button.elimina{
     background:#B00020 !important;
-    color:white !important;
 }
 
 /* ANNULLA – grigio scuro */
 button.btn-annulla{
     background:#3A3A3C !important;
-    color:white !important;
-}
-
-/* Effetti iOS: hover, pressione, ripple */
-.riga-actions button,
-#salva,
-button.btn-salva-modifica,
-button.btn-annulla{
-    position:relative;
-    overflow:hidden;
-    transition:transform 0.1s ease, opacity 0.15s ease;
 }
 
 /* Hover stile iOS */
