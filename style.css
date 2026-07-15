@@ -1,3 +1,73 @@
+:root {
+    /* Tema scuro (default) */
+    --colore-sfondo: #111827;
+    --colore-testo: #ffffff;
+
+    --nav-bg: #374151;
+    --nav-active: #0A84FF;
+
+    --card-bg: #1f2937;
+    --card-radius: 18px;
+    --card-shadow: none;
+
+    --campo-bg: #374151;
+    --campo-radius: 12px;
+    --campo-shadow: none;
+    --campo-padding: 14px;
+    --campo-font: 16px;
+
+    --cella-bg: #374151;
+    --cella-radius: 12px;
+    --cella-shadow: none;
+
+    --riga-bg: #374151;
+    --riga-radius: 12px;
+    --riga-shadow: none;
+
+    --btn-radius: 12px;
+    --btn-font: 16px;
+
+    --btn-salva: #34C759;
+    --btn-modifica: #0A84FF;
+    --btn-elimina: #B00020;
+    --btn-annulla: #3A3A3C;
+
+    --modal-bg: #1f2937;
+    --modal-radius: 24px;
+
+    --edit-outline: #0A84FF;
+    --edit-handle-bg: #0A84FF;
+    --edit-handle-size: 14px;
+    --edit-move-bg: #0A84FF;
+}
+
+/* Tema chiaro */
+:root[data-theme="light"] {
+    --colore-sfondo: #f3f4f6;
+    --colore-testo: #111827;
+
+    --nav-bg: #e5e7eb;
+    --nav-active: #2563eb;
+
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+    --campo-bg: #e5e7eb;
+    --cella-bg: #e5e7eb;
+    --riga-bg: #e5e7eb;
+
+    --btn-salva: #16a34a;
+    --btn-modifica: #2563eb;
+    --btn-elimina: #dc2626;
+    --btn-annulla: #6b7280;
+
+    --modal-bg: #ffffff;
+
+    --edit-outline: #2563eb;
+    --edit-handle-bg: #2563eb;
+    --edit-move-bg: #2563eb;
+}
+
 /* ===== RESET ===== */
 *{
     margin:0;
@@ -7,8 +77,8 @@
 }
 
 body{
-    background:#111827;
-    color:#fff;
+    background:var(--colore-sfondo);
+    color:var(--colore-testo);
     padding:20px;
 }
 
@@ -41,7 +111,7 @@ h2{
     padding:12px 24px;
     border:none;
     border-radius:14px;
-    background:#374151;
+    background:var(--nav-bg);
     color:white;
     font-size:16px;
     font-weight:600;
@@ -50,7 +120,7 @@ h2{
 }
 
 .nav-btn.active{
-    background:#0A84FF;
+    background:var(--nav-active);
 }
 
 /* ===== PAGE ===== */
@@ -64,10 +134,11 @@ h2{
 
 /* ===== CARD ===== */
 .card{
-    background:#1f2937;
-    border-radius:18px;
-    padding:20px;
+    background:var(--card-bg);
+    border-radius:var(--card-radius);
+    padding:18px;
     margin-bottom:20px;
+    box-shadow:var(--card-shadow);
 }
 
 /* ===== CAMPI ===== */
@@ -75,14 +146,15 @@ input,
 select,
 textarea{
     width:100%;
-    padding:14px;
+    padding:var(--campo-padding);
     margin-bottom:12px;
     border:none;
-    border-radius:12px;
-    background:#374151;
-    color:white;
-    font-size:16px;
+    border-radius:var(--campo-radius);
+    background:var(--campo-bg);
+    color:var(--colore-testo);
+    font-size:var(--campo-font);
     outline:none;
+    box-shadow:var(--campo-shadow);
 }
 
 /* TEXTAREA basse */
@@ -102,7 +174,7 @@ textarea#mod-dettagli{
 /* ===== ROW ===== */
 .row{
     display:flex;
-    gap:18px;
+    gap:12px;
 }
 
 .row input,
@@ -121,11 +193,14 @@ textarea#mod-dettagli{
     max-height:50px;
     resize:none;
     flex:1;
+    background:var(--cella-bg);
+    border-radius:var(--cella-radius);
+    box-shadow:var(--cella-shadow);
 }
 
 /* XY-AE wrapper */
 .xy-ae-wrapper{
-    flex:1; /* ← QUESTA È LA RIGA CHE MANCA NEL TUO FILE */
+    flex:1;
     height:50px;
     position:relative;
     display:flex;
@@ -136,7 +211,10 @@ textarea#mod-dettagli{
     width:100%;
     height:100%;
     resize:none;
-    padding-right:0; /* ← QUESTA È LA RIGA CHE DEVI CAMBIARE */
+    padding-right:0;
+    background:var(--cella-bg);
+    border-radius:var(--cella-radius);
+    box-shadow:var(--cella-shadow);
 }
 
 /* Select mm/% */
@@ -144,7 +222,7 @@ textarea#mod-dettagli{
     position:absolute;
     top:6px;
     right:6px;
-    padding:12px 12px;
+    padding:4px 6px;
     font-size:12px;
     background:#4b5563;
     border-radius:6px;
@@ -159,12 +237,13 @@ textarea#mod-dettagli{
 }
 
 .riga{
-    background:#374151;
-    border-radius:12px;
+    background:var(--riga-bg);
+    border-radius:var(--riga-radius);
     padding:15px;
     margin-bottom:12px;
     font-size:15px;
     line-height:1.6;
+    box-shadow:var(--riga-shadow);
 }
 
 /* ===== BOTTONI AZIONI ===== */
@@ -181,8 +260,8 @@ button.btn-annulla,
     flex:1;
     padding:14px;
     border:none;
-    border-radius:12px;
-    font-size:16px;
+    border-radius:var(--btn-radius);
+    font-size:var(--btn-font);
     font-weight:600;
     color:white;
     display:flex;
@@ -198,22 +277,22 @@ button.btn-annulla,
 /* SALVA – verde */
 #salva,
 button.btn-salva-modifica{
-    background:#34C759 !important;
+    background:var(--btn-salva) !important;
 }
 
 /* MODIFICA – blu */
 button.modifica{
-    background:#0A84FF !important;
+    background:var(--btn-modifica) !important;
 }
 
 /* ELIMINA – rosso scuro */
 button.elimina{
-    background:#B00020 !important;
+    background:var(--btn-elimina) !important;
 }
 
 /* ANNULLA – grigio scuro */
 button.btn-annulla{
-    background:#3A3A3C !important;
+    background:var(--btn-annulla) !important;
 }
 
 /* Hover stile iOS */
@@ -276,8 +355,8 @@ button.btn-annulla:active::after{
 }
 
 .modal-content{
-    background:#1f2937;
-    border-radius:24px 24px 0 0;
+    background:var(--modal-bg);
+    border-radius:var(--modal-radius) var(--modal-radius) 0 0;
     padding:24px;
     width:100%;
     max-height:90vh;
@@ -294,7 +373,7 @@ button.btn-annulla:active::after{
 .modal-close{
     background:none;
     border:none;
-    color:#fff;
+    color:var(--colore-testo);
     font-size:28px;
     cursor:pointer;
 }
@@ -316,4 +395,40 @@ button.btn-annulla:active::after{
 
 @media (max-width:400px){
     .row{flex-direction:column;}
+}
+
+/* ===== MODALITÀ MODIFICA CELLE ===== */
+.cell-editing{
+    outline:3px solid var(--edit-outline);
+    position:relative !important;
+    z-index:999;
+}
+
+.resize-handle{
+    position:absolute;
+    width:var(--edit-handle-size);
+    height:var(--edit-handle-size);
+    background:var(--edit-handle-bg);
+    border-radius:50%;
+    z-index:1000;
+    cursor:pointer;
+}
+
+.resize-handle.right{ right:-7px; top:50%; transform:translateY(-50%); }
+.resize-handle.left{ left:-7px; top:50%; transform:translateY(-50%); }
+.resize-handle.bottom{ bottom:-7px; left:50%; transform:translateX(-50%); }
+.resize-handle.top{ top:-7px; left:50%; transform:translateX(-50%); }
+
+.move-handle{
+    position:absolute;
+    top:-26px;
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--edit-move-bg);
+    color:white;
+    padding:4px 10px;
+    border-radius:10px;
+    font-size:12px;
+    cursor:grab;
+    z-index:1000;
 }
