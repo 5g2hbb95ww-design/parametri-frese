@@ -434,3 +434,33 @@ button.btn-annulla:active::after{
     cursor:grab;
     z-index:1000;
 }
+.cell-editing {
+    outline: 2px solid var(--edit-outline, #007aff);
+}
+
+.cell-moving {
+    outline: 2px solid #ff9500;
+}
+
+.resize-handle {
+    position: absolute;
+    background: var(--edit-handle-bg, #007aff);
+    width: var(--edit-handle-size, 10px);
+    height: var(--edit-handle-size, 10px);
+}
+
+.resize-handle.right { right: 0; top: 50%; transform: translateY(-50%); }
+.resize-handle.left { left: 0; top: 50%; transform: translateY(-50%); }
+.resize-handle.top { top: 0; left: 50%; transform: translateX(-50%); }
+.resize-handle.bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
+
+.move-handle {
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+    background: var(--edit-move-bg, #ff9500);
+    padding: 2px 6px;
+    font-size: 10px;
+    border-radius: 4px;
+    cursor: move;
+}
