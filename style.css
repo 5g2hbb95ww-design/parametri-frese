@@ -7,7 +7,7 @@
 }
 
 body{
-    background:#111827;
+    background:#0f172a; /* blu notte più moderno */
     color:#fff;
     padding:20px;
 }
@@ -22,11 +22,13 @@ h1{
     font-size:32px;
     font-weight:700;
     margin-bottom:20px;
+    color:#e2e8f0;
 }
 
 h2{
     margin-bottom:15px;
     font-size:22px;
+    color:#cbd5e1;
 }
 
 /* ===== NAV ===== */
@@ -40,17 +42,23 @@ h2{
 .nav-btn{
     padding:12px 24px;
     border:none;
-    border-radius:14px;
-    background:#374151;
+    border-radius:16px; /* più arrotondato */
+    background:#334155;
     color:white;
     font-size:16px;
     font-weight:600;
     cursor:pointer;
-    transition:all 0.2s ease;
+    transition:all 0.25s ease;
+    box-shadow:0 2px 4px rgba(0,0,0,0.25);
+}
+
+.nav-btn:hover{
+    background:#475569;
 }
 
 .nav-btn.active{
     background:#0A84FF;
+    box-shadow:0 0 10px rgba(10,132,255,0.45);
 }
 
 /* ===== PAGE ===== */
@@ -64,10 +72,11 @@ h2{
 
 /* ===== CARD ===== */
 .card{
-    background:#1f2937;
-    border-radius:18px;
+    background:#1e293b;
+    border-radius:20px;
     padding:18px;
     margin-bottom:20px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.25);
 }
 
 /* ===== CAMPI ===== */
@@ -78,11 +87,24 @@ textarea{
     padding:14px;
     margin-bottom:12px;
     border:none;
-    border-radius:12px;
-    background:#374151;
+    border-radius:14px; /* più arrotondato */
+    background:#334155;
     color:white;
     font-size:16px;
     outline:none;
+    transition:background 0.25s ease, box-shadow 0.25s ease;
+}
+
+input:hover,
+select:hover,
+textarea:hover{
+    background:#3b4a5a;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    box-shadow:0 0 0 2px #0A84FF;
 }
 
 /* TEXTAREA basse */
@@ -125,7 +147,7 @@ textarea#mod-dettagli{
 
 /* XY-AE wrapper */
 .xy-ae-wrapper{
-    flex:1; /* ← QUESTA È LA RIGA CHE MANCA NEL TUO FILE */
+    flex:1;
     height:50px;
     position:relative;
     display:flex;
@@ -136,7 +158,8 @@ textarea#mod-dettagli{
     width:100%;
     height:100%;
     resize:none;
-    padding-right:0; /* ← QUESTA È LA RIGA CHE DEVI CAMBIARE */
+    padding-right:0;
+    border-radius:14px;
 }
 
 /* Select mm/% */
@@ -146,11 +169,12 @@ textarea#mod-dettagli{
     right:6px;
     padding:4px 6px;
     font-size:12px;
-    background:#4b5563;
-    border-radius:6px;
+    background:#475569;
+    border-radius:8px;
     color:white;
     width:auto;
     z-index:10;
+    box-shadow:0 2px 4px rgba(0,0,0,0.25);
 }
 
 /* ===== ARCHIVIO ===== */
@@ -159,12 +183,13 @@ textarea#mod-dettagli{
 }
 
 .riga{
-    background:#374151;
-    border-radius:12px;
+    background:#334155;
+    border-radius:14px;
     padding:15px;
     margin-bottom:12px;
     font-size:15px;
     line-height:1.6;
+    box-shadow:0 3px 8px rgba(0,0,0,0.25);
 }
 
 /* ===== BOTTONI AZIONI ===== */
@@ -181,7 +206,7 @@ button.btn-annulla,
     flex:1;
     padding:14px;
     border:none;
-    border-radius:12px;
+    border-radius:14px;
     font-size:16px;
     font-weight:600;
     color:white;
@@ -192,7 +217,8 @@ button.btn-annulla,
     cursor:pointer;
     position:relative;
     overflow:hidden;
-    transition:transform 0.1s ease, opacity 0.15s ease;
+    transition:transform 0.1s ease, opacity 0.15s ease, box-shadow 0.25s ease;
+    box-shadow:0 3px 8px rgba(0,0,0,0.25);
 }
 
 /* SALVA – verde */
@@ -222,6 +248,7 @@ button.btn-annulla{
 button.btn-salva-modifica:hover,
 button.btn-annulla:hover{
     opacity:0.85;
+    box-shadow:0 4px 12px rgba(0,0,0,0.35);
 }
 
 /* Pressione stile iPhone */
@@ -276,12 +303,13 @@ button.btn-annulla:active::after{
 }
 
 .modal-content{
-    background:#1f2937;
+    background:#1e293b;
     border-radius:24px 24px 0 0;
     padding:24px;
     width:100%;
     max-height:90vh;
     overflow-y:auto;
+    box-shadow:0 -4px 12px rgba(0,0,0,0.35);
 }
 
 .modal-header{
