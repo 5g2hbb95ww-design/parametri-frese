@@ -489,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-      // ================= CELLE EDITABILI =================
+    // ================= CELLE EDITABILI (LONG PRESS + DOUBLE TAP) =================
     const editableCells = [
         document.getElementById("zap"),
         document.getElementById("mod-zap"),
@@ -690,3 +690,4 @@ document.addEventListener('DOMContentLoaded', function() {
     window.resetLayout = resetLayout;
 
     renderArchivio();
+});
