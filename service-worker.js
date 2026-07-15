@@ -1,42 +1,40 @@
-const CACHE_NAME = "parametri-frese-v1";
-const ASSETS = [
-  "index.html",
-  "style.css",
-  "app.js",
-  "manifest.json",
-  "icons/icon-192.png",
-  "icons/icon-512.png"
+const CACHE_NAME = "parametri-frese-v4";
+const FILES_TO_CACHE = [
+  "/parametri-frese/",
+  "/parametri-frese/index.html",
+  "/parametri-frese/style.css",
+  "/parametri-frese/app.js",
+  "/parametri-frese/manifest.json",
+  "/parametri-frese/icons/icon-192.png",
+  "/parametri-frese/icons/icon-512.png",
+  "/parametri-frese/icons/screen-wide.png",
+  "/parametri-frese/icons/screen-mobile.png"
 ];
 
-// Install SW
-self.addEventListener("install", event => {
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(ASSETS);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE))
   );
+  self.skipWaiting();
 });
 
-// Attiva SW
-self.addEventListener("activate", event => {
+self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) return caches.delete(key);
-        })
-      )
+    caches.keys().then((keys) =>
+      Promise.all(keys.map((key) => key !== CACHE_NAME && caches.delete(key)))
     )
   );
+  self.clients.claim();
 });
 
-// Fetch offline
-self.addEventListener("fetch", event => {
+self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request).then(response => {
+    caches.match(event.request).then((cached) => {
       return (
-        response ||
-        fetch(event.request).catch(() => caches.match("index.html"))
+        cached ||
+        fetch(event.request).catch(() =>
+          caches.match("/parametri-frese/index.html")
+        )
       );
     })
   );
