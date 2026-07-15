@@ -163,6 +163,11 @@ h1 {
     border-radius: 50%;
 }
 
+main
+h2{
+    margin-bottom:20px;
+    font-size:32px;
+=======
 .resize-handle.right { right: -6px; top: 50%; transform: translateY(-50%); }
 .resize-handle.left { left: -6px; top: 50%; transform: translateY(-50%); }
 .resize-handle.top { top: -6px; left: 50%; transform: translateX(-50%); }
@@ -180,6 +185,7 @@ h1 {
     border-radius: 4px;
     cursor: move;
     color: white;
+  
 }
 
 /* AZIONI */
