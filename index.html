@@ -7,7 +7,7 @@
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#111111">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -17,6 +17,7 @@
   <nav class="menu-nav">
     <button id="btn-nuovo" class="nav-btn active">➕ Nuovo</button>
     <button id="btn-archivio" class="nav-btn">📚 Archivio</button>
+    <button id="btn-stile" class="nav-btn">🎨 Stile</button>
   </nav>
 </header>
 
@@ -49,7 +50,6 @@
       <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
     </div>
 
-    <!-- Z-Ap + XY-Ae -->
     <div class="row">
       <textarea id="zap" placeholder="Z-Ap" class="cell"></textarea>
 
@@ -99,6 +99,126 @@
     <h2>📚 Archivio Frese</h2>
     <input id="ricerca" placeholder="Cerca...">
     <div id="lista"></div>
+
+    <div class="riga-actions">
+      <button id="btn-export-csv">📤 Esporta CSV</button>
+      <input type="file" id="input-import-csv" accept=".csv" style="display:none;">
+      <button id="btn-import-csv">📥 Importa CSV</button>
+    </div>
+  </section>
+</section>
+
+<!-- ================= PAGINA STILE ================= -->
+<section id="pagina-stile" class="page">
+  <section class="card">
+    <h2>Impostazioni Stile</h2>
+
+    <label>Colore sfondo app
+      <input type="color" id="ctrl-colore-sfondo">
+    </label>
+
+    <label>Colore testo
+      <input type="color" id="ctrl-colore-testo">
+    </label>
+
+    <label>Colore celle
+      <input type="color" id="ctrl-cella-bg">
+    </label>
+
+    <label>Colore campi input
+      <input type="color" id="ctrl-campo-bg">
+    </label>
+
+    <label>Colore card
+      <input type="color" id="ctrl-card-bg">
+    </label>
+
+    <label>Colore righe archivio
+      <input type="color" id="ctrl-riga-bg">
+    </label>
+
+    <label>Colore nav
+      <input type="color" id="ctrl-nav-bg">
+    </label>
+
+    <label>Colore nav attivo
+      <input type="color" id="ctrl-nav-active">
+    </label>
+
+    <label>Colore bottone Salva
+      <input type="color" id="ctrl-btn-salva">
+    </label>
+
+    <label>Colore bottone Modifica
+      <input type="color" id="ctrl-btn-modifica">
+    </label>
+
+    <label>Colore bottone Elimina
+      <input type="color" id="ctrl-btn-elimina">
+    </label>
+
+    <label>Colore bottone Annulla
+      <input type="color" id="ctrl-btn-annulla">
+    </label>
+
+    <label>Radius celle
+      <input type="range" id="ctrl-cella-radius" min="0" max="40">
+    </label>
+
+    <label>Radius input
+      <input type="range" id="ctrl-campo-radius" min="0" max="40">
+    </label>
+
+    <label>Radius card
+      <input type="range" id="ctrl-card-radius" min="0" max="40">
+    </label>
+
+    <label>Radius bottoni
+      <input type="range" id="ctrl-btn-radius" min="0" max="40">
+    </label>
+
+    <label>Padding campi
+      <input type="range" id="ctrl-campo-padding" min="4" max="30">
+    </label>
+
+    <label>Font campi
+      <input type="range" id="ctrl-campo-font" min="10" max="30">
+    </label>
+
+    <label>Ombra card
+      <input type="text" id="ctrl-card-shadow" placeholder="es: 0 4px 12px rgba(0,0,0,0.25)">
+    </label>
+
+    <label>Ombra celle
+      <input type="text" id="ctrl-cella-shadow" placeholder="es: inset 0 0 10px rgba(255,255,255,0.2)">
+    </label>
+
+    <label>Ombra righe archivio
+      <input type="text" id="ctrl-riga-shadow" placeholder="es: 0 4px 12px rgba(0,0,0,0.3)">
+    </label>
+
+    <label>Colore bordo modifica
+      <input type="color" id="ctrl-edit-outline">
+    </label>
+
+    <label>Colore maniglie
+      <input type="color" id="ctrl-edit-handle-bg">
+    </label>
+
+    <label>Dimensione maniglie
+      <input type="range" id="ctrl-edit-handle-size" min="6" max="40">
+    </label>
+
+    <label>Colore maniglia movimento
+      <input type="color" id="ctrl-edit-move-bg">
+    </label>
+
+    <div class="riga-actions">
+      <button onclick="resetStyle()">🔄 Reset Stile</button>
+      <button onclick="resetLayout()">📐 Reset Layout Celle</button>
+      <button onclick="setTheme('light')">🌞 Tema Chiaro</button>
+      <button onclick="setTheme('dark')">🌙 Tema Scuro</button>
+    </div>
   </section>
 </section>
 
@@ -134,7 +254,6 @@
       <input id="mod-f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
     </div>
 
-    <!-- MODAL Z-Ap + XY-Ae -->
     <div class="row">
       <textarea id="mod-zap" placeholder="Z-Ap" class="cell"></textarea>
 
