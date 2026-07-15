@@ -464,3 +464,50 @@ button.btn-annulla:active::after{
     border-radius: 4px;
     cursor: move;
 }
+/* ================= CELLE EDITABILI ================= */
+
+.cella {
+    position: absolute;
+    display: inline-block;
+    padding: 4px;
+    background: var(--cella-bg, #ffffff);
+    border-radius: var(--cella-radius, 6px);
+    box-shadow: var(--cella-shadow, 0 0 4px rgba(0,0,0,0.2));
+}
+
+/* Modalità editing */
+.cell-editing {
+    outline: 2px solid var(--edit-outline, #007aff);
+}
+
+/* Modalità spostamento */
+.cell-moving {
+    outline: 2px solid #ff9500;
+}
+
+/* Handle di resize */
+.resize-handle {
+    position: absolute;
+    background: var(--edit-handle-bg, #007aff);
+    width: var(--edit-handle-size, 12px);
+    height: var(--edit-handle-size, 12px);
+    border-radius: 50%;
+}
+
+.resize-handle.right { right: -6px; top: 50%; transform: translateY(-50%); }
+.resize-handle.left { left: -6px; top: 50%; transform: translateY(-50%); }
+.resize-handle.top { top: -6px; left: 50%; transform: translateX(-50%); }
+.resize-handle.bottom { bottom: -6px; left: 50%; transform: translateX(-50%); }
+
+/* Handle di movimento */
+.move-handle {
+    position: absolute;
+    bottom: -22px;
+    right: 0;
+    background: var(--edit-move-bg, #ff9500);
+    padding: 3px 8px;
+    font-size: 11px;
+    border-radius: 4px;
+    cursor: move;
+    color: white;
+}
