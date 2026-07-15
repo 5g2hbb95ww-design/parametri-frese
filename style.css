@@ -1,496 +1,165 @@
-/*VARIABILI GLOBALI (MODULARI)*/
-
 :root {
-    /* Tema scuro (default) */
-    --colore-sfondo: #111827;
-    --colore-testo: #ffffff;
-
-    --nav-bg: #374151;
-    --nav-active: #0A84FF;
-
-    --card-bg: #1f2937;
-    --card-radius: 18px;
-    --card-shadow: none;
-
-    --campo-bg: #374151;
-    --campo-radius: 12px;
-    --campo-shadow: none;
-    --campo-padding: 14px;
-    --campo-font: 16px;
-
-    --cella-bg: #374151;
-    --cella-radius: 12px;
-    --cella-shadow: none;
-
-    --riga-bg: #374151;
-    --riga-radius: 12px;
-    --riga-shadow: none;
-
-    --btn-radius: 12px;
-    --btn-font: 16px;
-
-    --btn-salva: #34C759;
-    --btn-modifica: #0A84FF;
-    --btn-elimina: #B00020;
-    --btn-annulla: #3A3A3C;
-
-    --modal-bg: #1f2937;
-    --modal-radius: 24px;
-
-    --edit-outline: #0A84FF;
-    --edit-handle-bg: #0A84FF;
-    --edit-handle-size: 14px;
-    --edit-move-bg: #0A84FF;
-}
-
-/* Tema chiaro */
-:root[data-theme="light"] {
-    --colore-sfondo: #f3f4f6;
-    --colore-testo: #111827;
-
-    --nav-bg: #e5e7eb;
-    --nav-active: #2563eb;
-
+    --colore-sfondo: #f5f5f7;
+    --colore-testo: #111111;
+    --cella-bg: #ffffff;
+    --campo-bg: #ffffff;
     --card-bg: #ffffff;
-    --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
-
-    --campo-bg: #e5e7eb;
-    --cella-bg: #e5e7eb;
-    --riga-bg: #e5e7eb;
-
-    --btn-salva: #16a34a;
-    --btn-modifica: #2563eb;
-    --btn-elimina: #dc2626;
-    --btn-annulla: #6b7280;
-
-    --modal-bg: #ffffff;
-
-    --edit-outline: #2563eb;
-    --edit-handle-bg: #2563eb;
-    --edit-move-bg: #2563eb;
+    --riga-bg: #ffffff;
+    --nav-bg: #ffffff;
+    --nav-active: #007aff;
+    --btn-salva: #34c759;
+    --btn-modifica: #007aff;
+    --btn-elimina: #ff3b30;
+    --btn-annulla: #8e8e93;
+    --cella-radius: 6px;
+    --campo-radius: 6px;
+    --card-radius: 8px;
+    --btn-radius: 6px;
+    --campo-padding: 8px;
+    --campo-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --card-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    --cella-shadow: 0 0 4px rgba(0,0,0,0.2);
+    --riga-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    --edit-outline: #007aff;
+    --edit-handle-bg: #007aff;
+    --edit-handle-size: 12px;
+    --edit-move-bg: #ff9500;
 }
 
-/* ===== RESET ===== */
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+[data-theme="dark"] {
+    --colore-sfondo: #000000;
+    --colore-testo: #f5f5f7;
+    --cella-bg: #1c1c1e;
+    --campo-bg: #1c1c1e;
+    --card-bg: #1c1c1e;
+    --riga-bg: #1c1c1e;
+    --nav-bg: #1c1c1e;
+    --nav-active: #0a84ff;
+    --card-shadow: 0 2px 10px rgba(0,0,0,0.6);
+    --cella-shadow: 0 0 6px rgba(0,0,0,0.6);
+    --riga-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
 
-body{
-    background:var(--colore-sfondo);
-    color:var(--colore-testo);
-    padding:20px;
+* {
+    box-sizing: border-box;
 }
 
-/* ===== HEADER ===== */
-header{
-    text-align:center;
-    margin-bottom:25px;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--campo-font);
+    background: var(--colore-sfondo);
+    color: var(--colore-testo);
 }
 
-h1{
-    font-size:32px;
-    font-weight:700;
-    margin-bottom:20px;
+/* NAVBAR */
+
+.navbar {
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    background: var(--nav-bg);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
-h2{
-    margin-bottom:20px;
-    font-size:32px;
+.nav-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: var(--btn-radius);
+    border: none;
+    background: transparent;
+    color: var(--colore-testo);
+    font-weight: 600;
+    cursor: pointer;
 }
 
-/* ===== NAV ===== */
-.menu-nav{
-    display:flex;
-    gap:10px;
-    justify-content:center;
-    margin-bottom:20px;
+.nav-btn.active {
+    background: var(--nav-active);
+    color: #ffffff;
 }
 
-.nav-btn{
-    padding:12px 24px;
-    border:none;
-    border-radius:14px;
-    background:var(--nav-bg);
-    color:white;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-    transition:all 0.2s ease;
+/* PAGINE */
+
+.pagina {
+    display: none;
+    padding: 12px;
 }
 
-.nav-btn.active{
-    background:var(--nav-active);
+.pagina.active {
+    display: block;
 }
 
-/* ===== PAGE ===== */
-.page{
-    display:none;
+h1 {
+    margin: 8px 0 12px;
+    font-size: 20px;
 }
 
-.page.active{
-    display:block;
+/* FORM GRID */
+
+.form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: relative;
+    min-height: 400px;
 }
 
-/* ===== CARD ===== */
-.card{
-    background:var(--card-bg);
-    border-radius:var(--card-radius);
-    padding:18px;
-    margin-bottom:20px;
-    box-shadow:var(--card-shadow);
-}
-
-/* ===== CAMPI ===== */
-input,
-select,
-textarea{
-    width:100%;
-    padding:var(--campo-padding);
-    margin-bottom:12px;
-    border:none;
-    border-radius:var(--campo-radius);
-    background:var(--campo-bg);
-    color:var(--colore-testo);
-    font-size:var(--campo-font);
-    outline:none;
-    box-shadow:var(--campo-shadow);
-}
-
-/* TEXTAREA basse */
-textarea{
-    height:50px;
-    min-height:50px;
-    max-height:50px;
-    resize:none;
-}
-
-/* Solo DETTAGLI alto */
-textarea#dettagli,
-textarea#mod-dettagli{
-    height:120px !important;
-}
-
-/* ===== ROW ===== */
-.row{
-    display:flex;
-    gap:12px;
-}
-
-.row input,
-.row select,
-.row textarea{
-    flex:1;
-}
-
-/* === CELLE Z-AP & XY-AE IDENTICHE === */
-
-/* Z-AP */
-#zap,
-#mod-zap{
-    height:50px;
-    min-height:50px;
-    max-height:50px;
-    resize:none;
-    flex:1;
-    background:var(--cella-bg);
-    border-radius:var(--cella-radius);
-    box-shadow:var(--cella-shadow);
-}
-
-/* XY-AE wrapper */
-.xy-ae-wrapper{
-    flex:1;
-    height:50px;
-    position:relative;
-    display:flex;
-}
-
-/* XY-AE textarea identica a Z-AP */
-.xy-ae-wrapper textarea{
-    width:100%;
-    height:100%;
-    resize:none;
-    padding-right:0;
-    background:var(--cella-bg);
-    border-radius:var(--cella-radius);
-    box-shadow:var(--cella-shadow);
-}
-
-/* Select mm/% */
-.xy-ae-select{
-    position:absolute;
-    top:6px;
-    right:6px;
-    padding:4px 6px;
-    font-size:12px;
-    background:#4b5563;
-    border-radius:6px;
-    color:white;
-    width:auto;
-    z-index:10;
-}
-
-/* ===== ARCHIVIO ===== */
-#lista{
-    margin-top:15px;
-}
-
-.riga{
-    background:var(--riga-bg);
-    border-radius:var(--riga-radius);
-    padding:15px;
-    margin-bottom:12px;
-    font-size:15px;
-    line-height:1.6;
-    box-shadow:var(--riga-shadow);
-}
-
-/* ===== BOTTONI AZIONI ===== */
-.riga-actions{
-    display:flex;
-    gap:12px;
-    margin-top:12px;
-}
-
-.riga-actions button,
-button.btn-salva-modifica,
-button.btn-annulla,
-#salva{
-    flex:1;
-    padding:14px;
-    border:none;
-    border-radius:var(--btn-radius);
-    font-size:var(--btn-font);
-    font-weight:600;
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    cursor:pointer;
-    position:relative;
-    overflow:hidden;
-    transition:transform 0.1s ease, opacity 0.15s ease;
-}
-
-/* SALVA – verde */
-#salva,
-button.btn-salva-modifica{
-    background:var(--btn-salva) !important;
-}
-
-/* MODIFICA – blu */
-button.modifica{
-    background:var(--btn-modifica) !important;
-}
-
-/* ELIMINA – rosso scuro */
-button.elimina{
-    background:var(--btn-elimina) !important;
-}
-
-/* ANNULLA – grigio scuro */
-button.btn-annulla{
-    background:var(--btn-annulla) !important;
-}
-
-/* Hover stile iOS */
-.riga-actions button:hover,
-#salva:hover,
-button.btn-salva-modifica:hover,
-button.btn-annulla:hover{
-    opacity:0.85;
-}
-
-/* Pressione stile iPhone */
-.riga-actions button:active,
-#salva:active,
-button.btn-salva-modifica:active,
-button.btn-annulla:active{
-    transform:scale(0.96);
-}
-
-/* Ripple */
-.riga-actions button::after,
-#salva::after,
-button.btn-salva-modifica::after,
-button.btn-annulla::after{
-    content:"";
-    position:absolute;
-    width:10px;
-    height:10px;
-    background:rgba(255,255,255,0.35);
-    border-radius:50%;
-    transform:scale(0);
-    opacity:0;
-    pointer-events:none;
-    transition:transform 0.4s ease, opacity 0.6s ease;
-}
-
-.riga-actions button:active::after,
-#salva:active::after,
-button.btn-salva-modifica:active::after,
-button.btn-annulla:active::after{
-    transform:scale(18);
-    opacity:0;
-}
-
-/* ===== MODAL ===== */
-.modal-overlay{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,.7);
-    z-index:1000;
-}
-
-.modal-overlay.active{
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
-}
-
-.modal-content{
-    background:var(--modal-bg);
-    border-radius:var(--modal-radius) var(--modal-radius) 0 0;
-    padding:24px;
-    width:100%;
-    max-height:90vh;
-    overflow-y:auto;
-}
-
-.modal-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
-
-.modal-close{
-    background:none;
-    border:none;
-    color:var(--colore-testo);
-    font-size:28px;
-    cursor:pointer;
-}
-
-.modal-actions{
-    display:flex;
-    gap:10px;
-    margin-top:20px;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width:600px){
-    body{padding:15px;}
-    h1{font-size:28px;}
-    .nav-btn{padding:10px 18px; font-size:14px;}
-    .card{padding:15px;}
-    input,select,textarea{font-size:16px; padding:12px;}
-}
-
-@media (max-width:400px){
-    .row{flex-direction:column;}
-}
-
-/* ===== MODALITÀ MODIFICA CELLE ===== */
-.cell-editing{
-    outline:3px solid var(--edit-outline);
-    position:relative !important;
-    z-index:999;
-}
-
-.resize-handle{
-    position:absolute;
-    width:var(--edit-handle-size);
-    height:var(--edit-handle-size);
-    background:var(--edit-handle-bg);
-    border-radius:50%;
-    z-index:1000;
-    cursor:pointer;
-}
-
-.resize-handle.right{ right:-7px; top:50%; transform:translateY(-50%); }
-.resize-handle.left{ left:-7px; top:50%; transform:translateY(-50%); }
-.resize-handle.bottom{ bottom:-7px; left:50%; transform:translateX(-50%); }
-.resize-handle.top{ top:-7px; left:50%; transform:translateX(-50%); }
-
-.move-handle{
-    position:absolute;
-    top:-26px;
-    left:50%;
-    transform:translateX(-50%);
-    background:var(--edit-move-bg);
-    color:white;
-    padding:4px 10px;
-    border-radius:10px;
-    font-size:12px;
-    cursor:grab;
-    z-index:1000;
-}
-.cell-editing {
-    outline: 2px solid var(--edit-outline, #007aff);
-}
-
-.cell-moving {
-    outline: 2px solid #ff9500;
-}
-
-.resize-handle {
-    position: absolute;
-    background: var(--edit-handle-bg, #007aff);
-    width: var(--edit-handle-size, 10px);
-    height: var(--edit-handle-size, 10px);
-}
-
-.resize-handle.right { right: 0; top: 50%; transform: translateY(-50%); }
-.resize-handle.left { left: 0; top: 50%; transform: translateY(-50%); }
-.resize-handle.top { top: 0; left: 50%; transform: translateX(-50%); }
-.resize-handle.bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
-
-.move-handle {
-    position: absolute;
-    bottom: -20px;
-    right: 0;
-    background: var(--edit-move-bg, #ff9500);
-    padding: 2px 6px;
-    font-size: 10px;
-    border-radius: 4px;
-    cursor: move;
-}
-/* ================= CELLE EDITABILI ================= */
+/* CELLE EDITABILI */
 
 .cella {
     position: absolute;
     display: inline-block;
     padding: 4px;
-    background: var(--cella-bg, #ffffff);
-    border-radius: var(--cella-radius, 6px);
-    box-shadow: var(--cella-shadow, 0 0 4px rgba(0,0,0,0.2));
+    background: var(--cella-bg);
+    border-radius: var(--cella-radius);
+    box-shadow: var(--cella-shadow);
+}
+
+.cella label {
+    display: block;
+    font-size: 11px;
+    margin-bottom: 2px;
+}
+
+.cella input,
+.cella textarea {
+    width: 180px;
+    padding: var(--campo-padding);
+    border-radius: var(--campo-radius);
+    border: 1px solid #d1d1d6;
+    background: var(--campo-bg);
+    font-family: var(--campo-font);
+    font-size: 13px;
+    color: var(--colore-testo);
+}
+
+.cella textarea {
+    min-height: 60px;
+    resize: none;
 }
 
 /* Modalità editing */
+
 .cell-editing {
-    outline: 2px solid var(--edit-outline, #007aff);
+    outline: 2px solid var(--edit-outline);
 }
 
 /* Modalità spostamento */
+
 .cell-moving {
     outline: 2px solid #ff9500;
 }
 
 /* Handle di resize */
+
 .resize-handle {
     position: absolute;
-    background: var(--edit-handle-bg, #007aff);
-    width: var(--edit-handle-size, 12px);
-    height: var(--edit-handle-size, 12px);
+    background: var(--edit-handle-bg);
+    width: var(--edit-handle-size);
+    height: var(--edit-handle-size);
     border-radius: 50%;
 }
 
@@ -500,14 +169,172 @@ button.btn-annulla:active::after{
 .resize-handle.bottom { bottom: -6px; left: 50%; transform: translateX(-50%); }
 
 /* Handle di movimento */
+
 .move-handle {
     position: absolute;
     bottom: -22px;
     right: 0;
-    background: var(--edit-move-bg, #ff9500);
+    background: var(--edit-move-bg);
     padding: 3px 8px;
     font-size: 11px;
     border-radius: 4px;
     cursor: move;
     color: white;
+}
+
+/* AZIONI */
+
+.actions {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 10px 14px;
+    border-radius: var(--btn-radius);
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: var(--btn-salva);
+    color: #ffffff;
+}
+
+.btn-secondary {
+    background: #e5e5ea;
+    color: #111111;
+}
+
+/* ARCHIVIO */
+
+.archivio-header {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.archivio-header input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border-radius: var(--campo-radius);
+    border: 1px solid #d1d1d6;
+    background: var(--campo-bg);
+}
+
+.archivio-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.lista {
+    margin-top: 8px;
+}
+
+.riga {
+    background: var(--riga-bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--riga-shadow);
+    padding: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.riga-actions {
+    margin-top: 8px;
+    display: flex;
+    gap: 6px;
+}
+
+.riga-actions button {
+    padding: 6px 10px;
+    border-radius: var(--btn-radius);
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.riga-actions .modifica {
+    background: var(--btn-modifica);
+    color: #ffffff;
+}
+
+.riga-actions .elimina {
+    background: var(--btn-elimina);
+    color: #ffffff;
+}
+
+/* STILE PANEL */
+
+.style-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+}
+
+.style-grid div {
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    padding: 8px;
+    font-size: 12px;
+}
+
+.style-grid label {
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* MODAL */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    padding: 12px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow: auto;
+}
+
+.modal h2 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.modal-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+/* RESPONSIVE BASE */
+
+@media (max-width: 768px) {
+    .cella input,
+    .cella textarea {
+        width: 150px;
+    }
 }
