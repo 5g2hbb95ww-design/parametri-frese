@@ -1,319 +1,346 @@
-/* ===== RESET ===== */
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+:root {
+    --colore-sfondo: #f5f5f7;
+    --colore-testo: #111111;
+    --cella-bg: #ffffff;
+    --campo-bg: #ffffff;
+    --card-bg: #ffffff;
+    --riga-bg: #ffffff;
+    --nav-bg: #ffffff;
+    --nav-active: #007aff;
+    --btn-salva: #34c759;
+    --btn-modifica: #007aff;
+    --btn-elimina: #ff3b30;
+    --btn-annulla: #8e8e93;
+    --cella-radius: 6px;
+    --campo-radius: 6px;
+    --card-radius: 8px;
+    --btn-radius: 6px;
+    --campo-padding: 8px;
+    --campo-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --card-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    --cella-shadow: 0 0 4px rgba(0,0,0,0.2);
+    --riga-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    --edit-outline: #007aff;
+    --edit-handle-bg: #007aff;
+    --edit-handle-size: 12px;
+    --edit-move-bg: #ff9500;
 }
 
-body{
-    background:#111827;
-    color:#fff;
-    padding:20px;
+[data-theme="dark"] {
+    --colore-sfondo: #000000;
+    --colore-testo: #f5f5f7;
+    --cella-bg: #1c1c1e;
+    --campo-bg: #1c1c1e;
+    --card-bg: #1c1c1e;
+    --riga-bg: #1c1c1e;
+    --nav-bg: #1c1c1e;
+    --nav-active: #0a84ff;
+    --card-shadow: 0 2px 10px rgba(0,0,0,0.6);
+    --cella-shadow: 0 0 6px rgba(0,0,0,0.6);
+    --riga-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
 
-/* ===== HEADER ===== */
-header{
-    text-align:center;
-    margin-bottom:25px;
+* {
+    box-sizing: border-box;
 }
 
-h1{
-    font-size:32px;
-    font-weight:700;
-    margin-bottom:20px;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--campo-font);
+    background: var(--colore-sfondo);
+    color: var(--colore-testo);
 }
 
+/* NAVBAR */
+
+.navbar {
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    background: var(--nav-bg);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.nav-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: var(--btn-radius);
+    border: none;
+    background: transparent;
+    color: var(--colore-testo);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.nav-btn.active {
+    background: var(--nav-active);
+    color: #ffffff;
+}
+
+/* PAGINE */
+
+.pagina {
+    display: none;
+    padding: 12px;
+}
+
+.pagina.active {
+    display: block;
+}
+
+h1 {
+    margin: 8px 0 12px;
+    font-size: 20px;
+}
+
+/* FORM GRID */
+
+.form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: relative;
+    min-height: 400px;
+}
+
+/* CELLE EDITABILI */
+
+.cella {
+    position: absolute;
+    display: inline-block;
+    padding: 4px;
+    background: var(--cella-bg);
+    border-radius: var(--cella-radius);
+    box-shadow: var(--cella-shadow);
+}
+
+.cella label {
+    display: block;
+    font-size: 11px;
+    margin-bottom: 2px;
+}
+
+.cella input,
+.cella textarea {
+    width: 180px;
+    padding: var(--campo-padding);
+    border-radius: var(--campo-radius);
+    border: 1px solid #d1d1d6;
+    background: var(--campo-bg);
+    font-family: var(--campo-font);
+    font-size: 13px;
+    color: var(--colore-testo);
+}
+
+.cella textarea {
+    min-height: 60px;
+    resize: none;
+}
+
+/* Modalità editing */
+
+.cell-editing {
+    outline: 2px solid var(--edit-outline);
+}
+
+/* Modalità spostamento */
+
+.cell-moving {
+    outline: 2px solid #ff9500;
+}
+
+/* Handle di resize */
+
+.resize-handle {
+    position: absolute;
+    background: var(--edit-handle-bg);
+    width: var(--edit-handle-size);
+    height: var(--edit-handle-size);
+    border-radius: 50%;
+}
+
+main
 h2{
     margin-bottom:20px;
     font-size:32px;
+=======
+.resize-handle.right { right: -6px; top: 50%; transform: translateY(-50%); }
+.resize-handle.left { left: -6px; top: 50%; transform: translateY(-50%); }
+.resize-handle.top { top: -6px; left: 50%; transform: translateX(-50%); }
+.resize-handle.bottom { bottom: -6px; left: 50%; transform: translateX(-50%); }
+
+/* Handle di movimento */
+
+.move-handle {
+    position: absolute;
+    bottom: -22px;
+    right: 0;
+    background: var(--edit-move-bg);
+    padding: 3px 8px;
+    font-size: 11px;
+    border-radius: 4px;
+    cursor: move;
+    color: white;
+  
 }
 
-/* ===== NAV ===== */
-.menu-nav{
-    display:flex;
-    gap:10px;
-    justify-content:center;
-    margin-bottom:20px;
+/* AZIONI */
+
+.actions {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
-.nav-btn{
-    padding:12px 24px;
-    border:none;
-    border-radius:14px;
-    background:#374151;
-    color:white;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-    transition:all 0.2s ease;
+.btn-primary,
+.btn-secondary {
+    padding: 10px 14px;
+    border-radius: var(--btn-radius);
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
 }
 
-.nav-btn.active{
-    background:#0A84FF;
+.btn-primary {
+    background: var(--btn-salva);
+    color: #ffffff;
 }
 
-/* ===== PAGE ===== */
-.page{
-    display:none;
+.btn-secondary {
+    background: #e5e5ea;
+    color: #111111;
 }
 
-.page.active{
-    display:block;
+/* ARCHIVIO */
+
+.archivio-header {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
-/* ===== CARD ===== */
-.card{
-    background:#1f2937;
-    border-radius:18px;
-    padding:18px;
-    margin-bottom:20px;
+.archivio-header input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border-radius: var(--campo-radius);
+    border: 1px solid #d1d1d6;
+    background: var(--campo-bg);
 }
 
-/* ===== CAMPI ===== */
-input,
-select,
-textarea{
-    width:100%;
-    padding:14px;
-    margin-bottom:12px;
-    border:none;
-    border-radius:12px;
-    background:#374151;
-    color:white;
-    font-size:16px;
-    outline:none;
+.archivio-actions {
+    display: flex;
+    gap: 6px;
 }
 
-/* TEXTAREA basse */
-textarea{
-    height:50px;
-    min-height:50px;
-    max-height:50px;
-    resize:none;
+.lista {
+    margin-top: 8px;
 }
 
-/* Solo DETTAGLI alto */
-textarea#dettagli,
-textarea#mod-dettagli{
-    height:120px !important;
+.riga {
+    background: var(--riga-bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--riga-shadow);
+    padding: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
 }
 
-/* ===== ROW ===== */
-.row{
-    display:flex;
-    gap:12px;
+.riga-actions {
+    margin-top: 8px;
+    display: flex;
+    gap: 6px;
 }
 
-.row input,
-.row select,
-.row textarea{
-    flex:1;
+.riga-actions button {
+    padding: 6px 10px;
+    border-radius: var(--btn-radius);
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
 }
 
-/* === CELLE Z-AP & XY-AE IDENTICHE === */
-
-/* Z-AP */
-#zap,
-#mod-zap{
-    height:50px;
-    min-height:50px;
-    max-height:50px;
-    resize:none;
-    flex:1;
+.riga-actions .modifica {
+    background: var(--btn-modifica);
+    color: #ffffff;
 }
 
-/* XY-AE wrapper */
-.xy-ae-wrapper{
-    flex:1; /* ← QUESTA È LA RIGA CHE MANCA NEL TUO FILE */
-    height:50px;
-    position:relative;
-    display:flex;
+.riga-actions .elimina {
+    background: var(--btn-elimina);
+    color: #ffffff;
 }
 
-/* XY-AE textarea identica a Z-AP */
-.xy-ae-wrapper textarea{
-    width:100%;
-    height:100%;
-    resize:none;
-    padding-right:0; /* ← QUESTA È LA RIGA CHE DEVI CAMBIARE */
+/* STILE PANEL */
+
+.style-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
 }
 
-/* Select mm/% */
-.xy-ae-select{
-    position:absolute;
-    top:6px;
-    right:6px;
-    padding:4px 6px;
-    font-size:12px;
-    background:#4b5563;
-    border-radius:6px;
-    color:white;
-    width:auto;
-    z-index:10;
+.style-grid div {
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    padding: 8px;
+    font-size: 12px;
 }
 
-/* ===== ARCHIVIO ===== */
-#lista{
-    margin-top:15px;
+.style-grid label {
+    display: block;
+    margin-bottom: 4px;
 }
 
-.riga{
-    background:#374151;
-    border-radius:12px;
-    padding:15px;
-    margin-bottom:12px;
-    font-size:15px;
-    line-height:1.6;
+/* MODAL */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
 }
 
-/* ===== BOTTONI AZIONI ===== */
-.riga-actions{
-    display:flex;
-    gap:12px;
-    margin-top:12px;
+.modal-overlay.active {
+    display: flex;
 }
 
-.riga-actions button,
-button.btn-salva-modifica,
-button.btn-annulla,
-#salva{
-    flex:1;
-    padding:14px;
-    border:none;
-    border-radius:12px;
-    font-size:16px;
-    font-weight:600;
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    cursor:pointer;
-    position:relative;
-    overflow:hidden;
-    transition:transform 0.1s ease, opacity 0.15s ease;
+.modal {
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    padding: 12px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow: auto;
 }
 
-/* SALVA – verde */
-#salva,
-button.btn-salva-modifica{
-    background:#34C759 !important;
+.modal h2 {
+    margin-top: 0;
+    font-size: 18px;
 }
 
-/* MODIFICA – blu */
-button.modifica{
-    background:#0A84FF !important;
+.modal-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
 }
 
-/* ELIMINA – rosso scuro */
-button.elimina{
-    background:#B00020 !important;
-}
+/* RESPONSIVE BASE */
 
-/* ANNULLA – grigio scuro */
-button.btn-annulla{
-    background:#3A3A3C !important;
-}
-
-/* Hover stile iOS */
-.riga-actions button:hover,
-#salva:hover,
-button.btn-salva-modifica:hover,
-button.btn-annulla:hover{
-    opacity:0.85;
-}
-
-/* Pressione stile iPhone */
-.riga-actions button:active,
-#salva:active,
-button.btn-salva-modifica:active,
-button.btn-annulla:active{
-    transform:scale(0.96);
-}
-
-/* Ripple */
-.riga-actions button::after,
-#salva::after,
-button.btn-salva-modifica::after,
-button.btn-annulla::after{
-    content:"";
-    position:absolute;
-    width:10px;
-    height:10px;
-    background:rgba(255,255,255,0.35);
-    border-radius:50%;
-    transform:scale(0);
-    opacity:0;
-    pointer-events:none;
-    transition:transform 0.4s ease, opacity 0.6s ease;
-}
-
-.riga-actions button:active::after,
-#salva:active::after,
-button.btn-salva-modifica:active::after,
-button.btn-annulla:active::after{
-    transform:scale(18);
-    opacity:0;
-}
-
-/* ===== MODAL ===== */
-.modal-overlay{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,.7);
-    z-index:1000;
-}
-
-.modal-overlay.active{
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
-}
-
-.modal-content{
-    background:#1f2937;
-    border-radius:24px 24px 0 0;
-    padding:24px;
-    width:100%;
-    max-height:90vh;
-    overflow-y:auto;
-}
-
-.modal-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
-
-.modal-close{
-    background:none;
-    border:none;
-    color:#fff;
-    font-size:28px;
-    cursor:pointer;
-}
-
-.modal-actions{
-    display:flex;
-    gap:10px;
-    margin-top:20px;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width:600px){
-    body{padding:15px;}
-    h1{font-size:28px;}
-    .nav-btn{padding:10px 18px; font-size:14px;}
-    .card{padding:15px;}
-    input,select,textarea{font-size:16px; padding:12px;}
-}
-
-@media (max-width:400px){
-    .row{flex-direction:column;}
+@media (max-width: 768px) {
+    .cella input,
+    .cella textarea {
+        width: 150px;
+    }
 }
