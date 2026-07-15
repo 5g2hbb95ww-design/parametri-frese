@@ -1,21 +1,18 @@
 {
-  "id": "/parametri-frese/",
+  "name": "Parametri Frese",
   "short_name": "Frese",
-  "description": "Archivio parametri di taglio frese compatibile con Apple Numbers",
-  "lang": "it",
-  "start_url": "/parametri-frese/",
-  "scope": "/parametri-frese/",
+  "description": "Gestione parametri frese con salvataggio locale",
+  "start_url": "index.html",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#111827",
-  "theme_color": "#0A84FF",
-  "categories": [
-    "productivity",
-    "utilities"
-  ],
+  "background_color": "#f2f3f7",
+  "theme_color": "#2563eb",
+
   "icons": [
     {
       "src": "/parametri-frese/icons/icon-192.png",
+      "src": "icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
@@ -36,6 +33,8 @@
     {
       "src": "parametri-frese/icons/screen-mobile.png",
       "sizes": "720x1280",
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ]
