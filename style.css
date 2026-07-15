@@ -66,7 +66,7 @@ h2{
 .card{
     background:#1f2937;
     border-radius:18px;
-    padding:18px;
+    padding:20px;
     margin-bottom:20px;
 }
 
@@ -144,7 +144,7 @@ textarea#mod-dettagli{
     position:absolute;
     top:6px;
     right:6px;
-    padding:8px 12px;
+    padding:12px 12px;
     font-size:12px;
     background:#4b5563;
     border-radius:6px;
