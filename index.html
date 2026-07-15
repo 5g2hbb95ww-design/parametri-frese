@@ -1,306 +1,349 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" data-theme="light">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Parametri Frese</title>
-
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#111111">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Parametri Frese</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header>
-  <h1>⚙️ Parametri Frese</h1>
-  <nav class="menu-nav">
-    <button id="btn-nuovo" class="nav-btn active">➕ Nuovo</button>
-    <button id="btn-archivio" class="nav-btn">📚 Archivio</button>
-    <button id="btn-stile" class="nav-btn">🎨 Stile</button>
-  </nav>
-</header>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <button id="btn-nuovo" class="nav-btn active">Nuovo</button>
+        <button id="btn-archivio" class="nav-btn">Archivio</button>
+        <button id="btn-stile" class="nav-btn">Stile</button>
+    </nav>
 
-<main>
+    <!-- PAGINA NUOVO -->
+    <main id="pagina-nuovo" class="pagina active">
+        <h1>Nuova fresa</h1>
 
-<!-- ================= PAGINA NUOVO ================= -->
-<section id="pagina-nuovo" class="page active">
-  <section class="card">
-    <h2>Nuovo Inserimento</h2>
+        <section class="form-grid">
 
-    <textarea id="denominazione_fresa" placeholder="Denominazione Fresa"></textarea>
+            <div class="cella" data-cell="denominazione_fresa">
+                <label for="denominazione_fresa">Denominazione fresa</label>
+                <input id="denominazione_fresa" type="text">
+            </div>
 
-    <div class="row">
-      <input id="diametro" type="number" step="0.01" placeholder="Diametro">
-      <input id="ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
+            <div class="cella" data-cell="diametro">
+                <label for="diametro">Diametro</label>
+                <input id="diametro" type="number" step="0.01">
+            </div>
+
+            <div class="cella" data-cell="ntaglientiinserti">
+                <label for="ntaglientiinserti">N. taglienti / inserti</label>
+                <input id="ntaglientiinserti" type="number">
+            </div>
+
+            <div class="cella" data-cell="s">
+                <label for="s">S (giri/min)</label>
+                <input id="s" type="number" step="0.01">
+            </div>
+
+            <div class="cella" data-cell="mmin">
+                <label for="mmin">M/minuto</label>
+                <input id="mmin" type="number" step="0.01">
+            </div>
+
+            <div class="cella" data-cell="s_calc">
+                <label for="s_calc">S calcolata</label>
+                <input id="s_calc" type="number" step="0.01" readonly>
+            </div>
+
+            <div class="cella" data-cell="f">
+                <label for="f">F</label>
+                <input id="f" type="number" step="0.01">
+            </div>
+
+            <div class="cella" data-cell="av_ad">
+                <label for="av_ad">Avanzamento Ad</label>
+                <input id="av_ad" type="number" step="0.01">
+            </div>
+
+            <div class="cella" data-cell="f_calc">
+                <label for="f_calc">F calcolata</label>
+                <input id="f_calc" type="number" step="0.01" readonly>
+            </div>
+
+            <div class="cella" data-cell="zap">
+                <label for="zap">Z-Ap</label>
+                <input id="zap" type="text">
+            </div>
+
+            <div class="cella" data-cell="xyae">
+                <label for="xyae">XY-Ae</label>
+                <input id="xyae" type="text">
+            </div>
+
+            <div class="cella" data-cell="xyae_unit">
+                <label for="xyae_unit">Unità XY-Ae</label>
+                <input id="xyae_unit" type="text" value="mm">
+            </div>
+
+            <div class="cella" data-cell="materiale">
+                <label for="materiale">Materiale</label>
+                <input id="materiale" type="text" value="Acciaio">
+            </div>
+
+            <div class="cella" data-cell="refrigerante">
+                <label for="refrigerante">Refrigerante</label>
+                <input id="refrigerante" type="text" value="Acqua">
+            </div>
+
+            <div class="cella" data-cell="codice_fresa">
+                <label for="codice_fresa">Codice fresa</label>
+                <input id="codice_fresa" type="text">
+            </div>
+
+            <div class="cella" data-cell="codice_inserto">
+                <label for="codice_inserto">Codice inserto</label>
+                <input id="codice_inserto" type="text">
+            </div>
+
+            <div class="cella" data-cell="dettagli">
+                <label for="dettagli">Dettagli</label>
+                <textarea id="dettagli"></textarea>
+            </div>
+
+        </section>
+
+        <div class="actions">
+            <button id="salva" class="btn-primary">💾 Salva fresa</button>
+            <button class="btn-secondary" onclick="resetLayout()">🔄 Reset layout celle</button>
+        </div>
+    </main>
+
+    <!-- PAGINA ARCHIVIO -->
+    <main id="pagina-archivio" class="pagina">
+        <h1>Archivio frese</h1>
+
+        <div class="archivio-header">
+            <input id="ricerca" type="text" placeholder="Cerca...">
+            <div class="archivio-actions">
+                <button id="btn-export-csv" class="btn-secondary">⬇ Esporta CSV</button>
+                <button id="btn-import-csv" class="btn-secondary">⬆ Importa CSV</button>
+                <input id="input-import-csv" type="file" accept=".csv" style="display:none;">
+            </div>
+        </div>
+
+        <div id="lista" class="lista"></div>
+    </main>
+
+    <!-- PAGINA STILE -->
+    <main id="pagina-stile" class="pagina">
+        <h1>Stile app</h1>
+
+        <section class="style-grid">
+            <div>
+                <label>Colore sfondo</label>
+                <input id="ctrl-colore-sfondo" type="color">
+            </div>
+            <div>
+                <label>Colore testo</label>
+                <input id="ctrl-colore-testo" type="color">
+            </div>
+            <div>
+                <label>Colore celle</label>
+                <input id="ctrl-cella-bg" type="color">
+            </div>
+            <div>
+                <label>Colore campi</label>
+                <input id="ctrl-campo-bg" type="color">
+            </div>
+            <div>
+                <label>Colore card</label>
+                <input id="ctrl-card-bg" type="color">
+            </div>
+            <div>
+                <label>Colore righe archivio</label>
+                <input id="ctrl-riga-bg" type="color">
+            </div>
+            <div>
+                <label>Nav bg</label>
+                <input id="ctrl-nav-bg" type="color">
+            </div>
+            <div>
+                <label>Nav active</label>
+                <input id="ctrl-nav-active" type="color">
+            </div>
+            <div>
+                <label>Bottone salva</label>
+                <input id="ctrl-btn-salva" type="color">
+            </div>
+            <div>
+                <label>Bottone modifica</label>
+                <input id="ctrl-btn-modifica" type="color">
+            </div>
+            <div>
+                <label>Bottone elimina</label>
+                <input id="ctrl-btn-elimina" type="color">
+            </div>
+            <div>
+                <label>Bottone annulla</label>
+                <input id="ctrl-btn-annulla" type="color">
+            </div>
+            <div>
+                <label>Raggio celle</label>
+                <input id="ctrl-cella-radius" type="number" value="6">
+            </div>
+            <div>
+                <label>Raggio campi</label>
+                <input id="ctrl-campo-radius" type="number" value="6">
+            </div>
+            <div>
+                <label>Raggio card</label>
+                <input id="ctrl-card-radius" type="number" value="8">
+            </div>
+            <div>
+                <label>Raggio bottoni</label>
+                <input id="ctrl-btn-radius" type="number" value="6">
+            </div>
+            <div>
+                <label>Padding campi</label>
+                <input id="ctrl-campo-padding" type="number" value="8">
+            </div>
+            <div>
+                <label>Font campi</label>
+                <input id="ctrl-campo-font" type="text" value="system-ui">
+            </div>
+            <div>
+                <label>Ombra card</label>
+                <input id="ctrl-card-shadow" type="text" value="0 2px 6px rgba(0,0,0,0.15)">
+            </div>
+            <div>
+                <label>Ombra celle</label>
+                <input id="ctrl-cella-shadow" type="text" value="0 0 4px rgba(0,0,0,0.2)">
+            </div>
+            <div>
+                <label>Ombra righe</label>
+                <input id="ctrl-riga-shadow" type="text" value="0 1px 3px rgba(0,0,0,0.1)">
+            </div>
+            <div>
+                <label>Outline edit</label>
+                <input id="ctrl-edit-outline" type="color" value="#007aff">
+            </div>
+            <div>
+                <label>Handle bg</label>
+                <input id="ctrl-edit-handle-bg" type="color" value="#007aff">
+            </div>
+            <div>
+                <label>Handle size</label>
+                <input id="ctrl-edit-handle-size" type="number" value="12">
+            </div>
+            <div>
+                <label>Move bg</label>
+                <input id="ctrl-edit-move-bg" type="color" value="#ff9500">
+            </div>
+        </section>
+
+        <div class="actions">
+            <button class="btn-secondary" onclick="resetStyle()">🔄 Reset stile</button>
+        </div>
+    </main>
+
+    <!-- MODAL MODIFICA -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <h2>Modifica fresa</h2>
+
+            <section class="form-grid">
+
+                <div class="cella" data-cell="mod-denominazione_fresa">
+                    <label for="mod-denominazione_fresa">Denominazione fresa</label>
+                    <input id="mod-denominazione_fresa" type="text">
+                </div>
+
+                <div class="cella" data-cell="mod-diametro">
+                    <label for="mod-diametro">Diametro</label>
+                    <input id="mod-diametro" type="number" step="0.01">
+                </div>
+
+                <div class="cella" data-cell="mod-ntaglientiinserti">
+                    <label for="mod-ntaglientiinserti">N. taglienti / inserti</label>
+                    <input id="mod-ntaglientiinserti" type="number">
+                </div>
+
+                <div class="cella" data-cell="mod-s">
+                    <label for="mod-s">S</label>
+                    <input id="mod-s" type="number" step="0.01">
+                </div>
+
+                <div class="cella" data-cell="mod-mmin">
+                    <label for="mod-mmin">M/minuto</label>
+                    <input id="mod-mmin" type="number" step="0.01">
+                </div>
+
+                <div class="cella" data-cell="mod-s_calc">
+                    <label for="mod-s_calc">S calcolata</label>
+                    <input id="mod-s_calc" type="number" step="0.01" readonly>
+                </div>
+
+                <div class="cella" data-cell="mod-f">
+                    <label for="mod-f">F</label>
+                    <input id="mod-f" type="number" step="0.01">
+                </div>
+
+                <div class="cella" data-cell="mod-av_ad">
+                    <label for="mod-av_ad">Avanzamento Ad</label>
+                    <input id="mod-av_ad" type="number" step="0.01">
+                </div>
+
+                <div class="cella" data-cell="mod-f_calc">
+                    <label for="mod-f_calc">F calcolata</label>
+                    <input id="mod-f_calc" type="number" step="0.01" readonly>
+                </div>
+
+                <div class="cella" data-cell="mod-zap">
+                    <label for="mod-zap">Z-Ap</label>
+                    <input id="mod-zap" type="text">
+                </div>
+
+                <div class="cella" data-cell="mod-xyae_val">
+                    <label for="mod-xyae_val">XY-Ae</label>
+                    <input id="mod-xyae_val" type="text">
+                </div>
+
+                <div class="cella" data-cell="mod-xyae_unit">
+                    <label for="mod-xyae_unit">Unità XY-Ae</label>
+                    <input id="mod-xyae_unit" type="text" value="mm">
+                </div>
+
+                <div class="cella" data-cell="mod-materiale">
+                    <label for="mod-materiale">Materiale</label>
+                    <input id="mod-materiale" type="text">
+                </div>
+
+                <div class="cella" data-cell="mod-refrigerante">
+                    <label for="mod-refrigerante">Refrigerante</label>
+                    <input id="mod-refrigerante" type="text">
+                </div>
+
+                <div class="cella" data-cell="mod-codice_fresa">
+                    <label for="mod-codice_fresa">Codice fresa</label>
+                    <input id="mod-codice_fresa" type="text">
+                </div>
+
+                <div class="cella" data-cell="mod-codice_inserto">
+                    <label for="mod-codice_inserto">Codice inserto</label>
+                    <input id="mod-codice_inserto" type="text">
+                </div>
+
+                <div class="cella" data-cell="mod-dettagli">
+                    <label for="mod-dettagli">Dettagli</label>
+                    <textarea id="mod-dettagli"></textarea>
+                </div>
+
+            </section>
+
+            <div class="modal-actions">
+                <button id="modal-annulla" class="btn-secondary">Annulla</button>
+                <button id="modal-salva" class="btn-primary">Salva</button>
+                <button id="modal-close-btn" class="btn-secondary">Chiudi</button>
+            </div>
+        </div>
     </div>
 
-    <div class="row">
-      <input id="s" type="number" step="0.01" placeholder="S">
-      <input id="f" type="number" step="0.01" placeholder="F">
-    </div>
-
-    <div class="row">
-      <input id="mmin" type="number" step="0.01" placeholder="M/Minuto">
-      <input id="s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
-    </div>
-
-    <div class="row">
-      <input id="av_ad" type="number" step="0.01" placeholder="Avanzamento Ad">
-      <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
-    </div>
-
-    <div class="row">
-      <textarea id="zap" placeholder="Z-Ap" class="cell"></textarea>
-
-      <div class="xy-ae-wrapper cell">
-        <textarea id="xyae" placeholder="XY-Ae"></textarea>
-        <select id="xyae_unit" class="xy-ae-select">
-          <option value="mm">mm</option>
-          <option value="%">%</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="row">
-      <select id="materiale">
-        <option>Acciaio</option>
-        <option>Temprato</option>
-        <option>Inox</option>
-        <option>Ghisa</option>
-        <option>Alluminio</option>
-        <option>Titanio</option>
-        <option>Ottone</option>
-        <option>Rame</option>
-        <option>Plastica</option>
-        <option>Altro</option>
-      </select>
-
-      <select id="refrigerante">
-        <option>Acqua</option>
-        <option>Aria</option>
-        <option>Niente</option>
-        <option>Acqua int.</option>
-        <option>Aria int.</option>
-      </select>
-    </div>
-
-    <textarea id="codice_fresa" placeholder="Codice fresa"></textarea>
-    <textarea id="codice_inserto" placeholder="Codice inserto"></textarea>
-    <textarea id="dettagli" placeholder="Dettagli"></textarea>
-
-    <button id="salva">💾 Salva</button>
-  </section>
-</section>
-
-<!-- ================= PAGINA ARCHIVIO ================= -->
-<section id="pagina-archivio" class="page">
-  <section class="card">
-    <h2>📚 Archivio Frese</h2>
-    <input id="ricerca" placeholder="Cerca...">
-    <div id="lista"></div>
-
-    <div class="riga-actions">
-      <button id="btn-export-csv">📤 Esporta CSV</button>
-      <input type="file" id="input-import-csv" accept=".csv" style="display:none;">
-      <button id="btn-import-csv">📥 Importa CSV</button>
-    </div>
-  </section>
-</section>
-
-<!-- ================= PAGINA STILE ================= -->
-<section id="pagina-stile" class="page">
-  <section class="card">
-    <h2>Impostazioni Stile</h2>
-
-    <label>Colore sfondo app
-      <input type="color" id="ctrl-colore-sfondo">
-    </label>
-
-    <label>Colore testo
-      <input type="color" id="ctrl-colore-testo">
-    </label>
-
-    <label>Colore celle
-      <input type="color" id="ctrl-cella-bg">
-    </label>
-
-    <label>Colore campi input
-      <input type="color" id="ctrl-campo-bg">
-    </label>
-
-    <label>Colore card
-      <input type="color" id="ctrl-card-bg">
-    </label>
-
-    <label>Colore righe archivio
-      <input type="color" id="ctrl-riga-bg">
-    </label>
-
-    <label>Colore nav
-      <input type="color" id="ctrl-nav-bg">
-    </label>
-
-    <label>Colore nav attivo
-      <input type="color" id="ctrl-nav-active">
-    </label>
-
-    <label>Colore bottone Salva
-      <input type="color" id="ctrl-btn-salva">
-    </label>
-
-    <label>Colore bottone Modifica
-      <input type="color" id="ctrl-btn-modifica">
-    </label>
-
-    <label>Colore bottone Elimina
-      <input type="color" id="ctrl-btn-elimina">
-    </label>
-
-    <label>Colore bottone Annulla
-      <input type="color" id="ctrl-btn-annulla">
-    </label>
-
-    <label>Radius celle
-      <input type="range" id="ctrl-cella-radius" min="0" max="40">
-    </label>
-
-    <label>Radius input
-      <input type="range" id="ctrl-campo-radius" min="0" max="40">
-    </label>
-
-    <label>Radius card
-      <input type="range" id="ctrl-card-radius" min="0" max="40">
-    </label>
-
-    <label>Radius bottoni
-      <input type="range" id="ctrl-btn-radius" min="0" max="40">
-    </label>
-
-    <label>Padding campi
-      <input type="range" id="ctrl-campo-padding" min="4" max="30">
-    </label>
-
-    <label>Font campi
-      <input type="range" id="ctrl-campo-font" min="10" max="30">
-    </label>
-
-    <label>Ombra card
-      <input type="text" id="ctrl-card-shadow" placeholder="es: 0 4px 12px rgba(0,0,0,0.25)">
-    </label>
-
-    <label>Ombra celle
-      <input type="text" id="ctrl-cella-shadow" placeholder="es: inset 0 0 10px rgba(255,255,255,0.2)">
-    </label>
-
-    <label>Ombra righe archivio
-      <input type="text" id="ctrl-riga-shadow" placeholder="es: 0 4px 12px rgba(0,0,0,0.3)">
-    </label>
-
-    <label>Colore bordo modifica
-      <input type="color" id="ctrl-edit-outline">
-    </label>
-
-    <label>Colore maniglie
-      <input type="color" id="ctrl-edit-handle-bg">
-    </label>
-
-    <label>Dimensione maniglie
-      <input type="range" id="ctrl-edit-handle-size" min="6" max="40">
-    </label>
-
-    <label>Colore maniglia movimento
-      <input type="color" id="ctrl-edit-move-bg">
-    </label>
-
-    <div class="riga-actions">
-      <button onclick="resetStyle()">🔄 Reset Stile</button>
-      <button onclick="resetLayout()">📐 Reset Layout Celle</button>
-      <button onclick="setTheme('light')">🌞 Tema Chiaro</button>
-      <button onclick="setTheme('dark')">🌙 Tema Scuro</button>
-    </div>
-  </section>
-</section>
-
-</main>
-
-<!-- ================= MODAL ================= -->
-<div id="modal-overlay" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>✏️ Modifica Fresa</h2>
-      <button class="modal-close" id="modal-close-btn">&times;</button>
-    </div>
-
-    <textarea id="mod-denominazione_fresa" placeholder="Denominazione Fresa"></textarea>
-
-    <div class="row">
-      <input id="mod-diametro" type="number" step="0.01" placeholder="Diametro">
-      <input id="mod-ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
-    </div>
-
-    <div class="row">
-      <input id="mod-s" type="number" step="0.01" placeholder="S">
-      <input id="mod-f" type="number" step="0.01" placeholder="F">
-    </div>
-
-    <div class="row">
-      <input id="mod-mmin" type="number" step="0.01" placeholder="M/Minuto">
-      <input id="mod-s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
-    </div>
-
-    <div class="row">
-      <input id="mod-av_ad" type="number" step="0.01" placeholder="Avanzamento Ad">
-      <input id="mod-f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
-    </div>
-
-    <div class="row">
-      <textarea id="mod-zap" placeholder="Z-Ap" class="cell"></textarea>
-
-      <div class="xy-ae-wrapper cell">
-        <textarea id="mod-xyae_val" placeholder="XY-Ae"></textarea>
-        <select id="mod-xyae_unit" class="xy-ae-select">
-          <option value="mm">mm</option>
-          <option value="%">%</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="row">
-      <select id="mod-materiale">
-        <option>Acciaio</option>
-        <option>Temprato</option>
-        <option>Inox</option>
-        <option>Ghisa</option>
-        <option>Alluminio</option>
-        <option>Titanio</option>
-        <option>Ottone</option>
-        <option>Rame</option>
-        <option>Plastica</option>
-        <option>Altro</option>
-      </select>
-
-      <select id="mod-refrigerante">
-        <option>Acqua</option>
-        <option>Aria</option>
-        <option>Niente</option>
-        <option>Acqua int.</option>
-        <option>Aria int.</option>
-      </select>
-    </div>
-
-    <textarea id="mod-codice_fresa" placeholder="Codice fresa"></textarea>
-    <textarea id="mod-codice_inserto" placeholder="Codice inserto"></textarea>
-    <textarea id="mod-dettagli" placeholder="Dettagli"></textarea>
-
-    <div class="modal-actions">
-      <button class="btn-annulla" id="modal-annulla">❌ Annulla</button>
-      <button class="btn-salva-modifica" id="modal-salva">✅ Salva</button>
-    </div>
-  </div>
-</div>
-
-<script src="app.js"></script>
-
+    <script src="app.js"></script>
 </body>
 </html>
