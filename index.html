@@ -1,123 +1,187 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <title>Parametri Frese</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parametri Frese</title>
 
-    <!-- PWA -->
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icons/icon-192.png">
-    <meta name="theme-color" content="#2563eb">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111">
+<link rel="stylesheet" href="style.css?v=7">
 </head>
+
 <body>
-    <div class="app-shell">
 
-        <!-- HEADER -->
-        <header class="app-header">
-            <h1>Parametri Frese</h1>
-            <p>Gestione parametri con salvataggio locale</p>
-        </header>
+<header>
+  <h1>⚙️ Parametri Frese</h1>
+  <nav class="menu-nav">
+    <button id="btn-nuovo" class="nav-btn active">➕ Nuovo</button>
+    <button id="btn-archivio" class="nav-btn">📚 Archivio</button>
+  </nav>
+</header>
 
-        <!-- LAYOUT PRINCIPALE -->
-        <main class="app-layout">
+<main>
 
-            <!-- ===================== XY-Ae ===================== -->
-            <section class="app-section">
-                <div class="section-header">
-                    <h2>XY-Ae</h2>
-                    <p>Parametri asse XY</p>
-                </div>
+<!-- ================= PAGINA NUOVO ================= -->
+<section id="pagina-nuovo" class="page active">
+  <section class="card">
+    <h2>Nuovo Inserimento</h2>
 
-                <!-- RIGA 1 -->
-                <div class="app-row">
-                    <div class="app-card">
-                        <label class="field-label">Campo SX 1</label>
-                        <input type="text" id="xy_sx1" class="field-input">
-                    </div>
-                    <div class="app-card">
-                        <label class="field-label">Campo DX 1</label>
-                        <input type="text" id="xy_dx1" class="field-input">
-                    </div>
-                </div>
+    <textarea id="denominazione_fresa" placeholder="Denominazione Fresa"></textarea>
 
-                <!-- RIGA 2 -->
-                <div class="app-row">
-                    <div class="app-card">
-                        <label class="field-label">Campo SX 2</label>
-                        <input type="text" id="xy_sx2" class="field-input">
-                    </div>
-                    <div class="app-card">
-                        <label class="field-label">Campo DX 2</label>
-                        <input type="text" id="xy_dx2" class="field-input">
-                    </div>
-                </div>
-
-                <!-- AGGIUNGI QUI ALTRE RIGHE XY-Ae -->
-
-                <div class="section-footer">
-                    <button class="btn-primary" onclick="salvaXY()">Salva XY-Ae</button>
-                </div>
-            </section>
-
-            <!-- ===================== Z-Ap ===================== -->
-            <section class="app-section">
-                <div class="section-header">
-                    <h2>Z-Ap</h2>
-                    <p>Parametri asse Z</p>
-                </div>
-
-                <!-- RIGA 1 -->
-                <div class="app-row">
-                    <div class="app-card">
-                        <label class="field-label">Campo SX 1</label>
-                        <input type="text" id="z_sx1" class="field-input">
-                    </div>
-                    <div class="app-card">
-                        <label class="field-label">Campo DX 1</label>
-                        <input type="text" id="z_dx1" class="field-input">
-                    </div>
-                </div>
-
-                <!-- RIGA 2 -->
-                <div class="app-row">
-                    <div class="app-card">
-                        <label class="field-label">Campo SX 2</label>
-                        <input type="text" id="z_sx2" class="field-input">
-                    </div>
-                    <div class="app-card">
-                        <label class="field-label">Campo DX 2</label>
-                        <input type="text" id="z_dx2" class="field-input">
-                    </div>
-                </div>
-
-                <!-- AGGIUNGI QUI ALTRE RIGHE Z-Ap -->
-
-                <div class="section-footer">
-                    <button class="btn-primary" onclick="salvaZ()">Salva Z-Ap</button>
-                </div>
-            </section>
-
-        </main>
-
-        <!-- FOOTER -->
-        <footer class="app-footer">
-            <p>Archivio parametri frese · LocalStorage attivo</p>
-        </footer>
-
+    <div class="row">
+      <input id="diametro" type="number" step="0.01" placeholder="Diametro">
+      <input id="ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
     </div>
 
-    <!-- SERVICE WORKER -->
-    <script>
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("service-worker.js");
-        }
-    </script>
+    <div class="row">
+      <input id="s" type="number" step="0.01" placeholder="S">
+      <input id="f" type="number" step="0.01" placeholder="F">
+    </div>
 
-    <!-- JS PRINCIPALE -->
-    <script src="app.js"></script>
+    <div class="row">
+      <input id="mmin" type="number" step="0.01" placeholder="M/Minuto">
+      <input id="s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
+    </div>
+
+    <div class="row">
+      <input id="av_ad" type="number" step="0.01" placeholder="Avanzamento Ad">
+      <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
+    </div>
+
+    <!-- Z-Ap + XY-Ae -->
+    <div class="row">
+      <textarea id="zap" placeholder="Z-Ap" class="cell"></textarea>
+
+      <div class="xy-ae-wrapper cell">
+        <textarea id="xyae" placeholder="XY-Ae"></textarea>
+        <select id="xyae_unit" class="xy-ae-select">
+          <option value="mm">mm</option>
+          <option value="%">%</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <select id="materiale">
+        <option>Acciaio</option>
+        <option>Temprato</option>
+        <option>Inox</option>
+        <option>Ghisa</option>
+        <option>Alluminio</option>
+        <option>Titanio</option>
+        <option>Ottone</option>
+        <option>Rame</option>
+        <option>Plastica</option>
+        <option>Altro</option>
+      </select>
+
+      <select id="refrigerante">
+        <option>Acqua</option>
+        <option>Aria</option>
+        <option>Niente</option>
+        <option>Acqua int.</option>
+        <option>Aria int.</option>
+      </select>
+    </div>
+
+    <textarea id="codice_fresa" placeholder="Codice fresa"></textarea>
+    <textarea id="codice_inserto" placeholder="Codice inserto"></textarea>
+    <textarea id="dettagli" placeholder="Dettagli"></textarea>
+
+    <button id="salva">💾 Salva</button>
+  </section>
+</section>
+
+<!-- ================= PAGINA ARCHIVIO ================= -->
+<section id="pagina-archivio" class="page">
+  <section class="card">
+    <h2>📚 Archivio Frese</h2>
+    <input id="ricerca" placeholder="Cerca...">
+    <div id="lista"></div>
+  </section>
+</section>
+
+</main>
+
+<!-- ================= MODAL ================= -->
+<div id="modal-overlay" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>✏️ Modifica Fresa</h2>
+      <button class="modal-close" id="modal-close-btn">&times;</button>
+    </div>
+
+    <textarea id="mod-denominazione_fresa" placeholder="Denominazione Fresa"></textarea>
+
+    <div class="row">
+      <input id="mod-diametro" type="number" step="0.01" placeholder="Diametro">
+      <input id="mod-ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
+    </div>
+
+    <div class="row">
+      <input id="mod-s" type="number" step="0.01" placeholder="S">
+      <input id="mod-f" type="number" step="0.01" placeholder="F">
+    </div>
+
+    <div class="row">
+      <input id="mod-mmin" type="number" step="0.01" placeholder="M/Minuto">
+      <input id="mod-s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
+    </div>
+
+    <div class="row">
+      <input id="mod-av_ad" type="number" step="0.01" placeholder="Avanzamento Ad">
+      <input id="mod-f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
+    </div>
+
+    <!-- MODAL Z-Ap + XY-Ae -->
+    <div class="row">
+      <textarea id="mod-zap" placeholder="Z-Ap" class="cell"></textarea>
+
+      <div class="xy-ae-wrapper cell">
+        <textarea id="mod-xyae_val" placeholder="XY-Ae"></textarea>
+        <select id="mod-xyae_unit" class="xy-ae-select">
+          <option value="mm">mm</option>
+          <option value="%">%</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <select id="mod-materiale">
+        <option>Acciaio</option>
+        <option>Temprato</option>
+        <option>Inox</option>
+        <option>Ghisa</option>
+        <option>Alluminio</option>
+        <option>Titanio</option>
+        <option>Ottone</option>
+        <option>Rame</option>
+        <option>Plastica</option>
+        <option>Altro</option>
+      </select>
+
+      <select id="mod-refrigerante">
+        <option>Acqua</option>
+        <option>Aria</option>
+        <option>Niente</option>
+        <option>Acqua int.</option>
+        <option>Aria int.</option>
+      </select>
+    </div>
+
+    <textarea id="mod-codice_fresa" placeholder="Codice fresa"></textarea>
+    <textarea id="mod-codice_inserto" placeholder="Codice inserto"></textarea>
+    <textarea id="mod-dettagli" placeholder="Dettagli"></textarea>
+
+    <div class="modal-actions">
+      <button class="btn-annulla" id="modal-annulla">❌ Annulla</button>
+      <button class="btn-salva-modifica" id="modal-salva">✅ Salva</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+
 </body>
 </html>

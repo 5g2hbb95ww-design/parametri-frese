@@ -1,152 +1,319 @@
-/* ===================== RESET ===================== */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* ===== RESET ===== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
 }
 
-body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-    background: #f2f3f7;
-    color: #111827;
+body{
+    background:#111827;
+    color:#fff;
+    padding:20px;
 }
 
-/* ===================== SHELL ===================== */
-.app-shell {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+/* ===== HEADER ===== */
+header{
+    text-align:center;
+    margin-bottom:25px;
 }
 
-/* ===================== HEADER ===================== */
-.app-header {
-    padding: 20px;
-    text-align: center;
+h1{
+    font-size:32px;
+    font-weight:700;
+    margin-bottom:20px;
 }
 
-.app-header h1 {
-    font-size: 1.7rem;
-    font-weight: 700;
+h2{
+    margin-bottom:15px;
+    font-size:22px;
 }
 
-.app-header p {
-    color: #6b7280;
-    font-size: 0.9rem;
+/* ===== NAV ===== */
+.menu-nav{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-bottom:20px;
 }
 
-/* ===================== LAYOUT ===================== */
-.app-layout {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 16px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
+.nav-btn{
+    padding:12px 24px;
+    border:none;
+    border-radius:14px;
+    background:#374151;
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.2s ease;
 }
 
-/* ===================== SEZIONI ===================== */
-.app-section {
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.10);
+.nav-btn.active{
+    background:#0A84FF;
 }
 
-.section-header {
-    margin-bottom: 12px;
+/* ===== PAGE ===== */
+.page{
+    display:none;
 }
 
-.section-header h2 {
-    font-size: 1.2rem;
-    font-weight: 600;
+.page.active{
+    display:block;
 }
 
-.section-header p {
-    color: #6b7280;
-    font-size: 0.85rem;
+/* ===== CARD ===== */
+.card{
+    background:#1f2937;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:20px;
 }
 
-/* ===================== RIGHE ===================== */
-.app-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 10px;
+/* ===== CAMPI ===== */
+input,
+select,
+textarea{
+    width:100%;
+    padding:14px;
+    margin-bottom:12px;
+    border:none;
+    border-radius:12px;
+    background:#374151;
+    color:white;
+    font-size:16px;
+    outline:none;
 }
 
-/* ===================== CARD ===================== */
-.app-card {
-    background: #f7f8fa;
-    border-radius: 14px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+/* TEXTAREA basse */
+textarea{
+    height:50px;
+    min-height:50px;
+    max-height:50px;
+    resize:none;
 }
 
-/* ===================== CAMPI ===================== */
-.field-label {
-    font-size: 0.8rem;
-    color: #4b5563;
+/* Solo DETTAGLI alto */
+textarea#dettagli,
+textarea#mod-dettagli{
+    height:120px !important;
 }
 
-.field-input {
-    width: 100%;
-    padding: 8px 10px;
-    border-radius: 10px;
-    border: 1px solid #d1d5db;
-    font-size: 0.85rem;
-    background: #ffffff;
-    transition: 0.15s;
+/* ===== ROW ===== */
+.row{
+    display:flex;
+    gap:12px;
 }
 
-.field-input:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 1px rgba(37,99,235,0.35);
+.row input,
+.row select,
+.row textarea{
+    flex:1;
 }
 
-/* ===================== BOTTONI ===================== */
-.btn-primary {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    color: #ffffff;
-    border: none;
-    border-radius: 999px;
-    padding: 10px 18px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(37,99,235,0.35);
-    transition: 0.1s;
+/* === CELLE Z-AP & XY-AE IDENTICHE === */
+
+/* Z-AP */
+#zap,
+#mod-zap{
+    height:50px;
+    min-height:50px;
+    max-height:50px;
+    resize:none;
+    flex:1;
 }
 
-.btn-primary:active {
-    transform: scale(0.97);
+/* XY-AE wrapper */
+.xy-ae-wrapper{
+    flex:1; /* ← QUESTA È LA RIGA CHE MANCA NEL TUO FILE */
+    height:50px;
+    position:relative;
+    display:flex;
 }
 
-/* ===================== FOOTER ===================== */
-.app-footer {
-    margin-top: auto;
-    padding: 14px;
-    text-align: center;
-    color: #9ca3af;
-    font-size: 0.8rem;
+/* XY-AE textarea identica a Z-AP */
+.xy-ae-wrapper textarea{
+    width:100%;
+    height:100%;
+    resize:none;
+    padding-right:0; /* ← QUESTA È LA RIGA CHE DEVI CAMBIARE */
 }
 
-/* ===================== MOBILE ===================== */
-@media (max-width: 900px) {
-    .app-layout {
-        grid-template-columns: 1fr;
-    }
+/* Select mm/% */
+.xy-ae-select{
+    position:absolute;
+    top:6px;
+    right:6px;
+    padding:4px 6px;
+    font-size:12px;
+    background:#4b5563;
+    border-radius:6px;
+    color:white;
+    width:auto;
+    z-index:10;
 }
 
-@media (max-width: 640px) {
-    .app-section {
-        padding: 14px;
-    }
+/* ===== ARCHIVIO ===== */
+#lista{
+    margin-top:15px;
+}
 
-    .app-row {
-        grid-template-columns: 1fr;
-    }
+.riga{
+    background:#374151;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:12px;
+    font-size:15px;
+    line-height:1.6;
+}
+
+/* ===== BOTTONI AZIONI ===== */
+.riga-actions{
+    display:flex;
+    gap:12px;
+    margin-top:12px;
+}
+
+.riga-actions button,
+button.btn-salva-modifica,
+button.btn-annulla,
+#salva{
+    flex:1;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:600;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    transition:transform 0.1s ease, opacity 0.15s ease;
+}
+
+/* SALVA – verde */
+#salva,
+button.btn-salva-modifica{
+    background:#34C759 !important;
+}
+
+/* MODIFICA – blu */
+button.modifica{
+    background:#0A84FF !important;
+}
+
+/* ELIMINA – rosso scuro */
+button.elimina{
+    background:#B00020 !important;
+}
+
+/* ANNULLA – grigio scuro */
+button.btn-annulla{
+    background:#3A3A3C !important;
+}
+
+/* Hover stile iOS */
+.riga-actions button:hover,
+#salva:hover,
+button.btn-salva-modifica:hover,
+button.btn-annulla:hover{
+    opacity:0.85;
+}
+
+/* Pressione stile iPhone */
+.riga-actions button:active,
+#salva:active,
+button.btn-salva-modifica:active,
+button.btn-annulla:active{
+    transform:scale(0.96);
+}
+
+/* Ripple */
+.riga-actions button::after,
+#salva::after,
+button.btn-salva-modifica::after,
+button.btn-annulla::after{
+    content:"";
+    position:absolute;
+    width:10px;
+    height:10px;
+    background:rgba(255,255,255,0.35);
+    border-radius:50%;
+    transform:scale(0);
+    opacity:0;
+    pointer-events:none;
+    transition:transform 0.4s ease, opacity 0.6s ease;
+}
+
+.riga-actions button:active::after,
+#salva:active::after,
+button.btn-salva-modifica:active::after,
+button.btn-annulla:active::after{
+    transform:scale(18);
+    opacity:0;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.7);
+    z-index:1000;
+}
+
+.modal-overlay.active{
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+}
+
+.modal-content{
+    background:#1f2937;
+    border-radius:24px 24px 0 0;
+    padding:24px;
+    width:100%;
+    max-height:90vh;
+    overflow-y:auto;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.modal-close{
+    background:none;
+    border:none;
+    color:#fff;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:600px){
+    body{padding:15px;}
+    h1{font-size:28px;}
+    .nav-btn{padding:10px 18px; font-size:14px;}
+    .card{padding:15px;}
+    input,select,textarea{font-size:16px; padding:12px;}
+}
+
+@media (max-width:400px){
+    .row{flex-direction:column;}
 }
