@@ -489,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ================= CELLE EDITABILI =================
+      // ================= CELLE EDITABILI =================
     const editableCells = [
         document.getElementById("zap"),
         document.getElementById("mod-zap"),
@@ -543,18 +543,20 @@ document.addEventListener('DOMContentLoaded', function() {
             handle.classList.add("resize-handle", side);
             cell.appendChild(handle);
 
-            handle.addEventListener("mousedown", e => {
-                e.preventDefault();
-                const startX = e.clientX;
-                const startY = e.clientY;
+            function startResize(clientX, clientY) {
+                const startX = clientX;
+                const startY = clientY;
                 const startWidth = parseInt(window.getComputedStyle(cell).width);
                 const startHeight = parseInt(window.getComputedStyle(cell).height);
 
                 function onMove(ev) {
-                    if (side === "right") cell.style.width = startWidth + (ev.clientX - startX) + "px";
-                    if (side === "left") cell.style.width = startWidth - (ev.clientX - startX) + "px";
-                    if (side === "bottom") cell.style.height = startHeight + (ev.clientY - startY) + "px";
-                    if (side === "top") cell.style.height = startHeight - (ev.clientY - startY) + "px";
+                    const x = ev.touches ? ev.touches[0].clientX : ev.clientX;
+                    const y = ev.touches ? ev.touches[0].clientY : ev.clientY;
+
+                    if (side === "right") cell.style.width = startWidth + (x - startX) + "px";
+                    if (side === "left") cell.style.width = startWidth - (x - startX) + "px";
+                    if (side === "bottom") cell.style.height = startHeight + (y - startY) + "px";
+                    if (side === "top") cell.style.height = startHeight - (y - startY) + "px";
                 }
 
                 function onUp() {
@@ -562,10 +564,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     saveCell(cell);
                     document.removeEventListener("mousemove", onMove);
                     document.removeEventListener("mouseup", onUp);
+                    document.removeEventListener("touchmove", onMove);
+                    document.removeEventListener("touchend", onUp);
                 }
 
                 document.addEventListener("mousemove", onMove);
                 document.addEventListener("mouseup", onUp);
+                document.addEventListener("touchmove", onMove, { passive: false });
+                document.addEventListener("touchend", onUp);
+            }
+
+            handle.addEventListener("mousedown", e => {
+                e.preventDefault();
+                startResize(e.clientX, e.clientY);
+            });
+
+            handle.addEventListener("touchstart", e => {
+                e.preventDefault();
+                const t = e.touches[0];
+                startResize(t.clientX, t.clientY);
             });
         });
 
@@ -574,17 +591,18 @@ document.addEventListener('DOMContentLoaded', function() {
         moveHandle.textContent = "Muovi";
         cell.appendChild(moveHandle);
 
-        moveHandle.addEventListener("mousedown", e => {
-            e.preventDefault();
-            const startX = e.clientX;
-            const startY = e.clientY;
+        function startMove(clientX, clientY) {
+            const startX = clientX;
+            const startY = clientY;
             const rect = cell.getBoundingClientRect();
 
             cell.style.position = "absolute";
 
             function onMove(ev) {
-                cell.style.left = rect.left + (ev.clientX - startX) + "px";
-                cell.style.top = rect.top + (ev.clientY - startY) + "px";
+                const x = ev.touches ? ev.touches[0].clientX : ev.clientX;
+                const y = ev.touches ? ev.touches[0].clientY : ev.clientY;
+                cell.style.left = rect.left + (x - startX) + "px";
+                cell.style.top = rect.top + (y - startY) + "px";
             }
 
             function onUp() {
@@ -592,20 +610,68 @@ document.addEventListener('DOMContentLoaded', function() {
                 saveCell(cell);
                 document.removeEventListener("mousemove", onMove);
                 document.removeEventListener("mouseup", onUp);
+                document.removeEventListener("touchmove", onMove);
+                document.removeEventListener("touchend", onUp);
             }
 
             document.addEventListener("mousemove", onMove);
             document.addEventListener("mouseup", onUp);
+            document.addEventListener("touchmove", onMove, { passive: false });
+            document.addEventListener("touchend", onUp);
+        }
+
+        moveHandle.addEventListener("mousedown", e => {
+            e.preventDefault();
+            startMove(e.clientX, e.clientY);
+        });
+
+        moveHandle.addEventListener("touchstart", e => {
+            e.preventDefault();
+            const t = e.touches[0];
+            startMove(t.clientX, t.clientY);
         });
     }
 
+    let movingCell = null;
+    let lastTapTime = 0;
+
     editableCells.forEach(cell => {
         let pressTimer;
+
+        // Long press (mouse)
         cell.addEventListener("mousedown", () => {
-            pressTimer = setTimeout(() => activateEditMode(cell), 1000);
+            pressTimer = setTimeout(() => activateEditMode(cell), 800);
         });
         cell.addEventListener("mouseup", () => clearTimeout(pressTimer));
         cell.addEventListener("mouseleave", () => clearTimeout(pressTimer));
+
+        // Long press (touch)
+        cell.addEventListener("touchstart", () => {
+            pressTimer = setTimeout(() => activateEditMode(cell), 800);
+        });
+        cell.addEventListener("touchend", () => clearTimeout(pressTimer));
+        cell.addEventListener("touchcancel", () => clearTimeout(pressTimer));
+
+        // Double tap per spostare/scambiare contenuti
+        cell.addEventListener("touchend", () => {
+            const now = Date.now();
+            if (now - lastTapTime < 300) {
+                if (!movingCell) {
+                    movingCell = cell;
+                    cell.classList.add("cell-moving");
+                } else if (movingCell !== cell) {
+                    const tmp = movingCell.value;
+                    movingCell.value = cell.value;
+                    cell.value = tmp;
+                    movingCell.classList.remove("cell-moving");
+                    movingCell = null;
+                } else {
+                    movingCell.classList.remove("cell-moving");
+                    movingCell = null;
+                }
+            }
+            lastTapTime = now;
+        });
     });
 
     function resetLayout() {
@@ -616,6 +682,7 @@ document.addEventListener('DOMContentLoaded', function() {
             cell.style.left = "";
             cell.style.top = "";
             cell.classList.remove("cell-editing");
+            cell.classList.remove("cell-moving");
         });
         location.reload();
     }
@@ -623,4 +690,3 @@ document.addEventListener('DOMContentLoaded', function() {
     window.resetLayout = resetLayout;
 
     renderArchivio();
-});
