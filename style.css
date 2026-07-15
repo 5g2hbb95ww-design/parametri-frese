@@ -133,7 +133,7 @@ textarea#mod-dettagli{
 
 /* XY-AE textarea identica a Z-AP */
 .xy-ae-wrapper textarea{
-    width:110%;
+    width:150%;
     height:100%;
     resize:none;
     padding-right:0; /* ← QUESTA È LA RIGA CHE DEVI CAMBIARE */
@@ -144,7 +144,7 @@ textarea#mod-dettagli{
     position:absolute;
     top:6px;
     right:6px;
-    padding:4px 6px;
+    padding:8px 12px;
     font-size:12px;
     background:#4b5563;
     border-radius:6px;
