@@ -1,152 +1,24 @@
-/* ===================== RESET ===================== */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+{
+  "name": "Parametri Frese",
+  "short_name": "Frese",
+  "description": "Gestione dei parametri frese con archivio locale.",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#111827",
 
-body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-    background: #f2f3f7;
-    color: #111827;
-}
-
-/* ===================== SHELL ===================== */
-.app-shell {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-/* ===================== HEADER ===================== */
-.app-header {
-    padding: 20px;
-    text-align: center;
-}
-
-.app-header h1 {
-    font-size: 1.7rem;
-    font-weight: 700;
-}
-
-.app-header p {
-    color: #6b7280;
-    font-size: 0.9rem;
-}
-
-/* ===================== LAYOUT ===================== */
-.app-layout {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 16px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-}
-
-/* ===================== SEZIONI ===================== */
-.app-section {
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.10);
-}
-
-.section-header {
-    margin-bottom: 12px;
-}
-
-.section-header h2 {
-    font-size: 1.2rem;
-    font-weight: 600;
-}
-
-.section-header p {
-    color: #6b7280;
-    font-size: 0.85rem;
-}
-
-/* ===================== RIGHE ===================== */
-.app-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-/* ===================== CARD ===================== */
-.app-card {
-    background: #f7f8fa;
-    border-radius: 14px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-/* ===================== CAMPI ===================== */
-.field-label {
-    font-size: 0.8rem;
-    color: #4b5563;
-}
-
-.field-input {
-    width: 100%;
-    padding: 8px 10px;
-    border-radius: 10px;
-    border: 1px solid #d1d5db;
-    font-size: 0.85rem;
-    background: #ffffff;
-    transition: 0.15s;
-}
-
-.field-input:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 1px rgba(37,99,235,0.35);
-}
-
-/* ===================== BOTTONI ===================== */
-.btn-primary {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    color: #ffffff;
-    border: none;
-    border-radius: 999px;
-    padding: 10px 18px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(37,99,235,0.35);
-    transition: 0.1s;
-}
-
-.btn-primary:active {
-    transform: scale(0.97);
-}
-
-/* ===================== FOOTER ===================== */
-.app-footer {
-    margin-top: auto;
-    padding: 14px;
-    text-align: center;
-    color: #9ca3af;
-    font-size: 0.8rem;
-}
-
-/* ===================== MOBILE ===================== */
-@media (max-width: 900px) {
-    .app-layout {
-        grid-template-columns: 1fr;
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
+  ]
 }
 
-@media (max-width: 640px) {
-    .app-section {
-        padding: 14px;
-    }
-
-    .app-row {
-        grid-template-columns: 1fr;
-    }
-}
