@@ -1,52 +1,41 @@
-// Versione cache: aumenta il numero ogni volta che aggiorni la PWA
 const CACHE_NAME = "parametri-frese-v4";
-
-// File da mettere in cache (basato sulla tua repo reale)
-const APP_SHELL = [
+const FILES_TO_CACHE = [
   "/parametri-frese/",
   "/parametri-frese/index.html",
   "/parametri-frese/style.css",
-  "/parametri-frese/script.js",
+  "/parametri-frese/app.js",
   "/parametri-frese/manifest.json",
   "/parametri-frese/icon/icon-192.png",
-  "/parametri-frese/icon/icon-512.png"
+  "/parametri-frese/icon/icon-512.png",
+  "/parametri-frese/icon/screen-wide.png",
+  "/parametri-frese/icon/screen-mobile.png"
 ];
 
-// INSTALL: forza subito l’attivazione del nuovo SW
-self.addEventListener("install", event => {
-  self.skipWaiting(); // iPhone: obbliga l’aggiornamento immediato
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(APP_SHELL);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE))
   );
+  self.skipWaiting();
 });
 
-// ACTIVATE: elimina tutte le cache vecchie
-self.addEventListener("activate", event => {
+self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key); // pulizia totale cache vecchie
-          }
-        })
-      )
+    caches.keys().then((keys) =>
+      Promise.all(keys.map((key) => key !== CACHE_NAME && caches.delete(key)))
     )
   );
-  self.clients.claim(); // iPhone: forza l’uso immediato del nuovo SW
+  self.clients.claim();
 });
 
-// FETCH: network-first (iPhone non usa più file vecchi)
-self.addEventListener("fetch", event => {
+self.addEventListener("fetch", (event) => {
   event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        return response; // sempre la versione più nuova
-      })
-      .catch(() => {
-        return caches.match(event.request); // fallback offline
-      })
+    caches.match(event.request).then((cached) => {
+      return (
+        cached ||
+        fetch(event.request).catch(() =>
+          caches.match("/parametri-frese/index.html")
+        )
+      );
+    })
   );
 });
