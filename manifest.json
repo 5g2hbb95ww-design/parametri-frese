@@ -1,53 +1,42 @@
 {
-  "name": "Parametri Frese",
+  "id": "/parametri-frese/",
   "short_name": "Frese",
-  "description": "Gestione parametri di taglio per frese, con archivio locale, calcoli automatici e supporto PWA.",
-  "start_url": "/parametri-frese/index.html",
+  "description": "Archivio parametri di taglio frese compatibile con Apple Numbers",
+  "lang": "it",
+  "start_url": "/parametri-frese/",
   "scope": "/parametri-frese/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#ffffff",
-  "theme_color": "#1a73e8",
-
+  "background_color": "#111827",
+  "theme_color": "#0A84FF",
+  "categories": [
+    "productivity",
+    "utilities"
+  ],
   "icons": [
     {
-      "src": "/parametri-frese/icon/icon-192.png",
+      "src": "icon/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/png"
     },
     {
-      "src": "/parametri-frese/icon/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/parametri-frese/icon/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/parametri-frese/icon/icon-512.png",
+      "src": "icon/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
   ],
-
   "screenshots": [
     {
-      "src": "/parametri-frese/icon/screen-mobile.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow"
-    },
-    {
-      "src": "/parametri-frese/icon/screen-wide.png",
-      "sizes": "1920x1080",
+      "src": "icon/screen-wide.png",
+      "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide"
+    },
+    {
+      "src": "icon/screen-mobile.png",
+      "sizes": "720x1280",
+      "type": "image/png"
     }
   ]
 }
