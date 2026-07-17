@@ -27,6 +27,9 @@
 
 <header>
   <h1>⚙️ Parametri Frese</h1>
+
+  <!-- Tema chiaro/scuro -->
+  <button id="theme-toggle" class="theme-toggle">☀️</button>
   
   <nav class="menu-nav">
     <button id="btn-nuovo" class="nav-btn active">➕ Nuovo</button>
@@ -68,10 +71,17 @@
       <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
     </div>
 
-    <!-- Z-Ap XY-Ae -->
+    <!-- Z-Ap + XY-Ae con menu interno -->
     <div class="row">
       <textarea id="zap" placeholder="Z Ap"></textarea>
-      <textarea id="xyae" placeholder="XY Ae"></textarea>
+
+      <div class="xy-wrapper">
+        <textarea id="xyae" placeholder="XY Ae"></textarea>
+        <select id="xy-unita">
+          <option>mm</option>
+          <option>%</option>
+        </select>
+      </div>
     </div>
 
     <!-- Materiale + Refrigerante -->
@@ -198,6 +208,7 @@
 
 <script type="module" src="./src/app.js"></script>
 
+<!-- Install PWA -->
 <script>
 let deferredPrompt;
 
@@ -214,12 +225,24 @@ document.getElementById('installaApp').addEventListener('click', async () => {
     deferredPrompt = null;
 });
 </script>
-  <script>
+
+<!-- Service Worker -->
+<script>
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("service-worker.js");
 }
 </script>
 
+<!-- Tema chiaro/scuro -->
+<script>
+const body = document.body;
+const themeToggle = document.getElementById('theme-toggle');
+
+themeToggle.addEventListener('click', () => {
+  const isLight = body.classList.toggle('light-theme');
+  themeToggle.textContent = isLight ? '🌙' : '☀️';
+});
+</script>
 
 </body>
 </html>
