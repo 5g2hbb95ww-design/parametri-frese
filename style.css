@@ -1,17 +1,32 @@
-/* ====== BASE ====== */
+/* ===== BASE ===== */
 body {
   margin: 0;
   padding: 0;
   background: #111;
   color: #f2f2f2;
   font-family: "Inter", sans-serif;
+  transition: background 0.3s, color 0.3s;
 }
 
+/* ===== LIGHT THEME ===== */
+body.light-theme {
+  background: #f5f5f7;
+  color: #111;
+}
+
+/* ===== HEADER ===== */
 header {
-  background: #1a1a1a;
+  background: rgba(20,20,20,0.6);
   padding: 20px;
   text-align: center;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  position: relative;
+}
+
+body.light-theme header {
+  background: rgba(255,255,255,0.7);
+  border-bottom: 1px solid #ddd;
 }
 
 h1 {
@@ -20,7 +35,27 @@ h1 {
   color: #00c8ff;
 }
 
-/* ====== NAV ====== */
+/* ===== THEME TOGGLE ===== */
+.theme-toggle {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 20px;
+  backdrop-filter: blur(10px);
+}
+
+body.light-theme .theme-toggle {
+  background: rgba(0,0,0,0.1);
+  color: #000;
+}
+
+/* ===== NAV ===== */
 .menu-nav {
   display: flex;
   justify-content: center;
@@ -29,13 +64,14 @@ h1 {
 }
 
 .nav-btn {
-  background: #222;
+  background: rgba(30,30,30,0.7);
   color: #ddd;
-  border: 1px solid #333;
+  border: 1px solid rgba(255,255,255,0.08);
   padding: 10px 18px;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 15px;
   transition: 0.2s;
+  backdrop-filter: blur(10px);
 }
 
 .nav-btn.active,
@@ -44,13 +80,30 @@ h1 {
   color: #000;
 }
 
-/* ====== CARD ====== */
+/* ===== PAGE SWITCH ===== */
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+/* ===== CARD ===== */
 .card {
-  background: #1a1a1a;
+  background: rgba(20,20,20,0.55);
   padding: 20px;
   margin: 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 200, 255, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+body.light-theme .card {
+  background: rgba(255,255,255,0.8);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.08);
 }
 
 .card h2 {
@@ -58,17 +111,27 @@ h1 {
   color: #00c8ff;
 }
 
-/* ====== INPUT / TEXTAREA ====== */
+/* ===== INPUT / TEXTAREA / SELECT ===== */
 input, textarea, select {
   width: 100%;
   padding: 12px;
   margin-top: 10px;
-  border-radius: 8px;
-  border: 1px solid #333;
-  background: #222;
-  color: #eee;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(30,30,30,0.8);
+  color: #f5f5f5;
   font-size: 15px;
   transition: 0.2s;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05),
+              0 10px 25px rgba(0,0,0,0.6);
+}
+
+body.light-theme input,
+body.light-theme textarea,
+body.light-theme select {
+  background: rgba(255,255,255,0.9);
+  color: #111;
+  border: 1px solid rgba(0,0,0,0.08);
 }
 
 input:focus,
@@ -76,10 +139,10 @@ textarea:focus,
 select:focus {
   border-color: #00c8ff;
   outline: none;
-  background: #2a2a2a;
+  background: rgba(40,40,40,0.9);
 }
 
-/* ====== ROW ====== */
+/* ===== ROW ===== */
 .row {
   display: flex;
   gap: 10px;
@@ -91,12 +154,49 @@ select:focus {
   flex: 1;
 }
 
-/* ====== BUTTONS ====== */
+/* ===== Z AP / XY AE SAME SIZE AS S/F ===== */
+textarea#zap,
+textarea#xyae {
+  height: 48px;
+  resize: none;
+}
+
+/* ===== XY AE WRAPPER WITH INTERNAL SELECT ===== */
+.xy-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+#xyae {
+  width: 100%;
+  padding-right: 70px;
+}
+
+#xy-unita {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  width: 60px;
+  padding: 6px;
+  font-size: 13px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+}
+
+/* ===== CODICE FRESA / INSERTO SAME HEIGHT AS DIAMETRO ===== */
+textarea#codice_fresa,
+textarea#codice_inserto {
+  height: 48px;
+  resize: none;
+}
+
+/* ===== BUTTONS ===== */
 button {
   width: 100%;
   padding: 12px;
   margin-top: 15px;
-  border-radius: 8px;
+  border-radius: 12px;
   border: none;
   background: #00c8ff;
   color: #000;
@@ -109,22 +209,23 @@ button:hover {
   background: #00a0d1;
 }
 
-/* ====== ARCHIVIO LISTA ====== */
+/* ===== ARCHIVIO LISTA ===== */
 #lista div {
-  background: #222;
+  background: rgba(30,30,30,0.7);
   padding: 12px;
   margin-top: 10px;
-  border-radius: 8px;
-  border: 1px solid #333;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
   transition: 0.2s;
+  backdrop-filter: blur(10px);
 }
 
 #lista div:hover {
-  background: #2a2a2a;
+  background: rgba(40,40,40,0.9);
   border-color: #00c8ff;
 }
 
-/* ====== MODAL ====== */
+/* ===== MODAL ===== */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -135,12 +236,13 @@ button:hover {
 }
 
 .modal-content {
-  background: #1a1a1a;
+  background: rgba(20,20,20,0.7);
   padding: 20px;
   width: 90%;
   max-width: 450px;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 200, 255, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0,200,255,0.2);
+  backdrop-filter: blur(18px);
 }
 
 .modal-header h2 {
