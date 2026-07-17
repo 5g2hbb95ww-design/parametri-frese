@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const fCalcEl = document.getElementById("f_calc");
 
     const zapEl = document.getElementById("zap");
+    const xyaeEl = document.getElementById("xyae");
     const materialeEl = document.getElementById("materiale");
     const refrigeranteEl = document.getElementById("refrigerante");
     const codicefresaEl = document.getElementById("codice_fresa");
@@ -133,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
             av_ad: avAdEl.value,
             f_calc: fCalcEl.value,
             zap: zapEl.value,
+            xyae: xyaeEl.value,
             materiale: materialeEl.value,
             refrigerante: refrigeranteEl.value,
             codicefresa: codicefresaEl.value,
@@ -159,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
         avAdEl.value = "";
         fCalcEl.value = "";
         zapEl.value = "";
+        xyaeEl.value = "";
         materialeEl.value = "Acciaio";
         refrigeranteEl.value = "Acqua";
         codicefresaEl.value = "";
@@ -195,7 +198,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     F: ${item.f} | Avanzamento Ad: ${item.av_ad}<br>
                     F calcolata: ${item.f_calc}<br><br>
 
-                    Z-Ap: ${item.zap}<br>
+                    <strong>Z-Ap:<strong> ${item.zap}<br>
+                    <strong>XY-Ae:<strong> ${item.xyae}<br>
                     <strong>Materiale:</strong> ${item.materiale}<br>
                     <strong>Refrigerante:</strong> ${item.refrigerante}<br>
                     Codice fresa: ${item.codicefresa}<br>
@@ -253,6 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modFCalcEl.value = item.f_calc;
 
         modZapEl.value = item.zap;
+        modXYaeEl.value = item.xyae;
         modMaterialeEl.value = item.materiale;
         modRefrigeranteEl.value = item.refrigerante;
 
@@ -287,6 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
         item.f_calc = modFCalcEl.value;
 
         item.zap = modZapEl.value;
+        item.xyae = modXYaeEl.value;
         item.materiale = modMaterialeEl.value;
         item.refrigerante = modRefrigeranteEl.value;
 
