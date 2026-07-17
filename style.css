@@ -154,14 +154,21 @@ select:focus {
   flex: 1;
 }
 
-/* ===== Z AP / XY AE SAME SIZE AS S/F ===== */
+/* ===== S + F AFFIANCATI ===== */
+#s, #f {
+  flex: 1;
+}
+
+/* ===== Z AP / XY AE (BASSE E UGUALI) ===== */
 textarea#zap,
-textarea#xyae {
-  height: 48px;
+textarea#xyae,
+textarea#mod-zap,
+textarea#mod-xyae {
+  height: 40px;
   resize: none;
 }
 
-/* ===== XY AE WRAPPER WITH INTERNAL SELECT ===== */
+/* ===== XY AE WRAPPER CON MENU INTERNO ===== */
 .xy-wrapper {
   position: relative;
   flex: 1;
@@ -184,9 +191,11 @@ textarea#xyae {
   backdrop-filter: blur(10px);
 }
 
-/* ===== CODICE FRESA / INSERTO SAME HEIGHT AS DIAMETRO ===== */
+/* ===== CODICE FRESA / INSERTO (ALTE COME DIAMETRO) ===== */
 textarea#codice_fresa,
-textarea#codice_inserto {
+textarea#codice_inserto,
+textarea#mod-codice_fresa,
+textarea#mod-codice_inserto {
   height: 48px;
   resize: none;
 }
@@ -233,6 +242,10 @@ button:hover {
   display: none;
   justify-content: center;
   align-items: center;
+}
+
+.modal-overlay.active {
+  display: flex;
 }
 
 .modal-content {
