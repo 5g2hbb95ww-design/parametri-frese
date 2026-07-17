@@ -1,227 +1,177 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+/* ====== BASE ====== */
+body {
+  margin: 0;
+  padding: 0;
+  background: #111;
+  color: #f2f2f2;
+  font-family: "Inter", sans-serif;
 }
 
-body{
-    background:#111827;
-    color:#fff;
-    padding:20px;
+header {
+  background: #1a1a1a;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #333;
 }
 
-header{
-    text-align:center;
-    margin-bottom:25px;
+h1 {
+  margin: 0;
+  font-size: 26px;
+  color: #00c8ff;
 }
 
-h1{
-    font-size:32px;
-    font-weight:700;
-    margin-bottom:20px;
+/* ====== NAV ====== */
+.menu-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
 }
 
-h2{
-    margin-bottom:15px;
-    font-size:22px;
+.nav-btn {
+  background: #222;
+  color: #ddd;
+  border: 1px solid #333;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.2s;
 }
 
-/* ===== NAVIGATION ===== */
-.menu-nav{
-    display:flex;
-    gap:10px;
-    justify-content:center;
-    margin-bottom:20px;
+.nav-btn.active,
+.nav-btn:hover {
+  background: #00c8ff;
+  color: #000;
 }
 
-.nav-btn{
-    padding:12px 24px;
-    border:none;
-    border-radius:14px;
-    background:#374151;
-    color:white;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-    transition:all 0.3s ease;
+/* ====== CARD ====== */
+.card {
+  background: #1a1a1a;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 200, 255, 0.15);
 }
 
-.nav-btn.active{
-    background:#0A84FF;
-    box-shadow:0 4px 12px rgba(10,132,255,.3);
+.card h2 {
+  margin-top: 0;
+  color: #00c8ff;
 }
 
-/* ===== PAGE ===== */
-.page{
-    display:none;
+/* ====== INPUT / TEXTAREA ====== */
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #222;
+  color: #eee;
+  font-size: 15px;
+  transition: 0.2s;
 }
 
-.page.active{
-    display:block;
-    animation:fadeIn 0.3s ease;
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #00c8ff;
+  outline: none;
+  background: #2a2a2a;
 }
 
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(10px);}
-    to{opacity:1; transform:translateY(0);}
-}
-
-/* ===== CARD ===== */
-.card{
-    background:#1f2937;
-    border-radius:18px;
-    padding:18px;
-    margin-bottom:20px;
-    box-shadow:0 6px 18px rgba(0,0,0,.25);
-}
-
-/* ===== FORM ===== */
-input,
-select,
-textarea{
-    width:100%;
-    padding:14px;
-    margin-bottom:12px;
-    border:none;
-    border-radius:12px;
-    background:#374151;
-    color:white;
-    font-size:16px;
-    outline:none;
-}
-
-/* TEXTAREA UNIFORMI */
-textarea#denominazione_fresa,
-textarea#codice_fresa,
-textarea#codice_inserto,
-textarea#mod-denominazione_fresa,
-textarea#mod-codice_fresa,
-textarea#mod-codice_inserto{
-    min-height:50px;
-    height:50px;
-}
-
-/* ROW (2 elementi affiancati) */
-.row{
-    display:flex;
-    gap:12px;
+/* ====== ROW ====== */
+.row {
+  display: flex;
+  gap: 10px;
 }
 
 .row input,
-.row select,
-.row textarea{
-    flex:1;
+.row textarea,
+.row select {
+  flex: 1;
 }
 
-/* ===== BUTTON ===== */
-button{
-    width:100%;
-    padding:16px;
-    border:none;
-    border-radius:14px;
-    background:#0A84FF;
-    color:white;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:opacity 0.2s ease;
+/* ====== BUTTONS ====== */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 8px;
+  border: none;
+  background: #00c8ff;
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.2s;
 }
 
-button:hover{
-    opacity:.9;
+button:hover {
+  background: #00a0d1;
 }
 
-/* ===== ARCHIVIO ===== */
-#lista{
-    margin-top:15px;
+/* ====== ARCHIVIO LISTA ====== */
+#lista div {
+  background: #222;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  transition: 0.2s;
 }
 
-.riga{
-    background:#374151;
-    border-radius:12px;
-    padding:15px;
-    margin-bottom:12px;
-    font-size:15px;
-    line-height:1.6;
+#lista div:hover {
+  background: #2a2a2a;
+  border-color: #00c8ff;
 }
 
-.elimina{
-    background:#FF3B30 !important;
+/* ====== MODAL ====== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
 }
 
-/* ===== MODAL ===== */
-.modal-overlay{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,.7);
-    z-index:1000;
+.modal-content {
+  background: #1a1a1a;
+  padding: 20px;
+  width: 90%;
+  max-width: 450px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 200, 255, 0.2);
 }
 
-.modal-overlay.active{
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
+.modal-header h2 {
+  margin: 0;
+  color: #00c8ff;
 }
 
-.modal-content{
-    background:#1f2937;
-    border-radius:24px 24px 0 0;
-    padding:24px;
-    width:100%;
-    max-height:90vh;
-    overflow-y:auto;
-    animation:slideUp 0.3s ease;
+.modal-close {
+  background: transparent;
+  color: #fff;
+  font-size: 24px;
+  border: none;
 }
 
-@keyframes slideUp{
-    from{transform:translateY(100%);}
-    to{transform:translateY(0);}
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
 }
 
-.modal-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
+.btn-annulla {
+  background: #444;
+  color: #fff;
 }
 
-.modal-close{
-    background:none;
-    border:none;
-    color:#fff;
-    font-size:28px;
-    cursor:pointer;
+.btn-modifica {
+  background: #ffaa00;
+  color: #000;
 }
 
-.modal-actions{
-    display:flex;
-    gap:10px;
-    margin-top:20px;
-}
-
-.btn-annulla{
-    background:#6B7280 !important;
-}
-
-.btn-salva-modifica{
-    background:#34C759 !important;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width:600px){
-    body{padding:15px;}
-    h1{font-size:28px;}
-    .nav-btn{padding:10px 18px; font-size:14px;}
-    .card{padding:15px;}
-    button{font-size:17px; padding:14px;}
-    input,select,textarea{font-size:16px; padding:12px;}
-}
-
-@media (max-width:400px){
-    .row{flex-direction:column;}
+.btn-salva {
+  background: #00ff88;
+  color: #000;
 }
