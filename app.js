@@ -16,6 +16,21 @@ viewSelect.addEventListener("change", () => {
 });
 
 // =========================
+// COLLEGAMENTO SELECT DOM
+// =========================
+const materiale = document.getElementById("materiale");
+const refrigerante = document.getElementById("refrigerante");
+
+const edit_materiale = document.getElementById("edit_materiale");
+const edit_refrigerante = document.getElementById("edit_refrigerante");
+
+const prog_macchina = document.getElementById("prog_macchina");
+const prog_operatore = document.getElementById("prog_operatore");
+
+const edit_prog_macchina = document.getElementById("edit_prog_macchina");
+const edit_prog_operatore = document.getElementById("edit_prog_operatore");
+
+// =========================
 // FUNZIONI NUMERICHE
 // =========================
 function num(v) {
