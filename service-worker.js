@@ -1,4 +1,4 @@
-const CACHE_NAME = "parametri-frese-v1"; // cambia versione quando aggiorni
+const CACHE_NAME = "parametri-frese-v2"; // cambia versione quando aggiorni
 const URLS_TO_CACHE = [
   "./",
   "./index.html",
