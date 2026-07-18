@@ -82,8 +82,13 @@ function riempiSelect(select, array) {
 // FETCH MATERIALI / MACCHINE / OPERATORI
 // =========================
 fetch("materials.json")
-  .then(r => r.json())
+  .then(r => {
+    console.log("FETCH STATUS:", r.status);
+    return r.json();
+  })
   .then(data => {
+    console.log("JSON LETTO:", data);
+
     riempiSelect(materiale, data.materiali);
     riempiSelect(refrigerante, data.refrigeranti);
     riempiSelect(edit_materiale, data.materiali);
@@ -94,7 +99,7 @@ fetch("materials.json")
     riempiSelect(edit_prog_macchina, data.macchine);
     riempiSelect(edit_prog_operatore, data.operatori);
   })
-  .catch(err => console.error("Errore materials.json:", err));
+  .catch(err => console.error("ERRORE FETCH:", err));
 
 // =========================
 // ARCHIVIO FRESE
