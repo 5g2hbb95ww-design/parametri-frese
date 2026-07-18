@@ -1,112 +1,68 @@
 {
   "materiali": [
-    {
-      "categoria": "Acciai",
-      "nome": "Acciaio C45",
-      "colore": "#4A90E2",
-      "icona": "🟦",
-      "strategie": ["SG", "Trocoidale", "Finitura"]
-    },
-    {
-      "categoria": "Acciai",
-      "nome": "Acciaio Inox 304",
-      "colore": "#6EC1E4",
-      "icona": "🔷",
-      "strategie": ["SG", "Trocoidale", "Passate leggere"]
-    },
-    {
-      "categoria": "Acciai Temprati",
-      "nome": "Acciaio 42CrMo4",
-      "colore": "#003366",
-      "icona": "🟫",
-      "strategie": ["Trocoidale", "SG", "Finitura lenta"]
-    },
-    {
-      "categoria": "Metalli Leggeri",
-      "nome": "Alluminio 6082",
-      "colore": "#B0E0E6",
-      "icona": "⬜",
-      "strategie": ["SG", "Spianatura", "Alta velocità"]
-    },
-    {
-      "categoria": "Metalli Leggeri",
-      "nome": "Titanio Grade 5",
-      "colore": "#708090",
-      "icona": "⚙️",
-      "strategie": ["Trocoidale", "Passate leggere"]
-    },
-    {
-      "categoria": "Ghise",
-      "nome": "Ghisa G25",
-      "colore": "#2F4F4F",
-      "icona": "⬛",
-      "strategie": ["SG", "Spianatura"]
-    },
-    {
-      "categoria": "Rame / Leghe",
-      "nome": "Bronzo",
-      "colore": "#CD7F32",
-      "icona": "🟫",
-      "strategie": ["Finitura", "Passate leggere"]
-    },
-    {
-      "categoria": "Rame / Leghe",
-      "nome": "Ottone",
-      "colore": "#DAA520",
-      "icona": "🟨",
-      "strategie": ["SG", "Finitura"]
-    },
-    {
-      "categoria": "Polimeri",
-      "nome": "Plastica Tecnica (POM)",
-      "colore": "#FFFFFF",
-      "icona": "⚪",
-      "strategie": ["SG", "Alta velocità"]
-    }
+    { "nome": "Acciaio C45" },
+    { "nome": "Acciaio C40" },
+    { "nome": "Acciaio 42CrMo4" },
+    { "nome": "Acciaio inox 304" },
+    { "nome": "Acciaio inox 316" },
+    { "nome": "Acciaio temprato 60 HRC" },
+    { "nome": "Alluminio 6082" },
+    { "nome": "Alluminio 7075" },
+    { "nome": "Alluminio 5083" },
+    { "nome": "Ghisa grigia" },
+    { "nome": "Ghisa sferoidale" },
+    { "nome": "Titanio Ti6Al4V" },
+    { "nome": "Ottone" },
+    { "nome": "Bronzo" },
+    { "nome": "Rame" },
+    { "nome": "POM (Delrin)" },
+    { "nome": "Nylon" },
+    { "nome": "PVC" }
   ],
 
   "refrigeranti": [
-    {
-      "nome": "Emulsione interna",
-      "tipo": "Interno",
-      "icona": "💧",
-      "colore": "#7FDBFF"
-    },
-    {
-      "nome": "Emulsione esterna",
-      "tipo": "Esterno",
-      "icona": "🟦",
-      "colore": "#0074D9"
-    },
-    {
-      "nome": "Olio intero",
-      "tipo": "Interno",
-      "icona": "🟫",
-      "colore": "#8B4513"
-    },
-    {
-      "nome": "Nebbia d’olio",
-      "tipo": "Esterno",
-      "icona": "🌫️",
-      "colore": "#AAAAAA"
-    },
-    {
-      "nome": "Aria interna",
-      "tipo": "Interno",
-      "icona": "💨",
-      "colore": "#B0E0E6"
-    },
-    {
-      "nome": "Aria esterna",
-      "tipo": "Esterno",
-      "icona": "🌀",
-      "colore": "#87CEFA"
-    },
-    {
-      "nome": "Secco",
-      "tipo": "Nessuno",
-      "icona": "🚫",
-      "colore": "#555555"
-    }
+    { "nome": "Emulsione 5%" },
+    { "nome": "Emulsione 7%" },
+    { "nome": "Emulsione 10%" },
+    { "nome": "Emulsione 12%" },
+    { "nome": "Olio intero" },
+    { "nome": "Nebbia d’olio" },
+    { "nome": "Aria compressa" },
+    { "nome": "Secco (dry machining)" }
+  ],
+
+  "macchine": [
+    { "nome": "DMG Mori DMU 50" },
+    { "nome": "DMG Mori CMX 600" },
+    { "nome": "Haas VF-2" },
+    { "nome": "Haas VF-4" },
+    { "nome": "Haas MiniMill" },
+    { "nome": "Mazak VCN 530" },
+    { "nome": "Mazak Variaxis" },
+    { "nome": "Doosan DNM 4500" },
+    { "nome": "Doosan DNM 6700" },
+    { "nome": "Fanuc Robodrill" },
+    { "nome": "Hermle C12" },
+    { "nome": "Hermle C22" },
+    { "nome": "Fidia K165" },
+    { "nome": "Breton Ultrix" },
+    { "nome": "Mikron VCE 600" },
+    { "nome": "Mikron HSM 400" }
+  ],
+
+  "operatori": [
+    { "nome": "Marco" },
+    { "nome": "Luca" },
+    { "nome": "Andrea" },
+    { "nome": "Davide" },
+    { "nome": "Stefano" },
+    { "nome": "Giovanni" },
+    { "nome": "Paolo" },
+    { "nome": "Matteo" },
+    { "nome": "Roberto" },
+    { "nome": "Simone" },
+    { "nome": "Fabio" },
+    { "nome": "Riccardo" },
+    { "nome": "Alessandro" }
   ]
 }
