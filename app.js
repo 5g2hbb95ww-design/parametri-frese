@@ -62,16 +62,19 @@ function num(v) {
   return isNaN(n) ? 0 : n;
 }
 
-// CALCOLI
+// CALCOLO M/min DA S
 function aggiornaMminDaS() {
   const D = num(diametro.value);
   const N = num(s.value);
   if (D > 0 && N > 0) {
     const vc = Math.PI * D * N / 1000;
     mmin.value = vc.toFixed(1);
+  } else {
+    mmin.value = "";
   }
 }
 
+// CALCOLO S CALCOLATA DA M/min
 function aggiornaSCalcDaMmin() {
   const D = num(diametro.value);
   const vc = num(mmin.value);
@@ -83,13 +86,14 @@ function aggiornaSCalcDaMmin() {
   }
 }
 
+// CALCOLO F CALCOLATA (VERSIONE CORRETTA)
 function aggiornaFCalc() {
-  const fz = num(avanzamento.value);
-  const z = num(taglienti.value);
-  const N = num(s.value);
+  const fz = num(avanzamento.value);      // mm/dente
+  const z = num(taglienti.value);         // numero taglienti
+  const N = num(sCalc.value);             // S calcolata
+
   if (fz > 0 && z > 0 && N > 0) {
-    const feed = fz * z * N;
-    fCalc.value = feed.toFixed(1);
+    fCalc.value = (fz * z * N).toFixed(1);
   } else {
     fCalc.value = "";
   }
@@ -99,17 +103,16 @@ function aggiornaFCalc() {
 diametro.addEventListener("input", () => {
   aggiornaMminDaS();
   aggiornaSCalcDaMmin();
-});
-
-s.addEventListener("input", () => {
-  aggiornaMminDaS();
   aggiornaFCalc();
 });
 
-mmin.addEventListener("input", aggiornaSCalcDaMmin);
-taglienti.addEventListener("input", aggiornaFCalc);
+mmin.addEventListener("input", () => {
+  aggiornaSCalcDaMmin();
+  aggiornaFCalc();
+});
+
 avanzamento.addEventListener("input", aggiornaFCalc);
-f.addEventListener("input", aggiornaFCalc);
+taglienti.addEventListener("input", aggiornaFCalc);
 sCalc.addEventListener("input", aggiornaFCalc);
 
 // MATERIALI + REFRIGERANTI DINAMICI
@@ -119,8 +122,8 @@ let REFRIGERANTI = [];
 fetch("materials.json")
   .then(r => r.json())
   .then(data => {
-    MATERIALI = data.materiali;
-    REFRIGERANTI = data.refrigeranti;
+    MATERIALI = data.materiali || [];
+    REFRIGERANTI = data.refrigeranti || [];
 
     riempiSelect(materiale, MATERIALI);
     riempiSelect(refrigerante, REFRIGERANTI);
@@ -147,19 +150,14 @@ let editIndex = null;
 
 function ordinaArchivio(criterio, ordine) {
   archivio.sort((a, b) => {
-    let valA = a[criterio];
-    let valB = b[criterio];
+    let valA = a[criterio] || "";
+    let valB = b[criterio] || "";
 
     if (typeof valA === "string") {
-      valA = valA || "";
-      valB = valB || "";
       return ordine === "asc"
         ? valA.localeCompare(valB)
         : valB.localeCompare(valA);
     }
-
-    valA = valA || 0;
-    valB = valB || 0;
 
     return ordine === "asc"
       ? valA - valB
@@ -195,7 +193,7 @@ function renderArchivio() {
     const meta = document.createElement("div");
     meta.className = "arch-item-meta";
     meta.textContent =
-      `D=${item.diametro}mm, z=${item.taglienti}, S=${item.s}, vc=${item.mmin}, F=${item.fCalc}`;
+      `D=${item.diametro}mm, z=${item.taglienti}, S=${item.sCalc}, vc=${item.mmin}, F=${item.fCalc}`;
 
     const note = document.createElement("div");
     note.className = "arch-item-meta";
@@ -282,11 +280,15 @@ btnUpdate.addEventListener("click", () => {
   item.refrigerante = edit_refrigerante.value;
   item.dettagli = edit_dettagli.value.trim();
 
+  // RICALCOLO F CALCOLATA CORRETTO
   const fz = item.avanzamento;
   const z = item.taglienti;
-  const N = item.s;
+  const N = item.sCalc;
+
   if (fz > 0 && z > 0 && N > 0) {
     item.fCalc = (fz * z * N).toFixed(1);
+  } else {
+    item.fCalc = "";
   }
 
   ordinaArchivio(sortSelect.value, orderSelect.value);
@@ -298,10 +300,10 @@ btnUpdate.addEventListener("click", () => {
 btnExport.addEventListener("click", () => {
   if (archivio.length === 0) return;
 
-  let csv = "Denominazione;Diametro;Taglienti;S;M/min;F_calcolata;Materiale;Refrigerante;Dettagli\n";
+  let csv = "Denominazione;Diametro;Taglienti;S;M/min;S_calcolata;F_calcolata;Materiale;Refrigerante;Dettagli\n";
 
   archivio.forEach(item => {
-    csv += `${item.denominazione};${item.diametro};${item.taglienti};${item.s};${item.mmin};${item.fCalc};${item.materiale};${item.refrigerante};${item.dettagli}\n`;
+    csv += `${item.denominazione};${item.diametro};${item.taglienti};${item.s};${item.mmin};${item.sCalc};${item.fCalc};${item.materiale};${item.refrigerante};${item.dettagli}\n`;
   });
 
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
