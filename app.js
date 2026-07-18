@@ -126,6 +126,9 @@ fetch("materials.json")
     riempiSelect(refrigerante, REFRIGERANTI);
     riempiSelect(edit_materiale, MATERIALI);
     riempiSelect(edit_refrigerante, REFRIGERANTI);
+  })
+  .catch(err => {
+    console.error("Errore nel caricamento di materials.json:", err);
   });
 
 function riempiSelect(select, array) {
@@ -148,10 +151,15 @@ function ordinaArchivio(criterio, ordine) {
     let valB = b[criterio];
 
     if (typeof valA === "string") {
+      valA = valA || "";
+      valB = valB || "";
       return ordine === "asc"
         ? valA.localeCompare(valB)
         : valB.localeCompare(valA);
     }
+
+    valA = valA || 0;
+    valB = valB || 0;
 
     return ordine === "asc"
       ? valA - valB
@@ -182,7 +190,7 @@ function renderArchivio() {
 
     const title = document.createElement("div");
     title.className = "arch-item-title";
-    title.textContent = `${item.denominazione} (${item.codiceFresa})`;
+    title.textContent = `${item.denominazione || "Senza nome"} (${item.codiceFresa || "N/A"})`;
 
     const meta = document.createElement("div");
     meta.className = "arch-item-meta";
@@ -191,7 +199,7 @@ function renderArchivio() {
 
     const note = document.createElement("div");
     note.className = "arch-item-meta";
-    note.textContent = `Materiale: ${item.materiale}, Refrigerante: ${item.refrigerante}`;
+    note.textContent = `Materiale: ${item.materiale || "-"}, Refrigerante: ${item.refrigerante || "-"}`;
 
     const btnMod = document.createElement("button");
     btnMod.textContent = "Modifica";
@@ -245,14 +253,14 @@ function apriPopup(index) {
   editIndex = index;
   const item = archivio[index];
 
-  edit_denominazione.value = item.denominazione;
-  edit_diametro.value = item.diametro;
-  edit_taglienti.value = item.taglienti;
-  edit_s.value = item.s;
-  edit_avanzamento.value = item.avanzamento;
-  edit_materiale.value = item.materiale;
-  edit_refrigerante.value = item.refrigerante;
-  edit_dettagli.value = item.dettagli;
+  edit_denominazione.value = item.denominazione || "";
+  edit_diametro.value = item.diametro || "";
+  edit_taglienti.value = item.taglienti || "";
+  edit_s.value = item.s || "";
+  edit_avanzamento.value = item.avanzamento || "";
+  edit_materiale.value = item.materiale || "";
+  edit_refrigerante.value = item.refrigerante || "";
+  edit_dettagli.value = item.dettagli || "";
 
   modalEdit.classList.remove("hidden");
 }
@@ -268,4 +276,38 @@ btnUpdate.addEventListener("click", () => {
   item.denominazione = edit_denominazione.value.trim();
   item.diametro = num(edit_diametro.value);
   item.taglienti = num(edit_taglienti.value);
-  item.s = num
+  item.s = num(edit_s.value);
+  item.avanzamento = num(edit_avanzamento.value);
+  item.materiale = edit_materiale.value;
+  item.refrigerante = edit_refrigerante.value;
+  item.dettagli = edit_dettagli.value.trim();
+
+  const fz = item.avanzamento;
+  const z = item.taglienti;
+  const N = item.s;
+  if (fz > 0 && z > 0 && N > 0) {
+    item.fCalc = (fz * z * N).toFixed(1);
+  }
+
+  ordinaArchivio(sortSelect.value, orderSelect.value);
+  renderArchivio();
+  modalEdit.classList.add("hidden");
+});
+
+// ESPORTA CSV
+btnExport.addEventListener("click", () => {
+  if (archivio.length === 0) return;
+
+  let csv = "Denominazione;Diametro;Taglienti;S;M/min;F_calcolata;Materiale;Refrigerante;Dettagli\n";
+
+  archivio.forEach(item => {
+    csv += `${item.denominazione};${item.diametro};${item.taglienti};${item.s};${item.mmin};${item.fCalc};${item.materiale};${item.refrigerante};${item.dettagli}\n`;
+  });
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "parametri-frese.csv";
+  a.click();
+});
