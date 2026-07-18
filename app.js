@@ -39,6 +39,10 @@ const btnSalva = document.getElementById("btnSalva");
 const lista = document.getElementById("lista");
 const btnExport = document.getElementById("btnExport");
 
+// ORDINAMENTO
+const sortSelect = document.getElementById("sortSelect");
+const orderSelect = document.getElementById("orderSelect");
+
 // MODAL EDIT
 const modalEdit = document.getElementById("modalEdit");
 const edit_denominazione = document.getElementById("edit_denominazione");
@@ -59,7 +63,6 @@ function num(v) {
 }
 
 // CALCOLI
-// M/min da S e Diametro: vc = π * D * n / 1000
 function aggiornaMminDaS() {
   const D = num(diametro.value);
   const N = num(s.value);
@@ -69,7 +72,6 @@ function aggiornaMminDaS() {
   }
 }
 
-// S calcolata da M/min e Diametro: n = vc * 1000 / (π * D)
 function aggiornaSCalcDaMmin() {
   const D = num(diametro.value);
   const vc = num(mmin.value);
@@ -81,7 +83,6 @@ function aggiornaSCalcDaMmin() {
   }
 }
 
-// F calcolata (mm/min) da avanzamento (mm/dente), S (giri/min), taglienti: F = fz * z * n
 function aggiornaFCalc() {
   const fz = num(avanzamento.value);
   const z = num(taglienti.value);
@@ -141,6 +142,33 @@ function riempiSelect(select, array) {
 const archivio = [];
 let editIndex = null;
 
+function ordinaArchivio(criterio, ordine) {
+  archivio.sort((a, b) => {
+    let valA = a[criterio];
+    let valB = b[criterio];
+
+    if (typeof valA === "string") {
+      return ordine === "asc"
+        ? valA.localeCompare(valB)
+        : valB.localeCompare(valA);
+    }
+
+    return ordine === "asc"
+      ? valA - valB
+      : valB - valA;
+  });
+}
+
+sortSelect.addEventListener("change", () => {
+  ordinaArchivio(sortSelect.value, orderSelect.value);
+  renderArchivio();
+});
+
+orderSelect.addEventListener("change", () => {
+  ordinaArchivio(sortSelect.value, orderSelect.value);
+  renderArchivio();
+});
+
 function renderArchivio() {
   lista.innerHTML = "";
   if (archivio.length === 0) {
@@ -154,16 +182,16 @@ function renderArchivio() {
 
     const title = document.createElement("div");
     title.className = "arch-item-title";
-    title.textContent = `${item.denominazione || "Senza nome"} (${item.codiceFresa || "N/A"})`;
+    title.textContent = `${item.denominazione} (${item.codiceFresa})`;
 
     const meta = document.createElement("div");
     meta.className = "arch-item-meta";
     meta.textContent =
-      `D=${item.diametro}mm, z=${item.taglienti}, S=${item.s}giri, vc=${item.mmin}m/min, F=${item.fCalc}mm/min`;
+      `D=${item.diametro}mm, z=${item.taglienti}, S=${item.s}, vc=${item.mmin}, F=${item.fCalc}`;
 
     const note = document.createElement("div");
     note.className = "arch-item-meta";
-    note.textContent = `Materiale: ${item.materiale || "-"}, Refrigerante: ${item.refrigerante || "-"}`;
+    note.textContent = `Materiale: ${item.materiale}, Refrigerante: ${item.refrigerante}`;
 
     const btnMod = document.createElement("button");
     btnMod.textContent = "Modifica";
@@ -202,6 +230,8 @@ btnSalva.addEventListener("click", () => {
   };
 
   archivio.push(item);
+
+  ordinaArchivio(sortSelect.value, orderSelect.value);
   renderArchivio();
 
   viewSelect.value = "archivio";
@@ -238,38 +268,4 @@ btnUpdate.addEventListener("click", () => {
   item.denominazione = edit_denominazione.value.trim();
   item.diametro = num(edit_diametro.value);
   item.taglienti = num(edit_taglienti.value);
-  item.s = num(edit_s.value);
-  item.avanzamento = num(edit_avanzamento.value);
-  item.materiale = edit_materiale.value;
-  item.refrigerante = edit_refrigerante.value;
-  item.dettagli = edit_dettagli.value.trim();
-
-  // ricalcolo F calcolata se necessario
-  const fz = item.avanzamento;
-  const z = item.taglienti;
-  const N = item.s;
-  if (fz > 0 && z > 0 && N > 0) {
-    item.fCalc = (fz * z * N).toFixed(1);
-  }
-
-  renderArchivio();
-  modalEdit.classList.add("hidden");
-});
-
-// ESPORTA CSV
-btnExport.addEventListener("click", () => {
-  if (archivio.length === 0) return;
-
-  let csv = "Denominazione;Diametro;Taglienti;S;M/min;F_calcolata;Materiale;Refrigerante;Dettagli\n";
-
-  archivio.forEach(item => {
-    csv += `${item.denominazione};${item.diametro};${item.taglienti};${item.s};${item.mmin};${item.fCalc};${item.materiale};${item.refrigerante};${item.dettagli}\n`;
-  });
-
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "parametri-frese.csv";
-  a.click();
-});
+  item.s = num
