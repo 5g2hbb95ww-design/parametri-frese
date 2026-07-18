@@ -38,14 +38,14 @@
       </div>
       <div class="col">
         <label for="taglienti">Taglienti (z)</label>
-        <input id="taglienti" type="number" step="1">
+        <input id="taglienti" type="number">
       </div>
     </div>
 
     <div class="row">
       <div class="col">
         <label for="s">S (giri/min)</label>
-        <input id="s" type="number" step="1">
+        <input id="s" type="number">
       </div>
       <div class="col">
         <label for="mmin">Vc (m/min)</label>
@@ -56,7 +56,7 @@
     <div class="row">
       <div class="col">
         <label for="s_calc">S calcolata</label>
-        <input id="s_calc" type="number" step="1">
+        <input id="s_calc" type="number">
       </div>
       <div class="col">
         <label for="avanzamento">fz (mm/dente)</label>
@@ -65,7 +65,7 @@
     </div>
 
     <label for="f_calc">F calcolata (mm/min)</label>
-    <input id="f_calc" type="number" step="0.1">
+    <input id="f_calc" type="number">
 
     <div class="row">
       <div class="col">
@@ -78,22 +78,24 @@
       </div>
     </div>
 
-    <label for="materiale">Materiale</label>
-    <select id="materiale"></select>
-
-    <label for="refrigerante">Refrigerante</label>
-    <select id="refrigerante"></select>
-
+    <!-- MATERIALI / REFRIGERANTE CORRETTI -->
     <div class="row">
       <div class="col">
-        <label for="codice_fresa">Codice fresa</label>
-        <input id="codice_fresa" type="text">
+        <label for="refrigerante">Refrigerante</label>
+        <select id="refrigerante"></select>
       </div>
       <div class="col">
-        <label for="codice_inserto">Codice inserto</label>
-        <input id="codice_inserto" type="text">
+        <label for="materiale">Materiale</label>
+        <select id="materiale"></select>
       </div>
     </div>
+
+    <!-- CODICI FULL WIDTH -->
+    <label for="codice_fresa">Codice fresa</label>
+    <input id="codice_fresa" type="text">
+
+    <label for="codice_inserto">Codice inserto</label>
+    <input id="codice_inserto" type="text">
 
     <label for="dettagli">Dettagli / Note</label>
     <textarea id="dettagli" rows="3"></textarea>
@@ -148,7 +150,7 @@
     <input id="prog_rev" type="text">
 
     <label for="prog_tempo">Tempo programmazione (min)</label>
-    <input id="prog_tempo" type="number" step="1">
+    <input id="prog_tempo" type="number">
 
     <label for="prog_operatore">Operatore CNC</label>
     <select id="prog_operatore"></select>
