@@ -2,291 +2,264 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Parametri Fresa</title>
+  <title>Parametri Frese & Programmazione</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+
   <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#050814">
+
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <div class="app-title">Parametri Fresa</div>
 
-    <div class="view-selector">
-      <select id="viewSelect">
-        <option value="nuovo">Nuovo</option>
-        <option value="archivio">Archivio</option>
-        <option value="programmazione">Programmazione</option>
-      </select>
+<header class="glass volumetric">
+  <div class="app-title">Parametri Frese & Programmazione</div>
+  <div class="view-selector">
+    <select id="viewSelect">
+      <option value="nuovo">Nuovo utensile</option>
+      <option value="archivio">Archivio frese</option>
+      <option value="programmazione">Programmazione</option>
+    </select>
+  </div>
+</header>
+
+<main>
+
+<!-- PAGINA NUOVO -->
+<section id="page-nuovo" class="page active">
+  <div class="card glass volumetric">
+    <h2>Nuovo utensile</h2>
+
+    <label>Denominazione fresa</label>
+    <input id="denominazione_fresa" type="text">
+
+    <div class="row">
+      <div class="col">
+        <label>Diametro (mm)</label>
+        <input id="diametro" type="number" step="0.01">
+      </div>
+      <div class="col">
+        <label>Taglienti (z)</label>
+        <input id="taglienti" type="number">
+      </div>
     </div>
-  </header>
 
-  <main>
-    <!-- PAGINA NUOVO -->
-    <section id="page-nuovo" class="page active">
-
-      <!-- CARD 1 -->
-      <div class="card glass volumetric">
-        <h2>Dati fresa</h2>
-
-        <label>Denominazione fresa</label>
-        <input id="denominazione_fresa" type="text">
-
-        <div class="row">
-          <div class="col">
-            <label>Diametro (mm)</label>
-            <input id="diametro" type="number" step="0.01">
-          </div>
-          <div class="col">
-            <label>N. taglienti</label>
-            <input id="taglienti" type="number">
-          </div>
-        </div>
+    <div class="row">
+      <div class="col">
+        <label>S (giri/min)</label>
+        <input id="s" type="number">
       </div>
-
-      <!-- CARD 2 -->
-      <div class="card glass volumetric">
-        <h2>Parametri di taglio</h2>
-
-        <div class="row">
-          <div class="col">
-            <label>S (giri/min)</label>
-            <input id="s" type="number">
-          </div>
-          <div class="col">
-            <label>F (mm/giro)</label>
-            <input id="f" type="number" step="0.01">
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col">
-            <label>M/min</label>
-            <input id="mmin" type="number" step="0.1">
-          </div>
-          <div class="col">
-            <label>S calcolata</label>
-            <input id="s_calc" type="number" readonly>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col">
-            <label>Avanzamento (mm/dente)</label>
-            <input id="avanzamento" type="number" step="0.01">
-          </div>
-          <div class="col">
-            <label>F calcolata (mm/min)</label>
-            <input id="f_calc" type="number" readonly>
-          </div>
-        </div>
+      <div class="col">
+        <label>Vc (m/min)</label>
+        <input id="mmin" type="number" step="0.1">
       </div>
+    </div>
 
-      <!-- CARD 3 -->
-      <div class="card glass volumetric">
-        <h2>Profondità / Passate</h2>
-
-        <div class="row">
-          <div class="col">
-            <label>Z Ap</label>
-            <input id="zap" type="number" step="0.01">
-          </div>
-          <div class="col">
-            <label>XY Ae</label>
-            <input id="xyae" type="number" step="0.01">
-          </div>
-        </div>
+    <div class="row">
+      <div class="col">
+        <label>S calcolata</label>
+        <input id="s_calc" type="number">
       </div>
+      <div class="col">
+        <label>fz (mm/dente)</label>
+        <input id="avanzamento" type="number" step="0.01">
+      </div>
+    </div>
 
-      <!-- CARD 4 -->
-      <div class="card glass volumetric">
-        <h2>Codici utensile</h2>
+    <label>F calcolata (mm/min)</label>
+    <input id="f_calc" type="number">
 
+    <div class="row">
+      <div class="col">
+        <label>Z ap (mm)</label>
+        <input id="zap" type="number" step="0.01">
+      </div>
+      <div class="col">
+        <label>XY ae (mm)</label>
+        <input id="xyae" type="number" step="0.01">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
         <label>Codice fresa</label>
         <input id="codice_fresa" type="text">
-
+      </div>
+      <div class="col">
         <label>Codice inserto</label>
         <input id="codice_inserto" type="text">
       </div>
+    </div>
 
-      <!-- CARD 5 -->
-      <div class="card glass volumetric">
-        <h2>Dettagli lavorazione</h2>
+    <label>Materiale</label>
+    <select id="materiale"></select>
 
-        <div class="row">
-          <div class="col">
-            <label>Materiale</label>
-            <select id="materiale"></select>
-          </div>
-          <div class="col">
-            <label>Refrigerante</label>
-            <select id="refrigerante"></select>
-          </div>
-        </div>
+    <label>Refrigerante</label>
+    <select id="refrigerante"></select>
 
-        <label>Dettagli</label>
-        <textarea id="dettagli" rows="3"></textarea>
+    <label>Dettagli</label>
+    <textarea id="dettagli"></textarea>
 
-        <button id="btnSalva" class="btn-primary">Salva in archivio</button>
-      </div>
-    </section>
+    <button id="btnSalva" class="btn-primary">Salva utensile</button>
+  </div>
+</section>
 
-    <!-- PAGINA ARCHIVIO -->
-    <section id="page-archivio" class="page">
-      <div class="card glass volumetric">
-        <h2>Archivio frese</h2>
+<!-- PAGINA ARCHIVIO -->
+<section id="page-archivio" class="page">
+  <div class="card glass volumetric">
+    <h2>Archivio frese</h2>
 
+    <div class="row">
+      <div class="col">
         <label>Ordina per</label>
         <select id="sortSelect">
+          <option value="denominazione">Denominazione</option>
           <option value="diametro">Diametro</option>
           <option value="materiale">Materiale</option>
-          <option value="codiceFresa">Codice fresa</option>
-          <option value="refrigerante">Refrigerante</option>
-          <option value="mmin">Velocità di taglio (M/min)</option>
-          <option value="fCalc">Avanzamento (F calcolata)</option>
         </select>
-
+      </div>
+      <div class="col">
         <label>Ordine</label>
         <select id="orderSelect">
           <option value="asc">Crescente</option>
           <option value="desc">Decrescente</option>
         </select>
-
-        <button id="btnExport" class="btn-primary">Esporta CSV</button>
-
-        <div id="lista"></div>
       </div>
-    </section>
-
-    <!-- PAGINA PROGRAMMAZIONE -->
-    <section id="page-programmazione" class="page">
-
-      <!-- CARD: DATI LAVORO -->
-      <div class="card glass volumetric">
-        <h2>Programmazione</h2>
-
-        <label>Macchina CNC</label>
-        <input id="prog_macchina" type="text">
-
-        <label>Commessa</label>
-        <input id="prog_commessa" type="text">
-
-        <label>Numero disegno</label>
-        <input id="prog_disegno" type="text">
-
-        <label>Revisione</label>
-        <input id="prog_rev" type="text">
-
-        <label>Tempo programmazione (minuti)</label>
-        <input id="prog_tempo" type="number">
-
-        <label>Operatore CNC</label>
-        <input id="prog_operatore" type="text">
-
-        <label>Stato lavoro</label>
-        <select id="prog_stato">
-          <option value="in_programmazione">In programmazione</option>
-          <option value="in_produzione">In produzione</option>
-          <option value="sospeso">Sospeso</option>
-          <option value="programmato">Programmato</option>
-          <option value="finito">Programmato e prodotto</option>
-        </select>
-
-        <label>Note tecniche</label>
-        <textarea id="prog_note" rows="4"></textarea>
-
-        <button id="btnSalvaProgrammazione" class="btn-primary">Salva scheda lavoro</button>
-      </div>
-
-      <!-- CARD: STORICO -->
-      <div class="card glass volumetric">
-        <h2>Storico schede lavoro</h2>
-        <div id="prog_lista"></div>
-      </div>
-
-      <!-- CARD: TIMELINE -->
-      <div class="card glass volumetric">
-        <h2>Timeline lavoro</h2>
-        <div id="prog_timeline"></div>
-
-        <button id="btnExportPDF" class="btn-primary">Esporta PDF</button>
-      </div>
-    </section>
-  </main>
-
-  <!-- MODAL MODIFICA -->
-  <div id="modalEdit" class="modal hidden">
-    <div class="modal-content glass volumetric">
-      <h2>Modifica fresa</h2>
-
-      <label>Denominazione</label>
-      <input id="edit_denominazione" type="text">
-
-      <label>Diametro</label>
-      <input id="edit_diametro" type="number">
-
-      <label>Taglienti</label>
-      <input id="edit_taglienti" type="number">
-
-      <label>S</label>
-      <input id="edit_s" type="number">
-
-      <label>Avanzamento</label>
-      <input id="edit_avanzamento" type="number">
-
-      <label>Materiale</label>
-      <select id="edit_materiale"></select>
-
-      <label>Refrigerante</label>
-      <select id="edit_refrigerante"></select>
-
-      <label>Dettagli</label>
-      <textarea id="edit_dettagli"></textarea>
-
-      <button id="btnUpdate" class="btn-primary">Aggiorna</button>
-      <button id="btnCloseModal" class="btn-secondary">Chiudi</button>
     </div>
+
+    <div id="lista"></div>
+
+    <button id="btnExport" class="btn-secondary">Esporta CSV</button>
+  </div>
+</section>
+
+<!-- PAGINA PROGRAMMAZIONE -->
+<section id="page-programmazione" class="page">
+  <div class="card glass volumetric">
+    <h2>Programmazione / Scheda lavoro</h2>
+
+    <label>Macchina CNC</label>
+    <select id="prog_macchina"></select>
+
+    <label>Commessa</label>
+    <input id="prog_commessa" type="text">
+
+    <label>Disegno</label>
+    <input id="prog_disegno" type="text">
+
+    <label>Revisione</label>
+    <input id="prog_rev" type="text">
+
+    <label>Tempo programmazione (min)</label>
+    <input id="prog_tempo" type="number">
+
+    <label>Operatore CNC</label>
+    <select id="prog_operatore"></select>
+
+    <label>Stato</label>
+    <select id="prog_stato">
+      <option value="in_programmazione">In programmazione</option>
+      <option value="programmato">Programmato</option>
+      <option value="in_produzione">In produzione</option>
+      <option value="sospeso">Sospeso</option>
+      <option value="finito">Programmato e prodotto</option>
+    </select>
+
+    <label>Note</label>
+    <textarea id="prog_note"></textarea>
+
+    <button id="btnSalvaProgrammazione" class="btn-primary">Salva scheda lavoro</button>
   </div>
 
-  <!-- MODAL MODIFICA PROGRAMMAZIONE -->
-  <div id="modalEditProg" class="modal hidden">
-    <div class="modal-content glass volumetric">
-      <h2>Modifica scheda lavoro</h2>
-
-      <label>Macchina CNC</label>
-      <input id="edit_prog_macchina" type="text">
-
-      <label>Commessa</label>
-      <input id="edit_prog_commessa" type="text">
-
-      <label>Numero disegno</label>
-      <input id="edit_prog_disegno" type="text">
-
-      <label>Revisione</label>
-      <input id="edit_prog_rev" type="text">
-
-      <label>Tempo programmazione</label>
-      <input id="edit_prog_tempo" type="number">
-
-      <label>Operatore CNC</label>
-      <input id="edit_prog_operatore" type="text">
-
-      <label>Stato lavoro</label>
-      <select id="edit_prog_stato">
-        <option value="in_programmazione">In programmazione</option>
-        <option value="in_produzione">In produzione</option>
-        <option value="sospeso">Sospeso</option>
-        <option value="programmato">Programmato</option>
-        <option value="finito">Programmato e prodotto</option>
-      </select>
-
-      <label>Note tecniche</label>
-      <textarea id="edit_prog_note" rows="4"></textarea>
-
-      <button id="btnUpdateProg" class="btn-primary">Aggiorna</button>
-      <button id="btnCloseModalProg" class="btn-secondary">Chiudi</button>
-    </div>
+  <div class="card glass volumetric">
+    <h2>Lista schede lavoro</h2>
+    <div id="prog_lista"></div>
   </div>
 
-  <script src="app.js"></script>
+  <div class="card glass volumetric">
+    <h2>Timeline</h2>
+    <div id="prog_timeline"></div>
+    <button id="btnExportPDF" class="btn-secondary">Esporta scheda (TXT)</button>
+  </div>
+</section>
+
+</main>
+
+<!-- MODAL FRESE -->
+<div id="modalEdit" class="modal hidden">
+  <div class="modal-content glass volumetric">
+    <h2>Modifica utensile</h2>
+
+    <label>Denominazione</label>
+    <input id="edit_denominazione">
+
+    <label>Diametro</label>
+    <input id="edit_diametro">
+
+    <label>Taglienti</label>
+    <input id="edit_taglienti">
+
+    <label>S</label>
+    <input id="edit_s">
+
+    <label>fz</label>
+    <input id="edit_avanzamento">
+
+    <label>Materiale</label>
+    <select id="edit_materiale"></select>
+
+    <label>Refrigerante</label>
+    <select id="edit_refrigerante"></select>
+
+    <label>Dettagli</label>
+    <textarea id="edit_dettagli"></textarea>
+
+    <button id="btnUpdate" class="btn-primary">Aggiorna</button>
+    <button id="btnCloseModal" class="btn-secondary">Chiudi</button>
+  </div>
+</div>
+
+<!-- MODAL PROGRAMMAZIONE -->
+<div id="modalEditProg" class="modal hidden">
+  <div class="modal-content glass volumetric">
+    <h2>Modifica scheda lavoro</h2>
+
+    <label>Macchina CNC</label>
+    <select id="edit_prog_macchina"></select>
+
+    <label>Commessa</label>
+    <input id="edit_prog_commessa">
+
+    <label>Disegno</label>
+    <input id="edit_prog_disegno">
+
+    <label>Revisione</label>
+    <input id="edit_prog_rev">
+
+    <label>Tempo programmazione</label>
+    <input id="edit_prog_tempo">
+
+    <label>Operatore CNC</label>
+    <select id="edit_prog_operatore"></select>
+
+    <label>Stato</label>
+    <select id="edit_prog_stato">
+      <option value="in_programmazione">In programmazione</option>
+      <option value="programmato">Programmato</option>
+      <option value="in_produzione">In produzione</option>
+      <option value="sospeso">Sospeso</option>
+      <option value="finito">Programmato e prodotto</option>
+    </select>
+
+    <label>Note</label>
+    <textarea id="edit_prog_note"></textarea>
+
+    <button id="btnUpdateProg" class="btn-primary">Aggiorna scheda</button>
+    <button id="btnCloseModalProg" class="btn-secondary">Chiudi</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+
 </body>
 </html>
