@@ -77,6 +77,61 @@ function riempiSelect(select, array) {
     select.appendChild(opt);
   });
 }
+// =========================
+// CONTROLLO AUTOMATICO JSON
+// =========================
+function controllaJSON() {
+  console.log("=== CONTROLLO AUTOMATICO JSON ===");
+
+  fetch("materials.json")
+    .then(r => {
+      console.log("FETCH STATUS:", r.status);
+
+      if (!r.ok) {
+        console.error("❌ Il file materials.json NON è stato trovato.");
+      } else {
+        console.log("✔ Il file materials.json è stato trovato.");
+      }
+
+      return r.json();
+    })
+    .then(data => {
+      console.log("JSON LETTO:", data);
+
+      const keys = ["materiali", "refrigeranti", "macchine", "operatori"];
+
+      keys.forEach(k => {
+        if (!data[k]) {
+          console.error(`❌ Manca la chiave: ${k}`);
+        } else if (!Array.isArray(data[k])) {
+          console.error(`❌ ${k} NON è un array.`);
+        } else if (data[k].length === 0) {
+          console.warn(`⚠ ${k} è vuoto.`);
+        } else {
+          console.log(`✔ ${k} contiene ${data[k].length} elementi.`);
+        }
+      });
+
+      keys.forEach(k => {
+        if (Array.isArray(data[k])) {
+          data[k].forEach((obj, i) => {
+            if (!obj.nome) {
+              console.error(`❌ ${k}[${i}] NON ha il campo "nome".`);
+            }
+          });
+        }
+      });
+
+      console.log("=== FINE CONTROLLO JSON ===");
+    })
+    .catch(err => {
+      console.error("❌ ERRORE FETCH:", err);
+    });
+}
+
+// Avvia il controllo automatico all'avvio
+controllaJSON();
+
 
 // =========================
 // FETCH MATERIALI / MACCHINE / OPERATORI
