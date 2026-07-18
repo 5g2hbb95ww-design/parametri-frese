@@ -129,6 +129,13 @@ fetch("materials.json")
     riempiSelect(refrigerante, REFRIGERANTI);
     riempiSelect(edit_materiale, MATERIALI);
     riempiSelect(edit_refrigerante, REFRIGERANTI);
+    
+    // LISTE MACCHINE E OPERATORI
+    riempiSelect(prog_macchina, data.macchine);
+    riempiSelect(prog_operatore, data.operatori);
+    riempiSelect(edit_prog_macchina, data.macchine);
+    riempiSelect(edit_prog_operatore, data.operatori);
+
   })
   .catch(err => {
     console.error("Errore nel caricamento di materials.json:", err);
