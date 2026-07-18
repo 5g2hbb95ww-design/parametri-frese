@@ -443,3 +443,151 @@ function renderProgrammazione() {
     div.addEventListener("click", () => {
       renderTimeline(idx);
       editProgIndex = idx;
+});
+         prog_lista.appendChild(div);
+  });
+}
+
+// TIMELINE
+function registraTimeline(idx, nuovoStato) {
+  programmazioneArchivio[idx].timeline.push({
+    stato: nuovoStato,
+    data: new Date().toLocaleString()
+  });
+  renderTimeline(idx);
+}
+
+function renderTimeline(idx) {
+  const item = programmazioneArchivio[idx];
+  prog_timeline.innerHTML = "";
+
+  item.timeline.forEach(entry => {
+    const row = document.createElement("div");
+    row.className = "timeline-row";
+
+    const badge = document.createElement("span");
+    badge.className = "badge-stato";
+
+    switch (entry.stato) {
+      case "in_programmazione":
+        badge.classList.add("badge-programmazione");
+        badge.textContent = "In programmazione";
+        break;
+
+      case "in_produzione":
+        badge.classList.add("badge-produzione");
+        badge.textContent = "In produzione";
+        break;
+
+      case "sospeso":
+        badge.classList.add("badge-sospeso");
+        badge.textContent = "Sospeso";
+        break;
+
+      case "programmato":
+        badge.classList.add("badge-programmato");
+        badge.textContent = "Programmato";
+        break;
+
+      case "finito":
+        badge.classList.add("badge-finito");
+        badge.textContent = "Programmato e prodotto";
+        break;
+    }
+
+    const text = document.createElement("span");
+    text.className = "timeline-text";
+    text.textContent = entry.data;
+
+    row.appendChild(badge);
+    row.appendChild(text);
+    prog_timeline.appendChild(row);
+  });
+}
+
+// MODAL PROGRAMMAZIONE
+const modalEditProg = document.getElementById("modalEditProg");
+const edit_prog_macchina = document.getElementById("edit_prog_macchina");
+const edit_prog_commessa = document.getElementById("edit_prog_commessa");
+const edit_prog_disegno = document.getElementById("edit_prog_disegno");
+const edit_prog_rev = document.getElementById("edit_prog_rev");
+const edit_prog_tempo = document.getElementById("edit_prog_tempo");
+const edit_prog_operatore = document.getElementById("edit_prog_operatore");
+const edit_prog_stato = document.getElementById("edit_prog_stato");
+const edit_prog_note = document.getElementById("edit_prog_note");
+const btnUpdateProg = document.getElementById("btnUpdateProg");
+const btnCloseModalProg = document.getElementById("btnCloseModalProg");
+
+function apriPopupProgrammazione(index) {
+  editProgIndex = index;
+  const item = programmazioneArchivio[index];
+
+  edit_prog_macchina.value = item.macchina;
+  edit_prog_commessa.value = item.commessa;
+  edit_prog_disegno.value = item.disegno;
+  edit_prog_rev.value = item.revisione;
+  edit_prog_tempo.value = item.tempo;
+  edit_prog_operatore.value = item.operatore;
+  edit_prog_stato.value = item.stato;
+  edit_prog_note.value = item.note;
+
+  modalEditProg.classList.remove("hidden");
+}
+
+btnCloseModalProg.addEventListener("click", () => {
+  modalEditProg.classList.add("hidden");
+});
+
+btnUpdateProg.addEventListener("click", () => {
+  if (editProgIndex === null) return;
+
+  const item = programmazioneArchivio[editProgIndex];
+
+  item.macchina = edit_prog_macchina.value.trim();
+  item.commessa = edit_prog_commessa.value.trim();
+  item.disegno = edit_prog_disegno.value.trim();
+  item.revisione = edit_prog_rev.value.trim();
+  item.tempo = num(edit_prog_tempo.value);
+  item.operatore = edit_prog_operatore.value.trim();
+  item.stato = edit_prog_stato.value;
+  item.note = edit_prog_note.value.trim();
+
+  registraTimeline(editProgIndex, item.stato);
+
+  renderProgrammazione();
+  renderTimeline(editProgIndex);
+
+  modalEditProg.classList.add("hidden");
+});
+
+// ESPORTA PDF
+btnExportPDF.addEventListener("click", () => {
+  const idx = editProgIndex;
+  if (idx === null) return;
+
+  const item = programmazioneArchivio[idx];
+
+  let text = "";
+  text += `Macchina: ${item.macchina}\n`;
+  text += `Commessa: ${item.commessa}\n`;
+  text += `Disegno: ${item.disegno}\n`;
+  text += `Revisione: ${item.revisione}\n`;
+  text += `Tempo programmazione: ${item.tempo} min\n`;
+  text += `Operatore: ${item.operatore}\n`;
+  text += `Stato: ${item.stato}\n`;
+  text += `Note: ${item.note}\n\n`;
+  text += `Timeline:\n`;
+
+  item.timeline.forEach(t => {
+    text += `- ${t.stato} (${t.data})\n`;
+  });
+
+  const blob = new Blob([text], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `scheda_${item.commessa}.txt`;
+  a.click();
+});
+                    
