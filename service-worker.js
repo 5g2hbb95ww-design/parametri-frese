@@ -1,55 +1,48 @@
-// ===============================
-// SERVICE WORKER ANTI-CACHE DEFINITIVO
-// ===============================
+// =========================
+// SERVICE WORKER SEMPLICE E STABILE
+// =========================
 
-// Cambia automaticamente versione ad ogni installazione
-const VERSION = Date.now().toString();
-const CACHE_NAME = "frese-cache-" + VERSION;
+// Nome della cache
+const CACHE_NAME = "pwa-cache-v1";
 
-// File da mettere in cache
-const FILES = [
+// File da mettere in cache (solo quelli base)
+const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./style.css",
   "./app.js",
-  "./materials.json",
-  "./manifest.json"
+  "./materials.json"
 ];
 
-// INSTALL: scarica SEMPRE i file nuovi
-self.addEventListener("install", event => {
+// Installazione SW
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES))
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(FILES_TO_CACHE);
+    })
   );
-  self.skipWaiting(); // forza aggiornamento immediato
+  self.skipWaiting();
 });
 
-// ACTIVATE: cancella TUTTE le cache vecchie
-self.addEventListener("activate", event => {
+// Attivazione SW
+self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then(keys =>
+    caches.keys().then((keys) =>
       Promise.all(
-        keys.map(key => {
+        keys.map((key) => {
           if (key !== CACHE_NAME) {
-            return caches.delete(key); // elimina tutto il vecchio
+            return caches.delete(key);
           }
         })
       )
     )
   );
-  self.clients.claim(); // attiva subito
+  self.clients.claim();
 });
 
-// FETCH: sempre rete → fallback cache
-self.addEventListener("fetch", event => {
+// Fetch: prima rete, se fallisce usa cache
+self.addEventListener("fetch", (event) => {
   event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        // aggiorna cache con file nuovo
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-        return response;
-      })
-      .catch(() => caches.match(event.request)) // offline fallback
+    fetch(event.request).catch(() => caches.match(event.request))
   );
 });
