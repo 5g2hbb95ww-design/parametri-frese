@@ -1,0 +1,18 @@
+{
+  "materiali": [
+    "Acciaio C45",
+    "Acciaio Inox",
+    "Alluminio",
+    "Ghisa",
+    "Titanio",
+    "Bronzo",
+    "Ottone"
+  ],
+  "refrigeranti": [
+    "Emulsione",
+    "Olio intero",
+    "Aria",
+    "Secco",
+    "Nebbia d’olio"
+  ]
+}
