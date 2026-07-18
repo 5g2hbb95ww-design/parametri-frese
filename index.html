@@ -5,12 +5,12 @@
   <title>Parametri Fresa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
   <header>
     <div class="app-title">Parametri Fresa</div>
 
-    <!-- MENU A TENDINA: Nuovo / Archivio / Programmazione -->
     <div class="view-selector">
       <select id="viewSelect">
         <option value="nuovo">Nuovo</option>
@@ -21,7 +21,7 @@
   </header>
 
   <main>
-    <!-- PAGINA NUOVO (5 CARD VISIONOS) -->
+    <!-- PAGINA NUOVO -->
     <section id="page-nuovo" class="page active">
 
       <!-- CARD 1: DATI FRESA -->
@@ -115,11 +115,11 @@
         <div class="row">
           <div class="col">
             <label>Materiale</label>
-            <input id="materiale" type="text" autocomplete="off">
+            <select id="materiale"></select>
           </div>
           <div class="col">
             <label>Refrigerante</label>
-            <input id="refrigerante" type="text" autocomplete="off">
+            <select id="refrigerante"></select>
           </div>
         </div>
 
@@ -134,18 +134,53 @@
     <section id="page-archivio" class="page">
       <div class="card glass volumetric">
         <h2>Archivio frese</h2>
+        <button id="btnExport" class="btn-primary">Esporta CSV</button>
         <div id="lista"></div>
       </div>
     </section>
 
-    <!-- PAGINA PROGRAMMAZIONE (PLACEHOLDER) -->
+    <!-- PAGINA PROGRAMMAZIONE -->
     <section id="page-programmazione" class="page">
       <div class="card glass volumetric">
         <h2>Programmazione</h2>
-        <p>Qui in futuro inseriremo i dati di programmazione (cicli, strategie, ecc.).</p>
+        <p>In sviluppo…</p>
       </div>
     </section>
   </main>
+
+  <!-- MODAL MODIFICA -->
+  <div id="modalEdit" class="modal hidden">
+    <div class="modal-content glass volumetric">
+      <h2>Modifica fresa</h2>
+
+      <label>Denominazione</label>
+      <input id="edit_denominazione" type="text">
+
+      <label>Diametro</label>
+      <input id="edit_diametro" type="number">
+
+      <label>Taglienti</label>
+      <input id="edit_taglienti" type="number">
+
+      <label>S</label>
+      <input id="edit_s" type="number">
+
+      <label>Avanzamento</label>
+      <input id="edit_avanzamento" type="number">
+
+      <label>Materiale</label>
+      <select id="edit_materiale"></select>
+
+      <label>Refrigerante</label>
+      <select id="edit_refrigerante"></select>
+
+      <label>Dettagli</label>
+      <textarea id="edit_dettagli"></textarea>
+
+      <button id="btnUpdate" class="btn-primary">Aggiorna</button>
+      <button id="btnCloseModal" class="btn-secondary">Chiudi</button>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
