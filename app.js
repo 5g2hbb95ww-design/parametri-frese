@@ -315,3 +315,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     renderArchivio();
 });
+// ===== SWIPE PER CHIUDERE MODAL =====
+let startY = 0;
+
+modalOverlay.addEventListener("touchstart", (e) => {
+  startY = e.touches[0].clientY;
+});
+
+modalOverlay.addEventListener("touchmove", (e) => {
+  const currentY = e.touches[0].clientY;
+  const diff = currentY - startY;
+
+  if (diff > 80) { // swipe verso il basso
+    modalOverlay.classList.remove("active");
+  }
+});
+
