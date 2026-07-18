@@ -13,7 +13,7 @@ viewSelect.addEventListener("change", () => {
   });
 });
 
-// CAMPI PRINCIPALI FRESE
+// CAMPI PRINCIPALI
 const denominazioneFresa = document.getElementById("denominazione_fresa");
 const diametro = document.getElementById("diametro");
 const taglienti = document.getElementById("taglienti");
@@ -39,10 +39,11 @@ const btnSalva = document.getElementById("btnSalva");
 const lista = document.getElementById("lista");
 const btnExport = document.getElementById("btnExport");
 
+// ORDINAMENTO
 const sortSelect = document.getElementById("sortSelect");
 const orderSelect = document.getElementById("orderSelect");
 
-// MODAL FRESE
+// MODAL EDIT
 const modalEdit = document.getElementById("modalEdit");
 const edit_denominazione = document.getElementById("edit_denominazione");
 const edit_diametro = document.getElementById("edit_diametro");
@@ -61,7 +62,7 @@ function num(v) {
   return isNaN(n) ? 0 : n;
 }
 
-// CALCOLI FRESE
+// CALCOLO M/min DA S
 function aggiornaMminDaS() {
   const D = num(diametro.value);
   const N = num(s.value);
@@ -73,6 +74,7 @@ function aggiornaMminDaS() {
   }
 }
 
+// CALCOLO S CALCOLATA DA M/min
 function aggiornaSCalcDaMmin() {
   const D = num(diametro.value);
   const vc = num(mmin.value);
@@ -84,6 +86,7 @@ function aggiornaSCalcDaMmin() {
   }
 }
 
+// CALCOLO F CALCOLATA
 function aggiornaFCalc() {
   const fz = num(avanzamento.value);
   const z = num(taglienti.value);
@@ -96,6 +99,7 @@ function aggiornaFCalc() {
   }
 }
 
+// EVENTI CALCOLI
 diametro.addEventListener("input", () => {
   aggiornaMminDaS();
   aggiornaSCalcDaMmin();
@@ -218,6 +222,7 @@ function renderArchivio() {
   });
 }
 
+// SALVATAGGIO FRESE
 btnSalva.addEventListener("click", () => {
   const item = {
     denominazione: denominazioneFresa.value.trim(),
@@ -249,6 +254,7 @@ btnSalva.addEventListener("click", () => {
   });
 });
 
+// POPUP MODIFICA FRESE
 function apriPopup(index) {
   editIndex = index;
   const item = archivio[index];
@@ -315,12 +321,15 @@ btnExport.addEventListener("click", () => {
   a.click();
 });
 
-// PROGRAMMAZIONE / SCHEDA LAVORO
+
+// ===============================
+//   PROGRAMMAZIONE / SCHEDA LAVORO
+// ===============================
+
 const prog_macchina = document.getElementById("prog_macchina");
 const prog_commessa = document.getElementById("prog_commessa");
 const prog_disegno = document.getElementById("prog_disegno");
 const prog_rev = document.getElementById("prog_rev");
-const prog_grezzo = document.getElementById("prog_grezzo");
 const prog_tempo = document.getElementById("prog_tempo");
 const prog_operatore = document.getElementById("prog_operatore");
 const prog_stato = document.getElementById("prog_stato");
@@ -332,24 +341,22 @@ const prog_timeline = document.getElementById("prog_timeline");
 const btnExportPDF = document.getElementById("btnExportPDF");
 
 const programmazioneArchivio = [];
+let editProgIndex = null;
 
+// SALVA SCHEDA LAVORO
 btnSalvaProgrammazione.addEventListener("click", () => {
   const scheda = {
     macchina: prog_macchina.value.trim(),
     commessa: prog_commessa.value.trim(),
     disegno: prog_disegno.value.trim(),
     revisione: prog_rev.value.trim(),
-    grezzo: prog_grezzo.value.trim(),
     tempo: num(prog_tempo.value),
     operatore: prog_operatore.value.trim(),
     stato: prog_stato.value,
     note: prog_note.value.trim(),
     timestamp: new Date().toLocaleString(),
     timeline: [
-      {
-        stato: prog_stato.value,
-        data: new Date().toLocaleString()
-      }
+      { stato: prog_stato.value, data: new Date().toLocaleString() }
     ]
   };
 
@@ -358,6 +365,7 @@ btnSalvaProgrammazione.addEventListener("click", () => {
   renderTimeline(programmazioneArchivio.length - 1);
 });
 
+// RENDER LISTA PROGRAMMAZIONE
 function renderProgrammazione() {
   prog_lista.innerHTML = "";
 
@@ -376,8 +384,7 @@ function renderProgrammazione() {
 
     const meta = document.createElement("div");
     meta.className = "arch-item-meta";
-    meta.textContent =
-      `Disegno: ${item.disegno} (${item.revisione}) — Grezzo: ${item.grezzo}`;
+    meta.textContent = `Disegno: ${item.disegno} (${item.revisione})`;
 
     const badge = document.createElement("div");
     badge.className = "badge-stato";
@@ -391,40 +398,11 @@ function renderProgrammazione() {
     let percent = 0;
 
     switch (item.stato) {
-      case "in_programmazione":
-        badge.classList.add("badge-programmazione");
-        badge.textContent = "In programmazione";
-        progressBar.classList.add("progress-programmazione");
-        percent = 20;
-        break;
-
-      case "in_produzione":
-        badge.classList.add("badge-produzione");
-        badge.textContent = "In produzione";
-        progressBar.classList.add("progress-produzione");
-        percent = 80;
-        break;
-
-      case "sospeso":
-        badge.classList.add("badge-sospeso");
-        badge.textContent = "Sospeso";
-        progressBar.classList.add("progress-sospeso");
-        percent = 0;
-        break;
-
-      case "programmato":
-        badge.classList.add("badge-programmato");
-        badge.textContent = "Programmato";
-        progressBar.classList.add("progress-programmato");
-        percent = 50;
-        break;
-
-      case "finito":
-        badge.classList.add("badge-finito");
-        badge.textContent = "Programmato e prodotto";
-        progressBar.classList.add("progress-finito");
-        percent = 100;
-        break;
+      case "in_programmazione": percent = 20; badge.classList.add("badge-programmazione"); badge.textContent = "In programmazione"; progressBar.classList.add("progress-programmazione"); break;
+      case "in_produzione": percent = 80; badge.classList.add("badge-produzione"); badge.textContent = "In produzione"; progressBar.classList.add("progress-produzione"); break;
+      case "sospeso": percent = 0; badge.classList.add("badge-sospeso"); badge.textContent = "Sospeso"; progressBar.classList.add("progress-sospeso"); break;
+      case "programmato": percent = 50; badge.classList.add("badge-programmato"); badge.textContent = "Programmato"; progressBar.classList.add("progress-programmato"); break;
+      case "finito": percent = 100; badge.classList.add("badge-finito"); badge.textContent = "Programmato e prodotto"; progressBar.classList.add("progress-finito"); break;
     }
 
     progressBar.style.width = percent + "%";
@@ -465,176 +443,3 @@ function renderProgrammazione() {
     div.addEventListener("click", () => {
       renderTimeline(idx);
       editProgIndex = idx;
-    });
-
-    prog_lista.appendChild(div);
-  });
-}
-
-// TIMELINE LAVORO
-function registraTimeline(idx, nuovoStato) {
-  const voce = {
-    stato: nuovoStato,
-    data: new Date().toLocaleString()
-  };
-
-  if (!programmazioneArchivio[idx].timeline) {
-    programmazioneArchivio[idx].timeline = [];
-  }
-
-  programmazioneArchivio[idx].timeline.push(voce);
-  renderTimeline(idx);
-}
-
-function renderTimeline(idx) {
-  const item = programmazioneArchivio[idx];
-
-  if (!item.timeline || item.timeline.length === 0) {
-    prog_timeline.innerHTML = "<p>Nessuna timeline disponibile.</p>";
-    return;
-  }
-
-  prog_timeline.innerHTML = "";
-
-  item.timeline.forEach(entry => {
-    const row = document.createElement("div");
-    row.className = "timeline-row";
-
-    const badge = document.createElement("span");
-    badge.className = "badge-stato";
-
-    switch (entry.stato) {
-      case "in_programmazione":
-        badge.classList.add("badge-programmazione");
-        badge.textContent = "In programmazione";
-        break;
-
-      case "in_produzione":
-        badge.classList.add("badge-produzione");
-        badge.textContent = "In produzione";
-        break;
-
-      case "sospeso":
-        badge.classList.add("badge-sospeso");
-        badge.textContent = "Sospeso";
-        break;
-
-      case "programmato":
-        badge.classList.add("badge-programmato");
-        badge.textContent = "Programmato";
-        break;
-
-      case "finito":
-        badge.classList.add("badge-finito");
-        badge.textContent = "Programmato e prodotto";
-        break;
-    }
-
-    const text = document.createElement("span");
-    text.className = "timeline-text";
-    text.textContent = `— ${entry.data}`;
-
-    row.appendChild(badge);
-    row.appendChild(text);
-
-    prog_timeline.appendChild(row);
-  });
-}
-
-// MODIFICA SCHEDA LAVORO
-const modalEditProg = document.getElementById("modalEditProg");
-
-const edit_prog_macchina = document.getElementById("edit_prog_macchina");
-const edit_prog_commessa = document.getElementById("edit_prog_commessa");
-const edit_prog_disegno = document.getElementById("edit_prog_disegno");
-const edit_prog_rev = document.getElementById("edit_prog_rev");
-const edit_prog_grezzo = document.getElementById("edit_prog_grezzo");
-const edit_prog_tempo = document.getElementById("edit_prog_tempo");
-const edit_prog_operatore = document.getElementById("edit_prog_operatore");
-const edit_prog_stato = document.getElementById("edit_prog_stato");
-const edit_prog_note = document.getElementById("edit_prog_note");
-
-const btnUpdateProg = document.getElementById("btnUpdateProg");
-const btnCloseModalProg = document.getElementById("btnCloseModalProg");
-
-let editProgIndex = null;
-
-function apriPopupProgrammazione(index) {
-  editProgIndex = index;
-  const item = programmazioneArchivio[index];
-
-  edit_prog_macchina.value = item.macchina;
-  edit_prog_commessa.value = item.commessa;
-  edit_prog_disegno.value = item.disegno;
-  edit_prog_rev.value = item.revisione;
-  edit_prog_grezzo.value = item.grezzo;
-  edit_prog_tempo.value = item.tempo;
-  edit_prog_operatore.value = item.operatore;
-  edit_prog_stato.value = item.stato;
-  edit_prog_note.value = item.note;
-
-  modalEditProg.classList.remove("hidden");
-}
-
-btnCloseModalProg.addEventListener("click", () => {
-  modalEditProg.classList.add("hidden");
-});
-
-btnUpdateProg.addEventListener("click", () => {
-  if (editProgIndex === null) return;
-
-  const item = programmazioneArchivio[editProgIndex];
-
-  item.macchina = edit_prog_macchina.value.trim();
-  item.commessa = edit_prog_commessa.value.trim();
-  item.disegno = edit_prog_disegno.value.trim();
-  item.revisione = edit_prog_rev.value.trim();
-  item.grezzo = edit_prog_grezzo.value.trim();
-  item.tempo = num(edit_prog_tempo.value);
-  item.operatore = edit_prog_operatore.value.trim();
-  item.stato = edit_prog_stato.value;
-  item.note = edit_prog_note.value.trim();
-
-  registraTimeline(editProgIndex, item.stato);
-
-  renderProgrammazione();
-  renderTimeline(editProgIndex);
-
-  modalEditProg.classList.add("hidden");
-});
-
-// ESPORTAZIONE PDF SCHEDA LAVORO
-btnExportPDF.addEventListener("click", () => {
-  const idx = editProgIndex;
-  if (idx === null) {
-    alert("Seleziona o modifica una scheda lavoro per esportarla.");
-    return;
-  }
-
-  const item = programmazioneArchivio[idx];
-
-  const contenuto = `
-Scheda lavoro
--------------------------
-Macchina: ${item.macchina}
-Commessa: ${item.commessa}
-Disegno: ${item.disegno}
-Revisione: ${item.revisione}
-Materiale grezzo: ${item.grezzo}
-Tempo programmazione: ${item.tempo} min
-Operatore CNC: ${item.operatore}
-Stato: ${item.stato}
-Note: ${item.note}
-
-Timeline:
-${item.timeline.map(t => `- ${t.stato} (${t.data})`).join("\n")}
-`;
-
-  const blob = new Blob([contenuto], { type: "application/pdf" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `Scheda_${item.commessa}.pdf`;
-  a.click();
-});
