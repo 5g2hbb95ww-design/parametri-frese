@@ -17,59 +17,49 @@ body.light-theme {
 /* ===== HEADER ===== */
 header {
   background: rgba(10,20,40,0.55);
-  padding: 20px;
+  padding: 12px;
   text-align: center;
   border-bottom: 1px solid rgba(255,255,255,0.15);
   backdrop-filter: blur(18px);
   position: relative;
 }
 
-body.light-theme header {
-  background: rgba(255,255,255,0.7);
-  border-bottom: 1px solid #ddd;
-}
-
 h1 {
   margin: 0;
-  font-size: 26px;
+  font-size: 22px;
   color: #00c8ff;
 }
 
 /* ===== THEME TOGGLE ===== */
 .theme-toggle {
   position: absolute;
-  right: 16px;
-  top: 16px;
-  width: 36px;
-  height: 36px;
-  border-radius: 18px;
+  right: 12px;
+  top: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
   border: none;
   background: rgba(255,255,255,0.15);
   color: #fff;
-  font-size: 20px;
+  font-size: 18px;
   backdrop-filter: blur(10px);
-}
-
-body.light-theme .theme-toggle {
-  background: rgba(0,0,0,0.1);
-  color: #000;
 }
 
 /* ===== NAV ===== */
 .menu-nav {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 15px;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .nav-btn {
   background: rgba(0, 180, 255, 0.25);
   color: #e9faff;
   border: 1px solid rgba(255,255,255,0.25);
-  padding: 10px 18px;
-  border-radius: 14px;
-  font-size: 15px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 14px;
   transition: 0.2s;
   backdrop-filter: blur(14px);
 }
@@ -92,9 +82,9 @@ body.light-theme .theme-toggle {
 /* ===== CARD ===== */
 .card {
   background: rgba(10,20,40,0.45);
-  padding: 20px;
-  margin: 20px;
-  border-radius: 22px;
+  padding: 14px;
+  margin: 14px;
+  border-radius: 18px;
 
   backdrop-filter: blur(22px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(180%);
@@ -102,40 +92,35 @@ body.light-theme .theme-toggle {
   border: 1px solid rgba(255,255,255,0.18);
 
   box-shadow:
-    0 20px 40px rgba(0,0,0,0.55),
+    0 12px 28px rgba(0,0,0,0.45),
     inset 0 1px 2px rgba(255,255,255,0.25);
-}
-
-body.light-theme .card {
-  background: rgba(255,255,255,0.8);
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.08);
 }
 
 .card h2 {
   margin-top: 0;
+  font-size: 18px;
   color: #00c8ff;
 }
 
 /* ===== INPUT / TEXTAREA / SELECT ===== */
 input, textarea, select {
   width: 100%;
-  padding: 12px;
-  margin-top: 10px;
+  padding: 10px;
+  margin-top: 8px;
 
-  border-radius: 16px;
+  border-radius: 14px;
   border: 1px solid rgba(255,255,255,0.25);
 
-  background: rgba(0, 180, 255, 0.25); /* acqua trasparente */
+  background: rgba(0, 180, 255, 0.25);
   backdrop-filter: blur(18px) saturate(180%);
   -webkit-backdrop-filter: blur(18px) saturate(180%);
 
   color: #e9faff;
-  font-size: 15px;
+  font-size: 14px;
 
   box-shadow:
     inset 0 1px 2px rgba(255,255,255,0.4),
-    0 8px 20px rgba(0,0,0,0.45);
+    0 6px 14px rgba(0,0,0,0.35);
 
   transition: 0.2s;
 }
@@ -150,7 +135,7 @@ select:focus {
 /* ===== ROW ===== */
 .row {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .row input,
@@ -170,31 +155,8 @@ textarea#zap,
 textarea#xyae,
 textarea#mod-zap,
 textarea#mod-xyae {
-  height: 40px;
+  height: 38px;
   resize: none;
-}
-
-/* ===== XY AE WRAPPER CON MENU INTERNO ===== */
-.xy-wrapper {
-  position: relative;
-  flex: 1;
-}
-
-#xyae {
-  width: 100%;
-  padding-right: 70px;
-}
-
-#xy-unita {
-  position: absolute;
-  right: 8px;
-  top: 8px;
-  width: 60px;
-  padding: 6px;
-  font-size: 13px;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.25);
-  backdrop-filter: blur(10px);
 }
 
 /* ===== CODICE FRESA / INSERTO ===== */
@@ -202,20 +164,20 @@ textarea#codice_fresa,
 textarea#codice_inserto,
 textarea#mod-codice_fresa,
 textarea#mod-codice_inserto {
-  height: 48px;
+  height: 42px;
   resize: none;
 }
 
 /* ===== BUTTONS ===== */
 button {
   width: 100%;
-  padding: 12px;
-  margin-top: 15px;
+  padding: 10px;
+  margin-top: 12px;
   border-radius: 12px;
   border: none;
   background: #00c8ff;
   color: #000;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: bold;
   transition: 0.2s;
 }
@@ -227,8 +189,8 @@ button:hover {
 /* ===== ARCHIVIO LISTA ===== */
 #lista div {
   background: rgba(0, 180, 255, 0.25);
-  padding: 12px;
-  margin-top: 10px;
+  padding: 10px;
+  margin-top: 8px;
   border-radius: 14px;
   border: 1px solid rgba(255,255,255,0.25);
   backdrop-filter: blur(14px);
@@ -257,7 +219,7 @@ button:hover {
 
 .modal-content {
   background: rgba(10,20,40,0.55);
-  padding: 20px;
+  padding: 16px;
   width: 100%;
   max-width: 450px;
 
@@ -265,29 +227,30 @@ button:hover {
   overflow-y: auto;
   overflow-x: hidden;
 
-  -webkit-overflow-scrolling: touch; /* scroll elastico */
+  -webkit-overflow-scrolling: touch;
 
-  border-radius: 22px;
+  border-radius: 20px;
   box-shadow: 0 0 20px rgba(0,200,255,0.2);
   backdrop-filter: blur(22px);
 }
 
 .modal-header h2 {
   margin: 0;
+  font-size: 18px;
   color: #00c8ff;
 }
 
 .modal-close {
   background: transparent;
   color: #fff;
-  font-size: 24px;
+  font-size: 22px;
   border: none;
 }
 
 .modal-actions {
   display: flex;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .btn-annulla {
