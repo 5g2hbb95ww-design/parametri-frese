@@ -60,7 +60,6 @@ function aggiornaFCalc() {
   fCalc.value = fz > 0 && z > 0 && N > 0 ? (fz * z * N).toFixed(1) : "";
 }
 
-// EVENTI CALCOLI
 diametro.addEventListener("input", () => {
   aggiornaMminDaS();
   aggiornaSCalcDaMmin();
@@ -75,9 +74,10 @@ taglienti.addEventListener("input", aggiornaFCalc);
 sCalc.addEventListener("input", aggiornaFCalc);
 
 // =========================
-// RIEMPIMENTO SELECT (OGGETTI TIPO A)
+// RIEMPIMENTO SELECT
 // =========================
 function riempiSelect(select, array) {
+  if (!select) return;
   select.innerHTML = "";
 
   const placeholder = document.createElement("option");
@@ -92,84 +92,26 @@ function riempiSelect(select, array) {
     select.appendChild(opt);
   });
 }
-// =========================
-// CONTROLLO AUTOMATICO JSON
-// =========================
-function controllaJSON() {
-  console.log("=== CONTROLLO AUTOMATICO JSON ===");
-
-  fetch("materials.json")
-    .then(r => {
-      console.log("FETCH STATUS:", r.status);
-
-      if (!r.ok) {
-        console.error("❌ Il file materials.json NON è stato trovato.");
-      } else {
-        console.log("✔ Il file materials.json è stato trovato.");
-      }
-
-      return r.json();
-    })
-    .then(data => {
-      console.log("JSON LETTO:", data);
-
-      const keys = ["materiali", "refrigeranti", "macchine", "operatori"];
-
-      keys.forEach(k => {
-        if (!data[k]) {
-          console.error(`❌ Manca la chiave: ${k}`);
-        } else if (!Array.isArray(data[k])) {
-          console.error(`❌ ${k} NON è un array.`);
-        } else if (data[k].length === 0) {
-          console.warn(`⚠ ${k} è vuoto.`);
-        } else {
-          console.log(`✔ ${k} contiene ${data[k].length} elementi.`);
-        }
-      });
-
-      keys.forEach(k => {
-        if (Array.isArray(data[k])) {
-          data[k].forEach((obj, i) => {
-            if (!obj.nome) {
-              console.error(`❌ ${k}[${i}] NON ha il campo "nome".`);
-            }
-          });
-        }
-      });
-
-      console.log("=== FINE CONTROLLO JSON ===");
-    })
-    .catch(err => {
-      console.error("❌ ERRORE FETCH:", err);
-    });
-}
-
-// Avvia il controllo automatico all'avvio
-controllaJSON();
-
 
 // =========================
 // FETCH MATERIALI / MACCHINE / OPERATORI
 // =========================
 fetch("materials.json")
-  .then(r => {
-    console.log("FETCH STATUS:", r.status);
-    return r.json();
-  })
+  .then(r => r.json())
   .then(data => {
-    console.log("JSON LETTO:", data);
-
     riempiSelect(materiale, data.materiali);
     riempiSelect(refrigerante, data.refrigeranti);
+
     riempiSelect(edit_materiale, data.materiali);
     riempiSelect(edit_refrigerante, data.refrigeranti);
 
     riempiSelect(prog_macchina, data.macchine);
     riempiSelect(prog_operatore, data.operatori);
+
     riempiSelect(edit_prog_macchina, data.macchine);
     riempiSelect(edit_prog_operatore, data.operatori);
   })
-  .catch(err => console.error("ERRORE FETCH:", err));
+  .catch(err => console.error("Errore materials.json:", err));
 
 // =========================
 // ARCHIVIO FRESE
@@ -201,7 +143,7 @@ orderSelect.addEventListener("change", () => {
 // =========================
 btnSalva.addEventListener("click", () => {
   const item = {
-    denominazione: denominazioneFresa.value.trim(),
+    denominazione: denominazione_fresa.value.trim(),
     diametro: num(diametro.value),
     taglienti: num(taglienti.value),
     s: num(s.value),
@@ -211,8 +153,8 @@ btnSalva.addEventListener("click", () => {
     fCalc: num(fCalc.value),
     zap: num(zap.value),
     xyae: num(xyae.value),
-    codiceFresa: codiceFresa.value.trim(),
-    codiceInserto: codiceInserto.value.trim(),
+    codiceFresa: codice_fresa.value.trim(),
+    codiceInserto: codice_inserto.value.trim(),
     materiale: materiale.value,
     refrigerante: refrigerante.value,
     dettagli: dettagli.value.trim()
