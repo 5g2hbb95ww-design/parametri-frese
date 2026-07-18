@@ -1,4 +1,4 @@
-// CAMBIO PAGINA IN BASE AL MENU A TENDINA
+// CAMBIO PAGINA
 const viewSelect = document.getElementById("viewSelect");
 const pages = {
   nuovo: document.getElementById("page-nuovo"),
@@ -13,7 +13,7 @@ viewSelect.addEventListener("change", () => {
   });
 });
 
-// RIFERIMENTI CAMPI
+// CAMPI PRINCIPALI
 const denominazioneFresa = document.getElementById("denominazione_fresa");
 const diametro = document.getElementById("diametro");
 const taglienti = document.getElementById("taglienti");
@@ -37,6 +37,20 @@ const dettagli = document.getElementById("dettagli");
 
 const btnSalva = document.getElementById("btnSalva");
 const lista = document.getElementById("lista");
+const btnExport = document.getElementById("btnExport");
+
+// MODAL EDIT
+const modalEdit = document.getElementById("modalEdit");
+const edit_denominazione = document.getElementById("edit_denominazione");
+const edit_diametro = document.getElementById("edit_diametro");
+const edit_taglienti = document.getElementById("edit_taglienti");
+const edit_s = document.getElementById("edit_s");
+const edit_avanzamento = document.getElementById("edit_avanzamento");
+const edit_materiale = document.getElementById("edit_materiale");
+const edit_refrigerante = document.getElementById("edit_refrigerante");
+const edit_dettagli = document.getElementById("edit_dettagli");
+const btnUpdate = document.getElementById("btnUpdate");
+const btnCloseModal = document.getElementById("btnCloseModal");
 
 // SUPPORTO NUMERICO
 function num(v) {
@@ -44,7 +58,8 @@ function num(v) {
   return isNaN(n) ? 0 : n;
 }
 
-// 1) M/min da S e Diametro: vc = π * D * n / 1000
+// CALCOLI
+// M/min da S e Diametro: vc = π * D * n / 1000
 function aggiornaMminDaS() {
   const D = num(diametro.value);
   const N = num(s.value);
@@ -54,7 +69,7 @@ function aggiornaMminDaS() {
   }
 }
 
-// 2) S calcolata da M/min e Diametro: n = vc * 1000 / (π * D)
+// S calcolata da M/min e Diametro: n = vc * 1000 / (π * D)
 function aggiornaSCalcDaMmin() {
   const D = num(diametro.value);
   const vc = num(mmin.value);
@@ -66,7 +81,7 @@ function aggiornaSCalcDaMmin() {
   }
 }
 
-// 3) F calcolata (mm/min) da avanzamento (mm/dente), S (giri/min), taglienti: F = fz * z * n
+// F calcolata (mm/min) da avanzamento (mm/dente), S (giri/min), taglienti: F = fz * z * n
 function aggiornaFCalc() {
   const fz = num(avanzamento.value);
   const z = num(taglienti.value);
@@ -79,7 +94,7 @@ function aggiornaFCalc() {
   }
 }
 
-// EVENTI PER AGGIORNARE I CALCOLI
+// EVENTI CALCOLI
 diametro.addEventListener("input", () => {
   aggiornaMminDaS();
   aggiornaSCalcDaMmin();
@@ -90,20 +105,41 @@ s.addEventListener("input", () => {
   aggiornaFCalc();
 });
 
-mmin.addEventListener("input", () => {
-  aggiornaSCalcDaMmin();
-});
+mmin.addEventListener("input", aggiornaSCalcDaMmin);
+taglienti.addEventListener("input", aggiornaFCalc);
+avanzamento.addEventListener("input", aggiornaFCalc);
+f.addEventListener("input", aggiornaFCalc);
+sCalc.addEventListener("input", aggiornaFCalc);
 
-taglienti.addEventListener("input", () => {
-  aggiornaFCalc();
-});
+// MATERIALI + REFRIGERANTI DINAMICI
+let MATERIALI = [];
+let REFRIGERANTI = [];
 
-avanzamento.addEventListener("input", () => {
-  aggiornaFCalc();
-});
+fetch("materials.json")
+  .then(r => r.json())
+  .then(data => {
+    MATERIALI = data.materiali;
+    REFRIGERANTI = data.refrigeranti;
 
-// ARCHIVIO IN MEMORIA
+    riempiSelect(materiale, MATERIALI);
+    riempiSelect(refrigerante, REFRIGERANTI);
+    riempiSelect(edit_materiale, MATERIALI);
+    riempiSelect(edit_refrigerante, REFRIGERANTI);
+  });
+
+function riempiSelect(select, array) {
+  select.innerHTML = "<option value=''>—</option>";
+  array.forEach(v => {
+    const opt = document.createElement("option");
+    opt.value = v;
+    opt.textContent = v;
+    select.appendChild(opt);
+  });
+}
+
+// ARCHIVIO
 const archivio = [];
+let editIndex = null;
 
 function renderArchivio() {
   lista.innerHTML = "";
@@ -112,7 +148,7 @@ function renderArchivio() {
     return;
   }
 
-  archivio.forEach(item => {
+  archivio.forEach((item, idx) => {
     const div = document.createElement("div");
     div.className = "arch-item";
 
@@ -129,9 +165,16 @@ function renderArchivio() {
     note.className = "arch-item-meta";
     note.textContent = `Materiale: ${item.materiale || "-"}, Refrigerante: ${item.refrigerante || "-"}`;
 
+    const btnMod = document.createElement("button");
+    btnMod.textContent = "Modifica";
+    btnMod.className = "btn-primary";
+    btnMod.style.marginTop = "6px";
+    btnMod.addEventListener("click", () => apriPopup(idx));
+
     div.appendChild(title);
     div.appendChild(meta);
     div.appendChild(note);
+    div.appendChild(btnMod);
 
     lista.appendChild(div);
   });
@@ -153,17 +196,80 @@ btnSalva.addEventListener("click", () => {
     xyae: num(xyae.value),
     codiceFresa: codiceFresa.value.trim(),
     codiceInserto: codiceInserto.value.trim(),
-    materiale: materiale.value.trim(),
-    refrigerante: refrigerante.value.trim(),
+    materiale: materiale.value,
+    refrigerante: refrigerante.value,
     dettagli: dettagli.value.trim()
   };
 
   archivio.push(item);
   renderArchivio();
 
-  // passa automaticamente ad Archivio
   viewSelect.value = "archivio";
   Object.keys(pages).forEach(key => {
     pages[key].classList.toggle("active", key === "archivio");
   });
+});
+
+// POPUP MODIFICA
+function apriPopup(index) {
+  editIndex = index;
+  const item = archivio[index];
+
+  edit_denominazione.value = item.denominazione;
+  edit_diametro.value = item.diametro;
+  edit_taglienti.value = item.taglienti;
+  edit_s.value = item.s;
+  edit_avanzamento.value = item.avanzamento;
+  edit_materiale.value = item.materiale;
+  edit_refrigerante.value = item.refrigerante;
+  edit_dettagli.value = item.dettagli;
+
+  modalEdit.classList.remove("hidden");
+}
+
+btnCloseModal.addEventListener("click", () => {
+  modalEdit.classList.add("hidden");
+});
+
+btnUpdate.addEventListener("click", () => {
+  if (editIndex === null) return;
+  const item = archivio[editIndex];
+
+  item.denominazione = edit_denominazione.value.trim();
+  item.diametro = num(edit_diametro.value);
+  item.taglienti = num(edit_taglienti.value);
+  item.s = num(edit_s.value);
+  item.avanzamento = num(edit_avanzamento.value);
+  item.materiale = edit_materiale.value;
+  item.refrigerante = edit_refrigerante.value;
+  item.dettagli = edit_dettagli.value.trim();
+
+  // ricalcolo F calcolata se necessario
+  const fz = item.avanzamento;
+  const z = item.taglienti;
+  const N = item.s;
+  if (fz > 0 && z > 0 && N > 0) {
+    item.fCalc = (fz * z * N).toFixed(1);
+  }
+
+  renderArchivio();
+  modalEdit.classList.add("hidden");
+});
+
+// ESPORTA CSV
+btnExport.addEventListener("click", () => {
+  if (archivio.length === 0) return;
+
+  let csv = "Denominazione;Diametro;Taglienti;S;M/min;F_calcolata;Materiale;Refrigerante;Dettagli\n";
+
+  archivio.forEach(item => {
+    csv += `${item.denominazione};${item.diametro};${item.taglienti};${item.s};${item.mmin};${item.fCalc};${item.materiale};${item.refrigerante};${item.dettagli}\n`;
+  });
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "parametri-frese.csv";
+  a.click();
 });
