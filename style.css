@@ -2,22 +2,16 @@
 body {
   margin: 0;
   padding: 0;
-  background: #0a0f24; /* Blu notte */
+  background: #071022; /* Blu notte */
   color: #e9faff;
   font-family: "Inter", sans-serif;
   transition: background 0.3s, color 0.3s;
 }
 
-/* ===== LIGHT THEME ===== */
-body.light-theme {
-  background: #f5f5f7;
-  color: #111;
-}
-
 /* ===== HEADER ===== */
 header {
   background: rgba(10,20,40,0.55);
-  padding: 12px;
+  padding: 10px;
   text-align: center;
   border-bottom: 1px solid rgba(255,255,255,0.15);
   backdrop-filter: blur(18px);
@@ -26,40 +20,25 @@ header {
 
 h1 {
   margin: 0;
-  font-size: 22px;
+  font-size: 20px;
   color: #00c8ff;
-}
-
-/* ===== THEME TOGGLE ===== */
-.theme-toggle {
-  position: absolute;
-  right: 12px;
-  top: 12px;
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-  border: none;
-  background: rgba(255,255,255,0.15);
-  color: #fff;
-  font-size: 18px;
-  backdrop-filter: blur(10px);
 }
 
 /* ===== NAV ===== */
 .menu-nav {
   display: flex;
   justify-content: center;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 6px;
+  margin-top: 8px;
 }
 
 .nav-btn {
   background: rgba(0, 180, 255, 0.25);
   color: #e9faff;
   border: 1px solid rgba(255,255,255,0.25);
-  padding: 8px 14px;
+  padding: 6px 12px;
   border-radius: 12px;
-  font-size: 14px;
+  font-size: 13px;
   transition: 0.2s;
   backdrop-filter: blur(14px);
 }
@@ -70,7 +49,7 @@ h1 {
   color: #000;
 }
 
-/* ===== PAGE SWITCH ===== */
+/* ===== PAGE ===== */
 .page {
   display: none;
 }
@@ -82,8 +61,8 @@ h1 {
 /* ===== CARD ===== */
 .card {
   background: rgba(10,20,40,0.45);
-  padding: 14px;
-  margin: 14px;
+  padding: 12px;
+  margin: 12px;
   border-radius: 18px;
 
   backdrop-filter: blur(22px) saturate(180%);
@@ -98,15 +77,15 @@ h1 {
 
 .card h2 {
   margin-top: 0;
-  font-size: 18px;
+  font-size: 17px;
   color: #00c8ff;
 }
 
 /* ===== INPUT / TEXTAREA / SELECT ===== */
 input, textarea, select {
   width: 100%;
-  padding: 10px;
-  margin-top: 8px;
+  padding: 8px;
+  margin-top: 6px;
 
   border-radius: 14px;
   border: 1px solid rgba(255,255,255,0.25);
@@ -135,7 +114,7 @@ select:focus {
 /* ===== ROW ===== */
 .row {
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .row input,
@@ -144,27 +123,23 @@ select:focus {
   flex: 1;
 }
 
-/* ===== S + F AFFIANCATI ===== */
-#s, #f,
-#mod-s, #mod-f {
-  flex: 1;
+/* ===== CELLE UNIFORMI (40px) ===== */
+textarea#denominazione_fresa,
+textarea#codice_fresa,
+textarea#codice_inserto,
+textarea#mod-denominazione_fresa,
+textarea#mod-codice_fresa,
+textarea#mod-codice_inserto {
+  height: 40px;
+  resize: none;
 }
 
-/* ===== Z AP / XY AE (BASSE E UGUALI) ===== */
+/* ===== Z-AP / XY-AE UNIFORMI ===== */
 textarea#zap,
 textarea#xyae,
 textarea#mod-zap,
 textarea#mod-xyae {
-  height: 38px;
-  resize: none;
-}
-
-/* ===== CODICE FRESA / INSERTO ===== */
-textarea#codice_fresa,
-textarea#codice_inserto,
-textarea#mod-codice_fresa,
-textarea#mod-codice_inserto {
-  height: 42px;
+  height: 40px;
   resize: none;
 }
 
@@ -172,7 +147,7 @@ textarea#mod-codice_inserto {
 button {
   width: 100%;
   padding: 10px;
-  margin-top: 12px;
+  margin-top: 10px;
   border-radius: 12px;
   border: none;
   background: #00c8ff;
@@ -219,7 +194,7 @@ button:hover {
 
 .modal-content {
   background: rgba(10,20,40,0.55);
-  padding: 16px;
+  padding: 14px;
   width: 100%;
   max-width: 450px;
 
@@ -250,7 +225,7 @@ button:hover {
 .modal-actions {
   display: flex;
   gap: 10px;
-  margin-top: 16px;
+  margin-top: 14px;
 }
 
 .btn-annulla {
