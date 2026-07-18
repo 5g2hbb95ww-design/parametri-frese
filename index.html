@@ -78,7 +78,6 @@
       </div>
     </div>
 
-    <!-- MATERIALI / REFRIGERANTE CORRETTI -->
     <div class="row">
       <div class="col">
         <label for="refrigerante">Refrigerante</label>
@@ -90,7 +89,6 @@
       </div>
     </div>
 
-    <!-- CODICI FULL WIDTH -->
     <label for="codice_fresa">Codice fresa</label>
     <input id="codice_fresa" type="text">
 
@@ -183,6 +181,76 @@
 </section>
 
 </main>
+
+<!-- POPUP MODIFICA UTENSILE -->
+<div id="modalEdit" class="modal hidden glass volumetric">
+  <h2>Modifica utensile</h2>
+
+  <label for="edit_denominazione">Denominazione</label>
+  <input id="edit_denominazione" type="text">
+
+  <label for="edit_diametro">Diametro</label>
+  <input id="edit_diametro" type="number">
+
+  <label for="edit_taglienti">Taglienti</label>
+  <input id="edit_taglienti" type="number">
+
+  <label for="edit_s">S</label>
+  <input id="edit_s" type="number">
+
+  <label for="edit_avanzamento">fz</label>
+  <input id="edit_avanzamento" type="number">
+
+  <label for="edit_materiale">Materiale</label>
+  <select id="edit_materiale"></select>
+
+  <label for="edit_refrigerante">Refrigerante</label>
+  <select id="edit_refrigerante"></select>
+
+  <label for="edit_dettagli">Dettagli</label>
+  <textarea id="edit_dettagli"></textarea>
+
+  <button id="btnUpdate" class="btn-primary">Salva modifiche</button>
+  <button id="btnCloseModal" class="btn-secondary">Chiudi</button>
+</div>
+
+<!-- POPUP MODIFICA PROGRAMMAZIONE -->
+<div id="modalEditProg" class="modal hidden glass volumetric">
+  <h2>Modifica scheda lavoro</h2>
+
+  <label for="edit_prog_macchina">Macchina</label>
+  <select id="edit_prog_macchina"></select>
+
+  <label for="edit_prog_commessa">Commessa</label>
+  <input id="edit_prog_commessa" type="text">
+
+  <label for="edit_prog_disegno">Disegno</label>
+  <input id="edit_prog_disegno" type="text">
+
+  <label for="edit_prog_rev">Revisione</label>
+  <input id="edit_prog_rev" type="text">
+
+  <label for="edit_prog_tempo">Tempo</label>
+  <input id="edit_prog_tempo" type="number">
+
+  <label for="edit_prog_operatore">Operatore</label>
+  <select id="edit_prog_operatore"></select>
+
+  <label for="edit_prog_stato">Stato</label>
+  <select id="edit_prog_stato">
+    <option value="in_programmazione">In programmazione</option>
+    <option value="programmato">Programmato</option>
+    <option value="in_produzione">In produzione</option>
+    <option value="sospeso">Sospeso</option>
+    <option value="finito">Programmato e prodotto</option>
+  </select>
+
+  <label for="edit_prog_note">Note</label>
+  <textarea id="edit_prog_note"></textarea>
+
+  <button id="btnUpdateProg" class="btn-primary">Salva modifiche</button>
+  <button id="btnCloseModalProg" class="btn-secondary">Chiudi</button>
+</div>
 
 <script src="app.js"></script>
 </body>
