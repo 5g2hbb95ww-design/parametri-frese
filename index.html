@@ -4,10 +4,8 @@
   <meta charset="UTF-8">
   <title>Parametri Frese & Programmazione</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#050814">
-
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -30,75 +28,75 @@
   <div class="card glass volumetric">
     <h2>Nuovo utensile</h2>
 
-    <label>Denominazione fresa</label>
+    <label for="denominazione_fresa">Denominazione fresa</label>
     <input id="denominazione_fresa" type="text">
 
     <div class="row">
       <div class="col">
-        <label>Diametro (mm)</label>
+        <label for="diametro">Diametro (mm)</label>
         <input id="diametro" type="number" step="0.01">
       </div>
       <div class="col">
-        <label>Taglienti (z)</label>
-        <input id="taglienti" type="number">
+        <label for="taglienti">Taglienti (z)</label>
+        <input id="taglienti" type="number" step="1">
       </div>
     </div>
 
     <div class="row">
       <div class="col">
-        <label>S (giri/min)</label>
-        <input id="s" type="number">
+        <label for="s">S (giri/min)</label>
+        <input id="s" type="number" step="1">
       </div>
       <div class="col">
-        <label>Vc (m/min)</label>
+        <label for="mmin">Vc (m/min)</label>
         <input id="mmin" type="number" step="0.1">
       </div>
     </div>
 
     <div class="row">
       <div class="col">
-        <label>S calcolata</label>
-        <input id="s_calc" type="number">
+        <label for="s_calc">S calcolata</label>
+        <input id="s_calc" type="number" step="1">
       </div>
       <div class="col">
-        <label>fz (mm/dente)</label>
+        <label for="avanzamento">fz (mm/dente)</label>
         <input id="avanzamento" type="number" step="0.01">
       </div>
     </div>
 
-    <label>F calcolata (mm/min)</label>
-    <input id="f_calc" type="number">
+    <label for="f_calc">F calcolata (mm/min)</label>
+    <input id="f_calc" type="number" step="0.1">
 
     <div class="row">
       <div class="col">
-        <label>Z ap (mm)</label>
+        <label for="zap">Z ap (mm)</label>
         <input id="zap" type="number" step="0.01">
       </div>
       <div class="col">
-        <label>XY ae (mm)</label>
+        <label for="xyae">XY ae (mm)</label>
         <input id="xyae" type="number" step="0.01">
       </div>
     </div>
 
+    <label for="materiale">Materiale</label>
+    <select id="materiale"></select>
+
+    <label for="refrigerante">Refrigerante</label>
+    <select id="refrigerante"></select>
+
     <div class="row">
       <div class="col">
-        <label>Codice fresa</label>
+        <label for="codice_fresa">Codice fresa</label>
         <input id="codice_fresa" type="text">
       </div>
       <div class="col">
-        <label>Codice inserto</label>
+        <label for="codice_inserto">Codice inserto</label>
         <input id="codice_inserto" type="text">
       </div>
     </div>
 
-    <label>Materiale</label>
-    <select id="materiale"></select>
-
-    <label>Refrigerante</label>
-    <select id="refrigerante"></select>
-
-    <label>Dettagli</label>
-    <textarea id="dettagli"></textarea>
+    <label for="dettagli">Dettagli / Note</label>
+    <textarea id="dettagli" rows="3"></textarea>
 
     <button id="btnSalva" class="btn-primary">Salva utensile</button>
   </div>
@@ -111,7 +109,7 @@
 
     <div class="row">
       <div class="col">
-        <label>Ordina per</label>
+        <label for="sortSelect">Ordina per</label>
         <select id="sortSelect">
           <option value="denominazione">Denominazione</option>
           <option value="diametro">Diametro</option>
@@ -119,7 +117,7 @@
         </select>
       </div>
       <div class="col">
-        <label>Ordine</label>
+        <label for="orderSelect">Ordine</label>
         <select id="orderSelect">
           <option value="asc">Crescente</option>
           <option value="desc">Decrescente</option>
@@ -128,7 +126,6 @@
     </div>
 
     <div id="lista"></div>
-
     <button id="btnExport" class="btn-secondary">Esporta CSV</button>
   </div>
 </section>
@@ -138,25 +135,25 @@
   <div class="card glass volumetric">
     <h2>Programmazione / Scheda lavoro</h2>
 
-    <label>Macchina CNC</label>
+    <label for="prog_macchina">Macchina CNC</label>
     <select id="prog_macchina"></select>
 
-    <label>Commessa</label>
+    <label for="prog_commessa">Commessa</label>
     <input id="prog_commessa" type="text">
 
-    <label>Disegno</label>
+    <label for="prog_disegno">Disegno</label>
     <input id="prog_disegno" type="text">
 
-    <label>Revisione</label>
+    <label for="prog_rev">Revisione</label>
     <input id="prog_rev" type="text">
 
-    <label>Tempo programmazione (min)</label>
-    <input id="prog_tempo" type="number">
+    <label for="prog_tempo">Tempo programmazione (min)</label>
+    <input id="prog_tempo" type="number" step="1">
 
-    <label>Operatore CNC</label>
+    <label for="prog_operatore">Operatore CNC</label>
     <select id="prog_operatore"></select>
 
-    <label>Stato</label>
+    <label for="prog_stato">Stato</label>
     <select id="prog_stato">
       <option value="in_programmazione">In programmazione</option>
       <option value="programmato">Programmato</option>
@@ -165,8 +162,8 @@
       <option value="finito">Programmato e prodotto</option>
     </select>
 
-    <label>Note</label>
-    <textarea id="prog_note"></textarea>
+    <label for="prog_note">Note</label>
+    <textarea id="prog_note" rows="3"></textarea>
 
     <button id="btnSalvaProgrammazione" class="btn-primary">Salva scheda lavoro</button>
   </div>
@@ -179,87 +176,12 @@
   <div class="card glass volumetric">
     <h2>Timeline</h2>
     <div id="prog_timeline"></div>
-    <button id="btnExportPDF" class="btn-secondary">Esporta scheda (TXT)</button>
+    <button id="btnExportPDF" class="btn-secondary">Esporta scheda (PDF)</button>
   </div>
 </section>
 
 </main>
 
-<!-- MODAL FRESE -->
-<div id="modalEdit" class="modal hidden">
-  <div class="modal-content glass volumetric">
-    <h2>Modifica utensile</h2>
-
-    <label>Denominazione</label>
-    <input id="edit_denominazione">
-
-    <label>Diametro</label>
-    <input id="edit_diametro">
-
-    <label>Taglienti</label>
-    <input id="edit_taglienti">
-
-    <label>S</label>
-    <input id="edit_s">
-
-    <label>fz</label>
-    <input id="edit_avanzamento">
-
-    <label>Materiale</label>
-    <select id="edit_materiale"></select>
-
-    <label>Refrigerante</label>
-    <select id="edit_refrigerante"></select>
-
-    <label>Dettagli</label>
-    <textarea id="edit_dettagli"></textarea>
-
-    <button id="btnUpdate" class="btn-primary">Aggiorna</button>
-    <button id="btnCloseModal" class="btn-secondary">Chiudi</button>
-  </div>
-</div>
-
-<!-- MODAL PROGRAMMAZIONE -->
-<div id="modalEditProg" class="modal hidden">
-  <div class="modal-content glass volumetric">
-    <h2>Modifica scheda lavoro</h2>
-
-    <label>Macchina CNC</label>
-    <select id="edit_prog_macchina"></select>
-
-    <label>Commessa</label>
-    <input id="edit_prog_commessa">
-
-    <label>Disegno</label>
-    <input id="edit_prog_disegno">
-
-    <label>Revisione</label>
-    <input id="edit_prog_rev">
-
-    <label>Tempo programmazione</label>
-    <input id="edit_prog_tempo">
-
-    <label>Operatore CNC</label>
-    <select id="edit_prog_operatore"></select>
-
-    <label>Stato</label>
-    <select id="edit_prog_stato">
-      <option value="in_programmazione">In programmazione</option>
-      <option value="programmato">Programmato</option>
-      <option value="in_produzione">In produzione</option>
-      <option value="sospeso">Sospeso</option>
-      <option value="finito">Programmato e prodotto</option>
-    </select>
-
-    <label>Note</label>
-    <textarea id="edit_prog_note"></textarea>
-
-    <button id="btnUpdateProg" class="btn-primary">Aggiorna scheda</button>
-    <button id="btnCloseModalProg" class="btn-secondary">Chiudi</button>
-  </div>
-</div>
-
 <script src="app.js"></script>
-
 </body>
 </html>
