@@ -24,12 +24,12 @@
     <!-- PAGINA NUOVO -->
     <section id="page-nuovo" class="page active">
 
-      <!-- CARD 1: DATI FRESA -->
+      <!-- CARD 1 -->
       <div class="card glass volumetric">
         <h2>Dati fresa</h2>
 
         <label>Denominazione fresa</label>
-        <input id="denominazione_fresa" type="text" autocomplete="off">
+        <input id="denominazione_fresa" type="text">
 
         <div class="row">
           <div class="col">
@@ -38,19 +38,19 @@
           </div>
           <div class="col">
             <label>N. taglienti</label>
-            <input id="taglienti" type="number" step="1">
+            <input id="taglienti" type="number">
           </div>
         </div>
       </div>
 
-      <!-- CARD 2: PARAMETRI DI TAGLIO -->
+      <!-- CARD 2 -->
       <div class="card glass volumetric">
         <h2>Parametri di taglio</h2>
 
         <div class="row">
           <div class="col">
             <label>S (giri/min)</label>
-            <input id="s" type="number" step="1">
+            <input id="s" type="number">
           </div>
           <div class="col">
             <label>F (mm/giro)</label>
@@ -60,12 +60,12 @@
 
         <div class="row">
           <div class="col">
-            <label>M/min (velocità di taglio)</label>
+            <label>M/min</label>
             <input id="mmin" type="number" step="0.1">
           </div>
           <div class="col">
-            <label>S calcolata (giri/min)</label>
-            <input id="s_calc" type="number" step="1" readonly>
+            <label>S calcolata</label>
+            <input id="s_calc" type="number" readonly>
           </div>
         </div>
 
@@ -76,39 +76,39 @@
           </div>
           <div class="col">
             <label>F calcolata (mm/min)</label>
-            <input id="f_calc" type="number" step="0.1" readonly>
+            <input id="f_calc" type="number" readonly>
           </div>
         </div>
       </div>
 
-      <!-- CARD 3: AVANZAMENTI -->
+      <!-- CARD 3 -->
       <div class="card glass volumetric">
         <h2>Profondità / Passate</h2>
 
         <div class="row">
           <div class="col">
-            <label>Z Ap (profondità assiale)</label>
+            <label>Z Ap</label>
             <input id="zap" type="number" step="0.01">
           </div>
           <div class="col">
-            <label>XY Ae (profondità radiale)</label>
+            <label>XY Ae</label>
             <input id="xyae" type="number" step="0.01">
           </div>
         </div>
       </div>
 
-      <!-- CARD 4: CODICI -->
+      <!-- CARD 4 -->
       <div class="card glass volumetric">
         <h2>Codici utensile</h2>
 
         <label>Codice fresa</label>
-        <input id="codice_fresa" type="text" autocomplete="off">
+        <input id="codice_fresa" type="text">
 
         <label>Codice inserto</label>
-        <input id="codice_inserto" type="text" autocomplete="off">
+        <input id="codice_inserto" type="text">
       </div>
 
-      <!-- CARD 5: DETTAGLI + SALVA -->
+      <!-- CARD 5 -->
       <div class="card glass volumetric">
         <h2>Dettagli lavorazione</h2>
 
@@ -123,7 +123,7 @@
           </div>
         </div>
 
-        <label>Dettagli / note</label>
+        <label>Dettagli</label>
         <textarea id="dettagli" rows="3"></textarea>
 
         <button id="btnSalva" class="btn-primary">Salva in archivio</button>
@@ -134,7 +134,25 @@
     <section id="page-archivio" class="page">
       <div class="card glass volumetric">
         <h2>Archivio frese</h2>
+
+        <label>Ordina per</label>
+        <select id="sortSelect">
+          <option value="diametro">Diametro</option>
+          <option value="materiale">Materiale</option>
+          <option value="codiceFresa">Codice fresa</option>
+          <option value="refrigerante">Refrigerante</option>
+          <option value="mmin">Velocità di taglio (M/min)</option>
+          <option value="fCalc">Avanzamento (F calcolata)</option>
+        </select>
+
+        <label>Ordine</label>
+        <select id="orderSelect">
+          <option value="asc">Crescente</option>
+          <option value="desc">Decrescente</option>
+        </select>
+
         <button id="btnExport" class="btn-primary">Esporta CSV</button>
+
         <div id="lista"></div>
       </div>
     </section>
