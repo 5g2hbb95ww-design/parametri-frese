@@ -115,7 +115,7 @@ avanzamento.addEventListener("input", aggiornaFCalc);
 taglienti.addEventListener("input", aggiornaFCalc);
 sCalc.addEventListener("input", aggiornaFCalc);
 
-// MATERIALI + REFRIGERANTI DINAMICI
+// MATERIALI + REFRIGERANTI DINAMICI (OGGETTI)
 let MATERIALI = [];
 let REFRIGERANTI = [];
 
@@ -134,12 +134,21 @@ fetch("materials.json")
     console.error("Errore nel caricamento di materials.json:", err);
   });
 
+// VERSIONE COMPATIBILE CON OGGETTI
 function riempiSelect(select, array) {
   select.innerHTML = "<option value=''>—</option>";
+
   array.forEach(v => {
     const opt = document.createElement("option");
-    opt.value = v;
-    opt.textContent = v;
+
+    if (typeof v === "object") {
+      opt.value = v.nome;
+      opt.textContent = v.nome;
+    } else {
+      opt.value = v;
+      opt.textContent = v;
+    }
+
     select.appendChild(opt);
   });
 }
