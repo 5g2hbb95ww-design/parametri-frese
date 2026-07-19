@@ -9,23 +9,25 @@
 </head>
 <body>
   <header>
-<div class="app-title">Parametri Fresa</div>
-  <div class="header-row">
-    <div class="view-selector">
-      <select id="viewSelect">
-        <option value="nuovo">Nuovo</option>
-        <option value="archivio">Archivio</option>
-        <option value="programmazione">Programmazione</option>
-      </select>
+    <div class="app-title">Parametri Fresa</div>
+
+    <div class="header-row">
+      <div class="view-selector">
+        <select id="viewSelect">
+          <option value="nuovo">Nuovo</option>
+          <option value="archivio">Archivio</option>
+          <option value="programmazione">Programmazione</option>
+        </select>
+      </div>
+
+      <div class="theme-toggle">
+        <button id="btnTheme" class="btn-theme">🌙</button>
+      </div>
     </div>
-    
-    <div class="theme-toggle">
-      <button id="btnTheme" class="btn-theme">🌙</button>
-    </div>
-  </div>
   </header>
 
   <main>
+
     <!-- PAGINA NUOVO -->
     <section id="page-nuovo" class="page active">
 
@@ -165,78 +167,88 @@
     <!-- PAGINA PROGRAMMAZIONE -->
     <section id="page-programmazione" class="page">
 
-  <!-- CARD: NUOVA SCHEDA -->
-  <div class="card glass volumetric">
-    <h2>Nuova scheda lavoro</h2>
+      <!-- CARD: NUOVA SCHEDA -->
+      <div class="card glass volumetric">
+        <h2>Nuova scheda lavoro</h2>
 
-    <label>Macchina</label>
-<select id="prog_macchina">
-  <option value="">—</option>
-  <option>Duravertical 3Ax (45)</option>
-  <option>Duravertical 3Ax (46)</option>
-  <option>NVX 5060 (58)</option>
-  <option>Okuma (59)</option>
-  <option>DMF-200/7 (57)</option>
-  <option>DMU 65 5Axis (89)</option>
-  <option>DMU 75 5Axis (90)</option>
-</select>
+        <label>Macchina</label>
+        <select id="prog_macchina">
+          <option value="">—</option>
+          <option>Duravertical 3Ax (45)</option>
+          <option>Duravertical 3Ax (46)</option>
+          <option>NVX 5060 (58)</option>
+          <option>Okuma (59)</option>
+          <option>DMF-200/7 (57)</option>
+          <option>DMU 65 5Axis (89)</option>
+          <option>DMU 75 5Axis (90)</option>
+        </select>
 
+        <label>Commessa</label>
+        <input id="prog_commessa" type="text">
 
-    <label>Commessa</label>
-    <input id="prog_commessa" type="text">
+        <label>Disegno</label>
+        <input id="prog_disegno" type="text">
 
-    <label>Disegno</label>
-    <input id="prog_disegno" type="text">
+        <label>Revisione</label>
+        <input id="prog_rev" type="text">
 
-    <label>Revisione</label>
-    <input id="prog_rev" type="text">
+        <label>Tempo programmazione (min)</label>
+        <input id="prog_tempo" type="number">
 
-    <label>Tempo programmazione (min)</label>
-    <input id="prog_tempo" type="number">
+        <label>Operatore CNC</label>
+        <select id="prog_operatore">
+          <option value="">—</option>
+          <option>Marco T.</option>
+          <option>Nicola B.</option>
+          <option>Roberto Q.</option>
+          <option>Daniel D.</option>
+          <option>Igor B.</option>
+          <option>Altri</option>
+        </select>
 
-    <label>Operatore CNC</label>
-<select id="prog_operatore">
-  <option value="">—</option>
-  <option>Marco T.</option>
-  <option>Nicola B.</option>
-  <option>Roberto Q.</option>
-  <option>Daniel D.</option>
-  <option>Igor B.</option>
-  <option>Altri</option>
-</select>
+        <label>Stato</label>
+        <select id="prog_stato">
+          <option value="in_programmazione">In programmazione</option>
+          <option value="programmato">Programmato</option>
+          <option value="in_produzione">In produzione</option>
+          <option value="sospeso">Sospeso</option>
+          <option value="finito">Finito</option>
+        </select>
 
+        <label>Note</label>
+        <textarea id="prog_note" rows="3"></textarea>
 
-    <label>Stato</label>
-    <select id="prog_stato">
-      <option value="in_programmazione">In programmazione</option>
-      <option value="programmato">Programmato</option>
-      <option value="in_produzione">In produzione</option>
-      <option value="sospeso">Sospeso</option>
-      <option value="finito">Finito</option>
-    </select>
+        <button id="btnSalvaProgrammazione" class="btn-primary">Salva scheda</button>
+      </div>
 
-    <label>Note</label>
-    <textarea id="prog_note" rows="3"></textarea>
+      <!-- CARD: ARCHIVIO -->
+      <div class="card glass volumetric">
+        <h2>Archivio schede</h2>
 
-    <button id="btnSalvaProgrammazione" class="btn-primary">Salva scheda</button>
-  </div>
+        <!-- ⭐ Filtro stato (OBBLIGATORIO) -->
+        <label>Filtra per stato</label>
+        <select id="prog_filter">
+          <option value="">Tutti</option>
+          <option value="in_programmazione">In programmazione</option>
+          <option value="programmato">Programmato</option>
+          <option value="in_produzione">In produzione</option>
+          <option value="sospeso">Sospeso</option>
+          <option value="finito">Finito</option>
+        </select>
 
-  <!-- CARD: ARCHIVIO -->
-  <div class="card glass volumetric">
-    <h2>Archivio schede</h2>
-    <div id="prog_progress" class="prog-progress"></div>
-    <div id="prog_lista"></div>
-  </div>
+        <div id="prog_progress" class="prog-progress"></div>
+        <div id="prog_lista"></div>
+      </div>
 
-  <!-- CARD: TIMELINE -->
-  <div class="card glass volumetric">
-    <h2>Timeline</h2>
-    <div id="prog_timeline"></div>
+      <!-- CARD: TIMELINE -->
+      <div class="card glass volumetric">
+        <h2>Timeline</h2>
+        <div id="prog_timeline"></div>
 
-    <button id="btnExportPDF" class="btn-primary">Esporta scheda TXT</button>
-  </div>
+        <button id="btnExportPDF" class="btn-primary">Esporta scheda TXT</button>
+      </div>
 
-</section>
+    </section>
 
   </main>
 
@@ -274,8 +286,9 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
-  
+  <!-- ⭐ Toast (DEVE STARE PRIMA DELLO SCRIPT) -->
   <div id="toast" class="toast hidden">Scheda salvata ✔</div>
+
+  <script src="app.js"></script>
 </body>
 </html>
