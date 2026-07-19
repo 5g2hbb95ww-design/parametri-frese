@@ -2,6 +2,13 @@
 // APP PRINCIPALE
 // =============================
 
+// =========================
+// REGISTRAZIONE SERVICE WORKER
+// =========================
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+}
+
 // Utility
 const num = (v) => Number(v) || 0;
 
