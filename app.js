@@ -322,3 +322,16 @@ btnExport.addEventListener("click", () => {
   a.download = "parametri-frese.csv";
   a.click();
 });
+// TEMA CHIARO/SCURO
+const btnTheme = document.getElementById("btnTheme");
+
+btnTheme.addEventListener("click", () => {
+  document.body.classList.toggle("light");
+
+  // Cambia icona
+  if (document.body.classList.contains("light")) {
+    btnTheme.textContent = "☀️";
+  } else {
+    btnTheme.textContent = "🌙";
+  }
+});
