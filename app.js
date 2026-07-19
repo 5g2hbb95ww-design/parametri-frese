@@ -39,7 +39,7 @@ refrigerante.innerHTML = `
   <option>Secco</option>
 `;
 
-// Toast (FIX: ora funziona sempre)
+// Toast
 const toast = document.getElementById("toast");
 function showToast(msg) {
   toast.textContent = msg;
@@ -60,19 +60,34 @@ function calcolaS() {
   const M = num(mmin.value);
   if (D > 0 && M > 0) {
     s_calc.value = Math.round((1000 * M) / (Math.PI * D));
+  } else {
+    s_calc.value = "";
   }
 }
 
 tagl.addEventListener("input", calcolaF);
 avanzamento.addEventListener("input", calcolaF);
 s.addEventListener("input", calcolaF);
+f.addEventListener("input", calcolaF);
 
 function calcolaF() {
   const S = num(s.value);
+  const Fg = num(f.value);
   const Z = num(tagl.value);
   const A = num(avanzamento.value);
-  if (S > 0 && Z > 0 && A > 0) {
-    f_calc.value = Math.round(S * Z * A);
+
+  if (S > 0) {
+    if (Fg > 0) {
+      // F calcolata da S * F (mm/giro)
+      f_calc.value = Math.round(S * Fg);
+    } else if (Z > 0 && A > 0) {
+      // F calcolata da S * Z * Avanzamento (mm/dente)
+      f_calc.value = Math.round(S * Z * A);
+    } else {
+      f_calc.value = "";
+    }
+  } else {
+    f_calc.value = "";
   }
 }
 
@@ -125,7 +140,6 @@ function resetCampiNuovo() {
   refrigerante.value = "";
   dettagli.value = "";
 }
-resetCampiNuovo();
 
 // Salvataggio fresa
 document.getElementById("btnSalva").addEventListener("click", () => {
@@ -151,6 +165,7 @@ document.getElementById("btnSalva").addEventListener("click", () => {
   archivio.push(item);
   renderArchivio();
   showToast("Fresa salvata ✔");
+  resetCampiNuovo();
 });
 
 // Render archivio frese
@@ -183,7 +198,7 @@ function renderArchivio() {
     btnMod.style.marginTop = "6px";
     btnMod.addEventListener("click", () => apriPopup(idx));
 
-    // ⭐ NUOVO: Bottone Elimina
+    // Bottone Elimina
     const btnDel = document.createElement("button");
     btnDel.textContent = "Elimina";
     btnDel.className = "btn-secondary";
@@ -265,7 +280,6 @@ function resetCampiProgrammazione() {
   prog_stato.value = "in_programmazione";
   prog_note.value = "";
 }
-resetCampiProgrammazione();
 
 // Salva scheda programmazione
 document.getElementById("btnSalvaProgrammazione").addEventListener("click", () => {
@@ -284,6 +298,7 @@ document.getElementById("btnSalvaProgrammazione").addEventListener("click", () =
   renderProgArchivio();
   renderProgTimeline();
   showToast("Scheda salvata ✔");
+  resetCampiProgrammazione();
 });
 
 // Render archivio programmazione
@@ -314,7 +329,7 @@ function renderProgArchivio() {
     btnMod.style.marginTop = "6px";
     btnMod.addEventListener("click", () => apriProgPopup(idx));
 
-    // ⭐ NUOVO: Bottone Elimina
+    // Bottone Elimina
     const btnDel = document.createElement("button");
     btnDel.textContent = "Elimina";
     btnDel.className = "btn-secondary";
@@ -388,7 +403,6 @@ function popolaListeModalProgrammazione() {
 
 popolaListeModalProgrammazione();
 
-// ORA VIENE apriProgPopup()
 function apriProgPopup(idx) {
   progEditIndex = idx;
   const item = progArchivio[idx];
@@ -446,21 +460,73 @@ function renderProgTimeline() {
 }
 
 // =============================
-// EXPORT TXT
+// EXPORT REPORT (PDF via stampa)
 // =============================
 document.getElementById("btnExportPDF").addEventListener("click", () => {
-  let txt = "";
+  let html = `
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Report schede</title>
+      <style>
+        body {
+          font-family: system-ui, -apple-system, sans-serif;
+          background: #0b1020;
+          color: #e9faff;
+          padding: 20px;
+        }
+        h1 {
+          font-size: 20px;
+          margin-bottom: 16px;
+          color: #9fe4ff;
+        }
+        .card {
+          margin-bottom: 16px;
+          padding: 14px;
+          border-radius: 18px;
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.18);
+        }
+        .title {
+          font-size: 16px;
+          font-weight: 600;
+          margin-bottom: 6px;
+          color: #9fe4ff;
+        }
+        .row {
+          margin: 2px 0;
+          font-size: 14px;
+        }
+        .label {
+          font-weight: 600;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>Report schede programmazione</h1>
+  `;
+
   progArchivio.forEach(item => {
-    txt += `Commessa: ${item.commessa}\nMacchina: ${item.macchina}\nStato: ${item.stato}\n\n`;
+    html += `
+      <div class="card">
+        <div class="title">${item.commessa}</div>
+        <div class="row"><span class="label">Macchina:</span> ${item.macchina}</div>
+        <div class="row"><span class="label">Disegno:</span> ${item.disegno}</div>
+        <div class="row"><span class="label">Revisione:</span> ${item.revisione}</div>
+        <div class="row"><span class="label">Tempo:</span> ${item.tempo} min</div>
+        <div class="row"><span class="label">Operatore:</span> ${item.operatore}</div>
+        <div class="row"><span class="label">Stato:</span> ${item.stato}</div>
+        <div class="row"><span class="label">Note:</span> ${item.note || "-"}</div>
+      </div>
+    `;
   });
 
-  const blob = new Blob([txt], { type: "text/plain" });
+  html += `
+    </body>
+    </html>
+  `;
+
+  const blob = new Blob([html], { type: "text/html" });
   const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "schede.txt";
-  a.click();
-
-  URL.revokeObjectURL(url);
+  window.open(url, "_blank");
 });
