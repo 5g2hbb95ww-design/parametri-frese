@@ -275,9 +275,17 @@ body.light .arch-item {
   border: 1px solid rgba(0,0,0,0.15);
   color: #0a0f1a;
 }
-
+/* TITOLI DELLE CARD */
+body.light .card h2 {
+  color: #0A1A33; /* blu notte */
+}
+/* LABEL DEI CAMPI */
+body.light label {
+  color: #0A1A33; /* blu notte */
+}
+/* TITOLI ARCHIVIO */
 body.light .arch-item-title {
-  color: #0A1A33;
+  color: #0A1A33; /* blu notte */
   text-shadow: 0 1px 2px rgba(255,255,255,0.6);
 }
 
