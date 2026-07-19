@@ -1,274 +1,144 @@
+// =============================
+// APP PRINCIPALE
+// =============================
+
+// Utility
+const num = (v) => Number(v) || 0;
+
+// Toast (FIX: ora funziona sempre)
+const toast = document.getElementById("toast");
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.remove("hidden");
+  toast.classList.add("show");
+  setTimeout(() => {
+    toast.classList.remove("show");
+    toast.classList.add("hidden");
+  }, 1800);
+}
+
+// =============================
 // CAMBIO PAGINA
-const viewSelect = document.getElementById("viewSelect");
+// =============================
 const pages = {
   nuovo: document.getElementById("page-nuovo"),
   archivio: document.getElementById("page-archivio"),
   programmazione: document.getElementById("page-programmazione")
 };
 
-viewSelect.addEventListener("change", () => {
-  const v = viewSelect.value;
-  Object.keys(pages).forEach(key => {
-    pages[key].classList.toggle("active", key === v);
-  });
+document.getElementById("viewSelect").addEventListener("change", (e) => {
+  Object.values(pages).forEach(p => p.classList.remove("active"));
+  pages[e.target.value].classList.add("active");
 });
 
-// CAMPI PRINCIPALI
-const denominazioneFresa = document.getElementById("denominazione_fresa");
-const diametro = document.getElementById("diametro");
-const taglienti = document.getElementById("taglienti");
+// =============================
+// TEMA CHIARO/SCURO
+// =============================
+document.getElementById("btnTheme").addEventListener("click", () => {
+  document.body.classList.toggle("light");
+});
 
-const s = document.getElementById("s");
-const f = document.getElementById("f");
-const mmin = document.getElementById("mmin");
-const sCalc = document.getElementById("s_calc");
-const avanzamento = document.getElementById("avanzamento");
-const fCalc = document.getElementById("f_calc");
+// =============================
+// ARCHIVIO FRESE
+// =============================
+let archivio = [];
 
-const zap = document.getElementById("zap");
-const xyae = document.getElementById("xyae");
-
-const codiceFresa = document.getElementById("codice_fresa");
-const codiceInserto = document.getElementById("codice_inserto");
-
-const materiale = document.getElementById("materiale");
-const refrigerante = document.getElementById("refrigerante");
-const dettagli = document.getElementById("dettagli");
-
-const btnSalva = document.getElementById("btnSalva");
 const lista = document.getElementById("lista");
-const btnExport = document.getElementById("btnExport");
-
-// ORDINAMENTO
 const sortSelect = document.getElementById("sortSelect");
 const orderSelect = document.getElementById("orderSelect");
 
-// MODAL EDIT
-const modalEdit = document.getElementById("modalEdit");
-const edit_denominazione = document.getElementById("edit_denominazione");
-const edit_diametro = document.getElementById("edit_diametro");
-const edit_taglienti = document.getElementById("edit_taglienti");
-const edit_s = document.getElementById("edit_s");
-const edit_avanzamento = document.getElementById("edit_avanzamento");
-const edit_materiale = document.getElementById("edit_materiale");
-const edit_refrigerante = document.getElementById("edit_refrigerante");
-const edit_dettagli = document.getElementById("edit_dettagli");
-const btnUpdate = document.getElementById("btnUpdate");
-const btnCloseModal = document.getElementById("btnCloseModal");
-
-// SUPPORTO NUMERICO
-function num(v) {
-  const n = parseFloat(v);
-  return isNaN(n) ? 0 : n;
-}
-
-// CALCOLO M/min DA S
-function aggiornaMminDaS() {
-  const D = num(diametro.value);
-  const N = num(s.value);
-  if (D > 0 && N > 0) {
-    const vc = Math.PI * D * N / 1000;
-    mmin.value = vc.toFixed(1);
-  } else {
-    mmin.value = "";
-  }
-}
-
-// CALCOLO S CALCOLATA DA M/min
-function aggiornaSCalcDaMmin() {
-  const D = num(diametro.value);
-  const vc = num(mmin.value);
-  if (D > 0 && vc > 0) {
-    const N = vc * 1000 / (Math.PI * D);
-    sCalc.value = Math.round(N);
-  } else {
-    sCalc.value = "";
-  }
-}
-
-// CALCOLO F CALCOLATA
-function aggiornaFCalc() {
-  const fz = num(avanzamento.value);
-  const z = num(taglienti.value);
-  const N = num(sCalc.value);
-
-  if (fz > 0 && z > 0 && N > 0) {
-    fCalc.value = (fz * z * N).toFixed(1);
-  } else {
-    fCalc.value = "";
-  }
-}
-
-// EVENTI CALCOLI
-diametro.addEventListener("input", () => {
-  aggiornaMminDaS();
-  aggiornaSCalcDaMmin();
-  aggiornaFCalc();
-});
-
-mmin.addEventListener("input", () => {
-  aggiornaSCalcDaMmin();
-  aggiornaFCalc();
-});
-
-avanzamento.addEventListener("input", aggiornaFCalc);
-taglienti.addEventListener("input", aggiornaFCalc);
-sCalc.addEventListener("input", aggiornaFCalc);
-
-// MATERIALI + REFRIGERANTI DINAMICI
-let MATERIALI = [];
-let REFRIGERANTI = [];
-
-fetch("materials.json")
-  .then(r => r.json())
-  .then(data => {
-    MATERIALI = data.materiali || [];
-    REFRIGERANTI = data.refrigeranti || [];
-
-    riempiSelect(materiale, MATERIALI);
-    riempiSelect(refrigerante, REFRIGERANTI);
-    riempiSelect(edit_materiale, MATERIALI);
-    riempiSelect(edit_refrigerante, REFRIGERANTI);
-  })
-  .catch(err => {
-    console.error("Errore nel caricamento di materials.json:", err);
-  });
-
-function riempiSelect(select, array) {
-  select.innerHTML = "<option value=''>—</option>";
-
-  array.forEach(v => {
-    const opt = document.createElement("option");
-
-    if (typeof v === "object") {
-      opt.value = v.nome;
-      opt.textContent = v.nome;
-    } else {
-      opt.value = v;
-      opt.textContent = v;
-    }
-
-    select.appendChild(opt);
-  });
-}
-
-// ARCHIVIO FRESE
-const archivio = [];
-let editIndex = null;
-
-function ordinaArchivio(criterio, ordine) {
-  archivio.sort((a, b) => {
-    let valA = a[criterio] || "";
-    let valB = b[criterio] || "";
-
-    if (typeof valA === "string") {
-      return ordine === "asc"
-        ? valA.localeCompare(valB)
-        : valB.localeCompare(valA);
-    }
-
-    return ordine === "asc"
-      ? valA - valB
-      : valB - valA;
-  });
-}
-
-sortSelect.addEventListener("change", () => {
-  ordinaArchivio(sortSelect.value, orderSelect.value);
-  renderArchivio();
-});
-
-orderSelect.addEventListener("change", () => {
-  ordinaArchivio(sortSelect.value, orderSelect.value);
-  renderArchivio();
-});
-
-function renderArchivio() {
-  lista.innerHTML = "";
-  if (archivio.length === 0) {
-    lista.innerHTML = "<p>Nessuna fresa salvata.</p>";
-    return;
-  }
-
-  archivio.forEach((item, idx) => {
-    const div = document.createElement("div");
-    div.className = "arch-item";
-
-    const title = document.createElement("div");
-    title.className = "arch-item-title";
-    title.textContent = `${item.denominazione || "Senza nome"} (${item.codiceFresa || "N/A"})`;
-
-    const meta = document.createElement("div");
-    meta.className = "arch-item-meta";
-    meta.textContent =
-      `D=${item.diametro}mm, z=${item.taglienti}, S=${item.sCalc}, vc=${item.mmin}, F=${item.fCalc}`;
-
-    const note = document.createElement("div");
-    note.className = "arch-item-meta";
-    note.textContent = `Materiale: ${item.materiale || "-"}, Refrigerante: ${item.refrigerante || "-"}`;
-
-    const btnMod = document.createElement("button");
-    btnMod.textContent = "Modifica";
-    btnMod.className = "btn-primary";
-    btnMod.style.marginTop = "6px";
-    btnMod.addEventListener("click", () => apriPopup(idx));
-
-    div.appendChild(title);
-    div.appendChild(meta);
-    div.appendChild(note);
-    div.appendChild(btnMod);
-
-    lista.appendChild(div);
-  });
-}
-
-// SALVATAGGIO FRESE
-btnSalva.addEventListener("click", () => {
+// Salvataggio fresa
+document.getElementById("btnSalva").addEventListener("click", () => {
   const item = {
-    denominazione: denominazioneFresa.value.trim(),
-    diametro: num(diametro.value),
-    taglienti: num(taglienti.value),
+    denominazione: den.value.trim(),
+    diametro: num(diam.value),
+    taglienti: num(tagl.value),
     s: num(s.value),
     f: num(f.value),
     mmin: num(mmin.value),
-    sCalc: num(sCalc.value),
+    sCalc: num(s_calc.value),
     avanzamento: num(avanzamento.value),
-    fCalc: num(fCalc.value),
+    fCalc: num(f_calc.value),
     zap: num(zap.value),
     xyae: num(xyae.value),
-    codiceFresa: codiceFresa.value.trim(),
-    codiceInserto: codiceInserto.value.trim(),
+    codiceFresa: codFresa.value.trim(),
+    codiceInserto: codInserto.value.trim(),
     materiale: materiale.value,
     refrigerante: refrigerante.value,
     dettagli: dettagli.value.trim()
   };
 
   archivio.push(item);
-
-  ordinaArchivio(sortSelect.value, orderSelect.value);
   renderArchivio();
-
-  showToast("Parametri fresa salvati ✔");
-
-  viewSelect.value = "archivio";
-  Object.keys(pages).forEach(key => {
-    pages[key].classList.toggle("active", key === "archivio");
-  });
+  showToast("Fresa salvata ✔");
 });
 
-// POPUP MODIFICA FRESE
-function apriPopup(index) {
-  editIndex = index;
-  const item = archivio[index];
+// Render archivio frese
+function renderArchivio() {
+  lista.innerHTML = "";
 
-  edit_denominazione.value = item.denominazione || "";
-  edit_diametro.value = item.diametro || "";
-  edit_taglienti.value = item.taglienti || "";
-  edit_s.value = item.s || "";
-  edit_avanzamento.value = item.avanzamento || "";
-  edit_materiale.value = item.materiale || "";
-  edit_refrigerante.value = item.refrigerante || "";
-  edit_dettagli.value = item.dettagli || "";
+  let arr = [...archivio];
+
+  const key = sortSelect.value;
+  const ord = orderSelect.value;
+
+  arr.sort((a, b) => {
+    if (ord === "asc") return a[key] > b[key] ? 1 : -1;
+    return a[key] < b[key] ? 1 : -1;
+  });
+
+  arr.forEach((item, idx) => {
+    const div = document.createElement("div");
+    div.className = "arch-item";
+
+    div.innerHTML = `
+      <div class="arch-item-title">${item.denominazione}</div>
+      <div class="arch-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
+    `;
+
+    // Bottone Modifica
+    const btnMod = document.createElement("button");
+    btnMod.textContent = "Modifica";
+    btnMod.className = "btn-primary";
+    btnMod.style.marginTop = "6px";
+    btnMod.addEventListener("click", () => apriPopup(idx));
+
+    // ⭐ NUOVO: Bottone Elimina
+    const btnDel = document.createElement("button");
+    btnDel.textContent = "Elimina";
+    btnDel.className = "btn-secondary";
+    btnDel.style.marginTop = "6px";
+    btnDel.addEventListener("click", () => {
+      archivio.splice(idx, 1);
+      renderArchivio();
+      showToast("Fresa eliminata ✔");
+    });
+
+    div.appendChild(btnMod);
+    div.appendChild(btnDel);
+    lista.appendChild(div);
+  });
+}
+
+// =============================
+// MODAL FRESE
+// =============================
+const modalEdit = document.getElementById("modalEdit");
+const btnCloseModal = document.getElementById("btnCloseModal");
+let editIndex = null;
+
+function apriPopup(idx) {
+  editIndex = idx;
+  const item = archivio[idx];
+
+  edit_denominazione.value = item.denominazione;
+  edit_diametro.value = item.diametro;
+  edit_taglienti.value = item.taglienti;
+  edit_s.value = item.s;
+  edit_avanzamento.value = item.avanzamento;
+  edit_materiale.value = item.materiale;
+  edit_refrigerante.value = item.refrigerante;
+  edit_dettagli.value = item.dettagli;
 
   modalEdit.classList.remove("hidden");
 }
@@ -277,8 +147,7 @@ btnCloseModal.addEventListener("click", () => {
   modalEdit.classList.add("hidden");
 });
 
-btnUpdate.addEventListener("click", () => {
-  if (editIndex === null) return;
+document.getElementById("btnUpdate").addEventListener("click", () => {
   const item = archivio[editIndex];
 
   item.denominazione = edit_denominazione.value.trim();
@@ -290,66 +159,24 @@ btnUpdate.addEventListener("click", () => {
   item.refrigerante = edit_refrigerante.value;
   item.dettagli = edit_dettagli.value.trim();
 
-  const fz = item.avanzamento;
-  const z = item.taglienti;
-  const N = item.sCalc;
-
-  if (fz > 0 && z > 0 && N > 0) {
-    item.fCalc = (fz * z * N).toFixed(1);
-  } else {
-    item.fCalc = "";
-  }
-
-  ordinaArchivio(sortSelect.value, orderSelect.value);
   renderArchivio();
   modalEdit.classList.add("hidden");
+  showToast("Fresa aggiornata ✔");
 });
 
-// ESPORTA CSV FRESE
-btnExport.addEventListener("click", () => {
-  if (archivio.length === 0) return;
+// =============================
+// PROGRAMMAZIONE
+// =============================
+let progArchivio = [];
 
-  let csv = "Denominazione;Diametro;Taglienti;S;M/min;S_calcolata;F_calcolata;Materiale;Refrigerante;Dettagli\n";
-
-  archivio.forEach(item => {
-    csv += `${item.denominazione};${item.diametro};${item.taglienti};${item.s};${item.mmin};${item.sCalc};${item.fCalc};${item.materiale};${item.refrigerante};${item.dettagli}\n`;
-  });
-
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "parametri-frese.csv";
-  a.click();
-});
-
-/* ============================================================
-   PAGINA PROGRAMMAZIONE
-   ============================================================ */
-
-// CAMPI PROGRAMMAZIONE
-const prog_macchina = document.getElementById("prog_macchina");
-const prog_commessa = document.getElementById("prog_commessa");
-const prog_disegno = document.getElementById("prog_disegno");
-const prog_rev = document.getElementById("prog_rev");
-const prog_tempo = document.getElementById("prog_tempo");
-const prog_operatore = document.getElementById("prog_operatore");
-const prog_stato = document.getElementById("prog_stato");
-const prog_note = document.getElementById("prog_note");
-
-const btnSalvaProgrammazione = document.getElementById("btnSalvaProgrammazione");
 const prog_lista = document.getElementById("prog_lista");
-const prog_timeline = document.getElementById("prog_timeline");
-const btnExportPDF = document.getElementById("btnExportPDF");
 const prog_progress = document.getElementById("prog_progress");
+const prog_timeline = document.getElementById("prog_timeline");
+const prog_filter = document.getElementById("prog_filter");
 
-// ARCHIVIO PROGRAMMAZIONE
-const progArchivio = [];
-
-// SALVA SCHEDA PROGRAMMAZIONE
-btnSalvaProgrammazione.addEventListener("click", () => {
-
-  const scheda = {
+// Salva scheda programmazione
+document.getElementById("btnSalvaProgrammazione").addEventListener("click", () => {
+  const item = {
     macchina: prog_macchina.value,
     commessa: prog_commessa.value.trim(),
     disegno: prog_disegno.value.trim(),
@@ -357,200 +184,156 @@ btnSalvaProgrammazione.addEventListener("click", () => {
     tempo: num(prog_tempo.value),
     operatore: prog_operatore.value,
     stato: prog_stato.value,
-    note: prog_note.value.trim(),
-    data: new Date().toLocaleString()
+    note: prog_note.value.trim()
   };
 
-  progArchivio.push(scheda);
-
+  progArchivio.push(item);
   renderProgArchivio();
   renderProgTimeline();
-
-  showToast("Scheda programmazione salvata ✔");
-
-  viewSelect.value = "programmazione";
-  Object.keys(pages).forEach(key => {
-    pages[key].classList.toggle("active", key === "programmazione");
-  });
+  showToast("Scheda salvata ✔");
 });
 
-// RENDER ARCHIVIO PROGRAMMAZIONE
+// Render archivio programmazione
 function renderProgArchivio() {
   prog_lista.innerHTML = "";
+  prog_progress.innerHTML = "";
 
-  if (progArchivio.length === 0) {
-    prog_lista.innerHTML = "<p>Nessuna scheda salvata.</p>";
-    return;
+  let arr = [...progArchivio];
+
+  if (prog_filter.value) {
+    arr = arr.filter(x => x.stato === prog_filter.value);
   }
 
-  progArchivio.forEach((item, idx) => {
+  arr.forEach((item, idx) => {
     const div = document.createElement("div");
     div.className = "arch-item";
 
-    const title = document.createElement("div");
-    title.className = "arch-item-title";
-    title.textContent = `${item.macchina} — ${item.commessa}`;
+    div.innerHTML = `
+      <div class="arch-item-title">${item.commessa}</div>
+      <div class="arch-item-meta">${item.macchina} — ${item.operatore}</div>
+      <span class="badge ${item.stato}">${item.stato.replace("_", " ")}</span>
+    `;
 
-    const meta = document.createElement("div");
-    meta.className = "arch-item-meta";
-    meta.textContent =
-      `Disegno: ${item.disegno} | Rev: ${item.revisione} | Tempo: ${item.tempo} min | Operatore: ${item.operatore}`;
-
-    const stato = document.createElement("div");
-    stato.className = "arch-item-meta";
-    stato.textContent = `Stato: ${item.stato}`;
-
-    const badge = document.createElement("div");
-    badge.className = "badge " + item.stato;
-    badge.textContent = item.stato.replace("_", " ");
-    div.appendChild(badge);
-
-    const note = document.createElement("div");
-    note.className = "arch-item-meta";
-    note.textContent = `Note: ${item.note || "-"}`;
-
+    // Bottone Modifica (modal nuovo)
     const btnMod = document.createElement("button");
     btnMod.textContent = "Modifica";
     btnMod.className = "btn-primary";
     btnMod.style.marginTop = "6px";
+    btnMod.addEventListener("click", () => apriProgPopup(idx));
 
-    btnMod.addEventListener("click", () => {
-      const nuovaCommessa = prompt("Commessa", item.commessa || "");
-      if (nuovaCommessa === null) return;
-
-      const nuovoStato = prompt("Stato (in_programmazione, programmato, in_produzione, finito)", item.stato || "");
-      if (!nuovoStato) return;
-
-      item.commessa = nuovaCommessa.trim();
-      item.stato = nuovoStato.trim();
-
+    // ⭐ NUOVO: Bottone Elimina
+    const btnDel = document.createElement("button");
+    btnDel.textContent = "Elimina";
+    btnDel.className = "btn-secondary";
+    btnDel.style.marginTop = "6px";
+    btnDel.addEventListener("click", () => {
+      progArchivio.splice(idx, 1);
       renderProgArchivio();
       renderProgTimeline();
-      showToast("Scheda aggiornata ✔");
+      showToast("Scheda eliminata ✔");
     });
 
-    div.appendChild(title);
-    div.appendChild(meta);
-    div.appendChild(stato);
-    div.appendChild(note);
     div.appendChild(btnMod);
-
+    div.appendChild(btnDel);
     prog_lista.appendChild(div);
+
+    // Progress bar
+    const pb = document.createElement("div");
+    pb.className = "progress-bar";
+
+    const pf = document.createElement("div");
+    pf.className = "progress-fill programmazione";
+    pf.style.width = item.stato === "finito" ? "100%" :
+                     item.stato === "in_produzione" ? "70%" :
+                     item.stato === "programmato" ? "40%" :
+                     "10%";
+
+    pb.appendChild(pf);
+    prog_progress.appendChild(pb);
   });
 }
 
-// RENDER TIMELINE PROGRAMMAZIONE
+// =============================
+// MODAL PROGRAMMAZIONE (NUOVO)
+// =============================
+const modalProgEdit = document.getElementById("modalProgEdit");
+const btnProgClose = document.getElementById("btnProgClose");
+const btnProgUpdate = document.getElementById("btnProgUpdate");
+
+let progEditIndex = null;
+
+function apriProgPopup(idx) {
+  progEditIndex = idx;
+  const item = progArchivio[idx];
+
+  edit_prog_macchina.value = item.macchina;
+  edit_prog_commessa.value = item.commessa;
+  edit_prog_disegno.value = item.disegno;
+  edit_prog_rev.value = item.revisione;
+  edit_prog_tempo.value = item.tempo;
+  edit_prog_operatore.value = item.operatore;
+  edit_prog_stato.value = item.stato;
+  edit_prog_note.value = item.note;
+
+  modalProgEdit.classList.remove("hidden");
+}
+
+btnProgClose.addEventListener("click", () => {
+  modalProgEdit.classList.add("hidden");
+});
+
+btnProgUpdate.addEventListener("click", () => {
+  const item = progArchivio[progEditIndex];
+
+  item.macchina = edit_prog_macchina.value;
+  item.commessa = edit_prog_commessa.value.trim();
+  item.disegno = edit_prog_disegno.value.trim();
+  item.revisione = edit_prog_rev.value.trim();
+  item.tempo = num(edit_prog_tempo.value);
+  item.operatore = edit_prog_operatore.value;
+  item.stato = edit_prog_stato.value;
+  item.note = edit_prog_note.value.trim();
+
+  renderProgArchivio();
+  renderProgTimeline();
+
+  modalProgEdit.classList.add("hidden");
+  showToast("Scheda aggiornata ✔");
+});
+
+// =============================
+// TIMELINE
+// =============================
 function renderProgTimeline() {
   prog_timeline.innerHTML = "";
-
-  if (progArchivio.length === 0) {
-    prog_timeline.innerHTML = "<p>Nessuna attività registrata.</p>";
-    if (prog_progress) prog_progress.innerHTML = "";
-    return;
-  }
 
   progArchivio.forEach(item => {
     const div = document.createElement("div");
     div.className = "arch-item";
-
-    const title = document.createElement("div");
-    title.className = "arch-item-title";
-    title.textContent = `${item.macchina} — ${item.stato}`;
-
-    const meta = document.createElement("div");
-    meta.className = "arch-item-meta";
-    meta.textContent = `${item.data}`;
-
-    div.appendChild(title);
-    div.appendChild(meta);
-
+    div.innerHTML = `
+      <div class="arch-item-title">${item.commessa}</div>
+      <div class="arch-item-meta">${item.stato}</div>
+    `;
     prog_timeline.appendChild(div);
   });
-
-  if (prog_progress) {
-    const tot = progArchivio.length;
-
-      const inProg = progArchivio.filter(x => x.stato === "in_programmazione").length;
-      const programmato = progArchivio.filter(x => x.stato === "programmato").length;
-      const inProd = progArchivio.filter(x => x.stato === "in_produzione").length;
-      const finito = progArchivio.filter(x => x.stato === "finito").length;
-        // calcolo percentuali
-    const progPerc = tot === 0 ? 0 : ((inProg * 50 + programmato * 100) / (tot * 100)) * 100;
-    const prodPerc = tot === 0 ? 0 : ((inProd * 50 + finito * 100) / (tot * 100)) * 100;
-
-    prog_progress.innerHTML = "";
-
-    // barra 1 — programmazione
-    const bar1 = document.createElement("div");
-    bar1.className = "progress-bar";
-    const fill1 = document.createElement("div");
-    fill1.className = "progress-fill programmazione";
-    fill1.style.width = progPerc + "%";
-    bar1.appendChild(fill1);
-
-    // barra 2 — produzione
-    const bar2 = document.createElement("div");
-    bar2.className = "progress-bar";
-    const fill2 = document.createElement("div");
-    fill2.className = "progress-fill produzione";
-    fill2.style.width = prodPerc + "%";
-    bar2.appendChild(fill2);
-
-    prog_progress.appendChild(bar1);
-    prog_progress.appendChild(bar2);
-  }
 }
 
-// ESPORTA TXT PROGRAMMAZIONE
-btnExportPDF.addEventListener("click", () => {
-  if (progArchivio.length === 0) return;
-
-  let txt = "ARCHIVIO PROGRAMMAZIONE\n\n";
-
+// =============================
+// EXPORT TXT
+// =============================
+document.getElementById("btnExportPDF").addEventListener("click", () => {
+  let txt = "";
   progArchivio.forEach(item => {
-    txt +=
-      `Macchina: ${item.macchina}\n` +
-      `Commessa: ${item.commessa}\n` +
-      `Disegno: ${item.disegno}\n` +
-      `Revisione: ${item.revisione}\n` +
-      `Tempo: ${item.tempo} min\n` +
-      `Operatore: ${item.operatore}\n` +
-      `Stato: ${item.stato}\n` +
-      `Note: ${item.note}\n` +
-      `Data: ${item.data}\n\n`;
+    txt += `Commessa: ${item.commessa}\nMacchina: ${item.macchina}\nStato: ${item.stato}\n\n`;
   });
 
-  const blob = new Blob([txt], { type: "text/plain;charset=utf-8;" });
+  const blob = new Blob([txt], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
+
   const a = document.createElement("a");
   a.href = url;
-  a.download = "programmazione.txt";
+  a.download = "schede.txt";
   a.click();
+
+  URL.revokeObjectURL(url);
 });
-
-// TOAST
-function showToast(msg) {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.remove("hidden");
-  t.classList.add("show");
-
-  setTimeout(() => {
-    t.classList.remove("show");
-    setTimeout(() => t.classList.add("hidden"), 400);
-  }, 2000);
-}
-
-// TEMA CHIARO/SCURO
-const btnTheme = document.getElementById("btnTheme");
-
-btnTheme.addEventListener("click", () => {
-  document.body.classList.toggle("light");
-
-  if (document.body.classList.contains("light")) {
-    btnTheme.textContent = "☀️";
-  } else {
-    btnTheme.textContent = "🌙";
-  }
-});
-
