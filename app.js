@@ -322,6 +322,150 @@ btnExport.addEventListener("click", () => {
   a.download = "parametri-frese.csv";
   a.click();
 });
+
+/* ============================================================
+   PAGINA PROGRAMMAZIONE — LOGICA COMPLETA
+   ============================================================ */
+
+// CAMPI PROGRAMMAZIONE
+const prog_macchina = document.getElementById("prog_macchina");
+const prog_commessa = document.getElementById("prog_commessa");
+const prog_disegno = document.getElementById("prog_disegno");
+const prog_rev = document.getElementById("prog_rev");
+const prog_tempo = document.getElementById("prog_tempo");
+const prog_operatore = document.getElementById("prog_operatore");
+const prog_stato = document.getElementById("prog_stato");
+const prog_note = document.getElementById("prog_note");
+
+const btnSalvaProgrammazione = document.getElementById("btnSalvaProgrammazione");
+const prog_lista = document.getElementById("prog_lista");
+const prog_timeline = document.getElementById("prog_timeline");
+const btnExportPDF = document.getElementById("btnExportPDF");
+
+// ARCHIVIO PROGRAMMAZIONE
+const progArchivio = [];
+
+// SALVA SCHEDA
+btnSalvaProgrammazione.addEventListener("click", () => {
+
+  const scheda = {
+    macchina: prog_macchina.value,
+    commessa: prog_commessa.value.trim(),
+    disegno: prog_disegno.value.trim(),
+    revisione: prog_rev.value.trim(),
+    tempo: num(prog_tempo.value),
+    operatore: prog_operatore.value,
+    stato: prog_stato.value,
+    note: prog_note.value.trim(),
+    data: new Date().toLocaleString()
+  };
+
+  progArchivio.push(scheda);
+
+  renderProgArchivio();
+  renderProgTimeline();
+
+  // torna all’archivio programmazione
+  viewSelect.value = "programmazione";
+  Object.keys(pages).forEach(key => {
+    pages[key].classList.toggle("active", key === "programmazione");
+  });
+});
+
+// RENDER ARCHIVIO
+function renderProgArchivio() {
+  prog_lista.innerHTML = "";
+
+  if (progArchivio.length === 0) {
+    prog_lista.innerHTML = "<p>Nessuna scheda salvata.</p>";
+    return;
+  }
+
+  progArchivio.forEach((item, idx) => {
+    const div = document.createElement("div");
+    div.className = "arch-item";
+
+    const title = document.createElement("div");
+    title.className = "arch-item-title";
+    title.textContent = `${item.macchina} — ${item.commessa}`;
+
+    const meta = document.createElement("div");
+    meta.className = "arch-item-meta";
+    meta.textContent =
+      `Disegno: ${item.disegno} | Rev: ${item.revisione} | Tempo: ${item.tempo} min | Operatore: ${item.operatore}`;
+
+    const stato = document.createElement("div");
+    stato.className = "arch-item-meta";
+    stato.textContent = `Stato: ${item.stato}`;
+
+    const note = document.createElement("div");
+    note.className = "arch-item-meta";
+    note.textContent = `Note: ${item.note || "-"}`;
+
+    div.appendChild(title);
+    div.appendChild(meta);
+    div.appendChild(stato);
+    div.appendChild(note);
+
+    prog_lista.appendChild(div);
+  });
+}
+
+// RENDER TIMELINE
+function renderProgTimeline() {
+  prog_timeline.innerHTML = "";
+
+  if (progArchivio.length === 0) {
+    prog_timeline.innerHTML = "<p>Nessuna attività registrata.</p>";
+    return;
+  }
+
+  progArchivio.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "arch-item";
+
+    const title = document.createElement("div");
+    title.className = "arch-item-title";
+    title.textContent = `${item.macchina} — ${item.stato}`;
+
+    const meta = document.createElement("div");
+    meta.className = "arch-item-meta";
+    meta.textContent = `${item.data}`;
+
+    div.appendChild(title);
+    div.appendChild(meta);
+
+    prog_timeline.appendChild(div);
+  });
+}
+
+// ESPORTA TXT
+btnExportPDF.addEventListener("click", () => {
+  if (progArchivio.length === 0) return;
+
+  let txt = "ARCHIVIO PROGRAMMAZIONE\n\n";
+
+  progArchivio.forEach(item => {
+    txt +=
+      `Macchina: ${item.macchina}\n` +
+      `Commessa: ${item.commessa}\n` +
+      `Disegno: ${item.disegno}\n` +
+      `Revisione: ${item.revisione}\n` +
+      `Tempo: ${item.tempo} min\n` +
+      `Operatore: ${item.operatore}\n` +
+      `Stato: ${item.stato}\n` +
+      `Note: ${item.note}\n` +
+      `Data: ${item.data}\n\n`;
+  });
+
+  const blob = new Blob([txt], { type: "text/plain;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "programmazione.txt";
+  a.click();
+});
+
 // TEMA CHIARO/SCURO
 const btnTheme = document.getElementById("btnTheme");
 
