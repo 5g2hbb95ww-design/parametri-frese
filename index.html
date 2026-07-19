@@ -158,13 +158,54 @@
     </section>
 
     <!-- PAGINA PROGRAMMAZIONE -->
-    <section id="page-programmazione" class="page">
-      <div class="card glass volumetric">
-        <h2>Programmazione</h2>
-        <p>In sviluppo…</p>
-      </div>
-    </section>
-  </main>
+    <div class="card glass volumetric">
+  <h2>Nuova scheda lavoro</h2>
+
+  <label>Macchina</label>
+  <input id="prog_macchina" type="text">
+
+  <label>Commessa</label>
+  <input id="prog_commessa" type="text">
+
+  <label>Disegno</label>
+  <input id="prog_disegno" type="text">
+
+  <label>Revisione</label>
+  <input id="prog_rev" type="text">
+
+  <label>Tempo programmazione (min)</label>
+  <input id="prog_tempo" type="number">
+
+  <label>Operatore CNC</label>
+  <input id="prog_operatore" type="text">
+
+  <label>Stato</label>
+  <select id="prog_stato">
+    <option value="in_programmazione">In programmazione</option>
+    <option value="programmato">Programmato</option>
+    <option value="in_produzione">In produzione</option>
+    <option value="sospeso">Sospeso</option>
+    <option value="finito">Finito</option>
+  </select>
+
+  <label>Note</label>
+  <textarea id="prog_note" rows="3"></textarea>
+
+  <button id="btnSalvaProgrammazione" class="btn-primary">Salva scheda</button>
+</div>
+
+<div class="card glass volumetric">
+  <h2>Archivio schede</h2>
+  <div id="prog_lista"></div>
+</div>
+
+<div class="card glass volumetric">
+  <h2>Timeline</h2>
+  <div id="prog_timeline"></div>
+
+  <button id="btnExportPDF" class="btn-primary">Esporta scheda TXT</button>
+</div>
+
 
   <!-- MODAL MODIFICA -->
   <div id="modalEdit" class="modal hidden">
