@@ -236,6 +236,12 @@ button {
   transform: scale(0.92);
 }
 
+.btn-theme svg {
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
+}
+
 /* MODALITÀ CHIARA */
 body.light {
   background: radial-gradient(circle at top, #f2f6ff 0%, #e6ecf7 55%, #dfe6f3 100%);
