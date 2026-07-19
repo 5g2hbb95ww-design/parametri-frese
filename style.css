@@ -303,3 +303,27 @@ body.light .btn-theme {
   justify-content: space-between;
   align-items: center;
 }
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 22px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(20px);
+  border-radius: 14px;
+  color: #fff;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 999;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+.toast.hidden {
+  display: none;
+}
