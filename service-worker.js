@@ -1,19 +1,13 @@
-// =========================
-// SERVICE WORKER STABILE
-// =========================
+const CACHE_NAME = "pwa-cache-v4";
 
-// Incrementa la versione quando aggiorni app.js
-const CACHE_NAME = "pwa-cache-v3";
-
-// File da mettere in cache
 const FILES_TO_CACHE = [
-  "/index.html?v=" + Date.now(),
-  "/style.css?v=" + Date.now(),
-  "/app.js?v=" + Date.now(),
+  "/index.html",
+  "/style.css",
+  "/app.js",
   "/manifest.json"
 ];
 
-// Installazione SW
+// Install SW
 self.addEventListener("install", event => {
   self.skipWaiting();
   event.waitUntil(
@@ -21,39 +15,29 @@ self.addEventListener("install", event => {
   );
 });
 
-// Attivazione SW (cancella cache vecchie)
+// Activate SW
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      )
+      Promise.all(keys.map(key => {
+        if (key !== CACHE_NAME) return caches.delete(key);
+      }))
     )
   );
   self.clients.claim();
 });
 
-// Gestione fetch
+// Fetch handler con fallback su index.html
 self.addEventListener("fetch", event => {
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      // Se esiste in cache → usa cache
-      if (cached) return cached;
-
-      // Altrimenti scarica e salva in cache
-      return fetch(event.request).then(response => {
-        // Salva solo file del dominio
-        if (event.request.url.startsWith(self.location.origin)) {
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, response.clone());
+    fetch(event.request)
+      .catch(() => {
+        return caches.match(event.request)
+          .then(response => {
+            if (response) return response;
+            // Fallback SPA
+            return caches.match("/index.html");
           });
-        }
-        return response;
-      });
-    })
+      })
   );
 });
