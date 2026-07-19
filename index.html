@@ -1,210 +1,205 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Parametri Frese</title>
-
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#111111">
-
-<!-- iPhone / iPad -->
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Parametri Frese">
-<meta name="format-detection" content="telephone=no">
-
-<!-- Apple Touch Icons -->
-<link rel="apple-touch-icon" sizes="192x192" href="icon/icon-192.png">
-<link rel="apple-touch-icon" sizes="512x512" href="icon/icon-512.png">
-
-<!-- CSS -->
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Parametri Fresa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
 </head>
-
 <body>
+  <header>
+    <div class="app-title">Parametri Fresa</div>
 
-<header>
-  <h1>⚙️ Parametri Frese</h1>
-  
-  <nav class="menu-nav">
-    <button id="btn-nuovo" class="nav-btn active">➕ Nuovo</button>
-    <button id="btn-archivio" class="nav-btn">📚 Archivio</button>
-  </nav>
-</header>
-
-<main>
-
-<!-- ============== PAGINA 1: NUOVO INSERIMENTO ============== -->
-<section id="pagina-nuovo" class="page active">
-  <section class="card">
-    <h2>Nuovo Inserimento</h2>
-
-    <!-- Denominazione Fresa -->
-    <textarea id="denominazione_fresa" placeholder="Denominazione Fresa"></textarea>
-
-    <!-- Diametro + N.Taglienti -->
-    <div class="row">
-      <input id="diametro" type="number" step="0.01" placeholder="Diametro">
-      <input id="ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
-    </div>
-
-    <!-- S -->
-    <input id="s" type="number" step="0.01" placeholder="S">
-
-    <!-- M/Minuto + S calcolata -->
-    <div class="row">
-      <input id="mmin" type="number" step="0.01" placeholder="M/Minuto">
-      <input id="s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
-    </div>
-
-    <!-- F -->
-    <input id="f" type="number" step="0.01" placeholder="F">
-
-    <!-- Avanzamento Ad + F calcolata -->
-    <div class="row">
-      <input id="av_ad" type="number" step="0.01" placeholder="Avanzamento Ad">
-      <input id="f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
-    </div>
-
-    <!-- Z-Ap -->
-    <input id="zap" type="number" step="0.01" placeholder="Z-Ap">
-
-    <!-- Materiale + Refrigerante -->
-    <div class="row">
-      <select id="materiale">
-        <option>Acciaio</option>
-        <option>Inox</option>
-        <option>Ghisa</option>
-        <option>Alluminio</option>
-        <option>Titanio</option>
-        <option>Ottone</option>
-        <option>Rame</option>
-        <option>Plastica</option>
-        <option>Altro</option>
-      </select>
-
-      <select id="refrigerante">
-        <option>Acqua</option>
-        <option>Aria</option>
-        <option>Niente</option>
-        <option>Acqua int.</option>
-        <option>Aria int.</option>
+    <div class="view-selector">
+      <select id="viewSelect">
+        <option value="nuovo">Nuovo</option>
+        <option value="archivio">Archivio</option>
+        <option value="programmazione">Programmazione</option>
       </select>
     </div>
+  </header>
 
-    <!-- Codice Fresa -->
-    <textarea id="codice_fresa" placeholder="Codice fresa"></textarea>
+  <main>
+    <!-- PAGINA NUOVO -->
+    <section id="page-nuovo" class="page active">
 
-    <!-- Codice Inserto -->
-    <textarea id="codice_inserto" placeholder="Codice inserto"></textarea>
+      <!-- CARD 1 -->
+      <div class="card glass volumetric">
+        <h2>Dati fresa</h2>
 
-    <!-- Dettagli -->
-    <textarea id="dettagli" placeholder="Dettagli"></textarea>
+        <label>Denominazione fresa</label>
+        <input id="denominazione_fresa" type="text">
 
-    <button id="salva">💾 Salva</button>
-  </section>
-</section>
+        <div class="row">
+          <div class="col">
+            <label>Diametro (mm)</label>
+            <input id="diametro" type="number" step="0.01">
+          </div>
+          <div class="col">
+            <label>N. taglienti</label>
+            <input id="taglienti" type="number">
+          </div>
+        </div>
+      </div>
 
-<!-- ============== PAGINA 2: ARCHIVIO FRESE ============== -->
-<section id="pagina-archivio" class="page">
-  <section class="card">
-    <h2>📚 Archivio Frese</h2>
-    <input id="ricerca" placeholder="Cerca...">
-    <div id="lista"></div>
-    <button id="csv" style="margin-top: 20px; width: 100%;">📄 Esporta CSV</button>
-  </section>
-</section>
+      <!-- CARD 2 -->
+      <div class="card glass volumetric">
+        <h2>Parametri di taglio</h2>
 
-</main>
+        <div class="row">
+          <div class="col">
+            <label>S (giri/min)</label>
+            <input id="s" type="number">
+          </div>
+          <div class="col">
+            <label>F (mm/giro)</label>
+            <input id="f" type="number" step="0.01">
+          </div>
+        </div>
 
-<!-- MODAL -->
-<div id="modal-overlay" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>✏️ Modifica Fresa</h2>
-      <button class="modal-close" id="modal-close-btn">&times;</button>
-    </div>
+        <div class="row">
+          <div class="col">
+            <label>M/min</label>
+            <input id="mmin" type="number" step="0.1">
+          </div>
+          <div class="col">
+            <label>S calcolata</label>
+            <input id="s_calc" type="number" readonly>
+          </div>
+        </div>
 
-    <textarea id="mod-denominazione_fresa" placeholder="Denominazione Fresa"></textarea>
+        <div class="row">
+          <div class="col">
+            <label>Avanzamento (mm/dente)</label>
+            <input id="avanzamento" type="number" step="0.01">
+          </div>
+          <div class="col">
+            <label>F calcolata (mm/min)</label>
+            <input id="f_calc" type="number" readonly>
+          </div>
+        </div>
+      </div>
 
-    <div class="row">
-      <input id="mod-diametro" type="number" step="0.01" placeholder="Diametro">
-      <input id="mod-ntaglientiinserti" type="number" placeholder="N.Taglienti/Inserti">
-    </div>
+      <!-- CARD 3 -->
+      <div class="card glass volumetric">
+        <h2>Profondità / Passate</h2>
 
-    <input id="mod-s" type="number" step="0.01" placeholder="S">
+        <div class="row">
+          <div class="col">
+            <label>Z Ap</label>
+            <input id="zap" type="number" step="0.01">
+          </div>
+          <div class="col">
+            <label>XY Ae</label>
+            <input id="xyae" type="number" step="0.01">
+          </div>
+        </div>
+      </div>
 
-    <div class="row">
-      <input id="mod-mmin" type="number" step="0.01" placeholder="M/Minuto">
-      <input id="mod-s_calc" type="number" step="0.01" placeholder="S calcolata" readonly>
-    </div>
+      <!-- CARD 4 -->
+      <div class="card glass volumetric">
+        <h2>Codici utensile</h2>
 
-    <input id="mod-f" type="number" step="0.01" placeholder="F">
+        <label>Codice fresa</label>
+        <input id="codice_fresa" type="text">
 
-    <div class="row">
-      <input id="mod-av_ad" type="number" step="0.01" placeholder="Avanzamento Ad">
-      <input id="mod-f_calc" type="number" step="0.01" placeholder="F calcolata" readonly>
-    </div>
+        <label>Codice inserto</label>
+        <input id="codice_inserto" type="text">
+      </div>
 
-    <input id="mod-zap" type="number" step="0.01" placeholder="Z-Ap">
+      <!-- CARD 5 -->
+      <div class="card glass volumetric">
+        <h2>Dettagli lavorazione</h2>
 
-    <div class="row">
-      <select id="mod-materiale">
-        <option>Acciaio</option>
-        <option>Inox</option>
-        <option>Ghisa</option>
-        <option>Alluminio</option>
-        <option>Titanio</option>
-        <option>Ottone</option>
-        <option>Rame</option>
-        <option>Plastica</option>
-        <option>Altro</option>
-      </select>
+        <div class="row">
+          <div class="col">
+            <label>Materiale</label>
+            <select id="materiale"></select>
+          </div>
+          <div class="col">
+            <label>Refrigerante</label>
+            <select id="refrigerante"></select>
+          </div>
+        </div>
 
-      <select id="mod-refrigerante">
-        <option>Acqua</option>
-        <option>Aria</option>
-        <option>Niente</option>
-        <option>Acqua int.</option>
-        <option>Aria int.</option>
-      </select>
-    </div>
+        <label>Dettagli</label>
+        <textarea id="dettagli" rows="3"></textarea>
 
-    <textarea id="mod-codice_fresa" placeholder="Codice fresa"></textarea>
-    <textarea id="mod-codice_inserto" placeholder="Codice inserto"></textarea>
-    <textarea id="mod-dettagli" placeholder="Dettagli"></textarea>
+        <button id="btnSalva" class="btn-primary">Salva in archivio</button>
+      </div>
+    </section>
 
-    <div class="modal-actions">
-      <button class="btn-annulla" id="modal-annulla">❌ Annulla</button>
-      <button class="btn-salva-modifica" id="modal-salva">✅ Salva</button>
+    <!-- PAGINA ARCHIVIO -->
+    <section id="page-archivio" class="page">
+      <div class="card glass volumetric">
+        <h2>Archivio frese</h2>
+
+        <label>Ordina per</label>
+        <select id="sortSelect">
+          <option value="diametro">Diametro</option>
+          <option value="materiale">Materiale</option>
+          <option value="codiceFresa">Codice fresa</option>
+          <option value="refrigerante">Refrigerante</option>
+          <option value="mmin">Velocità di taglio (M/min)</option>
+          <option value="fCalc">Avanzamento (F calcolata)</option>
+        </select>
+
+        <label>Ordine</label>
+        <select id="orderSelect">
+          <option value="asc">Crescente</option>
+          <option value="desc">Decrescente</option>
+        </select>
+
+        <button id="btnExport" class="btn-primary">Esporta CSV</button>
+
+        <div id="lista"></div>
+      </div>
+    </section>
+
+    <!-- PAGINA PROGRAMMAZIONE -->
+    <section id="page-programmazione" class="page">
+      <div class="card glass volumetric">
+        <h2>Programmazione</h2>
+        <p>In sviluppo…</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL MODIFICA -->
+  <div id="modalEdit" class="modal hidden">
+    <div class="modal-content glass volumetric">
+      <h2>Modifica fresa</h2>
+
+      <label>Denominazione</label>
+      <input id="edit_denominazione" type="text">
+
+      <label>Diametro</label>
+      <input id="edit_diametro" type="number">
+
+      <label>Taglienti</label>
+      <input id="edit_taglienti" type="number">
+
+      <label>S</label>
+      <input id="edit_s" type="number">
+
+      <label>Avanzamento</label>
+      <input id="edit_avanzamento" type="number">
+
+      <label>Materiale</label>
+      <select id="edit_materiale"></select>
+
+      <label>Refrigerante</label>
+      <select id="edit_refrigerante"></select>
+
+      <label>Dettagli</label>
+      <textarea id="edit_dettagli"></textarea>
+
+      <button id="btnUpdate" class="btn-primary">Aggiorna</button>
+      <button id="btnCloseModal" class="btn-secondary">Chiudi</button>
     </div>
   </div>
-</div>
 
-<button id="installaApp" style="margin:20px; padding:10px; display:none;">
-📲 Installa App
-</button>
-
-<script src="app.js"></script>
-
-<script>
-let deferredPrompt;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    document.getElementById('installaApp').style.display = 'block';
-});
-
-document.getElementById('installaApp').addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    deferredPrompt = null;
-});
-</script>
-
+  <script src="app.js"></script>
 </body>
 </html>

@@ -1,0 +1,68 @@
+{
+  "materiali": [
+    { "nome": "Acciaio C45" },
+    { "nome": "Acciaio C40" },
+    { "nome": "Acciaio 42CrMo4" },
+    { "nome": "Acciaio inox 304" },
+    { "nome": "Acciaio inox 316" },
+    { "nome": "Acciaio temprato 60 HRC" },
+    { "nome": "Alluminio 6082" },
+    { "nome": "Alluminio 7075" },
+    { "nome": "Alluminio 5083" },
+    { "nome": "Ghisa grigia" },
+    { "nome": "Ghisa sferoidale" },
+    { "nome": "Titanio Ti6Al4V" },
+    { "nome": "Ottone" },
+    { "nome": "Bronzo" },
+    { "nome": "Rame" },
+    { "nome": "POM (Delrin)" },
+    { "nome": "Nylon" },
+    { "nome": "PVC" }
+  ],
+
+  "refrigeranti": [
+    { "nome": "Emulsione 5%" },
+    { "nome": "Emulsione 7%" },
+    { "nome": "Emulsione 10%" },
+    { "nome": "Emulsione 12%" },
+    { "nome": "Olio intero" },
+    { "nome": "Nebbia d’olio" },
+    { "nome": "Aria compressa" },
+    { "nome": "Secco (dry machining)" }
+  ],
+
+  "macchine": [
+    { "nome": "DMG Mori DMU 50" },
+    { "nome": "DMG Mori CMX 600" },
+    { "nome": "Haas VF-2" },
+    { "nome": "Haas VF-4" },
+    { "nome": "Haas MiniMill" },
+    { "nome": "Mazak VCN 530" },
+    { "nome": "Mazak Variaxis" },
+    { "nome": "Doosan DNM 4500" },
+    { "nome": "Doosan DNM 6700" },
+    { "nome": "Fanuc Robodrill" },
+    { "nome": "Hermle C12" },
+    { "nome": "Hermle C22" },
+    { "nome": "Fidia K165" },
+    { "nome": "Breton Ultrix" },
+    { "nome": "Mikron VCE 600" },
+    { "nome": "Mikron HSM 400" }
+  ],
+
+  "operatori": [
+    { "nome": "Marco" },
+    { "nome": "Luca" },
+    { "nome": "Andrea" },
+    { "nome": "Davide" },
+    { "nome": "Stefano" },
+    { "nome": "Giovanni" },
+    { "nome": "Paolo" },
+    { "nome": "Matteo" },
+    { "nome": "Roberto" },
+    { "nome": "Simone" },
+    { "nome": "Fabio" },
+    { "nome": "Riccardo" },
+    { "nome": "Alessandro" }
+  ]
+}

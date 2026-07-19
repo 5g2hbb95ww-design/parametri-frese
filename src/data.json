@@ -1,0 +1,28 @@
+{
+    "materials": {
+        "acciaio": 80,
+        "inox": 50,
+        "alluminio": 250,
+        "titanio": 40,
+        "plastica": 300
+    },
+    "tools": {
+        "2dent": 2,
+        "4dent": 4,
+        "6dent": 6
+    },
+    "presets": {
+        "alluminio_6mm": {
+            "diameter": 6,
+            "cuttingSpeed": 250,
+            "teeth": 2,
+            "feedPerTooth": 0.04
+        },
+        "acciaio_10mm": {
+            "diameter": 10,
+            "cuttingSpeed": 80,
+            "teeth": 4,
+            "feedPerTooth": 0.03
+        }
+    }
+}

@@ -1,311 +1,324 @@
-// 
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("App inizializzata");
+// CAMBIO PAGINA
+const viewSelect = document.getElementById("viewSelect");
+const pages = {
+  nuovo: document.getElementById("page-nuovo"),
+  archivio: document.getElementById("page-archivio"),
+  programmazione: document.getElementById("page-programmazione")
+};
 
-    // Caricamento archivio
-    let archivio = JSON.parse(localStorage.getItem("parametri_frese") || "[]");
+viewSelect.addEventListener("change", () => {
+  const v = viewSelect.value;
+  Object.keys(pages).forEach(key => {
+    pages[key].classList.toggle("active", key === v);
+  });
+});
 
-    // ELEMENTI FORM PRINCIPALE
-    const denominazionefresaEl = document.getElementById("denominazione_fresa");
-    const diametroEl = document.getElementById("diametro");
-    const ntaglientiinsertiEl = document.getElementById("ntaglientiinserti");
+// CAMPI PRINCIPALI
+const denominazioneFresa = document.getElementById("denominazione_fresa");
+const diametro = document.getElementById("diametro");
+const taglienti = document.getElementById("taglienti");
 
-    const sEl = document.getElementById("s");
-    const mminEl = document.getElementById("mmin");
-    const sCalcEl = document.getElementById("s_calc");
+const s = document.getElementById("s");
+const f = document.getElementById("f");
+const mmin = document.getElementById("mmin");
+const sCalc = document.getElementById("s_calc");
+const avanzamento = document.getElementById("avanzamento");
+const fCalc = document.getElementById("f_calc");
 
-    const fEl = document.getElementById("f");
-    const avAdEl = document.getElementById("av_ad");
-    const fCalcEl = document.getElementById("f_calc");
+const zap = document.getElementById("zap");
+const xyae = document.getElementById("xyae");
 
-    const zapEl = document.getElementById("zap");
-    const materialeEl = document.getElementById("materiale");
-    const refrigeranteEl = document.getElementById("refrigerante");
-    const codicefresaEl = document.getElementById("codice_fresa");
-    const codiceinsertoEl = document.getElementById("codice_inserto");
-    const dettagliEl = document.getElementById("dettagli");
+const codiceFresa = document.getElementById("codice_fresa");
+const codiceInserto = document.getElementById("codice_inserto");
 
-    // ELEMENTI ARCHIVIO
-    const listaEl = document.getElementById("lista");
-    const ricercaEl = document.getElementById("ricerca");
+const materiale = document.getElementById("materiale");
+const refrigerante = document.getElementById("refrigerante");
+const dettagli = document.getElementById("dettagli");
 
-    // NAVIGAZIONE
-    const btnNuovo = document.getElementById("btn-nuovo");
-    const btnArchivio = document.getElementById("btn-archivio");
-    const paginaNuovo = document.getElementById("pagina-nuovo");
-    const paginaArchivio = document.getElementById("pagina-archivio");
+const btnSalva = document.getElementById("btnSalva");
+const lista = document.getElementById("lista");
+const btnExport = document.getElementById("btnExport");
 
-    // MODAL
-    const modalOverlay = document.getElementById("modal-overlay");
-    const modalCloseBtn = document.getElementById("modal-close-btn");
-    const modalAnnullaBtn = document.getElementById("modal-annulla");
-    const modalSalvaBtn = document.getElementById("modal-salva");
+// ORDINAMENTO
+const sortSelect = document.getElementById("sortSelect");
+const orderSelect = document.getElementById("orderSelect");
 
-    // ELEMENTI MODAL
-    const modDenominazioneEl = document.getElementById("mod-denominazione_fresa");
-    const modDiametroEl = document.getElementById("mod-diametro");
-    const modNtaglientiEl = document.getElementById("mod-ntaglientiinserti");
+// MODAL EDIT
+const modalEdit = document.getElementById("modalEdit");
+const edit_denominazione = document.getElementById("edit_denominazione");
+const edit_diametro = document.getElementById("edit_diametro");
+const edit_taglienti = document.getElementById("edit_taglienti");
+const edit_s = document.getElementById("edit_s");
+const edit_avanzamento = document.getElementById("edit_avanzamento");
+const edit_materiale = document.getElementById("edit_materiale");
+const edit_refrigerante = document.getElementById("edit_refrigerante");
+const edit_dettagli = document.getElementById("edit_dettagli");
+const btnUpdate = document.getElementById("btnUpdate");
+const btnCloseModal = document.getElementById("btnCloseModal");
 
-    const modSEl = document.getElementById("mod-s");
-    const modMminEl = document.getElementById("mod-mmin");
-    const modSCalcEl = document.getElementById("mod-s_calc");
+// SUPPORTO NUMERICO
+function num(v) {
+  const n = parseFloat(v);
+  return isNaN(n) ? 0 : n;
+}
 
-    const modFEl = document.getElementById("mod-f");
-    const modAvAdEl = document.getElementById("mod-av_ad");
-    const modFCalcEl = document.getElementById("mod-f_calc");
+// CALCOLO M/min DA S
+function aggiornaMminDaS() {
+  const D = num(diametro.value);
+  const N = num(s.value);
+  if (D > 0 && N > 0) {
+    const vc = Math.PI * D * N / 1000;
+    mmin.value = vc.toFixed(1);
+  } else {
+    mmin.value = "";
+  }
+}
 
-    const modZapEl = document.getElementById("mod-zap");
-    const modMaterialeEl = document.getElementById("mod-materiale");
-    const modRefrigeranteEl = document.getElementById("mod-refrigerante");
+// CALCOLO S CALCOLATA DA M/min
+function aggiornaSCalcDaMmin() {
+  const D = num(diametro.value);
+  const vc = num(mmin.value);
+  if (D > 0 && vc > 0) {
+    const N = vc * 1000 / (Math.PI * D);
+    sCalc.value = Math.round(N);
+  } else {
+    sCalc.value = "";
+  }
+}
 
-    const modCodiceFresaEl = document.getElementById("mod-codice_fresa");
-    const modCodiceInsertoEl = document.getElementById("mod-codice_inserto");
-    const modDettagliEl = document.getElementById("mod-dettagli");
+// CALCOLO F CALCOLATA (VERSIONE CORRETTA)
+function aggiornaFCalc() {
+  const fz = num(avanzamento.value);      // mm/dente
+  const z = num(taglienti.value);         // numero taglienti
+  const N = num(sCalc.value);             // S calcolata
 
-    let indexInModifica = null;
+  if (fz > 0 && z > 0 && N > 0) {
+    fCalc.value = (fz * z * N).toFixed(1);
+  } else {
+    fCalc.value = "";
+  }
+}
 
-    // ---------------- NAVIGAZIONE ----------------
+// EVENTI CALCOLI
+diametro.addEventListener("input", () => {
+  aggiornaMminDaS();
+  aggiornaSCalcDaMmin();
+  aggiornaFCalc();
+});
 
-    function mostraPagina(pagina) {
-        paginaNuovo.classList.remove("active");
-        paginaArchivio.classList.remove("active");
-        btnNuovo.classList.remove("active");
-        btnArchivio.classList.remove("active");
+mmin.addEventListener("input", () => {
+  aggiornaSCalcDaMmin();
+  aggiornaFCalc();
+});
 
-        if (pagina === "nuovo") {
-            paginaNuovo.classList.add("active");
-            btnNuovo.classList.add("active");
-        } else {
-            paginaArchivio.classList.add("active");
-            btnArchivio.classList.add("active");
-            renderArchivio();
-        }
+avanzamento.addEventListener("input", aggiornaFCalc);
+taglienti.addEventListener("input", aggiornaFCalc);
+sCalc.addEventListener("input", aggiornaFCalc);
+
+// MATERIALI + REFRIGERANTI DINAMICI (OGGETTI)
+let MATERIALI = [];
+let REFRIGERANTI = [];
+
+fetch("materials.json")
+  .then(r => r.json())
+  .then(data => {
+    MATERIALI = data.materiali || [];
+    REFRIGERANTI = data.refrigeranti || [];
+
+    riempiSelect(materiale, MATERIALI);
+    riempiSelect(refrigerante, REFRIGERANTI);
+    riempiSelect(edit_materiale, MATERIALI);
+    riempiSelect(edit_refrigerante, REFRIGERANTI);
+  })
+  .catch(err => {
+    console.error("Errore nel caricamento di materials.json:", err);
+  });
+
+// VERSIONE COMPATIBILE CON OGGETTI
+function riempiSelect(select, array) {
+  select.innerHTML = "<option value=''>—</option>";
+
+  array.forEach(v => {
+    const opt = document.createElement("option");
+
+    if (typeof v === "object") {
+      opt.value = v.nome;
+      opt.textContent = v.nome;
+    } else {
+      opt.value = v;
+      opt.textContent = v;
     }
 
-    btnNuovo.addEventListener("click", () => mostraPagina("nuovo"));
-    btnArchivio.addEventListener("click", () => mostraPagina("archivio"));
+    select.appendChild(opt);
+  });
+}
 
-    // ---------------- CALCOLI ----------------
+// ARCHIVIO
+const archivio = [];
+let editIndex = null;
 
-    function calcolaS() {
-        const mmin = parseFloat(mminEl.value) || 0;
-        const diametro = parseFloat(diametroEl.value) || 0;
+function ordinaArchivio(criterio, ordine) {
+  archivio.sort((a, b) => {
+    let valA = a[criterio] || "";
+    let valB = b[criterio] || "";
 
-        if (!diametro) {
-            sCalcEl.value = "";
-            calcolaF();
-            return;
-        }
-
-        const sCalc = (1000 * mmin) / (3.14 * diametro);
-        sCalcEl.value = sCalc.toFixed(2);
-
-        calcolaF();
+    if (typeof valA === "string") {
+      return ordine === "asc"
+        ? valA.localeCompare(valB)
+        : valB.localeCompare(valA);
     }
 
-    function calcolaF() {
-        const avAd = parseFloat(avAdEl.value) || 0;
-        const ntaglienti = parseFloat(ntaglientiinsertiEl.value) || 0;
-        const sCalc = parseFloat(sCalcEl.value) || 0;
+    return ordine === "asc"
+      ? valA - valB
+      : valB - valA;
+  });
+}
 
-        const fCalc = avAd * ntaglienti * sCalc;
-        fCalcEl.value = fCalc.toFixed(2);
-    }
+sortSelect.addEventListener("change", () => {
+  ordinaArchivio(sortSelect.value, orderSelect.value);
+  renderArchivio();
+});
 
-    mminEl.addEventListener("input", calcolaS);
-    diametroEl.addEventListener("input", calcolaS);
-    avAdEl.addEventListener("input", calcolaF);
-    ntaglientiinsertiEl.addEventListener("input", calcolaF);
+orderSelect.addEventListener("change", () => {
+  ordinaArchivio(sortSelect.value, orderSelect.value);
+  renderArchivio();
+});
 
-    // ---------------- SALVATAGGIO ----------------
+function renderArchivio() {
+  lista.innerHTML = "";
+  if (archivio.length === 0) {
+    lista.innerHTML = "<p>Nessuna fresa salvata.</p>";
+    return;
+  }
 
-    document.getElementById("salva").addEventListener("click", function(e) {
-        e.preventDefault();
+  archivio.forEach((item, idx) => {
+    const div = document.createElement("div");
+    div.className = "arch-item";
 
-        const dati = {
-            denominazionefresa: denominazionefresaEl.value,
-            diametro: diametroEl.value,
-            ntaglientiinserti: ntaglientiinsertiEl.value,
-            s: sEl.value,
-            mmin: mminEl.value,
-            s_calc: sCalcEl.value,
-            f: fEl.value,
-            av_ad: avAdEl.value,
-            f_calc: fCalcEl.value,
-            zap: zapEl.value,
-            materiale: materialeEl.value,
-            refrigerante: refrigeranteEl.value,
-            codicefresa: codicefresaEl.value,
-            codiceinserto: codiceinsertoEl.value,
-            dettagli: dettagliEl.value
-        };
+    const title = document.createElement("div");
+    title.className = "arch-item-title";
+    title.textContent = `${item.denominazione || "Senza nome"} (${item.codiceFresa || "N/A"})`;
 
-        archivio.push(dati);
-        localStorage.setItem("parametri_frese", JSON.stringify(archivio));
+    const meta = document.createElement("div");
+    meta.className = "arch-item-meta";
+    meta.textContent =
+      `D=${item.diametro}mm, z=${item.taglienti}, S=${item.sCalc}, vc=${item.mmin}, F=${item.fCalc}`;
 
-        alert("✅ Fresa salvata!");
-        pulisciCampi();
-        mostraPagina("archivio");
-    });
+    const note = document.createElement("div");
+    note.className = "arch-item-meta";
+    note.textContent = `Materiale: ${item.materiale || "-"}, Refrigerante: ${item.refrigerante || "-"}`;
 
-    function pulisciCampi() {
-        denominazionefresaEl.value = "";
-        diametroEl.value = "";
-        ntaglientiinsertiEl.value = "";
-        sEl.value = "";
-        mminEl.value = "";
-        sCalcEl.value = "";
-        fEl.value = "";
-        avAdEl.value = "";
-        fCalcEl.value = "";
-        zapEl.value = "";
-        materialeEl.value = "Acciaio";
-        refrigeranteEl.value = "Acqua";
-        codicefresaEl.value = "";
-        codiceinsertoEl.value = "";
-        dettagliEl.value = "";
-    }
+    const btnMod = document.createElement("button");
+    btnMod.textContent = "Modifica";
+    btnMod.className = "btn-primary";
+    btnMod.style.marginTop = "6px";
+    btnMod.addEventListener("click", () => apriPopup(idx));
 
-    // ---------------- ARCHIVIO ----------------
+    div.appendChild(title);
+    div.appendChild(meta);
+    div.appendChild(note);
+    div.appendChild(btnMod);
 
-    function renderArchivio() {
-        listaEl.innerHTML = "";
-        const filtro = ricercaEl.value.toLowerCase();
+    lista.appendChild(div);
+  });
+}
 
-        if (archivio.length === 0) {
-            listaEl.innerHTML = "<p style='text-align:center; color:#999;'>Nessuna fresa salvata ancora</p>";
-            return;
-        }
+// SALVATAGGIO
+btnSalva.addEventListener("click", () => {
+  const item = {
+    denominazione: denominazioneFresa.value.trim(),
+    diametro: num(diametro.value),
+    taglienti: num(taglienti.value),
+    s: num(s.value),
+    f: num(f.value),
+    mmin: num(mmin.value),
+    sCalc: num(sCalc.value),
+    avanzamento: num(avanzamento.value),
+    fCalc: num(fCalc.value),
+    zap: num(zap.value),
+    xyae: num(xyae.value),
+    codiceFresa: codiceFresa.value.trim(),
+    codiceInserto: codiceInserto.value.trim(),
+    materiale: materiale.value,
+    refrigerante: refrigerante.value,
+    dettagli: dettagli.value.trim()
+  };
 
-        archivio
-            .filter(item => JSON.stringify(item).toLowerCase().includes(filtro))
-            .forEach((item, index) => {
+  archivio.push(item);
 
-                const div = document.createElement("div");
-                div.className = "riga";
+  ordinaArchivio(sortSelect.value, orderSelect.value);
+  renderArchivio();
 
-                div.innerHTML = `
-                    <strong style="color:#5ac8fa; font-size:17px;">📌 ${item.denominazionefresa || "Senza nome"}</strong><br><br>
+  viewSelect.value = "archivio";
+  Object.keys(pages).forEach(key => {
+    pages[key].classList.toggle("active", key === "archivio");
+  });
+});
 
-                    <strong>Diametro:</strong> ${item.diametro}<br>
-                    N.Taglienti/inserti: ${item.ntaglientiinserti}<br>
-                    S: ${item.s} | M/Minuto: ${item.mmin}<br>
-                    S calcolata: ${item.s_calc}<br><br>
+// POPUP MODIFICA
+function apriPopup(index) {
+  editIndex = index;
+  const item = archivio[index];
 
-                    F: ${item.f} | Avanzamento Ad: ${item.av_ad}<br>
-                    F calcolata: ${item.f_calc}<br><br>
+  edit_denominazione.value = item.denominazione || "";
+  edit_diametro.value = item.diametro || "";
+  edit_taglienti.value = item.taglienti || "";
+  edit_s.value = item.s || "";
+  edit_avanzamento.value = item.avanzamento || "";
+  edit_materiale.value = item.materiale || "";
+  edit_refrigerante.value = item.refrigerante || "";
+  edit_dettagli.value = item.dettagli || "";
 
-                    Z-Ap: ${item.zap}<br>
-                    <strong>Materiale:</strong> ${item.materiale}<br>
-                    <strong>Refrigerante:</strong> ${item.refrigerante}<br>
-                    Codice fresa: ${item.codicefresa}<br>
-                    Codice inserto: ${item.codiceinserto}<br>
-                    Dettagli: ${item.dettagli}<br>
+  modalEdit.classList.remove("hidden");
+}
 
-                    <div class="riga-actions">
-                        <button class="modifica" data-index="${index}">✏️ Modifica</button>
-                        <button class="elimina" data-index="${index}">🗑 Elimina</button>
-                    </div>
-                `;
+btnCloseModal.addEventListener("click", () => {
+  modalEdit.classList.add("hidden");
+});
 
-                listaEl.appendChild(div);
-            });
+btnUpdate.addEventListener("click", () => {
+  if (editIndex === null) return;
+  const item = archivio[editIndex];
 
-        // ELIMINA
-        document.querySelectorAll(".elimina").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const idx = parseInt(btn.getAttribute("data-index"), 10);
-                if (confirm(`Eliminare "${archivio[idx].denominazionefresa}"?`)) {
-                    archivio.splice(idx, 1);
-                    localStorage.setItem("parametri_frese", JSON.stringify(archivio));
-                    renderArchivio();
-                }
-            });
-        });
+  item.denominazione = edit_denominazione.value.trim();
+  item.diametro = num(edit_diametro.value);
+  item.taglienti = num(edit_taglienti.value);
+  item.s = num(edit_s.value);
+  item.avanzamento = num(edit_avanzamento.value);
+  item.materiale = edit_materiale.value;
+  item.refrigerante = edit_refrigerante.value;
+  item.dettagli = edit_dettagli.value.trim();
 
-        // MODIFICA
-        document.querySelectorAll(".modifica").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const idx = parseInt(btn.getAttribute("data-index"), 10);
-                apriModalModifica(idx);
-            });
-        });
-    }
+  // RICALCOLO F CALCOLATA CORRETTO
+  const fz = item.avanzamento;
+  const z = item.taglienti;
+  const N = item.sCalc;
 
-    ricercaEl.addEventListener("input", renderArchivio);
+  if (fz > 0 && z > 0 && N > 0) {
+    item.fCalc = (fz * z * N).toFixed(1);
+  } else {
+    item.fCalc = "";
+  }
 
-    // ---------------- MODAL ----------------
+  ordinaArchivio(sortSelect.value, orderSelect.value);
+  renderArchivio();
+  modalEdit.classList.add("hidden");
+});
 
-    function apriModalModifica(index) {
-        indexInModifica = index;
-        const item = archivio[index];
+// ESPORTA CSV
+btnExport.addEventListener("click", () => {
+  if (archivio.length === 0) return;
 
-        modDenominazioneEl.value = item.denominazionefresa;
-        modDiametroEl.value = item.diametro;
-        modNtaglientiEl.value = item.ntaglientiinserti;
+  let csv = "Denominazione;Diametro;Taglienti;S;M/min;S_calcolata;F_calcolata;Materiale;Refrigerante;Dettagli\n";
 
-        modSEl.value = item.s;
-        modMminEl.value = item.mmin;
-        modSCalcEl.value = item.s_calc;
+  archivio.forEach(item => {
+    csv += `${item.denominazione};${item.diametro};${item.taglienti};${item.s};${item.mmin};${item.sCalc};${item.fCalc};${item.materiale};${item.refrigerante};${item.dettagli}\n`;
+  });
 
-        modFEl.value = item.f;
-        modAvAdEl.value = item.av_ad;
-        modFCalcEl.value = item.f_calc;
-
-        modZapEl.value = item.zap;
-        modMaterialeEl.value = item.materiale;
-        modRefrigeranteEl.value = item.refrigerante;
-
-        modCodiceFresaEl.value = item.codicefresa;
-        modCodiceInsertoEl.value = item.codiceinserto;
-        modDettagliEl.value = item.dettagli;
-
-        modalOverlay.classList.add("active");
-    }
-
-    function chiudiModal() {
-        modalOverlay.classList.remove("active");
-    }
-
-    modalCloseBtn.addEventListener("click", chiudiModal);
-    modalAnnullaBtn.addEventListener("click", chiudiModal);
-
-    // SALVA MODIFICHE
-    modalSalvaBtn.addEventListener("click", () => {
-        const item = archivio[indexInModifica];
-
-        item.denominazionefresa = modDenominazioneEl.value;
-        item.diametro = modDiametroEl.value;
-        item.ntaglientiinserti = modNtaglientiEl.value;
-
-        item.s = modSEl.value;
-        item.mmin = modMminEl.value;
-        item.s_calc = modSCalcEl.value;
-
-        item.f = modFEl.value;
-        item.av_ad = modAvAdEl.value;
-        item.f_calc = modFCalcEl.value;
-
-        item.zap = modZapEl.value;
-        item.materiale = modMaterialeEl.value;
-        item.refrigerante = modRefrigeranteEl.value;
-
-        item.codicefresa = modCodiceFresaEl.value;
-        item.codiceinserto = modCodiceInsertoEl.value;
-        item.dettagli = modDettagliEl.value;
-
-        localStorage.setItem("parametri_frese", JSON.stringify(archivio));
-        renderArchivio();
-        chiudiModal();
-    });
-
-    // ---------------- SERVICE WORKER ----------------
-
-    if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-            navigator.serviceWorker.register("service-worker.js");
-        });
-    }
-
-    renderArchivio();
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "parametri-frese.csv";
+  a.click();
 });

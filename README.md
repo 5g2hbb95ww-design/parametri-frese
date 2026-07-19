@@ -1,78 +1,93 @@
-# ⚙️ Parametri Frese  
-Gestione parametri di taglio per frese, con archivio locale, calcoli automatici e supporto PWA.
-
-![Schermata](icon/screen-wide.png)
+# Parametri Frese  
+Gestione avanzata dei parametri di taglio per frese, con archivio locale, calcoli automatici, ordinamento intelligente e supporto PWA.
 
 ---
 
-## 📌 Funzionalità principali
+## ✨ Funzionalità principali
 
-### ✏️ Inserimento parametri
+### 🧮 Calcoli automatici
+- **M/min** calcolato da S e Diametro  
+- **S calcolata** da M/min  
+- **F calcolata (mm/min)** da avanzamento, taglienti e giri/min  
+- Aggiornamento dinamico in tempo reale
+
+---
+
+## 📝 Inserimento parametri
 - Denominazione fresa  
 - Diametro  
-- Numero taglienti/inserti  
-- S, M/minuto e **S calcolata automatica**  
-- F, Avanzamento Ad e **F calcolata automatica**  
+- Numero taglienti  
+- S, M/min e S calcolata  
+- F, Avanzamento e F calcolata  
 - Z-Ap  
-- Materiale  
-- Refrigerante  
+- XY-Ae  
+- Materiale (menu dinamico da JSON)  
+- Refrigerante (menu dinamico da JSON)  
 - Codice fresa  
 - Codice inserto  
-- Note e dettagli
-
-### 📚 Archivio locale
-- Salvataggio automatico in **LocalStorage**
-- Ricerca istantanea
-- Pulsante **Modifica** con popup dedicato
-- Eliminazione singola voce
-- Esportazione CSV compatibile con **Apple Numbers**
-
-### 📲 PWA – App installabile
-- Installabile su **iPhone, iPad, Android e PC**
-- Funziona **offline**
-- Service Worker con cache automatica
-- Icone Apple e Android
-- Manifest completo
+- Note e dettagli  
 
 ---
 
-## 🚀 Installazione
-
-### 🔹 Uso locale (PC)
-1. Scarica la repo  
-2. Apri `index.html` con il browser  
-3. Per attivare la PWA e il Service Worker usa un server locale:
-   ```bash
-   python -m http.server
-
-
-https://5g2hbb95ww-design.github.io/parametri-frese/
-
-
-parametri-frese/
-│
-├── index.html
-├── style.css
-├── app.js
-├── manifest.json
-├── service-worker.js
-│
-└── icon/
-    ├── icon-192.png
-    ├── icon-512.png
-    ├── screen-wide.png
-    └── screen-mobile.png
-
-
+## 📚 Archivio locale avanzato
+- Salvataggio automatico in memoria locale  
+- Lista utensili con dettagli completi  
+- **Popup di modifica** stile VisionOS  
+- Aggiornamento immediato dei calcoli dopo modifica  
+- Nessuna dipendenza esterna
 
 ---
 
-# 🎉 README pronto, professionale e completo  
-Se vuoi, posso anche:
+## 🔎 Ordinamento archivio (nuovo)
+Menu a tendina con scelta del criterio:
 
-- aggiungere badge (versione, PWA ready, GitHub Pages)  
-- aggiungere GIF animate  
-- aggiungere sezione “Roadmap”  
-- aggiungere changelog automatico  
+- Diametro  
+- Materiale  
+- Codice fresa  
+- Refrigerante  
+- Velocità di taglio (M/min)  
+- Avanzamento (F calcolata)
 
-Dimmi tu cosa vuoi aggiungere.
+E selezione dell’ordine:
+
+- **Crescente**  
+- **Decrescente**
+
+L’archivio si aggiorna automaticamente.
+
+---
+
+## 🧩 Materiali e refrigeranti dinamici (materials.json)
+Il file `materials.json` permette di gestire:
+
+- categorie  
+- materiali più usati in fresatura  
+- refrigeranti CNC (interno/esterno)  
+- compatibilità con strategie  
+- colori e icone (testuali)
+
+Esempio:
+
+```json
+{
+  "materiali": [
+    "Acciaio C45",
+    "Acciaio Inox",
+    "Acciaio Temprato",
+    "Alluminio",
+    "Titanio",
+    "Ghisa",
+    "Bronzo",
+    "Ottone",
+    "Plastica Tecnica"
+  ],
+  "refrigeranti": [
+    "Emulsione interna",
+    "Emulsione esterna",
+    "Olio intero",
+    "Nebbia d’olio",
+    "Aria interna",
+    "Aria esterna",
+    "Secco"
+  ]
+}
