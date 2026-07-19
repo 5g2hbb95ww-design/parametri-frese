@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
 </head>
+
 <body>
   <header>
     <div class="app-title">Parametri Fresa</div>
@@ -31,7 +32,6 @@
     <!-- PAGINA NUOVO -->
     <section id="page-nuovo" class="page active">
 
-      <!-- CARD 1 -->
       <div class="card glass volumetric">
         <h2>Dati fresa</h2>
 
@@ -50,7 +50,6 @@
         </div>
       </div>
 
-      <!-- CARD 2 -->
       <div class="card glass volumetric">
         <h2>Parametri di taglio</h2>
 
@@ -88,7 +87,6 @@
         </div>
       </div>
 
-      <!-- CARD 3 -->
       <div class="card glass volumetric">
         <h2>Profondità / Passate</h2>
 
@@ -104,7 +102,6 @@
         </div>
       </div>
 
-      <!-- CARD 4 -->
       <div class="card glass volumetric">
         <h2>Codici utensile</h2>
 
@@ -115,7 +112,6 @@
         <input id="codice_inserto" type="text">
       </div>
 
-      <!-- CARD 5 -->
       <div class="card glass volumetric">
         <h2>Dettagli lavorazione</h2>
 
@@ -167,7 +163,6 @@
     <!-- PAGINA PROGRAMMAZIONE -->
     <section id="page-programmazione" class="page">
 
-      <!-- CARD: NUOVA SCHEDA -->
       <div class="card glass volumetric">
         <h2>Nuova scheda lavoro</h2>
 
@@ -221,11 +216,9 @@
         <button id="btnSalvaProgrammazione" class="btn-primary">Salva scheda</button>
       </div>
 
-      <!-- CARD: ARCHIVIO -->
       <div class="card glass volumetric">
         <h2>Archivio schede</h2>
 
-        <!-- ⭐ Filtro stato (OBBLIGATORIO) -->
         <label>Filtra per stato</label>
         <select id="prog_filter">
           <option value="">Tutti</option>
@@ -240,7 +233,6 @@
         <div id="prog_lista"></div>
       </div>
 
-      <!-- CARD: TIMELINE -->
       <div class="card glass volumetric">
         <h2>Timeline</h2>
         <div id="prog_timeline"></div>
@@ -252,7 +244,7 @@
 
   </main>
 
-  <!-- MODAL MODIFICA -->
+  <!-- MODAL FRESE -->
   <div id="modalEdit" class="modal hidden">
     <div class="modal-content glass volumetric">
       <h2>Modifica fresa</h2>
@@ -286,8 +278,47 @@
     </div>
   </div>
 
-  <!-- ⭐ Toast (DEVE STARE PRIMA DELLO SCRIPT) -->
-  <div id="toast" class="toast hidden">Scheda salvata ✔</div>
+  <!-- MODAL PROGRAMMAZIONE (NUOVO) -->
+  <div id="modalProgEdit" class="modal hidden">
+    <div class="modal-content glass volumetric">
+      <h2>Modifica scheda</h2>
+
+      <label>Macchina</label>
+      <select id="edit_prog_macchina"></select>
+
+      <label>Commessa</label>
+      <input id="edit_prog_commessa" type="text">
+
+      <label>Disegno</label>
+      <input id="edit_prog_disegno" type="text">
+
+      <label>Revisione</label>
+      <input id="edit_prog_rev" type="text">
+
+      <label>Tempo (min)</label>
+      <input id="edit_prog_tempo" type="number">
+
+      <label>Operatore</label>
+      <select id="edit_prog_operatore"></select>
+
+      <label>Stato</label>
+      <select id="edit_prog_stato">
+        <option value="in_programmazione">In programmazione</option>
+        <option value="programmato">Programmato</option>
+        <option value="in_produzione">In produzione</option>
+        <option value="sospeso">Sospeso</option>
+        <option value="finito">Finito</option>
+      </select>
+
+      <label>Note</label>
+      <textarea id="edit_prog_note"></textarea>
+
+      <button id="btnProgUpdate" class="btn-primary">Aggiorna</button>
+      <button id="btnProgClose" class="btn-secondary">Chiudi</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden">Operazione completata ✔</div>
 
   <script src="app.js"></script>
 </body>
