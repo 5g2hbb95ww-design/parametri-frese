@@ -51,7 +51,7 @@ main {
   display: block;
 }
 
-/* CARD VISIONOS VOLUMETRICA */
+/* CARD VisionOS */
 .card {
   margin: 14px 8px;
   padding: 14px 14px 16px;
@@ -155,7 +155,7 @@ button {
   font-weight: 600;
 }
 
-/* ARCHIVIO */
+/* ARCHIVIO FRESE */
 #lista {
   margin-top: 6px;
 }
@@ -193,6 +193,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 900; /* nuovo */
 }
 
 .modal.hidden {
@@ -204,4 +205,170 @@ button {
   max-width: 380px;
   padding: 20px;
   border-radius: 26px;
+  position: relative; /* nuovo */
+  z-index: 901;       /* nuovo */
+}
+
+/* TOGGLE TEMA */
+.theme-toggle {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-theme {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 6px 12px rgba(0,0,0,0.45),
+    inset 0 1px 2px rgba(255,255,255,0.25);
+  transition: all 0.25s ease;
+}
+
+.btn-theme:active {
+  transform: scale(0.92);
+}
+
+/* MODALITÀ CHIARA */
+body.light {
+  background: radial-gradient(circle at top, #f2f6ff 0%, #e6ecf7 55%, #dfe6f3 100%);
+  color: #0a0f1a;
+}
+
+body.light header {
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+
+body.light .app-title {
+  color: #0056a8;
+}
+
+body.light .card.glass.volumetric {
+  background: radial-gradient(circle at top left,
+    rgba(255,255,255,0.85) 0%,
+    rgba(255,255,255,0.55) 35%,
+    rgba(200,200,200,0.35) 100%);
+  border: 1px solid rgba(0,0,0,0.15);
+  box-shadow:
+    0 22px 40px rgba(0,0,0,0.15),
+    inset 0 0 22px rgba(255,255,255,0.45),
+    inset 0 0 40px rgba(0,120,255,0.12);
+}
+
+body.light input,
+body.light textarea,
+body.light select {
+  background: rgba(255,255,255,0.9);
+  color: #0a0f1a;
+  border: 1px solid rgba(0,0,0,0.25);
+}
+
+body.light .arch-item {
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,0,0,0.15);
+  color: #0a0f1a;
+}
+
+body.light .card h2 {
+  color: #0A1A33;
+}
+
+body.light label {
+  color: #0A1A33;
+}
+
+body.light .arch-item-title {
+  color: #0A1A33;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.6);
+}
+
+body.light .arch-item-meta {
+  color: #1a1f2a;
+}
+
+body.light .btn-theme {
+  background: rgba(0,0,0,0.08);
+  color: #000;
+  border-color: rgba(0,0,0,0.25);
+}
+
+/* NUOVO: miglioramento badge in modalità chiara */
+body.light .badge {
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 22px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(20px);
+  border-radius: 14px;
+  color: #fff;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 999;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+.toast.hidden {
+  display: none;
+}
+
+/* BADGE */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  color: #fff;
+  margin-top: 4px;
+}
+
+.badge.in_programmazione { background: #0050ff; }
+.badge.programmato { background: #00cfff; }
+.badge.in_produzione { background: #ff8c00; }
+.badge.finito { background: #00cc66; }
+
+/* PROGRESS BAR */
+.prog-progress {
+  margin-top: 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.progress-fill.programmazione {
+  background: linear-gradient(90deg, #0050ff, #00cfff);
+}
+
+.progress-fill.produzione {
+  background: linear-gradient(90deg, #ff8c00, #00cc66);
 }
