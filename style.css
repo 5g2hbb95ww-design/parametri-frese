@@ -51,7 +51,7 @@ main {
   display: block;
 }
 
-/* CARD VISIONOS VOLUMETRICA */
+/* CARD VisionOS */
 .card {
   margin: 14px 8px;
   padding: 14px 14px 16px;
@@ -155,7 +155,7 @@ button {
   font-weight: 600;
 }
 
-/* ARCHIVIO */
+/* ARCHIVIO FRESE */
 #lista {
   margin-top: 6px;
 }
@@ -182,6 +182,7 @@ button {
   color: #c7e7ff;
 }
 
+/* MODAL */
 .modal {
   position: fixed;
   top: 0;
@@ -192,7 +193,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 900; /* aggiunta */
+  z-index: 900; /* nuovo */
 }
 
 .modal.hidden {
@@ -204,8 +205,8 @@ button {
   max-width: 380px;
   padding: 20px;
   border-radius: 26px;
-  position: relative; /* aggiunta */
-  z-index: 901;       /* aggiunta */
+  position: relative; /* nuovo */
+  z-index: 901;       /* nuovo */
 }
 
 /* TOGGLE TEMA */
@@ -235,10 +236,7 @@ button {
   transform: scale(0.92);
 }
 
-/* ========================= */
-/*     MODALITÀ CHIARA       */
-/* ========================= */
-
+/* MODALITÀ CHIARA */
 body.light {
   background: radial-gradient(circle at top, #f2f6ff 0%, #e6ecf7 55%, #dfe6f3 100%);
   color: #0a0f1a;
@@ -277,17 +275,17 @@ body.light .arch-item {
   border: 1px solid rgba(0,0,0,0.15);
   color: #0a0f1a;
 }
-/* TITOLI DELLE CARD */
+
 body.light .card h2 {
-  color: #0A1A33; /* blu notte */
+  color: #0A1A33;
 }
-/* LABEL DEI CAMPI */
+
 body.light label {
-  color: #0A1A33; /* blu notte */
+  color: #0A1A33;
 }
-/* TITOLI ARCHIVIO */
+
 body.light .arch-item-title {
-  color: #0A1A33; /* blu notte */
+  color: #0A1A33;
   text-shadow: 0 1px 2px rgba(255,255,255,0.6);
 }
 
@@ -300,11 +298,13 @@ body.light .btn-theme {
   color: #000;
   border-color: rgba(0,0,0,0.25);
 }
-.header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+/* NUOVO: miglioramento badge in modalità chiara */
+body.light .badge {
+  border: 1px solid rgba(0,0,0,0.15);
 }
+
+/* TOAST */
 .toast {
   position: fixed;
   bottom: 20px;
@@ -329,6 +329,8 @@ body.light .btn-theme {
 .toast.hidden {
   display: none;
 }
+
+/* BADGE */
 .badge {
   display: inline-block;
   padding: 4px 10px;
@@ -338,10 +340,12 @@ body.light .btn-theme {
   margin-top: 4px;
 }
 
-.badge.in_programmazione { background: #0050ff; } 
+.badge.in_programmazione { background: #0050ff; }
 .badge.programmato { background: #00cfff; }
 .badge.in_produzione { background: #ff8c00; }
 .badge.finito { background: #00cc66; }
+
+/* PROGRESS BAR */
 .prog-progress {
   margin-top: 10px;
 }
@@ -367,7 +371,4 @@ body.light .btn-theme {
 
 .progress-fill.produzione {
   background: linear-gradient(90deg, #ff8c00, #00cc66);
-}
-body.light .badge {
-  border: 1px solid rgba(0,0,0,0.15);
 }
