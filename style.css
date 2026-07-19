@@ -182,7 +182,6 @@ button {
   color: #c7e7ff;
 }
 
-/* MODAL */
 .modal {
   position: fixed;
   top: 0;
@@ -193,6 +192,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 900; /* aggiunta */
 }
 
 .modal.hidden {
@@ -204,6 +204,8 @@ button {
   max-width: 380px;
   padding: 20px;
   border-radius: 26px;
+  position: relative; /* aggiunta */
+  z-index: 901;       /* aggiunta */
 }
 
 /* TOGGLE TEMA */
@@ -365,4 +367,7 @@ body.light .btn-theme {
 
 .progress-fill.produzione {
   background: linear-gradient(90deg, #ff8c00, #00cc66);
+}
+body.light .badge {
+  border: 1px solid rgba(0,0,0,0.15);
 }
