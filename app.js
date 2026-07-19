@@ -242,6 +242,8 @@ btnSalva.addEventListener("click", () => {
     materiale: materiale.value,
     refrigerante: refrigerante.value,
     dettagli: dettagli.value.trim()
+    showToast("Parametri fresa salvati ✔");
+
   };
 
   archivio.push(item);
@@ -358,6 +360,8 @@ btnSalvaProgrammazione.addEventListener("click", () => {
     stato: prog_stato.value,
     note: prog_note.value.trim(),
     data: new Date().toLocaleString()
+    showToast("Scheda programmazione salvata ✔");
+
   };
 
   progArchivio.push(scheda);
@@ -465,6 +469,18 @@ btnExportPDF.addEventListener("click", () => {
   a.download = "programmazione.txt";
   a.click();
 });
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.remove("hidden");
+  t.classList.add("show");
+
+  setTimeout(() => {
+    t.classList.remove("show");
+    setTimeout(() => t.classList.add("hidden"), 400);
+  }, 2000);
+}
 
 // TEMA CHIARO/SCURO
 const btnTheme = document.getElementById("btnTheme");
