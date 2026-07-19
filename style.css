@@ -205,3 +205,59 @@ button {
   padding: 20px;
   border-radius: 26px;
 }
+/* ========================= */
+/*     MODALITÀ CHIARA       */
+/* ========================= */
+
+body.light {
+  background: radial-gradient(circle at top, #f2f6ff 0%, #e6ecf7 55%, #dfe6f3 100%);
+  color: #0a0f1a;
+}
+
+body.light header {
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+
+body.light .app-title {
+  color: #0056a8;
+}
+
+body.light .card.glass.volumetric {
+  background: radial-gradient(circle at top left,
+    rgba(255,255,255,0.85) 0%,
+    rgba(255,255,255,0.55) 35%,
+    rgba(200,200,200,0.35) 100%);
+  border: 1px solid rgba(0,0,0,0.15);
+  box-shadow:
+    0 22px 40px rgba(0,0,0,0.15),
+    inset 0 0 22px rgba(255,255,255,0.45),
+    inset 0 0 40px rgba(0,120,255,0.12);
+}
+
+body.light input,
+body.light textarea,
+body.light select {
+  background: rgba(255,255,255,0.9);
+  color: #0a0f1a;
+  border: 1px solid rgba(0,0,0,0.25);
+}
+
+body.light .arch-item {
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,0,0,0.15);
+  color: #0a0f1a;
+}
+
+body.light .arch-item-title {
+  color: #0056a8;
+}
+
+body.light .arch-item-meta {
+  color: #1a1f2a;
+}
+
+body.light .btn-theme {
+  background: rgba(0,0,0,0.08);
+  color: #000;
+  border-color: rgba(0,0,0,0.25);
+}
