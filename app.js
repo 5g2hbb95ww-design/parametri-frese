@@ -67,21 +67,21 @@ function calcolaS() {
 
 tagl.addEventListener("input", calcolaF);
 avanzamento.addEventListener("input", calcolaF);
-s.addEventListener("input", calcolaF);
+s_calc.addEventListener("input", calcolaF);
 f.addEventListener("input", calcolaF);
 
 function calcolaF() {
-  const S = num(s.value);
-  const Fg = num(f.value);
-  const Z = num(tagl.value);
-  const A = num(avanzamento.value);
+  const S = num(s_calc.value);      // ⭐ USA S CALCOLATA
+  const Fg = num(f.value);          // mm/giro
+  const Z = num(tagl.value);        // taglienti
+  const A = num(avanzamento.value); // mm/dente
 
   if (S > 0) {
     if (Fg > 0) {
-      // F calcolata da S * F (mm/giro)
+      // Caso 1: F (mm/giro)
       f_calc.value = Math.round(S * Fg);
     } else if (Z > 0 && A > 0) {
-      // F calcolata da S * Z * Avanzamento (mm/dente)
+      // Caso 2: Avanzamento + Taglienti
       f_calc.value = Math.round(S * Z * A);
     } else {
       f_calc.value = "";
