@@ -1,10 +1,9 @@
 // =========================
-// SERVICE WORKER STABILE E COMPATIBILE
+// SERVICE WORKER STABILE
 // =========================
 
-const CACHE_NAME = "pwa-cache-v2"; // version bump
+const CACHE_NAME = "pwa-cache-v2";
 
-// FILE DA METTERE IN CACHE
 const FILES_TO_CACHE = [
   "/index.html?v=" + Date.now(),
   "/style.css?v=" + Date.now(),
@@ -12,44 +11,32 @@ const FILES_TO_CACHE = [
   "/manifest.json"
 ];
 
-// INSTALL
 self.addEventListener("install", event => {
-  self.skipWaiting(); // aggiorna subito
+  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(FILES_TO_CACHE);
-    })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
   );
 });
 
-// ACTIVATE
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key); // elimina cache vecchie
-          }
-        })
-      )
+      Promise.all(keys.map(key => key !== CACHE_NAME && caches.delete(key)))
     )
   );
-  self.clients.claim(); // attiva subito
+  self.clients.claim();
 });
 
-// FETCH
 self.addEventListener("fetch", event => {
   event.respondWith(
     caches.match(event.request).then(cached => {
       return (
         cached ||
         fetch(event.request).then(response => {
-          // aggiorna solo file locali (non API, non immagini remote)
           if (event.request.url.startsWith(self.location.origin)) {
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(event.request, response.clone());
-            });
+            caches.open(CACHE_NAME).then(cache =>
+              cache.put(event.request, response.clone())
+            );
           }
           return response;
         })
