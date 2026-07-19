@@ -447,9 +447,13 @@ function renderProgTimeline() {
 
   if (progArchivio.length === 0) {
     prog_timeline.innerHTML = "<p>Nessuna attività registrata.</p>";
+
+    // reset barre se non ci sono schede
+    if (prog_progress) prog_progress.innerHTML = "";
     return;
   }
 
+  // --- RENDER DELLA TIMELINE ---
   progArchivio.forEach(item => {
     const div = document.createElement("div");
     div.className = "arch-item";
@@ -467,6 +471,40 @@ function renderProgTimeline() {
 
     prog_timeline.appendChild(div);
   });
+
+  if (prog_progress) {
+    const tot = progArchivio.length;
+
+    const inProg = progArchivio.filter(x => x.stato === "in_programmazione").length;
+    const programmato = progArchivio.filter(x => x.stato === "programmato").length;
+    const inProd = progArchivio.filter(x => x.stato === "in_produzione").length;
+    const finito = progArchivio.filter(x => x.stato === "finito").length;
+
+    // calcolo percentuali
+    const progPerc = tot === 0 ? 0 : ((inProg * 50 + programmato * 100) / (tot * 100)) * 100;
+    const prodPerc = tot === 0 ? 0 : ((inProd * 50 + finito * 100) / (tot * 100)) * 100;
+
+    prog_progress.innerHTML = "";
+
+    // barra 1 — programmazione
+    const bar1 = document.createElement("div");
+    bar1.className = "progress-bar";
+    const fill1 = document.createElement("div");
+    fill1.className = "progress-fill programmazione";
+    fill1.style.width = progPerc + "%";
+    bar1.appendChild(fill1);
+
+    // barra 2 — produzione
+    const bar2 = document.createElement("div");
+    bar2.className = "progress-bar";
+    const fill2 = document.createElement("div");
+    fill2.className = "progress-fill produzione";
+    fill2.style.width = prodPerc + "%";
+    bar2.appendChild(fill2);
+
+    prog_progress.appendChild(bar1);
+    prog_progress.appendChild(bar2);
+  }
 }
 
 // ESPORTA TXT
