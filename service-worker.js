@@ -3,16 +3,20 @@
 // =========================
 
 // Nome della cache
-const CACHE_NAME = "parametri-frese-v1"; // cambia versione quando aggiorni
-const URLS_TO_CACHE = [
-  "./",
-  "./index.html",
-  "./style.css",
-  "./manifest.json",
-  "./src/app.js",
-  "./src/ui.js",
-  "./src/data.json"
-];
+const CACHE_NAME = "pwa-cache-v2"; // version bump
+
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll([
+        "/index.html?v=" + Date.now(),
+        "/style.css?v=" + Date.now(),
+        "/app.js?v=" + Date.now(),
+        "/manifest.json"
+      ]);
+    })
+  );
+});
 
 // Install
 self.addEventListener("install", (event) => {
