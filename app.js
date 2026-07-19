@@ -401,11 +401,37 @@ function renderProgArchivio() {
     const stato = document.createElement("div");
     stato.className = "arch-item-meta";
     stato.textContent = `Stato: ${item.stato}`;
+    
+    const badge = document.createElement("div");
+    badge.className = "badge " + item.stato;
+    badge.textContent = item.stato.replace("_", " ");
+    div.appendChild(badge);
 
     const note = document.createElement("div");
     note.className = "arch-item-meta";
     note.textContent = `Note: ${item.note || "-"}`;
+    
+    const btnMod = document.createElement("button");
+    btnMod.textContent = "Modifica";
+    btnMod.className = "btn-primary";
+    btnMod.style.marginTop = "6px";
 
+    btnMod.addEventListener("click", () => {
+  const nuovaCommessa = prompt("Commessa", item.commessa || "");
+  if (nuovaCommessa === null) return;
+
+  const nuovoStato = prompt("Stato (in_programmazione, programmato, in_produzione, finito)", item.stato || "");
+  if (!nuovoStato) return;
+
+  item.commessa = nuovaCommessa.trim();
+  item.stato = nuovoStato.trim();
+
+  renderProgArchivio();
+  renderProgTimeline();
+  showToast("Scheda aggiornata ✔");
+});
+
+    div.appendChild(btnMod);
     div.appendChild(title);
     div.appendChild(meta);
     div.appendChild(stato);
