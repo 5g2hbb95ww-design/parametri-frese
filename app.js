@@ -26,6 +26,7 @@ const dettagli = document.getElementById("dettagli");
 // Popola liste Materiale e Refrigerante
 materiale.innerHTML = `
   <option>Acciaio</option>
+  <option>Temprato</option>
   <option>Inox</option>
   <option>Alluminio</option>
   <option>Ghisa</option>
@@ -34,8 +35,10 @@ materiale.innerHTML = `
 `;
 
 refrigerante.innerHTML = `
-  <option>Emulsione</option>
-  <option>Olio intero</option>
+  <option>Acqua interna</option>
+  <option>Acqua esterna</option>
+  <option>Aria intero</option>
+  <option>Aria esterna</option>
   <option>Secco</option>
 `;
 
