@@ -86,11 +86,11 @@ function aggiornaSCalcDaMmin() {
   }
 }
 
-// CALCOLO F CALCOLATA (VERSIONE CORRETTA)
+// CALCOLO F CALCOLATA
 function aggiornaFCalc() {
-  const fz = num(avanzamento.value);      // mm/dente
-  const z = num(taglienti.value);         // numero taglienti
-  const N = num(sCalc.value);             // S calcolata
+  const fz = num(avanzamento.value);
+  const z = num(taglienti.value);
+  const N = num(sCalc.value);
 
   if (fz > 0 && z > 0 && N > 0) {
     fCalc.value = (fz * z * N).toFixed(1);
@@ -115,7 +115,7 @@ avanzamento.addEventListener("input", aggiornaFCalc);
 taglienti.addEventListener("input", aggiornaFCalc);
 sCalc.addEventListener("input", aggiornaFCalc);
 
-// MATERIALI + REFRIGERANTI DINAMICI (OGGETTI)
+// MATERIALI + REFRIGERANTI DINAMICI
 let MATERIALI = [];
 let REFRIGERANTI = [];
 
@@ -134,7 +134,6 @@ fetch("materials.json")
     console.error("Errore nel caricamento di materials.json:", err);
   });
 
-// VERSIONE COMPATIBILE CON OGGETTI
 function riempiSelect(select, array) {
   select.innerHTML = "<option value=''>—</option>";
 
@@ -153,7 +152,7 @@ function riempiSelect(select, array) {
   });
 }
 
-// ARCHIVIO
+// ARCHIVIO FRESE
 const archivio = [];
 let editIndex = null;
 
@@ -223,7 +222,7 @@ function renderArchivio() {
   });
 }
 
-// SALVATAGGIO
+// SALVATAGGIO FRESE
 btnSalva.addEventListener("click", () => {
   const item = {
     denominazione: denominazioneFresa.value.trim(),
@@ -242,8 +241,6 @@ btnSalva.addEventListener("click", () => {
     materiale: materiale.value,
     refrigerante: refrigerante.value,
     dettagli: dettagli.value.trim()
-    showToast("Parametri fresa salvati ✔");
-
   };
 
   archivio.push(item);
@@ -251,13 +248,15 @@ btnSalva.addEventListener("click", () => {
   ordinaArchivio(sortSelect.value, orderSelect.value);
   renderArchivio();
 
+  showToast("Parametri fresa salvati ✔");
+
   viewSelect.value = "archivio";
   Object.keys(pages).forEach(key => {
     pages[key].classList.toggle("active", key === "archivio");
   });
 });
 
-// POPUP MODIFICA
+// POPUP MODIFICA FRESE
 function apriPopup(index) {
   editIndex = index;
   const item = archivio[index];
@@ -291,7 +290,6 @@ btnUpdate.addEventListener("click", () => {
   item.refrigerante = edit_refrigerante.value;
   item.dettagli = edit_dettagli.value.trim();
 
-  // RICALCOLO F CALCOLATA CORRETTO
   const fz = item.avanzamento;
   const z = item.taglienti;
   const N = item.sCalc;
@@ -307,7 +305,7 @@ btnUpdate.addEventListener("click", () => {
   modalEdit.classList.add("hidden");
 });
 
-// ESPORTA CSV
+// ESPORTA CSV FRESE
 btnExport.addEventListener("click", () => {
   if (archivio.length === 0) return;
 
@@ -326,7 +324,7 @@ btnExport.addEventListener("click", () => {
 });
 
 /* ============================================================
-   PAGINA PROGRAMMAZIONE — LOGICA COMPLETA
+   PAGINA PROGRAMMAZIONE
    ============================================================ */
 
 // CAMPI PROGRAMMAZIONE
@@ -343,11 +341,12 @@ const btnSalvaProgrammazione = document.getElementById("btnSalvaProgrammazione")
 const prog_lista = document.getElementById("prog_lista");
 const prog_timeline = document.getElementById("prog_timeline");
 const btnExportPDF = document.getElementById("btnExportPDF");
+const prog_progress = document.getElementById("prog_progress");
 
 // ARCHIVIO PROGRAMMAZIONE
 const progArchivio = [];
 
-// SALVA SCHEDA
+// SALVA SCHEDA PROGRAMMAZIONE
 btnSalvaProgrammazione.addEventListener("click", () => {
 
   const scheda = {
@@ -360,8 +359,6 @@ btnSalvaProgrammazione.addEventListener("click", () => {
     stato: prog_stato.value,
     note: prog_note.value.trim(),
     data: new Date().toLocaleString()
-    showToast("Scheda programmazione salvata ✔");
-
   };
 
   progArchivio.push(scheda);
@@ -369,14 +366,15 @@ btnSalvaProgrammazione.addEventListener("click", () => {
   renderProgArchivio();
   renderProgTimeline();
 
-  // torna all’archivio programmazione
+  showToast("Scheda programmazione salvata ✔");
+
   viewSelect.value = "programmazione";
   Object.keys(pages).forEach(key => {
     pages[key].classList.toggle("active", key === "programmazione");
   });
 });
 
-// RENDER ARCHIVIO
+// RENDER ARCHIVIO PROGRAMMAZIONE
 function renderProgArchivio() {
   prog_lista.innerHTML = "";
 
@@ -401,7 +399,7 @@ function renderProgArchivio() {
     const stato = document.createElement("div");
     stato.className = "arch-item-meta";
     stato.textContent = `Stato: ${item.stato}`;
-    
+
     const badge = document.createElement("div");
     badge.className = "badge " + item.stato;
     badge.textContent = item.stato.replace("_", " ");
@@ -410,50 +408,47 @@ function renderProgArchivio() {
     const note = document.createElement("div");
     note.className = "arch-item-meta";
     note.textContent = `Note: ${item.note || "-"}`;
-    
+
     const btnMod = document.createElement("button");
     btnMod.textContent = "Modifica";
     btnMod.className = "btn-primary";
     btnMod.style.marginTop = "6px";
 
     btnMod.addEventListener("click", () => {
-  const nuovaCommessa = prompt("Commessa", item.commessa || "");
-  if (nuovaCommessa === null) return;
+      const nuovaCommessa = prompt("Commessa", item.commessa || "");
+      if (nuovaCommessa === null) return;
 
-  const nuovoStato = prompt("Stato (in_programmazione, programmato, in_produzione, finito)", item.stato || "");
-  if (!nuovoStato) return;
+      const nuovoStato = prompt("Stato (in_programmazione, programmato, in_produzione, finito)", item.stato || "");
+      if (!nuovoStato) return;
 
-  item.commessa = nuovaCommessa.trim();
-  item.stato = nuovoStato.trim();
+      item.commessa = nuovaCommessa.trim();
+      item.stato = nuovoStato.trim();
 
-  renderProgArchivio();
-  renderProgTimeline();
-  showToast("Scheda aggiornata ✔");
-});
+      renderProgArchivio();
+      renderProgTimeline();
+      showToast("Scheda aggiornata ✔");
+    });
 
-    div.appendChild(btnMod);
     div.appendChild(title);
     div.appendChild(meta);
     div.appendChild(stato);
     div.appendChild(note);
+    div.appendChild(btnMod);
 
     prog_lista.appendChild(div);
   });
 }
 
-// RENDER TIMELINE
+// RENDER TIMELINE PROGRAMMAZIONE
 function renderProgTimeline() {
   prog_timeline.innerHTML = "";
 
   if (progArchivio.length === 0) {
     prog_timeline.innerHTML = "<p>Nessuna attività registrata.</p>";
-
-    // reset barre se non ci sono schede
     if (prog_progress) prog_progress.innerHTML = "";
     return;
   }
 
-  // --- RENDER DELLA TIMELINE ---
   progArchivio.forEach(item => {
     const div = document.createElement("div");
     div.className = "arch-item";
@@ -475,12 +470,11 @@ function renderProgTimeline() {
   if (prog_progress) {
     const tot = progArchivio.length;
 
-    const inProg = progArchivio.filter(x => x.stato === "in_programmazione").length;
-    const programmato = progArchivio.filter(x => x.stato === "programmato").length;
-    const inProd = progArchivio.filter(x => x.stato === "in_produzione").length;
-    const finito = progArchivio.filter(x => x.stato === "finito").length;
-
-    // calcolo percentuali
+      const inProg = progArchivio.filter(x => x.stato === "in_programmazione").length;
+      const programmato = progArchivio.filter(x => x.stato === "programmato").length;
+      const inProd = progArchivio.filter(x => x.stato === "in_produzione").length;
+      const finito = progArchivio.filter(x => x.stato === "finito").length;
+        // calcolo percentuali
     const progPerc = tot === 0 ? 0 : ((inProg * 50 + programmato * 100) / (tot * 100)) * 100;
     const prodPerc = tot === 0 ? 0 : ((inProd * 50 + finito * 100) / (tot * 100)) * 100;
 
@@ -507,7 +501,7 @@ function renderProgTimeline() {
   }
 }
 
-// ESPORTA TXT
+// ESPORTA TXT PROGRAMMAZIONE
 btnExportPDF.addEventListener("click", () => {
   if (progArchivio.length === 0) return;
 
@@ -534,6 +528,7 @@ btnExportPDF.addEventListener("click", () => {
   a.click();
 });
 
+// TOAST
 function showToast(msg) {
   const t = document.getElementById("toast");
   t.textContent = msg;
@@ -552,10 +547,10 @@ const btnTheme = document.getElementById("btnTheme");
 btnTheme.addEventListener("click", () => {
   document.body.classList.toggle("light");
 
-  // Cambia icona
   if (document.body.classList.contains("light")) {
     btnTheme.textContent = "☀️";
   } else {
     btnTheme.textContent = "🌙";
   }
 });
+
