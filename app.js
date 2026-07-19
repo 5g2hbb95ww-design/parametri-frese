@@ -5,6 +5,40 @@
 // Utility
 const num = (v) => Number(v) || 0;
 
+// Campi pagina NUOVO
+const den = document.getElementById("denominazione_fresa");
+const diam = document.getElementById("diametro");
+const tagl = document.getElementById("taglienti");
+const s = document.getElementById("s");
+const f = document.getElementById("f");
+const mmin = document.getElementById("mmin");
+const s_calc = document.getElementById("s_calc");
+const avanzamento = document.getElementById("avanzamento");
+const f_calc = document.getElementById("f_calc");
+const zap = document.getElementById("zap");
+const xyae = document.getElementById("xyae");
+const codFresa = document.getElementById("codice_fresa");
+const codInserto = document.getElementById("codice_inserto");
+const materiale = document.getElementById("materiale");
+const refrigerante = document.getElementById("refrigerante");
+const dettagli = document.getElementById("dettagli");
+
+// Popola liste Materiale e Refrigerante
+materiale.innerHTML = `
+  <option>Acciaio</option>
+  <option>Inox</option>
+  <option>Alluminio</option>
+  <option>Ghisa</option>
+  <option>Rame</option>
+  <option>Ottone</option>
+`;
+
+refrigerante.innerHTML = `
+  <option>Emulsione</option>
+  <option>Olio intero</option>
+  <option>Secco</option>
+`;
+
 // Toast (FIX: ora funziona sempre)
 const toast = document.getElementById("toast");
 function showToast(msg) {
@@ -15,6 +49,31 @@ function showToast(msg) {
     toast.classList.remove("show");
     toast.classList.add("hidden");
   }, 1800);
+}
+
+// Calcoli automatici pagina NUOVO
+diam.addEventListener("input", calcolaS);
+mmin.addEventListener("input", calcolaS);
+
+function calcolaS() {
+  const D = num(diam.value);
+  const M = num(mmin.value);
+  if (D > 0 && M > 0) {
+    s_calc.value = Math.round((1000 * M) / (Math.PI * D));
+  }
+}
+
+tagl.addEventListener("input", calcolaF);
+avanzamento.addEventListener("input", calcolaF);
+s.addEventListener("input", calcolaF);
+
+function calcolaF() {
+  const S = num(s.value);
+  const Z = num(tagl.value);
+  const A = num(avanzamento.value);
+  if (S > 0 && Z > 0 && A > 0) {
+    f_calc.value = Math.round(S * Z * A);
+  }
 }
 
 // =============================
@@ -46,6 +105,27 @@ let archivio = [];
 const lista = document.getElementById("lista");
 const sortSelect = document.getElementById("sortSelect");
 const orderSelect = document.getElementById("orderSelect");
+
+// Reset pagina NUOVO
+function resetCampiNuovo() {
+  den.value = "";
+  diam.value = "";
+  tagl.value = "";
+  s.value = "";
+  f.value = "";
+  mmin.value = "";
+  s_calc.value = "";
+  avanzamento.value = "";
+  f_calc.value = "";
+  zap.value = "";
+  xyae.value = "";
+  codFresa.value = "";
+  codInserto.value = "";
+  materiale.value = "";
+  refrigerante.value = "";
+  dettagli.value = "";
+}
+resetCampiNuovo();
 
 // Salvataggio fresa
 document.getElementById("btnSalva").addEventListener("click", () => {
@@ -174,6 +254,19 @@ const prog_progress = document.getElementById("prog_progress");
 const prog_timeline = document.getElementById("prog_timeline");
 const prog_filter = document.getElementById("prog_filter");
 
+// Reset pagina PROGRAMMAZIONE
+function resetCampiProgrammazione() {
+  prog_macchina.value = "";
+  prog_commessa.value = "";
+  prog_disegno.value = "";
+  prog_rev.value = "";
+  prog_tempo.value = "";
+  prog_operatore.value = "";
+  prog_stato.value = "in_programmazione";
+  prog_note.value = "";
+}
+resetCampiProgrammazione();
+
 // Salva scheda programmazione
 document.getElementById("btnSalvaProgrammazione").addEventListener("click", () => {
   const item = {
@@ -259,9 +352,43 @@ function renderProgArchivio() {
 const modalProgEdit = document.getElementById("modalProgEdit");
 const btnProgClose = document.getElementById("btnProgClose");
 const btnProgUpdate = document.getElementById("btnProgUpdate");
-
 let progEditIndex = null;
 
+// Campi del modal Programmazione
+const edit_prog_macchina = document.getElementById("edit_prog_macchina");
+const edit_prog_commessa = document.getElementById("edit_prog_commessa");
+const edit_prog_disegno = document.getElementById("edit_prog_disegno");
+const edit_prog_rev = document.getElementById("edit_prog_rev");
+const edit_prog_tempo = document.getElementById("edit_prog_tempo");
+const edit_prog_operatore = document.getElementById("edit_prog_operatore");
+const edit_prog_stato = document.getElementById("edit_prog_stato");
+const edit_prog_note = document.getElementById("edit_prog_note");
+
+// Popola liste nel modal Programmazione
+function popolaListeModalProgrammazione() {
+  edit_prog_macchina.innerHTML = `
+    <option>Duravertical 3Ax (45)</option>
+    <option>Duravertical 3Ax (46)</option>
+    <option>NVX 5060 (58)</option>
+    <option>Okuma (59)</option>
+    <option>DMF-200/7 (57)</option>
+    <option>DMU 65 5Axis (89)</option>
+    <option>DMU 75 5Axis (90)</option>
+  `;
+
+  edit_prog_operatore.innerHTML = `
+    <option>Marco T.</option>
+    <option>Nicola B.</option>
+    <option>Roberto Q.</option>
+    <option>Daniel D.</option>
+    <option>Igor B.</option>
+    <option>Altri</option>
+  `;
+}
+
+popolaListeModalProgrammazione();
+
+// ORA VIENE apriProgPopup()
 function apriProgPopup(idx) {
   progEditIndex = idx;
   const item = progArchivio[idx];
