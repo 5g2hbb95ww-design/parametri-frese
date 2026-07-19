@@ -2,7 +2,7 @@
 // SERVICE WORKER NETWORK-FIRST
 // =========================
 
-const CACHE_NAME = "pwa-cache-v4";
+const CACHE_NAME = "pwa-cache-v1";
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
