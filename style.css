@@ -327,3 +327,16 @@ body.light .btn-theme {
 .toast.hidden {
   display: none;
 }
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  color: #fff;
+  margin-top: 4px;
+}
+
+.badge.in_programmazione { background: #0050ff; } 
+.badge.programmato { background: #00cfff; }
+.badge.in_produzione { background: #ff8c00; }
+.badge.finito { background: #00cc66; }
