@@ -158,54 +158,62 @@
     </section>
 
     <!-- PAGINA PROGRAMMAZIONE -->
-    <div class="card glass volumetric">
-  <h2>Nuova scheda lavoro</h2>
+    <section id="page-programmazione" class="page">
 
-  <label>Macchina</label>
-  <input id="prog_macchina" type="text">
+  <!-- CARD: NUOVA SCHEDA -->
+  <div class="card glass volumetric">
+    <h2>Nuova scheda lavoro</h2>
 
-  <label>Commessa</label>
-  <input id="prog_commessa" type="text">
+    <label>Macchina</label>
+    <input id="prog_macchina" type="text">
 
-  <label>Disegno</label>
-  <input id="prog_disegno" type="text">
+    <label>Commessa</label>
+    <input id="prog_commessa" type="text">
 
-  <label>Revisione</label>
-  <input id="prog_rev" type="text">
+    <label>Disegno</label>
+    <input id="prog_disegno" type="text">
 
-  <label>Tempo programmazione (min)</label>
-  <input id="prog_tempo" type="number">
+    <label>Revisione</label>
+    <input id="prog_rev" type="text">
 
-  <label>Operatore CNC</label>
-  <input id="prog_operatore" type="text">
+    <label>Tempo programmazione (min)</label>
+    <input id="prog_tempo" type="number">
 
-  <label>Stato</label>
-  <select id="prog_stato">
-    <option value="in_programmazione">In programmazione</option>
-    <option value="programmato">Programmato</option>
-    <option value="in_produzione">In produzione</option>
-    <option value="sospeso">Sospeso</option>
-    <option value="finito">Finito</option>
-  </select>
+    <label>Operatore CNC</label>
+    <input id="prog_operatore" type="text">
 
-  <label>Note</label>
-  <textarea id="prog_note" rows="3"></textarea>
+    <label>Stato</label>
+    <select id="prog_stato">
+      <option value="in_programmazione">In programmazione</option>
+      <option value="programmato">Programmato</option>
+      <option value="in_produzione">In produzione</option>
+      <option value="sospeso">Sospeso</option>
+      <option value="finito">Finito</option>
+    </select>
 
-  <button id="btnSalvaProgrammazione" class="btn-primary">Salva scheda</button>
-</div>
+    <label>Note</label>
+    <textarea id="prog_note" rows="3"></textarea>
 
-<div class="card glass volumetric">
-  <h2>Archivio schede</h2>
-  <div id="prog_lista"></div>
-</div>
+    <button id="btnSalvaProgrammazione" class="btn-primary">Salva scheda</button>
+  </div>
 
-<div class="card glass volumetric">
-  <h2>Timeline</h2>
-  <div id="prog_timeline"></div>
+  <!-- CARD: ARCHIVIO -->
+  <div class="card glass volumetric">
+    <h2>Archivio schede</h2>
+    <div id="prog_lista"></div>
+  </div>
 
-  <button id="btnExportPDF" class="btn-primary">Esporta scheda TXT</button>
-</div>
+  <!-- CARD: TIMELINE -->
+  <div class="card glass volumetric">
+    <h2>Timeline</h2>
+    <div id="prog_timeline"></div>
 
+    <button id="btnExportPDF" class="btn-primary">Esporta scheda TXT</button>
+  </div>
+
+</section>
+
+  </main>
 
   <!-- MODAL MODIFICA -->
   <div id="modalEdit" class="modal hidden">
