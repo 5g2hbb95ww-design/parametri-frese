@@ -3,46 +3,58 @@
 // =========================
 
 // Nome della cache
-const CACHE_NAME = "pwa-cache-v1";
-
-// File da mettere in cache (solo quelli base)
-const FILES_TO_CACHE = [
+const CACHE_NAME = "parametri-frese-v1"; // cambia versione quando aggiorni
+const URLS_TO_CACHE = [
   "./",
   "./index.html",
   "./style.css",
-  "./app.js",
-  "./materials.json"
+  "./manifest.json",
+  "./src/app.js",
+  "./src/ui.js",
+  "./src/data.json"
 ];
 
-// Installazione SW
+// Install
 self.addEventListener("install", (event) => {
+  self.skipWaiting(); // forza aggiornamento immediato
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(FILES_TO_CACHE);
+      return cache.addAll(URLS_TO_CACHE);
     })
   );
-  self.skipWaiting();
 });
 
-// Attivazione SW
+// Activate
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
-            return caches.delete(key);
+            return caches.delete(key); // elimina cache vecchia
           }
         })
       )
     )
   );
-  self.clients.claim();
+  self.clients.claim(); // aggiorna subito tutte le schede aperte
 });
 
-// Fetch: prima rete, se fallisce usa cache
+// Fetch
 self.addEventListener("fetch", (event) => {
   event.respondWith(
-    fetch(event.request).catch(() => caches.match(event.request))
+    caches.match(event.request).then((cached) => {
+      const fetchPromise = fetch(event.request)
+        .then((networkResponse) => {
+          // aggiorna cache con file nuovi
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, networkResponse.clone());
+          });
+          return networkResponse;
+        })
+        .catch(() => cached);
+
+      return cached || fetchPromise;
+    })
   );
 });
