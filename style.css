@@ -1130,12 +1130,7 @@ body.light .menu-button::after {
 
 /* =========================================================
    FIX SFONDO MODALITÀ CHIARA — UNIFORME SENZA BANDE NERE
-========================================================= */
-
-body.light {
-  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
-  background-color: #ffffff !important;
-}
+=========================================================
 
 /* Rimuove override scuro che copriva lo sfondo */
 html, body {
@@ -1164,11 +1159,25 @@ body.dark .menu-button {
 }
 
 /* =========================================================
-   PULSANTE TONDO — SEMPRE A DESTRA (CHIARA + SCURA)
+   FIX DEFINITIVO — SFONDO CHIARO + PULSANTE A DESTRA
 ========================================================= */
 
+/* 1. Sfondo chiaro uniforme */
+body.light {
+  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
+  background-color: #ffffff !important;
+}
+
+/* Annulla il background scuro che creava bande */
+body.light html,
+body.light body {
+  background-color: transparent !important;
+}
+
+/* 2. Pulsante sferico SEMPRE a destra (chiara + scura) */
 body.light .menu-button,
 body.dark .menu-button {
   left: auto !important;
   right: 18px !important;
 }
+
