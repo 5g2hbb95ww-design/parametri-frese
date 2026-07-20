@@ -1128,3 +1128,37 @@ body.light .menu-button::after {
   100% { transform: translate(0,0); }
 }
 
+/* =========================================================
+   FIX SFONDO MODALITÀ CHIARA — UNIFORME SENZA BANDE NERE
+========================================================= */
+
+body.light {
+  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
+  background-color: #ffffff !important;
+}
+
+/* Rimuove override scuro che copriva lo sfondo */
+html, body {
+  background-color: transparent !important;
+}
+
+/* Header chiaro uniforme */
+body.light header {
+  background: transparent !important;
+  border-bottom-color: rgba(0,0,0,0.12);
+}
+
+/* =========================================================
+   PULSANTE TONDO — A SINISTRA IN MODALITÀ CHIARA
+========================================================= */
+
+body.light .menu-button {
+  right: auto !important;
+  left: 18px !important;
+}
+
+/* Modalità scura rimane a destra */
+body.dark .menu-button {
+  right: 18px !important;
+  left: auto !important;
+}
