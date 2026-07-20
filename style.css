@@ -1144,12 +1144,12 @@ body.light header {
 }
 
 /* =========================================================
-   PULSANTE TONDO — A SINISTRA IN MODALITÀ CHIARA
+   PULSANTE TONDO — A DESTRA IN MODALITÀ CHIARA
 ========================================================= */
 
 body.light .menu-button {
-  right: auto !important;
-  left: 18px !important;
+  right: 18px !important;
+  left: auto !important;
 }
 
 /* Modalità scura rimane a destra */
