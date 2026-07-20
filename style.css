@@ -432,3 +432,83 @@ body.light .btn-secondary {
   color: #0b1020 !important;   /* blu notte */
   font-weight: 600;            /* più leggibile */
 }
+
+/* TIMELINE ANIMATA */
+.timeline-item {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 26px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: timelineFadeIn 0.45s ease forwards;
+}
+
+@keyframes timelineFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.timeline-line {
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: -10px;
+  width: 2px;
+  background: rgba(0,0,0,0.15);
+  animation: lineGrow 0.6s ease forwards;
+  transform-origin: top;
+  transform: scaleY(0);
+}
+
+@keyframes lineGrow {
+  to {
+    transform: scaleY(1);
+  }
+}
+
+body.light .timeline-line {
+  background: rgba(0,0,0,0.25);
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 2px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid #0b1020;
+  background: white;
+  animation: dotPop 0.35s ease forwards;
+  transform: scale(0);
+}
+
+@keyframes dotPop {
+  60% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+body.light .timeline-dot {
+  border-color: #0b1020;
+  background: #fff;
+}
+
+/* Colori per stato */
+.dot-in_programmazione { background: #4da3ff; }
+.dot-programmato { background: #5cff8d; }
+.dot-in_produzione { background: #ffb84d; }
+.dot-sospeso { background: #ffe24d; }
+.dot-finito { background: #b47dff; }
+
+.timeline-title {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.timeline-meta {
+  font-size: 13px;
+  opacity: 0.8;
+}
