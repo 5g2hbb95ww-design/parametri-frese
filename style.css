@@ -681,3 +681,16 @@ body {
 :root {
   color-scheme: dark;
 }
+
+/* FIX CONTRASTO MODALITÀ CHIARA */
+body.light .shortcut {
+  color: #0a0a0a; /* testo scuro */
+}
+
+body.light .dash-number {
+  color: #0a0a0a; /* numeri scuri */
+}
+
+body.light .dash-label {
+  color: #1a1a1a; /* etichette scure */
+}
