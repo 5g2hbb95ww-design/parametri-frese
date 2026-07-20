@@ -78,6 +78,13 @@ main {
   color: #9fe4ff;
 }
 
+.glass-cell {
+  margin-top: 10px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 /* FORM */
 label {
   display: block;
