@@ -2,6 +2,12 @@
 // APP PRINCIPALE
 // =============================
 
+// Ripristina tema salvato
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "light") {
+  document.body.classList.add("light");
+}
+
 // =========================
 // REGISTRAZIONE SERVICE WORKER
 // =========================
@@ -148,12 +154,18 @@ document.getElementById("viewSelect").addEventListener("change", (e) => {
 btnTheme.addEventListener("click", () => {
   document.body.classList.toggle("light");
 
-  if (document.body.classList.contains("light")) {
+  // ⭐ SALVA LA SCELTA DELL’UTENTE
+  const isLight = document.body.classList.contains("light");
+  localStorage.setItem("theme", isLight ? "light" : "dark");
+
+  // ⭐ CAMBIO ICONA (lasciato identico al tuo)
+  if (isLight) {
     themeIcon.innerHTML = iconSun;   // Giorno
   } else {
     themeIcon.innerHTML = iconMoon;  // Notte
   }
 });
+
 
 // =============================
 // ARCHIVIO FRESE
@@ -318,6 +330,7 @@ function resetCampiProgrammazione() {
   prog_commessa.value = "";
   prog_disegno.value = "";
   prog_rev.value = "";
+  prog_data.value = "";  
   prog_tempo.value = "";
   prog_operatore.value = "";
   prog_stato.value = "in_programmazione";
@@ -331,6 +344,7 @@ document.getElementById("btnSalvaProgrammazione").addEventListener("click", () =
     commessa: prog_commessa.value.trim(),
     disegno: prog_disegno.value.trim(),
     revisione: prog_rev.value.trim(),
+    dataProgramma: prog_data.value,  
     tempo: num(prog_tempo.value),
     operatore: prog_operatore.value,
     stato: prog_stato.value,
@@ -363,6 +377,7 @@ function renderProgArchivio() {
       <div class="arch-item-title">${item.commessa}</div>
       <div class="arch-item-meta">${item.macchina} — ${item.operatore}</div>
       <span class="badge ${item.stato}">${item.stato.replace("_", " ")}</span>
+      <div class="arch-item-meta">${item.dataProgramma}</div>
     `;
 
     // Bottone Modifica (modal nuovo)
@@ -454,6 +469,7 @@ function apriProgPopup(idx) {
   edit_prog_commessa.value = item.commessa;
   edit_prog_disegno.value = item.disegno;
   edit_prog_rev.value = item.revisione;
+  edit_prog_data.value = item.dataProgramma;  
   edit_prog_tempo.value = item.tempo;
   edit_prog_operatore.value = item.operatore;
   edit_prog_stato.value = item.stato;
@@ -473,6 +489,7 @@ btnProgUpdate.addEventListener("click", () => {
   item.commessa = edit_prog_commessa.value.trim();
   item.disegno = edit_prog_disegno.value.trim();
   item.revisione = edit_prog_rev.value.trim();
+  item.dataProgramma = edit_prog_data.value; 
   item.tempo = num(edit_prog_tempo.value);
   item.operatore = edit_prog_operatore.value;
   item.stato = edit_prog_stato.value;
@@ -556,6 +573,7 @@ document.getElementById("btnExportPDF").addEventListener("click", () => {
         <div class="row"><span class="label">Macchina:</span> ${item.macchina}</div>
         <div class="row"><span class="label">Disegno:</span> ${item.disegno}</div>
         <div class="row"><span class="label">Revisione:</span> ${item.revisione}</div>
+        <div class="row"><span class="label">Data:</span> ${item.dataProgramma}</div>
         <div class="row"><span class="label">Tempo:</span> ${item.tempo} min</div>
         <div class="row"><span class="label">Operatore:</span> ${item.operatore}</div>
         <div class="row"><span class="label">Stato:</span> ${item.stato}</div>
