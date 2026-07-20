@@ -44,16 +44,14 @@ const iconSun = `
 `;
 
 // =============================
-// TEMA CHIARO/SCURO (AGGIORNATO)
+// TEMA CHIARO/SCURO
 // =============================
 btnTheme.addEventListener("click", () => {
   document.body.classList.toggle("light");
 
-  // ⭐ SALVA LA SCELTA
   const isLight = document.body.classList.contains("light");
   localStorage.setItem("theme", isLight ? "light" : "dark");
 
-  // ⭐ CAMBIO ICONA
   themeIcon.innerHTML = isLight ? iconSun : iconMoon;
 });
 
@@ -95,7 +93,6 @@ const dash_recent_frese = document.getElementById("dash_recent_frese");
 
 function renderDashboard() {
 
-  // Totali schede
   dash_tot_schede.textContent = progArchivio.length;
 
   dash_in_prog.textContent = progArchivio.filter(x => x.stato === "in_programmazione").length;
@@ -104,7 +101,6 @@ function renderDashboard() {
   dash_sospeso.textContent = progArchivio.filter(x => x.stato === "sospeso").length;
   dash_finito.textContent = progArchivio.filter(x => x.stato === "finito").length;
 
-  // Ultime schede modificate
   dash_recent_schede.innerHTML = progArchivio
     .slice(-5)
     .reverse()
@@ -116,7 +112,6 @@ function renderDashboard() {
     `)
     .join("");
 
-  // Ultime frese aggiunte
   dash_recent_frese.innerHTML = archivio
     .slice(-5)
     .reverse()
@@ -129,7 +124,9 @@ function renderDashboard() {
     .join("");
 }
 
-// Popola liste Materiale e Refrigerante
+// =============================
+// POPOLA LISTE
+// =============================
 materiale.innerHTML = `
   <option>Acciaio</option>
   <option>Temprato</option>
@@ -148,7 +145,9 @@ refrigerante.innerHTML = `
   <option>Secco</option>
 `;
 
-// Toast
+// =============================
+// TOAST
+// =============================
 const toast = document.getElementById("toast");
 function showToast(msg) {
   toast.textContent = msg;
@@ -160,7 +159,9 @@ function showToast(msg) {
   }, 1800);
 }
 
-// Calcoli automatici pagina NUOVO
+// =============================
+// CALCOLI PAGINA NUOVO
+// =============================
 diam.addEventListener("input", calcolaS);
 mmin.addEventListener("input", calcolaS);
 
@@ -227,7 +228,6 @@ const lista = document.getElementById("lista");
 const sortSelect = document.getElementById("sortSelect");
 const orderSelect = document.getElementById("orderSelect");
 
-// Reset pagina NUOVO
 function resetCampiNuovo() {
   den.value = "";
   diam.value = "";
@@ -247,7 +247,6 @@ function resetCampiNuovo() {
   dettagli.value = "";
 }
 
-// Salvataggio fresa
 document.getElementById("btnSalva").addEventListener("click", () => {
   const item = {
     denominazione: den.value.trim(),
@@ -274,7 +273,6 @@ document.getElementById("btnSalva").addEventListener("click", () => {
   resetCampiNuovo();
 });
 
-// Render archivio frese
 function renderArchivio() {
   lista.innerHTML = "";
 
@@ -294,7 +292,7 @@ function renderArchivio() {
 
     div.innerHTML = `
       <div class="arch-item-title">${item.denominazione}</div>
-      <div class="arch-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
+      <div class="arch-item-meta">Ø ${item.diametro} — ${item.materialale}</div>
     `;
 
     const btnMod = document.createElement("button");
@@ -373,7 +371,6 @@ const prog_progress = document.getElementById("prog_progress");
 const prog_timeline = document.getElementById("prog_timeline");
 const prog_filter = document.getElementById("prog_filter");
 
-// Reset pagina PROGRAMMAZIONE
 function resetCampiProgrammazione() {
   prog_macchina.value = "";
   prog_commessa.value = "";
@@ -386,9 +383,6 @@ function resetCampiProgrammazione() {
   prog_note.value = "";
 }
 
-// =============================
-// SALVA SCHEDA PROGRAMMAZIONE (AGGIORNATO)
-// =============================
 document.getElementById("btnSalvaProgrammazione").addEventListener("click", () => {
   const item = {
     macchina: prog_macchina.value,
@@ -401,7 +395,6 @@ document.getElementById("btnSalvaProgrammazione").addEventListener("click", () =
     stato: prog_stato.value,
     note: prog_note.value.trim(),
 
-    // ⭐ STORICO STATI
     history: [
       {
         stato: prog_stato.value,
@@ -417,9 +410,6 @@ document.getElementById("btnSalvaProgrammazione").addEventListener("click", () =
   resetCampiProgrammazione();
 });
 
-// =============================
-// RENDER ARCHIVIO PROGRAMMAZIONE
-// =============================
 function renderProgArchivio() {
   prog_lista.innerHTML = "";
   prog_progress.innerHTML = "";
@@ -478,7 +468,7 @@ function renderProgArchivio() {
 }
 
 // =============================
-// MODAL PROGRAMMAZIONE (AGGIORNATO)
+// MODAL PROGRAMMAZIONE
 // =============================
 const modalProgEdit = document.getElementById("modalProgEdit");
 const btnProgClose = document.getElementById("btnProgClose");
@@ -540,12 +530,11 @@ btnProgClose.addEventListener("click", () => {
 });
 
 // =============================
-// AGGIORNA SCHEDA PROGRAMMAZIONE (AGGIORNATO)
+// AGGIORNA SCHEDA PROGRAMMAZIONE
 // =============================
 btnProgUpdate.addEventListener("click", () => {
   const item = progArchivio[progEditIndex];
 
-  // Aggiorna campi
   item.macchina = edit_prog_macchina.value;
   item.commessa = edit_prog_commessa.value.trim();
   item.disegno = edit_prog_disegno.value.trim();
@@ -554,7 +543,6 @@ btnProgUpdate.addEventListener("click", () => {
   item.tempo = num(edit_prog_tempo.value);
   item.operatore = edit_prog_operatore.value;
 
-  // ⭐ Se lo stato è cambiato, aggiungilo allo storico
   if (item.stato !== edit_prog_stato.value) {
     item.history.push({
       stato: edit_prog_stato.value,
@@ -573,7 +561,7 @@ btnProgUpdate.addEventListener("click", () => {
 });
 
 // =============================
-// TIMELINE (AGGIORNATA CON STORICO)
+// TIMELINE
 // =============================
 function renderProgTimeline() {
   prog_timeline.innerHTML = "";
@@ -605,7 +593,7 @@ function renderProgTimeline() {
 }
 
 // =============================
-// EXPORT REPORT (PDF via stampa)
+// EXPORT PDF
 // =============================
 document.getElementById("btnExportPDF").addEventListener("click", () => {
   let html = `
@@ -680,7 +668,9 @@ document.getElementById("btnExportPDF").addEventListener("click", () => {
   window.open(url, "_blank");
 });
 
-// MENU LATERALE
+// =============================
+// MENU LATERALE VISIONOS
+// =============================
 const sideMenu = document.getElementById("sideMenu");
 const menuButton = document.getElementById("menuButton");
 
@@ -700,7 +690,9 @@ document.querySelectorAll(".side-menu-item").forEach(item => {
   });
 });
 
+// =============================
 // SHORTCUTS DASHBOARD
+// =============================
 document.querySelectorAll(".shortcut").forEach(btn => {
   btn.addEventListener("click", () => {
     haptic();
@@ -715,9 +707,9 @@ document.querySelectorAll(".shortcut").forEach(btn => {
 // =============================
 function haptic() {
   if (navigator.vibrate) {
-    navigator.vibrate(10); // vibrazione breve
-  } else if (navigator.webkitVibrate) {
-    navigator.webkitVibrate(10);
+    navigator.vibrate(10);
   }
 }
 
+
+                                                  
