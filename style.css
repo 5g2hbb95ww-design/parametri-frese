@@ -682,15 +682,24 @@ body {
   color-scheme: dark;
 }
 
-/* FIX CONTRASTO MODALITÀ CHIARA */
+/* FIX CONTRASTO SHORTCUT IN MODALITÀ CHIARA */
 body.light .shortcut {
-  color: #0a0a0a; /* testo scuro */
+  color: #0a0a0a !important; /* testo scuro */
+  text-shadow: none !important;
 }
 
+/* FIX CONTRASTO NUMERI DASHBOARD IN MODALITÀ CHIARA */
 body.light .dash-number {
-  color: #0a0a0a; /* numeri scuri */
+  color: #0a0a0a !important;
 }
 
 body.light .dash-label {
-  color: #1a1a1a; /* etichette scure */
+  color: #1a1a1a !important;
+}
+
+/* DISABILITA LO ZOOM AUTOMATICO SU INPUT (IPHONE) */
+input,
+select,
+textarea {
+  font-size: 16px !important; /* valore minimo per evitare lo zoom */
 }
