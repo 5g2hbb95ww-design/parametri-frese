@@ -679,3 +679,30 @@ document.getElementById("btnExportPDF").addEventListener("click", () => {
   const url = URL.createObjectURL(blob);
   window.open(url, "_blank");
 });
+
+// MENU LATERALE
+const sideMenu = document.getElementById("sideMenu");
+const menuButton = document.getElementById("menuButton");
+
+menuButton.addEventListener("click", () => {
+  sideMenu.classList.toggle("show");
+});
+
+// CLICK SU VOCI MENU
+document.querySelectorAll(".side-menu-item").forEach(item => {
+  item.addEventListener("click", () => {
+    const page = item.dataset.page;
+    document.getElementById("viewSelect").value = page;
+    document.getElementById("viewSelect").dispatchEvent(new Event("change"));
+    sideMenu.classList.remove("show");
+  });
+});
+
+// SHORTCUTS DASHBOARD
+document.querySelectorAll(".shortcut").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const page = btn.dataset.page;
+    document.getElementById("viewSelect").value = page;
+    document.getElementById("viewSelect").dispatchEvent(new Event("change"));
+  });
+});
