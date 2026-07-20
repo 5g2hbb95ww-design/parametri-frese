@@ -1174,13 +1174,6 @@ body.light body {
   background-color: transparent !important;
 }
 
-/* 2. Pulsante sferico SEMPRE a destra (chiara + scura) */
-body.light .menu-button,
-body.dark .menu-button {
-  left: auto !important;
-  right: 18px !important;
-}
-
 /* =========================================================
    PULIZIA CHIRURGICA — RIMOZIONE DUPLICATI CONFLITTUALI
    Modalità chiara ufficiale: B (Acqua/Ghiaccio iOS)
