@@ -243,6 +243,20 @@ button {
   z-index: 901;       /* nuovo */
 }
 
+/* Permette al modal di scrollare se è più alto dello schermo */
+.modal {
+  overflow-y: auto;
+  align-items: flex-start; /* evita che il contenuto venga tagliato */
+  padding-top: 20px;       /* aggiunge spazio sopra */
+  padding-bottom: 40px;    /* aggiunge spazio per i bottoni */
+}
+
+/* Il contenuto del modal deve adattarsi allo schermo */
+.modal-content {
+  max-height: calc(100vh - 60px); /* evita overflow verticale */
+  overflow-y: auto;               /* abilita scroll interno */
+}
+
 /* TOGGLE TEMA */
 .theme-toggle {
   margin-top: 8px;
