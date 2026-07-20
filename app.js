@@ -2,6 +2,40 @@
 // APP PRINCIPALE
 // =============================
 
+// =========================
+// REGISTRAZIONE SERVICE WORKER
+// =========================
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+}
+// =========================
+// ICONE TEMA (SOLE / LUNA)
+// =========================
+const btnTheme = document.getElementById("btnTheme");
+const themeIcon = document.getElementById("themeIcon");
+
+const iconMoon = `
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+  <path d="M21 14.5A9 9 0 0 1 10.5 3 7.5 7.5 0 1 0 21 14.5Z" fill="currentColor"/>
+</svg>
+`;
+
+const iconSun = `
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+  <circle cx="12" cy="12" r="5" fill="currentColor"/>
+  <g stroke="currentColor" stroke-width="2">
+    <line x1="12" y1="1" x2="12" y2="4"/>
+    <line x1="12" y1="20" x2="12" y2="23"/>
+    <line x1="1" y1="12" x2="4" y2="12"/>
+    <line x1="20" y1="12" x2="23" y2="12"/>
+    <line x1="4.2" y1="4.2" x2="6.3" y2="6.3"/>
+    <line x1="17.7" y1="17.7" x2="19.8" y2="19.8"/>
+    <line x1="4.2" y1="19.8" x2="6.3" y2="17.7"/>
+    <line x1="17.7" y1="6.3" x2="19.8" y2="4.2"/>
+  </g>
+</svg>
+`;
+
 // Utility
 const num = (v) => Number(v) || 0;
 
@@ -26,6 +60,7 @@ const dettagli = document.getElementById("dettagli");
 // Popola liste Materiale e Refrigerante
 materiale.innerHTML = `
   <option>Acciaio</option>
+  <option>Temprato</option>
   <option>Inox</option>
   <option>Alluminio</option>
   <option>Ghisa</option>
@@ -34,8 +69,10 @@ materiale.innerHTML = `
 `;
 
 refrigerante.innerHTML = `
-  <option>Emulsione</option>
-  <option>Olio intero</option>
+  <option>Acqua interna</option>
+  <option>Acqua esterna</option>
+  <option>Aria intero</option>
+  <option>Aria esterna</option>
   <option>Secco</option>
 `;
 
@@ -108,8 +145,14 @@ document.getElementById("viewSelect").addEventListener("change", (e) => {
 // =============================
 // TEMA CHIARO/SCURO
 // =============================
-document.getElementById("btnTheme").addEventListener("click", () => {
+btnTheme.addEventListener("click", () => {
   document.body.classList.toggle("light");
+
+  if (document.body.classList.contains("light")) {
+    themeIcon.innerHTML = iconSun;   // Giorno
+  } else {
+    themeIcon.innerHTML = iconMoon;  // Notte
+  }
 });
 
 // =============================
