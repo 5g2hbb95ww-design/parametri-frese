@@ -163,90 +163,114 @@
       </div>
     </section>
 
-    <!-- PAGINA PROGRAMMAZIONE -->
-    <section id="page-programmazione" class="page">
+<!-- PAGINA PROGRAMMAZIONE -->
+<section id="page-programmazione" class="page">
 
-      <div class="card glass volumetric">
-        <h2>Nuova scheda lavoro</h2>
+  <!-- ⭐ NUOVA SCHEDA LAVORO -->
+  <div class="card glass volumetric">
+    <h2>Nuova scheda lavoro</h2>
 
-        <label>Macchina</label>
-        <select id="prog_macchina">
-          <option value="">—</option>
-          <option>Duravertical 3Ax (45)</option>
-          <option>Duravertical 3Ax (46)</option>
-          <option>NVX 5060 (58)</option>
-          <option>Okuma (59)</option>
-          <option>DMF-200/7 (57)</option>
-          <option>DMU 65 5Axis (89)</option>
-          <option>DMU 75 5Axis (90)</option>
-        </select>
+    <div class="glass-cell">
+      <label>Macchina</label>
+      <select id="prog_macchina">
+        <option value="">—</option>
+        <option>Duravertical 3Ax (45)</option>
+        <option>Duravertical 3Ax (46)</option>
+        <option>NVX 5060 (58)</option>
+        <option>Okuma (59)</option>
+        <option>DMF-200/7 (57)</option>
+        <option>DMU 65 5Axis (89)</option>
+        <option>DMU 75 5Axis (90)</option>
+      </select>
+    </div>
 
-        <label>Commessa</label>
-        <input id="prog_commessa" type="text">
+    <div class="glass-cell">
+      <label>Commessa</label>
+      <input id="prog_commessa" type="text">
+    </div>
 
-        <label>Disegno</label>
-        <input id="prog_disegno" type="text">
+    <div class="glass-cell">
+      <label>Disegno</label>
+      <input id="prog_disegno" type="text">
+    </div>
 
-        <label>Revisione</label>
-        <input id="prog_rev" type="text">
+    <div class="glass-cell">
+      <label>Revisione</label>
+      <input id="prog_rev" type="text">
+    </div>
 
-        <label>Data Programma</label>
-        <input id="prog_data" type="date">
+    <!-- ⭐ CELLA DATA PROGRAMMA (ORA IDENTICA) -->
+    <div class="glass-cell">
+      <label>Data Programma</label>
+      <input id="prog_data" type="date">
+    </div>
 
-        <label>Tempo programmazione (min)</label>
-        <input id="prog_tempo" type="number">
+    <div class="glass-cell">
+      <label>Tempo programmazione (min)</label>
+      <input id="prog_tempo" type="number">
+    </div>
 
-        <label>Operatore CNC</label>
-        <select id="prog_operatore">
-          <option value="">—</option>
-          <option>Marco T.</option>
-          <option>Nicola B.</option>
-          <option>Roberto Q.</option>
-          <option>Daniel D.</option>
-          <option>Igor B.</option>
-          <option>Altri</option>
-        </select>
+    <div class="glass-cell">
+      <label>Operatore CNC</label>
+      <select id="prog_operatore">
+        <option value="">—</option>
+        <option>Marco T.</option>
+        <option>Nicola B.</option>
+        <option>Roberto Q.</option>
+        <option>Daniel D.</option>
+        <option>Igor B.</option>
+        <option>Altri</option>
+      </select>
+    </div>
 
-        <label>Stato</label>
-        <select id="prog_stato">
-          <option value="in_programmazione">In programmazione</option>
-          <option value="programmato">Programmato</option>
-          <option value="in_produzione">In produzione</option>
-          <option value="sospeso">Sospeso</option>
-          <option value="finito">Finito</option>
-        </select>
+    <div class="glass-cell">
+      <label>Stato</label>
+      <select id="prog_stato">
+        <option value="in_programmazione">In programmazione</option>
+        <option value="programmato">Programmato</option>
+        <option value="in_produzione">In produzione</option>
+        <option value="sospeso">Sospeso</option>
+        <option value="finito">Finito</option>
+      </select>
+    </div>
 
-        <label>Note</label>
-        <textarea id="prog_note" rows="3"></textarea>
+    <div class="glass-cell">
+      <label>Note</label>
+      <textarea id="prog_note" rows="3"></textarea>
+    </div>
 
-        <button id="btnSalvaProgrammazione" class="btn-primary">Salva scheda</button>
-      </div>
+    <button id="btnSalvaProgrammazione" class="btn-primary">Salva scheda</button>
+  </div>
 
-      <div class="card glass volumetric">
-        <h2>Archivio schede</h2>
+  <!-- ⭐ ARCHIVIO -->
+  <div class="card glass volumetric">
+    <h2>Archivio schede</h2>
 
-        <label>Filtra per stato</label>
-        <select id="prog_filter">
-          <option value="">Tutti</option>
-          <option value="in_programmazione">In programmazione</option>
-          <option value="programmato">Programmato</option>
-          <option value="in_produzione">In produzione</option>
-          <option value="sospeso">Sospeso</option>
-          <option value="finito">Finito</option>
-        </select>
+    <div class="glass-cell">
+      <label>Filtra per stato</label>
+      <select id="prog_filter">
+        <option value="">Tutti</option>
+        <option value="in_programmazione">In programmazione</option>
+        <option value="programmato">Programmato</option>
+        <option value="in_produzione">In produzione</option>
+        <option value="sospeso">Sospeso</option>
+        <option value="finito">Finito</option>
+      </select>
+    </div>
 
-        <div id="prog_progress" class="prog-progress"></div>
-        <div id="prog_lista"></div>
-      </div>
+    <div id="prog_progress" class="prog-progress"></div>
+    <div id="prog_lista"></div>
+  </div>
 
-      <div class="card glass volumetric">
-        <h2>Timeline</h2>
-        <div id="prog_timeline"></div>
+  <!-- ⭐ TIMELINE -->
+  <div class="card glass volumetric">
+    <h2>Timeline</h2>
+    <div id="prog_timeline"></div>
 
-        <button id="btnExportPDF" class="btn-primary">Esporta scheda PDF</button>
-      </div>
+    <button id="btnExportPDF" class="btn-primary">Esporta scheda PDF</button>
+  </div>
 
-    </section>
+</section>
 
   </main>
 
