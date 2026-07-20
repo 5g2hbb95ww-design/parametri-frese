@@ -284,32 +284,49 @@
     </div>
   </div>
 
-  <!-- MODAL PROGRAMMAZIONE (NUOVO) -->
-  <div id="modalProgEdit" class="modal hidden">
-    <div class="modal-content glass volumetric">
-      <h2>Modifica scheda</h2>
+<!-- MODAL PROGRAMMAZIONE -->
+<div id="modalProgEdit" class="modal hidden">
+  <div class="modal-content glass volumetric">
 
+    <h2>Modifica scheda</h2>
+
+    <div class="glass-cell">
       <label>Macchina</label>
       <select id="edit_prog_macchina"></select>
+    </div>
 
+    <div class="glass-cell">
       <label>Commessa</label>
       <input id="edit_prog_commessa" type="text">
+    </div>
 
+    <div class="glass-cell">
       <label>Disegno</label>
       <input id="edit_prog_disegno" type="text">
+    </div>
 
+    <div class="glass-cell">
       <label>Revisione</label>
       <input id="edit_prog_rev" type="text">
+    </div>
 
+    <!-- ⭐ NUOVA CELLA DATA PROGRAMMA (STESSO STILE) -->
+    <div class="glass-cell">
       <label>Data Programma</label>
       <input id="edit_prog_data" type="date">
+    </div>
 
-      <label>Tempo (min)</label>
+    <div class="glass-cell">
+      <label>Tempo programmazione (min)</label>
       <input id="edit_prog_tempo" type="number">
+    </div>
 
-      <label>Operatore</label>
+    <div class="glass-cell">
+      <label>Operatore CNC</label>
       <select id="edit_prog_operatore"></select>
+    </div>
 
+    <div class="glass-cell">
       <label>Stato</label>
       <select id="edit_prog_stato">
         <option value="in_programmazione">In programmazione</option>
@@ -318,14 +335,19 @@
         <option value="sospeso">Sospeso</option>
         <option value="finito">Finito</option>
       </select>
-
-      <label>Note</label>
-      <textarea id="edit_prog_note"></textarea>
-
-      <button id="btnProgUpdate" class="btn-primary">Aggiorna</button>
-      <button id="btnProgClose" class="btn-secondary">Chiudi</button>
     </div>
+
+    <div class="glass-cell">
+      <label>Note</label>
+      <textarea id="edit_prog_note" rows="3"></textarea>
+    </div>
+
+    <button id="btnProgUpdate" class="btn-primary">Aggiorna</button>
+    <button id="btnProgClose" class="btn-secondary">Chiudi</button>
+
   </div>
+</div>
+
 
   <div id="toast" class="toast hidden">Operazione completata ✔</div>
 
