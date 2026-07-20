@@ -581,3 +581,88 @@ body.light .dash-item-title {
 body.light .dash-item-meta {
   color: #1a1f2a;
 }
+
+/* MENU LATERALE */
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 260px;
+  height: 100%;
+  backdrop-filter: blur(20px);
+  z-index: 999;
+  transform: translateX(100%);
+  transition: transform 0.35s ease;
+}
+
+.side-menu.show {
+  transform: translateX(0);
+}
+
+.side-menu-content {
+  height: 100%;
+  padding: 20px;
+  border-radius: 0;
+}
+
+.side-menu-item {
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.12);
+  cursor: pointer;
+  font-size: 16px;
+  color: #e9faff;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.25);
+}
+
+.side-menu-item:active {
+  transform: scale(0.96);
+}
+
+/* ICONA INFERIORE */
+.menu-button {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.55);
+}
+
+/* DASHBOARD SHORTCUTS */
+.dash-shortcuts {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.shortcut {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.25);
+  transition: transform 0.2s ease;
+}
+
+.shortcut:active {
+  transform: scale(0.85);
+}
+
+/* SFONDO ESTESO (FIX PANNELLO BIANCO) */
+header {
+  background: transparent !important;
+}
