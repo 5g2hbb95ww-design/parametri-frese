@@ -145,6 +145,13 @@ refrigerante.innerHTML = `
   <option>Secco</option>
 `;
 
+// Popola anche i select del modal modifica
+document.getElementById("edit_materiale").innerHTML =
+  document.getElementById("materiale").innerHTML;
+
+document.getElementById("edit_refrigerante").innerHTML =
+  document.getElementById("refrigerante").innerHTML;
+
 // =============================
 // TOAST
 // =============================
