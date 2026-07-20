@@ -685,12 +685,14 @@ const sideMenu = document.getElementById("sideMenu");
 const menuButton = document.getElementById("menuButton");
 
 menuButton.addEventListener("click", () => {
+  haptic();
   sideMenu.classList.toggle("show");
 });
 
 // CLICK SU VOCI MENU
 document.querySelectorAll(".side-menu-item").forEach(item => {
   item.addEventListener("click", () => {
+    haptic();
     const page = item.dataset.page;
     document.getElementById("viewSelect").value = page;
     document.getElementById("viewSelect").dispatchEvent(new Event("change"));
@@ -701,8 +703,21 @@ document.querySelectorAll(".side-menu-item").forEach(item => {
 // SHORTCUTS DASHBOARD
 document.querySelectorAll(".shortcut").forEach(btn => {
   btn.addEventListener("click", () => {
+    haptic();
     const page = btn.dataset.page;
     document.getElementById("viewSelect").value = page;
     document.getElementById("viewSelect").dispatchEvent(new Event("change"));
   });
 });
+
+// =============================
+// HAPTIC FEEDBACK iPhone
+// =============================
+function haptic() {
+  if (navigator.vibrate) {
+    navigator.vibrate(10); // vibrazione breve
+  } else if (navigator.webkitVibrate) {
+    navigator.webkitVibrate(10);
+  }
+}
+
