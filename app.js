@@ -155,8 +155,10 @@ function calcolaF() {
 const pages = {
   nuovo: document.getElementById("page-nuovo"),
   archivio: document.getElementById("page-archivio"),
-  programmazione: document.getElementById("page-programmazione")
+  programmazione: document.getElementById("page-programmazione"),
+  timeline: document.getElementById("page-timeline")
 };
+
 
 document.getElementById("viewSelect").addEventListener("change", (e) => {
   Object.values(pages).forEach(p => p.classList.remove("active"));
@@ -524,18 +526,27 @@ function renderProgTimeline() {
   prog_timeline.innerHTML = "";
 
   progArchivio.forEach(item => {
+
     const div = document.createElement("div");
-    div.className = "arch-item";
+    div.className = "timeline-item";
+
+    const line = document.createElement("div");
+    line.className = "timeline-line";
+
+    const dot = document.createElement("div");
+    dot.className = `timeline-dot dot-${item.stato}`;
 
     div.innerHTML = `
-      <div class="arch-item-title">${item.commessa}</div>
-      <div class="arch-item-meta"><strong>Stato attuale:</strong> ${item.stato}</div>
-      <div class="arch-item-meta">
+      <div class="timeline-title">${item.commessa}</div>
+      <div class="timeline-meta"><strong>Stato attuale:</strong> ${item.stato.replace("_"," ")}</div>
+      <div class="timeline-meta">
         <strong>Storico:</strong><br>
-        ${item.history.map(h => `${h.timestamp} → ${h.stato}`).join("<br>")}
+        ${item.history.map(h => `${h.timestamp} → ${h.stato.replace("_"," ")}`).join("<br>")}
       </div>
     `;
 
+    div.appendChild(line);
+    div.appendChild(dot);
     prog_timeline.appendChild(div);
   });
 }
