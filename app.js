@@ -2,6 +2,12 @@
 // APP PRINCIPALE
 // =============================
 
+// Ripristina tema salvato
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "light") {
+  document.body.classList.add("light");
+}
+
 // =========================
 // REGISTRAZIONE SERVICE WORKER
 // =========================
