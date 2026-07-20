@@ -710,12 +710,12 @@ document.querySelectorAll(".shortcut").forEach(btn => {
 });
 
 // =============================
-// HAPTIC FEEDBACK iPhone
+// HAPTIC FEEDBACK iPhone (TAP MEDIO)
 // =============================
 function haptic() {
   try {
     if (window.navigator && navigator.vibrate) {
-      navigator.vibrate(15);
+      navigator.vibrate([30]); // TAP MEDIO
     }
   } catch (e) {
     console.log("Haptic non supportato:", e);
@@ -738,20 +738,3 @@ document.getElementById("menuButton").addEventListener("click", () => haptic());
 // Vibrazione su select pagine
 document.getElementById("viewSelect").addEventListener("change", () => haptic());
 
-// Vibrazione su shortcut
-document.querySelectorAll(".shortcut").forEach(btn => {
-  btn.addEventListener("click", () => haptic());
-});
-
-// Vibrazione su menu laterale
-document.querySelectorAll(".side-menu-item").forEach(btn => {
-  btn.addEventListener("click", () => haptic());
-});
-
-// Vibrazione su pulsante tondo
-document.getElementById("menuButton").addEventListener("click", () => haptic());
-
-// Vibrazione su select pagine
-document.getElementById("viewSelect").addEventListener("change", () => haptic());
-
-                                                  
