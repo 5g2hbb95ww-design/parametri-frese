@@ -14,6 +14,7 @@ if (savedTheme === "light") {
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("service-worker.js");
 }
+
 // =========================
 // ICONE TEMA (SOLE / LUNA)
 // =========================
@@ -42,10 +43,26 @@ const iconSun = `
 </svg>
 `;
 
+// =============================
+// TEMA CHIARO/SCURO (AGGIORNATO)
+// =============================
+btnTheme.addEventListener("click", () => {
+  document.body.classList.toggle("light");
+
+  // ⭐ SALVA LA SCELTA
+  const isLight = document.body.classList.contains("light");
+  localStorage.setItem("theme", isLight ? "light" : "dark");
+
+  // ⭐ CAMBIO ICONA
+  themeIcon.innerHTML = isLight ? iconSun : iconMoon;
+});
+
 // Utility
 const num = (v) => Number(v) || 0;
 
-// Campi pagina NUOVO
+// =============================
+// PAGINA NUOVO
+// =============================
 const den = document.getElementById("denominazione_fresa");
 const diam = document.getElementById("diametro");
 const tagl = document.getElementById("taglienti");
@@ -114,17 +131,15 @@ s_calc.addEventListener("input", calcolaF);
 f.addEventListener("input", calcolaF);
 
 function calcolaF() {
-  const S = num(s_calc.value);      // ⭐ USA S CALCOLATA
-  const Fg = num(f.value);          // mm/giro
-  const Z = num(tagl.value);        // taglienti
-  const A = num(avanzamento.value); // mm/dente
+  const S = num(s_calc.value);
+  const Fg = num(f.value);
+  const Z = num(tagl.value);
+  const A = num(avanzamento.value);
 
   if (S > 0) {
     if (Fg > 0) {
-      // Caso 1: F (mm/giro)
       f_calc.value = Math.round(S * Fg);
     } else if (Z > 0 && A > 0) {
-      // Caso 2: Avanzamento + Taglienti
       f_calc.value = Math.round(S * Z * A);
     } else {
       f_calc.value = "";
@@ -147,25 +162,6 @@ document.getElementById("viewSelect").addEventListener("change", (e) => {
   Object.values(pages).forEach(p => p.classList.remove("active"));
   pages[e.target.value].classList.add("active");
 });
-
-// =============================
-// TEMA CHIARO/SCURO
-// =============================
-btnTheme.addEventListener("click", () => {
-  document.body.classList.toggle("light");
-
-  // ⭐ SALVA LA SCELTA DELL’UTENTE
-  const isLight = document.body.classList.contains("light");
-  localStorage.setItem("theme", isLight ? "light" : "dark");
-
-  // ⭐ CAMBIO ICONA (lasciato identico al tuo)
-  if (isLight) {
-    themeIcon.innerHTML = iconSun;   // Giorno
-  } else {
-    themeIcon.innerHTML = iconMoon;  // Notte
-  }
-});
-
 
 // =============================
 // ARCHIVIO FRESE
@@ -246,14 +242,12 @@ function renderArchivio() {
       <div class="arch-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
     `;
 
-    // Bottone Modifica
     const btnMod = document.createElement("button");
     btnMod.textContent = "Modifica";
     btnMod.className = "btn-primary";
     btnMod.style.marginTop = "6px";
     btnMod.addEventListener("click", () => apriPopup(idx));
 
-    // Bottone Elimina
     const btnDel = document.createElement("button");
     btnDel.textContent = "Elimina";
     btnDel.className = "btn-secondary";
@@ -337,7 +331,9 @@ function resetCampiProgrammazione() {
   prog_note.value = "";
 }
 
-// Salva scheda programmazione
+// =============================
+// SALVA SCHEDA PROGRAMMAZIONE (AGGIORNATO)
+// =============================
 document.getElementById("btnSalvaProgrammazione").addEventListener("click", () => {
   const item = {
     macchina: prog_macchina.value,
@@ -348,7 +344,15 @@ document.getElementById("btnSalvaProgrammazione").addEventListener("click", () =
     tempo: num(prog_tempo.value),
     operatore: prog_operatore.value,
     stato: prog_stato.value,
-    note: prog_note.value.trim()
+    note: prog_note.value.trim(),
+
+    // ⭐ STORICO STATI
+    history: [
+      {
+        stato: prog_stato.value,
+        timestamp: new Date().toLocaleString()
+      }
+    ]
   };
 
   progArchivio.push(item);
@@ -358,7 +362,9 @@ document.getElementById("btnSalvaProgrammazione").addEventListener("click", () =
   resetCampiProgrammazione();
 });
 
-// Render archivio programmazione
+// =============================
+// RENDER ARCHIVIO PROGRAMMAZIONE
+// =============================
 function renderProgArchivio() {
   prog_lista.innerHTML = "";
   prog_progress.innerHTML = "";
@@ -380,14 +386,12 @@ function renderProgArchivio() {
       <div class="arch-item-meta">${item.dataProgramma}</div>
     `;
 
-    // Bottone Modifica (modal nuovo)
     const btnMod = document.createElement("button");
     btnMod.textContent = "Modifica";
     btnMod.className = "btn-primary";
     btnMod.style.marginTop = "6px";
     btnMod.addEventListener("click", () => apriProgPopup(idx));
 
-    // Bottone Elimina
     const btnDel = document.createElement("button");
     btnDel.textContent = "Elimina";
     btnDel.className = "btn-secondary";
@@ -403,7 +407,6 @@ function renderProgArchivio() {
     div.appendChild(btnDel);
     prog_lista.appendChild(div);
 
-    // Progress bar
     const pb = document.createElement("div");
     pb.className = "progress-bar";
 
@@ -420,24 +423,23 @@ function renderProgArchivio() {
 }
 
 // =============================
-// MODAL PROGRAMMAZIONE (NUOVO)
+// MODAL PROGRAMMAZIONE (AGGIORNATO)
 // =============================
 const modalProgEdit = document.getElementById("modalProgEdit");
 const btnProgClose = document.getElementById("btnProgClose");
 const btnProgUpdate = document.getElementById("btnProgUpdate");
 let progEditIndex = null;
 
-// Campi del modal Programmazione
 const edit_prog_macchina = document.getElementById("edit_prog_macchina");
 const edit_prog_commessa = document.getElementById("edit_prog_commessa");
 const edit_prog_disegno = document.getElementById("edit_prog_disegno");
 const edit_prog_rev = document.getElementById("edit_prog_rev");
+const edit_prog_data = document.getElementById("edit_prog_data");
 const edit_prog_tempo = document.getElementById("edit_prog_tempo");
 const edit_prog_operatore = document.getElementById("edit_prog_operatore");
 const edit_prog_stato = document.getElementById("edit_prog_stato");
 const edit_prog_note = document.getElementById("edit_prog_note");
 
-// Popola liste nel modal Programmazione
 function popolaListeModalProgrammazione() {
   edit_prog_macchina.innerHTML = `
     <option>Duravertical 3Ax (45)</option>
@@ -469,7 +471,7 @@ function apriProgPopup(idx) {
   edit_prog_commessa.value = item.commessa;
   edit_prog_disegno.value = item.disegno;
   edit_prog_rev.value = item.revisione;
-  edit_prog_data.value = item.dataProgramma;  
+  edit_prog_data.value = item.dataProgramma;
   edit_prog_tempo.value = item.tempo;
   edit_prog_operatore.value = item.operatore;
   edit_prog_stato.value = item.stato;
@@ -482,16 +484,29 @@ btnProgClose.addEventListener("click", () => {
   modalProgEdit.classList.add("hidden");
 });
 
+// =============================
+// AGGIORNA SCHEDA PROGRAMMAZIONE (AGGIORNATO)
+// =============================
 btnProgUpdate.addEventListener("click", () => {
   const item = progArchivio[progEditIndex];
 
+  // Aggiorna campi
   item.macchina = edit_prog_macchina.value;
   item.commessa = edit_prog_commessa.value.trim();
   item.disegno = edit_prog_disegno.value.trim();
   item.revisione = edit_prog_rev.value.trim();
-  item.dataProgramma = edit_prog_data.value; 
+  item.dataProgramma = edit_prog_data.value;
   item.tempo = num(edit_prog_tempo.value);
   item.operatore = edit_prog_operatore.value;
+
+  // ⭐ Se lo stato è cambiato, aggiungilo allo storico
+  if (item.stato !== edit_prog_stato.value) {
+    item.history.push({
+      stato: edit_prog_stato.value,
+      timestamp: new Date().toLocaleString()
+    });
+  }
+
   item.stato = edit_prog_stato.value;
   item.note = edit_prog_note.value.trim();
 
@@ -503,7 +518,7 @@ btnProgUpdate.addEventListener("click", () => {
 });
 
 // =============================
-// TIMELINE
+// TIMELINE (AGGIORNATA CON STORICO)
 // =============================
 function renderProgTimeline() {
   prog_timeline.innerHTML = "";
@@ -511,10 +526,16 @@ function renderProgTimeline() {
   progArchivio.forEach(item => {
     const div = document.createElement("div");
     div.className = "arch-item";
+
     div.innerHTML = `
       <div class="arch-item-title">${item.commessa}</div>
-      <div class="arch-item-meta">${item.stato}</div>
+      <div class="arch-item-meta"><strong>Stato attuale:</strong> ${item.stato}</div>
+      <div class="arch-item-meta">
+        <strong>Storico:</strong><br>
+        ${item.history.map(h => `${h.timestamp} → ${h.stato}`).join("<br>")}
+      </div>
     `;
+
     prog_timeline.appendChild(div);
   });
 }
@@ -576,7 +597,10 @@ document.getElementById("btnExportPDF").addEventListener("click", () => {
         <div class="row"><span class="label">Data:</span> ${item.dataProgramma}</div>
         <div class="row"><span class="label">Tempo:</span> ${item.tempo} min</div>
         <div class="row"><span class="label">Operatore:</span> ${item.operatore}</div>
-        <div class="row"><span class="label">Stato:</span> ${item.stato}</div>
+        <div class="row"><span class="label">Stato attuale:</span> ${item.stato}</div>
+        <div class="row"><span class="label">Storico stati:</span><br>
+          ${item.history.map(h => `${h.timestamp} → ${h.stato}`).join("<br>")}
+        </div>
         <div class="row"><span class="label">Note:</span> ${item.note || "-"}</div>
       </div>
     `;
