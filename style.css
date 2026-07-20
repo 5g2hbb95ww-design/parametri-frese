@@ -697,6 +697,15 @@ body.light .side-menu-content h2 {
   color: #0a1a3a !important; /* titolo blu scuro */
 }
 
+/* FIX NUMERI DASHBOARD IN MODALITÀ CHIARA */
+body.light .dash-number {
+  color: #0a1a3a !important; /* blu scuro */
+}
+
+body.light .dash-label {
+  color: #0a1a3a !important; /* blu scuro */
+}
+
 /* DISABILITA LO ZOOM AUTOMATICO SU INPUT (IPHONE) */
 input,
 select,
