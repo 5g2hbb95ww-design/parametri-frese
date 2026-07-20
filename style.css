@@ -682,19 +682,19 @@ body {
   color-scheme: dark;
 }
 
-/* FIX CONTRASTO SHORTCUT IN MODALITÀ CHIARA */
-body.light .shortcut {
-  color: #0a0a0a !important; /* testo scuro */
+/* FIX CONTRASTO MENU SFERICO IN MODALITÀ CHIARA */
+body.light .menu-button {
+  color: #0a1a3a !important; /* blu scuro leggibile */
   text-shadow: none !important;
 }
 
-/* FIX CONTRASTO NUMERI DASHBOARD IN MODALITÀ CHIARA */
-body.light .dash-number {
-  color: #0a0a0a !important;
+/* FIX CONTRASTO MENU LATERALE IN MODALITÀ CHIARA */
+body.light .side-menu-item {
+  color: #0a1a3a !important; /* blu scuro */
 }
 
-body.light .dash-label {
-  color: #1a1a1a !important;
+body.light .side-menu-content h2 {
+  color: #0a1a3a !important; /* titolo blu scuro */
 }
 
 /* DISABILITA LO ZOOM AUTOMATICO SU INPUT (IPHONE) */
