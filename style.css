@@ -512,3 +512,72 @@ body.light .timeline-dot {
   font-size: 13px;
   opacity: 0.8;
 }
+
+/* DASHBOARD */
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.dash-box {
+  background: rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 12px;
+  text-align: center;
+  box-shadow:
+    0 8px 16px rgba(0,0,0,0.45),
+    inset 0 1px 2px rgba(255,255,255,0.25);
+}
+
+.dash-number {
+  font-size: 22px;
+  font-weight: 700;
+  color: #9fe4ff;
+}
+
+.dash-label {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+.dash-item {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 18px;
+  background: rgba(5,15,35,0.9);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    0 8px 16px rgba(0,0,0,0.6),
+    inset 0 1px 2px rgba(255,255,255,0.18);
+}
+
+.dash-item-title {
+  font-weight: 600;
+  color: #9fe4ff;
+}
+
+.dash-item-meta {
+  margin-top: 2px;
+  color: #c7e7ff;
+}
+
+/* Modalità chiara */
+body.light .dash-box {
+  background: rgba(0,0,0,0.08);
+}
+
+body.light .dash-item {
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+body.light .dash-item-title {
+  color: #0A1A33;
+}
+
+body.light .dash-item-meta {
+  color: #1a1f2a;
+}
