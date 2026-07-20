@@ -44,16 +44,14 @@ const iconSun = `
 `;
 
 // =============================
-// TEMA CHIARO/SCURO (AGGIORNATO)
+// TEMA CHIARO/SCURO
 // =============================
 btnTheme.addEventListener("click", () => {
   document.body.classList.toggle("light");
 
-  // ⭐ SALVA LA SCELTA
   const isLight = document.body.classList.contains("light");
   localStorage.setItem("theme", isLight ? "light" : "dark");
 
-  // ⭐ CAMBIO ICONA
   themeIcon.innerHTML = isLight ? iconSun : iconMoon;
 });
 
@@ -80,7 +78,55 @@ const materiale = document.getElementById("materiale");
 const refrigerante = document.getElementById("refrigerante");
 const dettagli = document.getElementById("dettagli");
 
-// Popola liste Materiale e Refrigerante
+// =============================
+// DASHBOARD
+// =============================
+const dash_tot_schede = document.getElementById("dash_tot_schede");
+const dash_in_prog = document.getElementById("dash_in_prog");
+const dash_programmato = document.getElementById("dash_programmato");
+const dash_produzione = document.getElementById("dash_produzione");
+const dash_sospeso = document.getElementById("dash_sospeso");
+const dash_finito = document.getElementById("dash_finito");
+
+const dash_recent_schede = document.getElementById("dash_recent_schede");
+const dash_recent_frese = document.getElementById("dash_recent_frese");
+
+function renderDashboard() {
+
+  dash_tot_schede.textContent = progArchivio.length;
+
+  dash_in_prog.textContent = progArchivio.filter(x => x.stato === "in_programmazione").length;
+  dash_programmato.textContent = progArchivio.filter(x => x.stato === "programmato").length;
+  dash_produzione.textContent = progArchivio.filter(x => x.stato === "in_produzione").length;
+  dash_sospeso.textContent = progArchivio.filter(x => x.stato === "sospeso").length;
+  dash_finito.textContent = progArchivio.filter(x => x.stato === "finito").length;
+
+  dash_recent_schede.innerHTML = progArchivio
+    .slice(-5)
+    .reverse()
+    .map(item => `
+      <div class="dash-item">
+        <div class="dash-item-title">${item.commessa}</div>
+        <div class="dash-item-meta">${item.stato.replace("_"," ")}</div>
+      </div>
+    `)
+    .join("");
+
+  dash_recent_frese.innerHTML = archivio
+    .slice(-5)
+    .reverse()
+    .map(item => `
+      <div class="dash-item">
+        <div class="dash-item-title">${item.denominazione}</div>
+        <div class="dash-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
+      </div>
+    `)
+    .join("");
+}
+
+// =============================
+// POPOLA LISTE
+// =============================
 materiale.innerHTML = `
   <option>Acciaio</option>
   <option>Temprato</option>
@@ -99,7 +145,16 @@ refrigerante.innerHTML = `
   <option>Secco</option>
 `;
 
-// Toast
+// Popola anche i select del modal modifica
+document.getElementById("edit_materiale").innerHTML =
+  document.getElementById("materiale").innerHTML;
+
+document.getElementById("edit_refrigerante").innerHTML =
+  document.getElementById("refrigerante").innerHTML;
+
+// =============================
+// TOAST
+// =============================
 const toast = document.getElementById("toast");
 function showToast(msg) {
   toast.textContent = msg;
@@ -111,7 +166,9 @@ function showToast(msg) {
   }, 1800);
 }
 
-// Calcoli automatici pagina NUOVO
+// =============================
+// CALCOLI PAGINA NUOVO
+// =============================
 diam.addEventListener("input", calcolaS);
 mmin.addEventListener("input", calcolaS);
 
@@ -153,14 +210,20 @@ function calcolaF() {
 // CAMBIO PAGINA
 // =============================
 const pages = {
+  dashboard: document.getElementById("page-dashboard"),
   nuovo: document.getElementById("page-nuovo"),
   archivio: document.getElementById("page-archivio"),
-  programmazione: document.getElementById("page-programmazione")
+  programmazione: document.getElementById("page-programmazione"),
+  timeline: document.getElementById("page-timeline")
 };
 
 document.getElementById("viewSelect").addEventListener("change", (e) => {
   Object.values(pages).forEach(p => p.classList.remove("active"));
   pages[e.target.value].classList.add("active");
+
+  if (e.target.value === "dashboard") {
+    renderDashboard();
+  }
 });
 
 // =============================
@@ -172,7 +235,6 @@ const lista = document.getElementById("lista");
 const sortSelect = document.getElementById("sortSelect");
 const orderSelect = document.getElementById("orderSelect");
 
-// Reset pagina NUOVO
 function resetCampiNuovo() {
   den.value = "";
   diam.value = "";
@@ -192,7 +254,6 @@ function resetCampiNuovo() {
   dettagli.value = "";
 }
 
-// Salvataggio fresa
 document.getElementById("btnSalva").addEventListener("click", () => {
   const item = {
     denominazione: den.value.trim(),
@@ -219,7 +280,6 @@ document.getElementById("btnSalva").addEventListener("click", () => {
   resetCampiNuovo();
 });
 
-// Render archivio frese
 function renderArchivio() {
   lista.innerHTML = "";
 
@@ -239,7 +299,7 @@ function renderArchivio() {
 
     div.innerHTML = `
       <div class="arch-item-title">${item.denominazione}</div>
-      <div class="arch-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
+      <div class="arch-item-meta">Ø ${item.diametro} — ${item.materialale}</div>
     `;
 
     const btnMod = document.createElement("button");
@@ -318,7 +378,6 @@ const prog_progress = document.getElementById("prog_progress");
 const prog_timeline = document.getElementById("prog_timeline");
 const prog_filter = document.getElementById("prog_filter");
 
-// Reset pagina PROGRAMMAZIONE
 function resetCampiProgrammazione() {
   prog_macchina.value = "";
   prog_commessa.value = "";
@@ -331,9 +390,6 @@ function resetCampiProgrammazione() {
   prog_note.value = "";
 }
 
-// =============================
-// SALVA SCHEDA PROGRAMMAZIONE (AGGIORNATO)
-// =============================
 document.getElementById("btnSalvaProgrammazione").addEventListener("click", () => {
   const item = {
     macchina: prog_macchina.value,
@@ -346,7 +402,6 @@ document.getElementById("btnSalvaProgrammazione").addEventListener("click", () =
     stato: prog_stato.value,
     note: prog_note.value.trim(),
 
-    // ⭐ STORICO STATI
     history: [
       {
         stato: prog_stato.value,
@@ -362,9 +417,6 @@ document.getElementById("btnSalvaProgrammazione").addEventListener("click", () =
   resetCampiProgrammazione();
 });
 
-// =============================
-// RENDER ARCHIVIO PROGRAMMAZIONE
-// =============================
 function renderProgArchivio() {
   prog_lista.innerHTML = "";
   prog_progress.innerHTML = "";
@@ -423,7 +475,7 @@ function renderProgArchivio() {
 }
 
 // =============================
-// MODAL PROGRAMMAZIONE (AGGIORNATO)
+// MODAL PROGRAMMAZIONE
 // =============================
 const modalProgEdit = document.getElementById("modalProgEdit");
 const btnProgClose = document.getElementById("btnProgClose");
@@ -485,12 +537,11 @@ btnProgClose.addEventListener("click", () => {
 });
 
 // =============================
-// AGGIORNA SCHEDA PROGRAMMAZIONE (AGGIORNATO)
+// AGGIORNA SCHEDA PROGRAMMAZIONE
 // =============================
 btnProgUpdate.addEventListener("click", () => {
   const item = progArchivio[progEditIndex];
 
-  // Aggiorna campi
   item.macchina = edit_prog_macchina.value;
   item.commessa = edit_prog_commessa.value.trim();
   item.disegno = edit_prog_disegno.value.trim();
@@ -499,7 +550,6 @@ btnProgUpdate.addEventListener("click", () => {
   item.tempo = num(edit_prog_tempo.value);
   item.operatore = edit_prog_operatore.value;
 
-  // ⭐ Se lo stato è cambiato, aggiungilo allo storico
   if (item.stato !== edit_prog_stato.value) {
     item.history.push({
       stato: edit_prog_stato.value,
@@ -518,30 +568,39 @@ btnProgUpdate.addEventListener("click", () => {
 });
 
 // =============================
-// TIMELINE (AGGIORNATA CON STORICO)
+// TIMELINE
 // =============================
 function renderProgTimeline() {
   prog_timeline.innerHTML = "";
 
   progArchivio.forEach(item => {
+
     const div = document.createElement("div");
-    div.className = "arch-item";
+    div.className = "timeline-item";
+
+    const line = document.createElement("div");
+    line.className = "timeline-line";
+
+    const dot = document.createElement("div");
+    dot.className = `timeline-dot dot-${item.stato}`;
 
     div.innerHTML = `
-      <div class="arch-item-title">${item.commessa}</div>
-      <div class="arch-item-meta"><strong>Stato attuale:</strong> ${item.stato}</div>
-      <div class="arch-item-meta">
+      <div class="timeline-title">${item.commessa}</div>
+      <div class="timeline-meta"><strong>Stato attuale:</strong> ${item.stato.replace("_"," ")}</div>
+      <div class="timeline-meta">
         <strong>Storico:</strong><br>
-        ${item.history.map(h => `${h.timestamp} → ${h.stato}`).join("<br>")}
+        ${item.history.map(h => `${h.timestamp} → ${h.stato.replace("_"," ")}`).join("<br>")}
       </div>
     `;
 
+    div.appendChild(line);
+    div.appendChild(dot);
     prog_timeline.appendChild(div);
   });
 }
 
 // =============================
-// EXPORT REPORT (PDF via stampa)
+// EXPORT PDF
 // =============================
 document.getElementById("btnExportPDF").addEventListener("click", () => {
   let html = `
@@ -615,3 +674,67 @@ document.getElementById("btnExportPDF").addEventListener("click", () => {
   const url = URL.createObjectURL(blob);
   window.open(url, "_blank");
 });
+
+// =============================
+// MENU LATERALE VISIONOS
+// =============================
+const sideMenu = document.getElementById("sideMenu");
+const menuButton = document.getElementById("menuButton");
+
+menuButton.addEventListener("click", () => {
+  haptic();
+  sideMenu.classList.toggle("show");
+});
+
+// CLICK SU VOCI MENU
+document.querySelectorAll(".side-menu-item").forEach(item => {
+  item.addEventListener("click", () => {
+    haptic();
+    const page = item.dataset.page;
+    document.getElementById("viewSelect").value = page;
+    document.getElementById("viewSelect").dispatchEvent(new Event("change"));
+    sideMenu.classList.remove("show");
+  });
+});
+
+// =============================
+// SHORTCUTS DASHBOARD
+// =============================
+document.querySelectorAll(".shortcut").forEach(btn => {
+  btn.addEventListener("click", () => {
+    haptic();
+    const page = btn.dataset.page;
+    document.getElementById("viewSelect").value = page;
+    document.getElementById("viewSelect").dispatchEvent(new Event("change"));
+  });
+});
+
+// =============================
+// HAPTIC FEEDBACK iPhone (TAP MEDIO)
+// =============================
+function haptic() {
+  try {
+    if (window.navigator && navigator.vibrate) {
+      navigator.vibrate([30]); // TAP MEDIO
+    }
+  } catch (e) {
+    console.log("Haptic non supportato:", e);
+  }
+}
+
+// Vibrazione su shortcut
+document.querySelectorAll(".shortcut").forEach(btn => {
+  btn.addEventListener("click", () => haptic());
+});
+
+// Vibrazione su menu laterale
+document.querySelectorAll(".side-menu-item").forEach(btn => {
+  btn.addEventListener("click", () => haptic());
+});
+
+// Vibrazione su pulsante tondo
+document.getElementById("menuButton").addEventListener("click", () => haptic());
+
+// Vibrazione su select pagine
+document.getElementById("viewSelect").addEventListener("change", () => haptic());
+
