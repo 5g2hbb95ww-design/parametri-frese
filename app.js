@@ -706,8 +706,12 @@ document.querySelectorAll(".shortcut").forEach(btn => {
 // HAPTIC FEEDBACK iPhone
 // =============================
 function haptic() {
-  if (navigator.vibrate) {
-    navigator.vibrate(10);
+  try {
+    if (window.navigator && navigator.vibrate) {
+      navigator.vibrate(15);
+    }
+  } catch (e) {
+    console.log("Haptic non supportato:", e);
   }
 }
 
