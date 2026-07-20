@@ -1162,3 +1162,13 @@ body.dark .menu-button {
   right: 18px !important;
   left: auto !important;
 }
+
+/* =========================================================
+   PULSANTE TONDO — SEMPRE A DESTRA (CHIARA + SCURA)
+========================================================= */
+
+body.light .menu-button,
+body.dark .menu-button {
+  left: auto !important;
+  right: 18px !important;
+}
