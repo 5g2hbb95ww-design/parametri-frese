@@ -665,3 +665,15 @@ body.light .dash-item-meta {
 header {
   background: transparent !important;
 }
+
+/* FIX STRISCIA BIANCA SU IPHONE */
+header {
+  background: transparent !important;
+  padding-top: env(safe-area-inset-top);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #02030a;
+}
