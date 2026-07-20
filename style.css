@@ -426,3 +426,9 @@ body.light .badge {
 .progress-fill.produzione {
   background: linear-gradient(90deg, #ff8c00, #00cc66);
 }
+
+/* Testo del bottone Elimina in modalità Chiara */
+body.light .btn-secondary {
+  color: #0b1020 !important;   /* blu notte */
+  font-weight: 600;            /* più leggibile */
+}
