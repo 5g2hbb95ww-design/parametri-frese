@@ -13,13 +13,15 @@
     <div class="app-title">Parametri Fresa</div>
 
     <div class="header-row">
-      <div class="view-selector">
- <select id="viewSelect">
+      
+<select id="viewSelect">
+  <option value="dashboard">Dashboard</option>
   <option value="nuovo">Nuovo</option>
   <option value="archivio">Archivio</option>
   <option value="programmazione">Programmazione</option>
   <option value="timeline">Timeline</option>
- </select>
+</select>
+
     </div>
 
       <div class="theme-toggle">
@@ -32,6 +34,59 @@
   </header>
 
   <main>
+
+    <!-- PAGINA DASHBOARD -->
+<section id="page-dashboard" class="page active">
+
+  <div class="card glass volumetric">
+    <h2>Dashboard</h2>
+
+    <div class="dash-grid">
+
+      <div class="dash-box">
+        <div class="dash-number" id="dash_tot_schede">0</div>
+        <div class="dash-label">Schede totali</div>
+      </div>
+
+      <div class="dash-box">
+        <div class="dash-number" id="dash_in_prog">0</div>
+        <div class="dash-label">In programmazione</div>
+      </div>
+
+      <div class="dash-box">
+        <div class="dash-number" id="dash_programmato">0</div>
+        <div class="dash-label">Programmato</div>
+      </div>
+
+      <div class="dash-box">
+        <div class="dash-number" id="dash_produzione">0</div>
+        <div class="dash-label">In produzione</div>
+      </div>
+
+      <div class="dash-box">
+        <div class="dash-number" id="dash_sospeso">0</div>
+        <div class="dash-label">Sospeso</div>
+      </div>
+
+      <div class="dash-box">
+        <div class="dash-number" id="dash_finito">0</div>
+        <div class="dash-label">Finito</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card glass volumetric">
+    <h2>Ultime schede modificate</h2>
+    <div id="dash_recent_schede"></div>
+  </div>
+
+  <div class="card glass volumetric">
+    <h2>Ultime frese aggiunte</h2>
+    <div id="dash_recent_frese"></div>
+  </div>
+
+</section>
 
     <!-- PAGINA NUOVO -->
     <section id="page-nuovo" class="page active">
