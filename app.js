@@ -80,6 +80,55 @@ const materiale = document.getElementById("materiale");
 const refrigerante = document.getElementById("refrigerante");
 const dettagli = document.getElementById("dettagli");
 
+// =============================
+// DASHBOARD
+// =============================
+const dash_tot_schede = document.getElementById("dash_tot_schede");
+const dash_in_prog = document.getElementById("dash_in_prog");
+const dash_programmato = document.getElementById("dash_programmato");
+const dash_produzione = document.getElementById("dash_produzione");
+const dash_sospeso = document.getElementById("dash_sospeso");
+const dash_finito = document.getElementById("dash_finito");
+
+const dash_recent_schede = document.getElementById("dash_recent_schede");
+const dash_recent_frese = document.getElementById("dash_recent_frese");
+
+function renderDashboard() {
+
+  // Totali schede
+  dash_tot_schede.textContent = progArchivio.length;
+
+  dash_in_prog.textContent = progArchivio.filter(x => x.stato === "in_programmazione").length;
+  dash_programmato.textContent = progArchivio.filter(x => x.stato === "programmato").length;
+  dash_produzione.textContent = progArchivio.filter(x => x.stato === "in_produzione").length;
+  dash_sospeso.textContent = progArchivio.filter(x => x.stato === "sospeso").length;
+  dash_finito.textContent = progArchivio.filter(x => x.stato === "finito").length;
+
+  // Ultime schede modificate
+  dash_recent_schede.innerHTML = progArchivio
+    .slice(-5)
+    .reverse()
+    .map(item => `
+      <div class="dash-item">
+        <div class="dash-item-title">${item.commessa}</div>
+        <div class="dash-item-meta">${item.stato.replace("_"," ")}</div>
+      </div>
+    `)
+    .join("");
+
+  // Ultime frese aggiunte
+  dash_recent_frese.innerHTML = archivio
+    .slice(-5)
+    .reverse()
+    .map(item => `
+      <div class="dash-item">
+        <div class="dash-item-title">${item.denominazione}</div>
+        <div class="dash-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
+      </div>
+    `)
+    .join("");
+}
+
 // Popola liste Materiale e Refrigerante
 materiale.innerHTML = `
   <option>Acciaio</option>
@@ -153,16 +202,20 @@ function calcolaF() {
 // CAMBIO PAGINA
 // =============================
 const pages = {
+  dashboard: document.getElementById("page-dashboard"),
   nuovo: document.getElementById("page-nuovo"),
   archivio: document.getElementById("page-archivio"),
   programmazione: document.getElementById("page-programmazione"),
   timeline: document.getElementById("page-timeline")
 };
 
-
 document.getElementById("viewSelect").addEventListener("change", (e) => {
   Object.values(pages).forEach(p => p.classList.remove("active"));
   pages[e.target.value].classList.add("active");
+
+  if (e.target.value === "dashboard") {
+    renderDashboard();
+  }
 });
 
 // =============================
