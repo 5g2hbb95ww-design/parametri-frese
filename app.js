@@ -23,6 +23,14 @@ let progArchivio = [];
 // =========================
 const num = (v) => Number(v) || 0;
 
+function debounce(fn, delay = 80) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), delay);
+  };
+}
+
 // =========================
 // FIREBASE – FRESE
 // =========================
@@ -120,9 +128,11 @@ const iconSun = `
 const savedTheme = localStorage.getItem("theme");
 if (savedTheme === "light") {
   document.body.classList.add("light");
+  document.body.classList.remove("dark");
   themeIcon.innerHTML = iconSun;
 } else {
   document.body.classList.add("dark");
+  document.body.classList.remove("light");
   themeIcon.innerHTML = iconMoon;
 }
 
@@ -208,19 +218,10 @@ function renderDashboard() {
 const prog_timeline = document.getElementById("prog_timeline");
 
 function renderProgTimeline() {
-  const frag = document.createDocumentFragment();
-
+  prog_timeline.innerHTML = "";
   progArchivio.forEach(item => {
     const div = document.createElement("div");
     div.className = "timeline-item";
-
-    div.innerHTML = `
-      <div class="timeline-title">${item.commessa}</div>
-      <div class="timeline-meta"><strong>Stato attuale:</strong> ${item.stato.replace("_"," ")}</div>
-      <div class="timeline-meta"><strong>Storico:</strong><br>
-        ${item.history.map(h => `${h.timestamp} → ${h.stato.replace("_"," ")}`).join("<br>")}
-      </div>
-    `;
 
     const line = document.createElement("div");
     line.className = "timeline-line";
@@ -228,14 +229,19 @@ function renderProgTimeline() {
     const dot = document.createElement("div");
     dot.className = `timeline-dot dot_${item.stato}`;
 
+    div.innerHTML = `
+      <div class="timeline-title">${item.commessa}</div>
+      <div class="timeline-meta"><strong>Stato attuale:</strong> ${item.stato.replace("_"," ")}</div>
+      <div class="timeline-meta">
+        <strong>Storico:</strong><br>
+        ${item.history.map(h => `${h.timestamp} → ${h.stato.replace("_"," ")}`).join("<br>")}
+      </div>
+    `;
+
     div.appendChild(line);
     div.appendChild(dot);
-
-    frag.appendChild(div);
+    prog_timeline.appendChild(div);
   });
-
-  prog_timeline.innerHTML = "";
-  prog_timeline.appendChild(frag);
 }
 
 // =========================
@@ -294,14 +300,6 @@ function calcolaS() {
   }
 }
 
-function debounce(fn, delay = 80) {
-  let t;
-  return (...args) => {
-    clearTimeout(t);
-    t = setTimeout(() => fn(...args), delay);
-  };
-}
-
 tagl.addEventListener("input", debounce(calcolaF));
 avanzamento.addEventListener("input", debounce(calcolaF));
 s_calc.addEventListener("input", debounce(calcolaF));
@@ -327,8 +325,6 @@ function calcolaF() {
 }
 
 // =========================
-// CAMBIO PAGINA
-// =========================
 const pages = {
   dashboard: document.getElementById("page-dashboard"),
   nuovo: document.getElementById("page-nuovo"),
@@ -345,28 +341,14 @@ viewSelect.addEventListener("change", (e) => {
   Object.values(pages).forEach(p => p.classList.remove("active"));
   pages[page].classList.add("active");
 
-  switch (page) {
-    case "dashboard":
-      requestIdleCallback(renderDashboard);
-      break;
-
-    case "archivio":
-      requestIdleCallback(renderArchivio);
-      break;
-
-    case "programmazione":
-      requestIdleCallback(() => {
-        renderProgArchivio();
-        renderProgTimeline();
-      });
-      break;
-
-    case "timeline":
-      requestIdleCallback(renderProgTimeline);
-      break;
+  if (page === "dashboard") renderDashboard();
+  if (page === "archivio") renderArchivio();
+  if (page === "programmazione") {
+    renderProgArchivio();
+    renderProgTimeline();
   }
+  if (page === "timeline") renderProgTimeline();
 });
-
 
 // =========================
 // ARCHIVIO FRESE
@@ -421,13 +403,16 @@ document.getElementById("btnSalva").addEventListener("click", async () => {
 });
 
 function renderArchivio() {
-  const arr = [...archivio];
+  lista.innerHTML = "";
+
+  let arr = [...archivio];
   const key = sortSelect.value;
   const ord = orderSelect.value;
 
-  arr.sort((a, b) => ord === "asc" ? a[key] - b[key] : b[key] - a[key]);
-
-  const frag = document.createDocumentFragment();
+  arr.sort((a, b) => {
+    if (ord === "asc") return a[key] > b[key] ? 1 : -1;
+    return a[key] < b[key] ? 1 : -1;
+  });
 
   arr.forEach((item, idx) => {
     const div = document.createElement("div");
@@ -442,28 +427,25 @@ function renderArchivio() {
     btnMod.textContent = "Modifica";
     btnMod.className = "btn-primary";
     btnMod.style.marginTop = "6px";
-    btnMod.onclick = () => apriPopup(idx);
+    btnMod.addEventListener("click", () => apriPopup(idx));
 
     const btnDel = document.createElement("button");
     btnDel.textContent = "Elimina";
     btnDel.className = "btn-secondary";
     btnDel.style.marginTop = "6px";
-    btnDel.onclick = async () => {
-      await deleteDoc(doc(db, "archivio_frese", item.id));
+    btnDel.addEventListener("click", async () => {
+      const id = archivio[idx].id;
+      await deleteDoc(doc(db, "archivio_frese", id));
       archivio.splice(idx, 1);
       renderArchivio();
       showToast("Fresa eliminata ✔");
-    };
+    });
 
     div.appendChild(btnMod);
     div.appendChild(btnDel);
-    frag.appendChild(div);
+    lista.appendChild(div);
   });
-
-  lista.innerHTML = "";
-  lista.appendChild(frag);
 }
-
 
 // =========================
 // MODAL FRESE
@@ -779,9 +761,10 @@ const sideMenu = document.getElementById("sideMenu");
 const menuButton = document.getElementById("menuButton");
 
 function haptic() {
-  if (navigator.vibrate) navigator.vibrate(20);
-}
-
+  try {
+    if (window.navigator && navigator.vibrate) {
+      navigator.vibrate(20);
+    }
   } catch (e) {
     console.log("Haptic non supportato:", e);
   }
@@ -790,6 +773,7 @@ function haptic() {
 menuButton.addEventListener("click", () => {
   haptic();
   sideMenu.classList.toggle("show");
+  sideMenu.classList.toggle("hidden");
 });
 
 document.querySelectorAll(".side-menu-item").forEach(item => {
@@ -799,6 +783,7 @@ document.querySelectorAll(".side-menu-item").forEach(item => {
     viewSelect.value = page;
     viewSelect.dispatchEvent(new Event("change"));
     sideMenu.classList.remove("show");
+    sideMenu.classList.add("hidden");
   });
 });
 
@@ -814,7 +799,7 @@ document.querySelectorAll(".shortcut").forEach(btn => {
 viewSelect.addEventListener("change", () => haptic());
 
 // =========================
-// AVVIO SUPER VELOCE
+// AVVIO
 // =========================
 (async () => {
   pages.dashboard.classList.add("active");
@@ -828,10 +813,8 @@ viewSelect.addEventListener("change", () => haptic());
   archivio = frese;
   progArchivio = schede;
 
-  requestIdleCallback(() => {
-    renderArchivio();
-    renderProgArchivio();
-    renderProgTimeline();
-    renderDashboard();
-  });
+  renderArchivio();
+  renderProgArchivio();
+  renderProgTimeline();
+  renderDashboard();
 })();
