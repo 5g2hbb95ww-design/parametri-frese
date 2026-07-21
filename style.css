@@ -29,7 +29,16 @@ html, body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  overflow-x: hidden; /* AGGIUNTA */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+}
+
+/* SAFE AREA iPhone – elimina la striscia bianca */
+body {
+  padding-top: env(safe-area-inset-top);      /* AGGIUNTA */
+  padding-bottom: env(safe-area-inset-bottom);/* AGGIUNTA */
+  background-clip: border-box;                /* AGGIUNTA */
+  background-color: #050814;                  /* fallback scuro */
 }
 
 /* Tema scuro — IDENTICO alla chat Copilot */
