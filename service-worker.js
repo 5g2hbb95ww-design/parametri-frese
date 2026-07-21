@@ -2,12 +2,12 @@
 // SERVICE WORKER NETWORK-FIRST
 // =========================
 
-const CACHE_NAME = "pwa-cache-v1";
+const CACHE_NAME = "pwa-cache-v2";
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
   "/style.css",
-  "/app.js",
+  "/app-v3.js",
   "/manifest.json"
 ];
 
