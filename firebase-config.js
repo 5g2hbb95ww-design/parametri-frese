@@ -3,9 +3,11 @@
 // Import Firebase core
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-// Import Firestore
+// Import Firestore + CACHE LOCALE
 import {
-  getFirestore,
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
   collection,
   addDoc,
   getDocs,
@@ -30,8 +32,14 @@ const firebaseConfig = {
 // Inizializza Firebase
 const app = initializeApp(firebaseConfig);
 
-// Inizializza Firestore
-const db = getFirestore(app);
+// =============================
+// FIRESTORE CON CACHE LOCALE
+// =============================
+const db = initializeFirestore(app, {
+  localCache: persistentLocalCache({
+    tabManager: persistentMultipleTabManager()
+  })
+});
 
 // Utente fisso (per ora)
 const CURRENT_USER = "antonio";
