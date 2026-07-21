@@ -19,37 +19,43 @@
 /* =========================
    SFONDO SCURO STILE COPILOT
    ========================= */
+/* =========================
+   SFONDO IDENTICO A COPILOT
+   ========================= */
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   min-height: 100vh;
-  background-color: #050814; /* FONDAMENTALE – elimina la striscia bianca */
+
+  /* COLORE IDENTICO A QUESTA CHAT */
+  background-color: #0a0f1c; /* blu-notte uniforme */
+
   background-attachment: fixed;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+
   overflow-x: hidden;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
 }
 
-/* SAFE AREA iPhone – elimina la striscia bianca */
+/* SAFE AREA iPhone */
 body {
-  padding-top: env(safe-area-inset-top);      /* AGGIUNTA */
-  padding-bottom: env(safe-area-inset-bottom);/* AGGIUNTA */
-  background-clip: border-box;                /* AGGIUNTA */
-  background-color: #050814;                  /* fallback scuro */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  background-clip: border-box;
 }
 
-/* Tema scuro — IDENTICO alla chat Copilot */
+/* Tema scuro – identico alla chat */
 body.dark {
-  background: radial-gradient(circle at top, #1b2b4f 0%, #0a1223 40%, #050814 70%, #02030a 100%);
+  background-color: #0a0f1c; /* NESSUN GRADIENT */
   color: #e9faff;
 }
 
-/* Tema chiaro — uniforme, senza bande */
+/* Tema chiaro – stile Copilot */
 body.light {
-  background: radial-gradient(circle at top, #f7fbff 0%, #eef4ff 40%, #ffffff 100%);
+  background-color: #f5f7fa; /* chiaro uniforme */
   color: #0b1020;
 }
 
