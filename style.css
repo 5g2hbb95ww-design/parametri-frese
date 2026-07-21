@@ -6,51 +6,41 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    background-color: var(--app-bg); /* colore della status bar */
+    background-color: var(--app-bg);
 }
 
 :root {
     color-scheme: light dark;
 }
 
-/* =========================================
-   SAFE-AREA CHIARA (solo la parte alta)
-   ========================================= */
+/* SAFE-AREA CHIARA */
 @media (prefers-color-scheme: light) {
     :root {
-        --app-bg: #f2f2f7; /* colore chiaro della safe-area */
+        --app-bg: #f2f2f7;
     }
-
     body {
-        background-color: transparent; /* lo sfondo vero lo fa body.light */
+        background-color: transparent;
         padding-top: env(safe-area-inset-top);
     }
 }
 
-/* =========================================
-   SAFE-AREA SCURA (solo la parte alta)
-   ========================================= */
+/* SAFE-AREA SCURA */
 @media (prefers-color-scheme: dark) {
     :root {
-        --app-bg: #000000; /* colore scuro della safe-area */
+        --app-bg: #000000;
     }
-
     body {
-        background-color: transparent; /* lo sfondo vero lo fa body.dark */
+        background-color: transparent;
         padding-top: env(safe-area-inset-top);
     }
 }
 
-/* =========================================
-   FIX SAFE-AREA
-   ========================================= */
+/* FIX SAFE-AREA */
 body {
     margin-top: calc(-1 * env(safe-area-inset-top));
 }
 
-/* =========================================
-   RESET BASE
-   ========================================= */
+/* RESET BASE */
 * {
     box-sizing: border-box;
 }
@@ -63,9 +53,9 @@ body {
     padding-top: env(safe-area-inset-top);
 }
 
-/* ============================
-   TEMA SCURO — STILE CHAT
-   ============================ */
+/* =========================================
+   TEMA SCURO — STILE CHAT COPILOT
+   ========================================= */
 
 body.dark {
     background: linear-gradient(180deg, #0A0F2A 0%, #050814 40%, #02030A 100%) !important;
@@ -86,9 +76,9 @@ body.dark .side-menu-content {
         inset 0 0 22px rgba(255,255,255,0.08) !important;
 }
 
-/* ============================
-   TEMA CHIARO — STILE CHAT
-   ============================ */
+/* =========================================
+   TEMA CHIARO — STILE CHAT COPILOT
+   ========================================= */
 
 body.light {
     background: linear-gradient(180deg, #F7FBFF 0%, #E9F2FF 40%, #FFFFFF 100%) !important;
@@ -109,7 +99,10 @@ body.light .side-menu-content {
         inset 0 0 22px rgba(255,255,255,0.45) !important;
 }
 
-/* HEADER */
+/* =========================================
+   HEADER
+   ========================================= */
+
 header {
   padding: 10px 14px;
   border-bottom: 1px solid rgba(255,255,255,0.12);
@@ -123,6 +116,7 @@ header {
   color: #7fd8ff;
 }
 
+/* SELECTOR */
 .view-selector {
   margin-top: 8px;
 }
@@ -151,24 +145,11 @@ main {
   display: block;
 }
 
-/* CARD VisionOS */
+/* CARD */
 .card {
   margin: 14px 8px;
   padding: 14px 14px 16px;
   border-radius: 26px;
-}
-
-.glass.volumetric {
-  background: radial-gradient(circle at top left,
-    rgba(255,255,255,0.18) 0%,
-    rgba(255,255,255,0.08) 35%,
-    rgba(0,0,0,0.65) 100%);
-  border: 1px solid rgba(255,255,255,0.25);
-  backdrop-filter: blur(40px) saturate(180%);
-  box-shadow:
-    0 22px 40px rgba(0,0,0,0.55),
-    inset 0 0 22px rgba(255,255,255,0.18),
-    inset 0 0 40px rgba(0,200,255,0.08);
 }
 
 .card h2 {
@@ -176,13 +157,6 @@ main {
   font-size: 16px;
   font-weight: 600;
   color: #9fe4ff;
-}
-
-.glass-cell {
-  margin-top: 10px;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
 }
 
 /* FORM */
@@ -210,7 +184,7 @@ select {
     0 8px 16px rgba(0,0,0,0.55);
 }
 
-/* CORREZIONE iPhone per input date */
+/* INPUT DATE FIX */
 input[type="date"] {
   appearance: none;
   -webkit-appearance: none;
@@ -221,19 +195,9 @@ input[type="date"] {
   background: rgba(5,15,35,0.85);
   color: #e9faff;
   font-size: 16px !important;
-  box-shadow:
-    inset 0 1px 2px rgba(255,255,255,0.25),
-    0 8px 16px rgba(0,0,0,0.55);
 }
 
-input[type="date"]::-webkit-datetime-edit {
-  padding: 0;
-}
-
-input[type="date"]::-webkit-date-and-time-value {
-  text-align: left;
-}
-
+/* FOCUS */
 input:focus,
 textarea:focus,
 select:focus {
@@ -373,12 +337,6 @@ button {
   transform: scale(0.92);
 }
 
-.btn-theme svg {
-  width: 22px;
-  height: 22px;
-  vertical-align: middle;
-}
-
 /* BADGE */
 .badge {
   display: inline-block;
@@ -422,13 +380,7 @@ button {
   background: linear-gradient(90deg, #ff8c00, #00cc66);
 }
 
-/* Testo del bottone Elimina in modalità Chiara */
-body.light .btn-secondary {
-  color: #0b1020 !important;
-  font-weight: 600;
-}
-
-/* TIMELINE ANIMATA */
+/* TIMELINE */
 .timeline-item {
   position: relative;
   padding-left: 28px;
@@ -463,10 +415,6 @@ body.light .btn-secondary {
   }
 }
 
-body.light .timeline-line {
-  background: rgba(0,0,0,0.25);
-}
-
 .timeline-dot {
   position: absolute;
   left: 2px;
@@ -484,17 +432,6 @@ body.light .timeline-line {
   60% { transform: scale(1.25); }
   100% { transform: scale(1); }
 }
-
-body.light .timeline-dot {
-  border-color: #0b1020;
-  background: #fff;
-}
-
-.dot-in_programmazione { background: #4da3ff; }
-.dot-programmato { background: #5cff8d; }
-.dot-in_produzione { background: #ffb84d; }
-.dot-sospeso { background: #ffe24d; }
-.dot-finito { background: #b47dff; }
 
 .timeline-title {
   font-weight: 600;
@@ -558,7 +495,7 @@ body.light .timeline-dot {
   color: #c7e7ff;
 }
 
-/* Modalità chiara dashboard */
+/* DASHBOARD CHIARA */
 body.light .dash-box {
   background: rgba(0,0,0,0.08);
 }
@@ -596,11 +533,10 @@ body.light .dash-item-meta {
 .side-menu-content {
   height: 100%;
   padding: 20px;
-  border-radius: 0;
+  border-radius: 22px;
   backdrop-filter: blur(22px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(180%);
   background: rgba(255, 255, 255, 0.18);
-  border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
@@ -620,7 +556,7 @@ body.light .dash-item-meta {
   transform: scale(0.96);
 }
 
-/* ICONA INFERIORE — BASE */
+/* PULSANTE SFERICO */
 .menu-button {
   position: fixed;
   bottom: 18px;
@@ -640,21 +576,15 @@ body.light .dash-item-meta {
   box-shadow:
     0 8px 16px rgba(0,0,0,0.55),
     inset 0 1px 2px rgba(255,255,255,0.25);
-  padding: 6px;
 }
 
 .menu-button svg {
-  width: 30px;
-  height: 30px;
+  width: 32px !important;
+  height: 32px !important;
+  display: block !important;
 }
 
-/* DASHBOARD SHORTCUTS */
-.dash-shortcuts {
-  display: flex;
-  gap: 12px;
-  margin-top: 12px;
-}
-
+/* SHORTCUT */
 .shortcut {
   width: 48px;
   height: 48px;
