@@ -8,6 +8,7 @@ import {
   where,
   updateDoc,
   doc,
+  deleteDoc,
   CURRENT_USER
 } from "./firebase-config.js";
 
