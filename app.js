@@ -1,3 +1,13 @@
+// =============================
+// APP PRINCIPALE
+// =============================
+
+// Ripristina tema salvato
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "light") {
+  document.body.classList.add("light");
+}
+
 // =========================
 // REGISTRAZIONE SERVICE WORKER
 // =========================
@@ -33,33 +43,16 @@ const iconSun = `
 </svg>
 `;
 
-
-// Ripristina tema salvato + icona corretta
-const savedTheme = localStorage.getItem("theme");
-
-if (savedTheme === "light") {
-  document.body.classList.add("light");
-  themeIcon.innerHTML = iconSun;
-} else {
-  document.body.classList.add("dark");
-  themeIcon.innerHTML = iconMoon;
-}
-
 // =============================
-// TEMA CHIARO/SCURO (VERSIONE PERFETTA STILE CHAT)
+// TEMA CHIARO/SCURO
 // =============================
 btnTheme.addEventListener("click", () => {
-  const isLight = document.body.classList.toggle("light");
+  document.body.classList.toggle("light");
 
-  if (isLight) {
-    document.body.classList.remove("dark");
-    themeIcon.innerHTML = iconSun;
-    localStorage.setItem("theme", "light");
-  } else {
-    document.body.classList.add("dark");
-    themeIcon.innerHTML = iconMoon;
-    localStorage.setItem("theme", "dark");
-  }
+  const isLight = document.body.classList.contains("light");
+  localStorage.setItem("theme", isLight ? "light" : "dark");
+
+  themeIcon.innerHTML = isLight ? iconSun : iconMoon;
 });
 
 // Utility
@@ -152,6 +145,7 @@ refrigerante.innerHTML = `
   <option>Secco</option>
 `;
 
+// Popola anche i select del modal modifica
 document.getElementById("edit_materiale").innerHTML =
   document.getElementById("materiale").innerHTML;
 
@@ -305,7 +299,7 @@ function renderArchivio() {
 
     div.innerHTML = `
       <div class="arch-item-title">${item.denominazione}</div>
-      <div class="arch-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
+      <div class="arch-item-meta">Ø ${item.diametro} — ${item.materialale}</div>
     `;
 
     const btnMod = document.createElement("button");
@@ -485,7 +479,60 @@ function renderProgArchivio() {
 // =============================
 const modalProgEdit = document.getElementById("modalProgEdit");
 const btnProgClose = document.getElementById("btnProgClose");
- btnProgClose.addEventListener("click", () => {
+const btnProgUpdate = document.getElementById("btnProgUpdate");
+let progEditIndex = null;
+
+const edit_prog_macchina = document.getElementById("edit_prog_macchina");
+const edit_prog_commessa = document.getElementById("edit_prog_commessa");
+const edit_prog_disegno = document.getElementById("edit_prog_disegno");
+const edit_prog_rev = document.getElementById("edit_prog_rev");
+const edit_prog_data = document.getElementById("edit_prog_data");
+const edit_prog_tempo = document.getElementById("edit_prog_tempo");
+const edit_prog_operatore = document.getElementById("edit_prog_operatore");
+const edit_prog_stato = document.getElementById("edit_prog_stato");
+const edit_prog_note = document.getElementById("edit_prog_note");
+
+function popolaListeModalProgrammazione() {
+  edit_prog_macchina.innerHTML = `
+    <option>Duravertical 3Ax (45)</option>
+    <option>Duravertical 3Ax (46)</option>
+    <option>NVX 5060 (58)</option>
+    <option>Okuma (59)</option>
+    <option>DMF-200/7 (57)</option>
+    <option>DMU 65 5Axis (89)</option>
+    <option>DMU 75 5Axis (90)</option>
+  `;
+
+  edit_prog_operatore.innerHTML = `
+    <option>Marco T.</option>
+    <option>Nicola B.</option>
+    <option>Roberto Q.</option>
+    <option>Daniel D.</option>
+    <option>Igor B.</option>
+    <option>Altri</option>
+  `;
+}
+
+popolaListeModalProgrammazione();
+
+function apriProgPopup(idx) {
+  progEditIndex = idx;
+  const item = progArchivio[idx];
+
+  edit_prog_macchina.value = item.macchina;
+  edit_prog_commessa.value = item.commessa;
+  edit_prog_disegno.value = item.disegno;
+  edit_prog_rev.value = item.revisione;
+  edit_prog_data.value = item.dataProgramma;
+  edit_prog_tempo.value = item.tempo;
+  edit_prog_operatore.value = item.operatore;
+  edit_prog_stato.value = item.stato;
+  edit_prog_note.value = item.note;
+
+  modalProgEdit.classList.remove("hidden");
+}
+
+btnProgClose.addEventListener("click", () => {
   modalProgEdit.classList.add("hidden");
 });
 
@@ -663,12 +710,12 @@ document.querySelectorAll(".shortcut").forEach(btn => {
 });
 
 // =============================
-// HAPTIC FEEDBACK iPhone
+// HAPTIC FEEDBACK iPhone (TAP MEDIO)
 // =============================
 function haptic() {
   try {
     if (window.navigator && navigator.vibrate) {
-      navigator.vibrate([30]);
+      navigator.vibrate([30]); // TAP MEDIO
     }
   } catch (e) {
     console.log("Haptic non supportato:", e);
@@ -690,3 +737,4 @@ document.getElementById("menuButton").addEventListener("click", () => haptic());
 
 // Vibrazione su select pagine
 document.getElementById("viewSelect").addEventListener("change", () => haptic());
+
