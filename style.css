@@ -63,13 +63,58 @@ body {
     padding-top: env(safe-area-inset-top);
 }
 
+/* ============================
+   TEMA SCURO — STILE CHAT
+   ============================ */
+
+body.dark {
+    background: linear-gradient(180deg, #0A0F2A 0%, #050814 40%, #02030A 100%) !important;
+    color: #E6ECFF !important;
+}
+
+body.dark .card,
+body.dark .glass,
+body.dark .dashboard-box,
+body.dark .side-menu-content {
+    background: rgba(20, 25, 55, 0.55) !important;
+    backdrop-filter: blur(22px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(180%) !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    box-shadow:
+        0 8px 22px rgba(0,0,0,0.55),
+        inset 0 0 22px rgba(255,255,255,0.08) !important;
+}
+
+/* ============================
+   TEMA CHIARO — STILE CHAT
+   ============================ */
+
+body.light {
+    background: linear-gradient(180deg, #F7FBFF 0%, #E9F2FF 40%, #FFFFFF 100%) !important;
+    color: #0A1A33 !important;
+}
+
+body.light .card,
+body.light .glass,
+body.light .dashboard-box,
+body.light .side-menu-content {
+    background: rgba(255,255,255,0.65) !important;
+    backdrop-filter: blur(22px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(180%) !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(0,0,0,0.12) !important;
+    box-shadow:
+        0 8px 22px rgba(0,0,0,0.15),
+        inset 0 0 22px rgba(255,255,255,0.45) !important;
+}
 
 /* HEADER */
 header {
   padding: 10px 14px;
   border-bottom: 1px solid rgba(255,255,255,0.12);
   backdrop-filter: blur(24px);
-  background: transparent !important; /* FIX pannello bianco */
+  background: transparent !important;
 }
 
 .app-title {
@@ -158,7 +203,7 @@ select {
   border: 1px solid rgba(255,255,255,0.25);
   background: rgba(5,15,35,0.85);
   color: #e9faff;
-  font-size: 16px !important; /* anti-zoom iPhone */
+  font-size: 16px !important;
   outline: none;
   box-shadow:
     inset 0 1px 2px rgba(255,255,255,0.25),
@@ -332,103 +377,6 @@ button {
   width: 22px;
   height: 22px;
   vertical-align: middle;
-}
-
-/* MODALITÀ CHIARA — BASE COLORI */
-body.light {
-  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  background-attachment: fixed !important;
-  color: #0a1a3a !important;
-}
-
-body.light header {
-  border-bottom: 1px solid rgba(0,0,0,0.12);
-  background: transparent !important;
-}
-
-body.light .app-title {
-  color: #0056a8;
-}
-
-body.light .card.glass.volumetric {
-  background: radial-gradient(circle at top left,
-    rgba(255,255,255,0.85) 0%,
-    rgba(255,255,255,0.55) 35%,
-    rgba(200,200,200,0.35) 100%);
-  border: 1px solid rgba(0,0,0,0.15);
-  box-shadow:
-    0 22px 40px rgba(0,0,0,0.15),
-    inset 0 0 22px rgba(255,255,255,0.45),
-    inset 0 0 40px rgba(0,120,255,0.12);
-}
-
-body.light input,
-body.light textarea,
-body.light select {
-  background: rgba(255,255,255,0.9);
-  color: #0a0f1a;
-  border: 1px solid rgba(0,0,0,0.25);
-}
-
-body.light .arch-item {
-  background: rgba(255,255,255,0.85);
-  border: 1px solid rgba(0,0,0,0.15);
-  color: #0a0f1a;
-}
-
-body.light .card h2 {
-  color: #0A1A33;
-}
-
-body.light label {
-  color: #0A1A33;
-}
-
-body.light .arch-item-title {
-  color: #0A1A33;
-  text-shadow: 0 1px 2px rgba(255,255,255,0.6);
-}
-
-body.light .arch-item-meta {
-  color: #1a1f2a;
-}
-
-body.light .btn-theme {
-  background: rgba(0,0,0,0.08);
-  color: #000;
-  border-color: rgba(0,0,0,0.25);
-}
-
-body.light .badge {
-  border: 1px solid rgba(0,0,0,0.15);
-}
-
-/* TOAST */
-.toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 12px 22px;
-  background: rgba(255,255,255,0.18);
-  backdrop-filter: blur(20px);
-  border-radius: 14px;
-  color: #fff;
-  font-size: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 999;
-}
-
-.toast.show {
-  opacity: 1;
-}
-
-.toast.hidden {
-  display: none;
 }
 
 /* BADGE */
@@ -651,7 +599,7 @@ body.light .dash-item-meta {
   border-radius: 0;
   backdrop-filter: blur(22px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(180%);
-  background: rgba(255, 255, 255, 0.18); /* acqua vetro */
+  background: rgba(255, 255, 255, 0.18);
   border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
@@ -692,7 +640,7 @@ body.light .dash-item-meta {
   box-shadow:
     0 8px 16px rgba(0,0,0,0.55),
     inset 0 1px 2px rgba(255,255,255,0.25);
-  padding: 6px; /* migliora l’icona interna */
+  padding: 6px;
 }
 
 .menu-button svg {
@@ -727,273 +675,29 @@ body.light .dash-item-meta {
 
 /* FIX CONTRASTO MENU SFERICO IN MODALITÀ CHIARA */
 body.light .menu-button {
-  color: #0a1a3a !important; /* blu scuro leggibile */
+  color: #0a1a3a !important;
   text-shadow: none !important;
 }
 
 /* FIX CONTRASTO MENU LATERALE IN MODALITÀ CHIARA */
 body.light .side-menu-item {
-  color: #0a1a3a !important; /* blu scuro */
+  color: #0a1a3a !important;
 }
 
 body.light .side-menu-content h2 {
-  color: #0a1a3a !important; /* titolo blu scuro */
+  color: #0a1a3a !important;
 }
 
 /* FIX NUMERI DASHBOARD IN MODALITÀ CHIARA */
 body.light .dash-number {
-  color: #0a1a3a !important; /* blu scuro */
+  color: #0a1a3a !important;
 }
 
 body.light .dash-label {
-  color: #0a1a3a !important; /* blu scuro */
+  color: #0a1a3a !important;
 }
 
-/* ============================= */
-/* MODALITÀ CHIARA — GLASS ACQUA / GHIACCIO iOS (B) */
-/* ============================= */
-
-body.light .container,
-body.light .card,
-body.light .dashboard-box,
-body.light .side-menu-content {
-  backdrop-filter: blur(26px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(26px) saturate(180%) !important;
-  background: rgba(255, 255, 255, 0.55) !important; /* vetro acqua */
-  border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-}
-
-/* Shortcut tonde glass chiara */
-body.light .shortcut {
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-  background: rgba(255, 255, 255, 0.35) !important;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-body.light .shortcut:active {
-  transform: scale(0.92);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
-}
-
-/* Dashboard 3D chiara */
-body.light .dashboard-box {
-  background: rgba(255, 255, 255, 0.35) !important;
-  border-radius: 18px;
-  box-shadow:
-    inset 0 0 14px rgba(255, 255, 255, 0.5),
-    inset 0 -4px 12px rgba(0, 0, 0, 0.1),
-    0 8px 20px rgba(0, 0, 0, 0.15);
-  padding: 18px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-body.light .dashboard-box:active {
-  transform: scale(0.97);
-  box-shadow:
-    inset 0 0 16px rgba(255, 255, 255, 0.6),
-    inset 0 -6px 14px rgba(0, 0, 0, 0.15),
-    0 10px 24px rgba(0, 0, 0, 0.25);
-}
-
-/* Menu laterale glass acqua chiaro */
-body.light .side-menu-content {
-  backdrop-filter: blur(32px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
-  background: rgba(255, 255, 255, 0.45) !important;
-  border-radius: 26px !important;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-}
-
-/* =========================================================
-   EFFETTO ACQUA — OVERLAY SICURO (NON ALTERA IL LAYOUT)
-========================================================= */
-
-/* DASHBOARD BOX — riflesso acqua */
-body.light .dash-box {
-  position: relative;
-  overflow: hidden; /* necessario per l'effetto, NON cambia layout */
-}
-
-body.light .dash-box::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 30% 30%,
-    rgba(255,255,255,0.35) 0%,
-    rgba(255,255,255,0) 60%);
-  opacity: 0.35;
-  filter: blur(35px);
-  animation: acquaDash 7s ease-in-out infinite;
-  pointer-events: none; /* NON interferisce con click */
-}
-
-@keyframes acquaDash {
-  0%   { transform: translate(0,0); }
-  50%  { transform: translate(12%,10%); }
-  100% { transform: translate(0,0); }
-}
-
-/* SHORTCUT — riflesso acqua */
-body.light .shortcut {
-  position: relative;
-  overflow: hidden;
-}
-
-body.light .shortcut::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle,
-    rgba(255,255,255,0.45) 0%,
-    rgba(255,255,255,0) 70%);
-  opacity: 0.30;
-  filter: blur(25px);
-  animation: acquaShortcut 6s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes acquaShortcut {
-  0%   { transform: translate(0,0); }
-  50%  { transform: translate(10%,8%); }
-  100% { transform: translate(0,0); }
-}
-
-/* MENU LATERALE — vetro liquido animato */
-body.light .side-menu-content {
-  position: relative;
-  overflow: hidden;
-}
-
-body.light .side-menu-content::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 40% 40%,
-    rgba(255,255,255,0.40) 0%,
-    rgba(255,255,255,0) 70%);
-  opacity: 0.30;
-  filter: blur(45px);
-  animation: acquaNav 9s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes acquaNav {
-  0%   { transform: translate(0,0) rotate(0deg); }
-  50%  { transform: translate(18%,14%) rotate(180deg); }
-  100% { transform: translate(0,0) rotate(360deg); }
-}
-
-/* PULSANTE TONDO — riflesso acqua */
-body.light .menu-button {
-  position: relative;
-  overflow: hidden;
-}
-
-body.light .menu-button::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle,
-    rgba(255,255,255,0.40) 0%,
-    rgba(255,255,255,0) 70%);
-  opacity: 0.30;
-  filter: blur(30px);
-  animation: acquaBtn 7s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes acquaBtn {
-  0%   { transform: translate(0,0); }
-  50%  { transform: translate(14%,10%); }
-  100% { transform: translate(0,0); }
-}
-
-/* ============================= */
-/* TEMA SCURO GLASS iOS VISIONOS */
-/* ============================= */
-
-body.dark {
-  background: radial-gradient(circle at top, #141b3a 0%, #050814 55%, #02030a 100%) !important;
-  color: #e6ecff;
-}
-
-body.dark .container,
-body.dark .card,
-body.dark .dashboard-box,
-body.dark .side-menu-content {
-  backdrop-filter: blur(26px) saturate(180%);
-  -webkit-backdrop-filter: blur(26px) saturate(180%);
-  background: rgba(10, 14, 35, 0.45);
-  border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-}
-
-body.dark .dash-number,
-body.dark .dash-label,
-body.dark .shortcut,
-body.dark .side-menu-item,
-body.dark .menu-button {
-  color: #dfe6ff !important;
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
-}
-
-body.dark .side-menu-content {
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  background: rgba(10, 14, 35, 0.55);
-  border-radius: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
-}
-
-body.dark .shortcut {
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  background: rgba(20, 25, 55, 0.45);
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-body.dark .shortcut:active {
-  transform: scale(0.92);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
-}
-
-body.dark .dashboard-box {
-  background: rgba(20, 25, 55, 0.35);
-  border-radius: 18px;
-  box-shadow:
-    inset 0 0 14px rgba(255, 255, 255, 0.08),
-    inset 0 -4px 12px rgba(0, 0, 0, 0.35),
-    0 8px 20px rgba(0, 0, 0, 0.55);
-  padding: 18px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-body.dark .dashboard-box:active {
-  transform: scale(0.97);
-  box-shadow:
-    inset 0 0 16px rgba(255, 255, 255, 0.12),
-    inset 0 -6px 14px rgba(0, 0, 0, 0.45),
-    0 10px 24px rgba(0, 0, 0, 0.65);
-}
-
-
-/* =========================================================
-   FIX DEFINITIVO — BOTTONE SFERICO (POSIZIONE + ICONA)
-========================================================= */
-
-/* Posizione SEMPRE a destra in entrambe le modalità */
+/* FIX DEFINITIVO — BOTTONE SFERICO (POSIZIONE + ICONA) */
 body.light .menu-button,
 body.dark .menu-button {
   position: fixed !important;
@@ -1004,27 +708,7 @@ body.dark .menu-button {
   transform: none !important;
 }
 
-/* Icona interna ingrandita e NON ritagliata */
 .menu-button {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  padding: 0 !important;          /* niente ritaglio */
-  overflow: visible !important;   /* evita quadratura */
-}
-
-.menu-button svg {
-  width: 32px !important;         /* icona più grande */
-  height: 32px !important;
-}
-
-.menu-button {
-  position: fixed !important;
-  bottom: 18px !important;
-  right: 18px !important;
-  width: 58px !important;
-  height: 58px !important;
-  border-radius: 50% !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
