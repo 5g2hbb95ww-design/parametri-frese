@@ -82,7 +82,7 @@ async function getTimeline() {
 // REGISTRAZIONE SERVICE WORKER
 // =========================
 if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js");
+  navigator.serviceWorker.register("service-worker.js");
 }
 
 // =========================
@@ -113,7 +113,6 @@ const iconSun = `
 </svg>
 `;
 
-
 // Ripristina tema salvato + icona corretta
 const savedTheme = localStorage.getItem("theme");
 
@@ -126,7 +125,7 @@ if (savedTheme === "light") {
 }
 
 // =============================
-// TEMA CHIARO/SCURO (VERSIONE PERFETTA STILE CHAT)
+// TEMA CHIARO/SCURO
 // =============================
 btnTheme.addEventListener("click", () => {
   const isLight = document.body.classList.toggle("light");
@@ -166,13 +165,57 @@ const refrigerante = document.getElementById("refrigerante");
 const dettagli = document.getElementById("dettagli");
 
 // =============================
-// TIMELINE
+// DASHBOARD
+// =============================
+const dash_tot_schede = document.getElementById("dash_tot_schede");
+const dash_in_prog = document.getElementById("dash_in_prog");
+const dash_programmato = document.getElementById("dash_programmato");
+const dash_produzione = document.getElementById("dash_produzione");
+const dash_sospeso = document.getElementById("dash_sospeso");
+const dash_finito = document.getElementById("dash_finito");
+
+const dash_recent_schede = document.getElementById("dash_recent_schede");
+const dash_recent_frese = document.getElementById("dash_recent_frese");
+
+function renderDashboard() {
+  dash_tot_schede.textContent = progArchivio.length;
+
+  dash_in_prog.textContent = progArchivio.filter(x => x.stato === "in_programmazione").length;
+  dash_programmato.textContent = progArchivio.filter(x => x.stato === "programmato").length;
+  dash_produzione.textContent = progArchivio.filter(x => x.stato === "in_produzione").length;
+  dash_sospeso.textContent = progArchivio.filter(x => x.stato === "sospeso").length;
+  dash_finito.textContent = progArchivio.filter(x => x.stato === "finito").length;
+
+  dash_recent_schede.innerHTML = progArchivio
+    .slice(-5)
+    .reverse()
+    .map(item => `
+      <div class="dash-item">
+        <div class="dash-item-title">${item.commessa}</div>
+        <div class="dash-item-meta">${item.stato.replace("_"," ")}</div>
+      </div>
+    `)
+    .join("");
+
+  dash_recent_frese.innerHTML = archivio
+    .slice(-5)
+    .reverse()
+    .map(item => `
+      <div class="dash-item">
+        <div class="dash-item-title">${item.denominazione}</div>
+        <div class="dash-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
+      </div>
+    `)
+    .join("");
+}
+
+// =============================
+// TIMELINE (render)
 // =============================
 function renderProgTimeline() {
   prog_timeline.innerHTML = "";
 
   progArchivio.forEach(item => {
-
     const div = document.createElement("div");
     div.className = "timeline-item";
 
@@ -289,12 +332,23 @@ const pages = {
   timeline: document.getElementById("page-timeline")
 };
 
-document.getElementById("viewSelect").addEventListener("change", (e) => {
+document.getElementById("viewSelect").addEventListener("change", async (e) => {
   Object.values(pages).forEach(p => p.classList.remove("active"));
   pages[e.target.value].classList.add("active");
 
   if (e.target.value === "dashboard") {
+    progArchivio = await getSchede();
+    archivio = await getFrese();
     renderDashboard();
+  }
+  if (e.target.value === "archivio") {
+    archivio = await getFrese();
+    renderArchivio();
+  }
+  if (e.target.value === "programmazione") {
+    progArchivio = await getSchede();
+    renderProgArchivio();
+    renderProgTimeline();
   }
 });
 
@@ -326,7 +380,7 @@ function resetCampiNuovo() {
   dettagli.value = "";
 }
 
-document.getElementById("btnSalva").addEventListener("click", () => {
+document.getElementById("btnSalva").addEventListener("click", async () => {
   const item = {
     denominazione: den.value.trim(),
     diametro: num(diam.value),
@@ -346,15 +400,14 @@ document.getElementById("btnSalva").addEventListener("click", () => {
     dettagli: dettagli.value.trim()
   };
 
-await saveFresa(item);
-archivio = await getFrese();
-renderArchivio();
-showToast("Fresa salvata ✔");
-resetCampiNuovo();
-
+  await saveFresa(item);
+  archivio = await getFrese();
+  renderArchivio();
+  showToast("Fresa salvata ✔");
+  resetCampiNuovo();
 });
 
-function renderArchivio() {
+async function renderArchivio() {
   lista.innerHTML = "";
 
   let arr = [...archivio];
@@ -386,17 +439,13 @@ function renderArchivio() {
     btnDel.textContent = "Elimina";
     btnDel.className = "btn-secondary";
     btnDel.style.marginTop = "6px";
-    btnDel.addEventListener("click", () => {
-      
-    // Recupero ID Firestore
-    const id = archivio[idx].id;
-    await deleteDoc(doc(db, "archivio_frese", id));
+    btnDel.addEventListener("click", async () => {
+      const id = archivio[idx].id;
+      await deleteDoc(doc(db, "archivio_frese", id));
 
-    archivio = await getFrese();
-    renderArchivio();
-    showToast("Fresa eliminata ✔");
-
-      
+      archivio = await getFrese();
+      renderArchivio();
+      showToast("Fresa eliminata ✔");
     });
 
     div.appendChild(btnMod);
@@ -432,18 +481,23 @@ btnCloseModal.addEventListener("click", () => {
   modalEdit.classList.add("hidden");
 });
 
-document.getElementById("btnUpdate").addEventListener("click", () => {
+document.getElementById("btnUpdate").addEventListener("click", async () => {
   const item = archivio[editIndex];
 
-  item.denominazione = edit_denominazione.value.trim();
-  item.diametro = num(edit_diametro.value);
-  item.taglienti = num(edit_taglienti.value);
-  item.s = num(edit_s.value);
-  item.avanzamento = num(edit_avanzamento.value);
-  item.materiale = edit_materiale.value;
-  item.refrigerante = edit_refrigerante.value;
-  item.dettagli = edit_dettagli.value.trim();
+  const updated = {
+    denominazione: edit_denominazione.value.trim(),
+    diametro: num(edit_diametro.value),
+    taglienti: num(edit_taglienti.value),
+    s: num(edit_s.value),
+    avanzamento: num(edit_avanzamento.value),
+    materiale: edit_materiale.value,
+    refrigerante: edit_refrigerante.value,
+    dettagli: edit_dettagli.value.trim()
+  };
 
+  await updateDoc(doc(db, "archivio_frese", item.id), updated);
+
+  archivio = await getFrese();
   renderArchivio();
   modalEdit.classList.add("hidden");
   showToast("Fresa aggiornata ✔");
@@ -464,25 +518,24 @@ function resetCampiProgrammazione() {
   prog_commessa.value = "";
   prog_disegno.value = "";
   prog_rev.value = "";
-  prog_data.value = "";  
+  prog_data.value = "";
   prog_tempo.value = "";
   prog_operatore.value = "";
   prog_stato.value = "in_programmazione";
   prog_note.value = "";
 }
 
-document.getElementById("btnSalvaProgrammazione").addEventListener("click", () => {
+document.getElementById("btnSalvaProgrammazione").addEventListener("click", async () => {
   const item = {
     macchina: prog_macchina.value,
     commessa: prog_commessa.value.trim(),
     disegno: prog_disegno.value.trim(),
     revisione: prog_rev.value.trim(),
-    dataProgramma: prog_data.value,  
+    dataProgramma: prog_data.value,
     tempo: num(prog_tempo.value),
     operatore: prog_operatore.value,
     stato: prog_stato.value,
     note: prog_note.value.trim(),
-
     history: [
       {
         stato: prog_stato.value,
@@ -492,16 +545,21 @@ document.getElementById("btnSalvaProgrammazione").addEventListener("click", () =
   };
 
   await saveScheda(item);
+
+  await saveTimelineEntry({
+    commessa: item.commessa,
+    stato: item.stato,
+    timestamp: new Date().toLocaleString()
+  });
+
   progArchivio = await getSchede();
   renderProgArchivio();
   renderProgTimeline();
   showToast("Scheda salvata ✔");
   resetCampiProgrammazione();
+});
 
-  
-  });
-
-  function renderProgArchivio() {
+function renderProgArchivio() {
   prog_lista.innerHTML = "";
   prog_progress.innerHTML = "";
 
@@ -532,16 +590,14 @@ document.getElementById("btnSalvaProgrammazione").addEventListener("click", () =
     btnDel.textContent = "Elimina";
     btnDel.className = "btn-secondary";
     btnDel.style.marginTop = "6px";
-    btnDel.addEventListener("click", () => {
-      
-    const id = progArchivio[idx].id;
-    await deleteDoc(doc(db, "programmazione_schede", id));
+    btnDel.addEventListener("click", async () => {
+      const id = progArchivio[idx].id;
+      await deleteDoc(doc(db, "programmazione_schede", id));
 
-    progArchivio = await getSchede();
-    renderProgArchivio();
-    renderProgTimeline();
-    showToast("Scheda eliminata ✔");
-
+      progArchivio = await getSchede();
+      renderProgArchivio();
+      renderProgTimeline();
+      showToast("Scheda eliminata ✔");
     });
 
     div.appendChild(btnMod);
@@ -568,72 +624,73 @@ document.getElementById("btnSalvaProgrammazione").addEventListener("click", () =
 // =============================
 const modalProgEdit = document.getElementById("modalProgEdit");
 const btnProgClose = document.getElementById("btnProgClose");
- btnProgClose.addEventListener("click", () => {
+btnProgClose.addEventListener("click", () => {
   modalProgEdit.classList.add("hidden");
 });
+
+// (serve progEditIndex e campi edit_... definiti nel tuo HTML/JS)
+let progEditIndex = null;
+function apriProgPopup(idx) {
+  progEditIndex = idx;
+  const item = progArchivio[idx];
+
+  edit_prog_macchina.value = item.macchina;
+  edit_prog_commessa.value = item.commessa;
+  edit_prog_disegno.value = item.disegno;
+  edit_prog_rev.value = item.revisione;
+  edit_prog_data.value = item.dataProgramma;
+  edit_prog_tempo.value = item.tempo;
+  edit_prog_operatore.value = item.operatore;
+  edit_prog_stato.value = item.stato;
+  edit_prog_note.value = item.note || "";
+
+  modalProgEdit.classList.remove("hidden");
+}
 
 // =============================
 // AGGIORNA SCHEDA PROGRAMMAZIONE
 // =============================
-btnProgUpdate.addEventListener("click", () => {
+btnProgUpdate.addEventListener("click", async () => {
   const item = progArchivio[progEditIndex];
 
-  item.macchina = edit_prog_macchina.value;
-  item.commessa = edit_prog_commessa.value.trim();
-  item.disegno = edit_prog_disegno.value.trim();
-  item.revisione = edit_prog_rev.value.trim();
-  item.dataProgramma = edit_prog_data.value;
-  item.tempo = num(edit_prog_tempo.value);
-  item.operatore = edit_prog_operatore.value;
+  const nuovoStato = edit_prog_stato.value;
+  const timestamp = new Date().toLocaleString();
 
-  if (item.stato !== edit_prog_stato.value) {
-    item.history.push({
-      stato: edit_prog_stato.value,
-      timestamp: new Date().toLocaleString()
+  const updated = {
+    macchina: edit_prog_macchina.value,
+    commessa: edit_prog_commessa.value.trim(),
+    disegno: edit_prog_disegno.value.trim(),
+    revisione: edit_prog_rev.value.trim(),
+    dataProgramma: edit_prog_data.value,
+    tempo: num(edit_prog_tempo.value),
+    operatore: edit_prog_operatore.value,
+    stato: nuovoStato,
+    note: edit_prog_note.value.trim(),
+    history: [...item.history]
+  };
+
+  if (item.stato !== nuovoStato) {
+    updated.history.push({
+      stato: nuovoStato,
+      timestamp
+    });
+
+    await saveTimelineEntry({
+      commessa: updated.commessa,
+      stato: nuovoStato,
+      timestamp
     });
   }
 
-  item.stato = edit_prog_stato.value;
-  item.note = edit_prog_note.value.trim();
+  await updateDoc(doc(db, "programmazione_schede", item.id), updated);
 
+  progArchivio = await getSchede();
   renderProgArchivio();
   renderProgTimeline();
 
   modalProgEdit.classList.add("hidden");
   showToast("Scheda aggiornata ✔");
 });
-
-// =============================
-// TIMELINE
-// =============================
-function renderProgTimeline() {
-  prog_timeline.innerHTML = "";
-
-  progArchivio.forEach(item => {
-
-    const div = document.createElement("div");
-    div.className = "timeline-item";
-
-    const line = document.createElement("div");
-    line.className = "timeline-line";
-
-    const dot = document.createElement("div");
-    dot.className = `timeline-dot dot-${item.stato}`;
-
-    div.innerHTML = `
-      <div class="timeline-title">${item.commessa}</div>
-      <div class="timeline-meta"><strong>Stato attuale:</strong> ${item.stato.replace("_"," ")}</div>
-      <div class="timeline-meta">
-        <strong>Storico:</strong><br>
-        ${item.history.map(h => `${h.timestamp} → ${h.stato.replace("_"," ")}`).join("<br>")}
-      </div>
-    `;
-
-    div.appendChild(line);
-    div.appendChild(dot);
-    prog_timeline.appendChild(div);
-  });
-}
 
 // =============================
 // EXPORT PDF
@@ -696,7 +753,8 @@ document.getElementById("btnExportPDF").addEventListener("click", () => {
         <div class="row"><span class="label">Storico stati:</span><br>
           ${item.history.map(h => `${h.timestamp} → ${h.stato}`).join("<br>")}
         </div>
-        <div class="row"><span class="label">Note:</span> ${item.note || "-"}</div>
+        <div class="row"><span class="label">Note:</span> ${item.note || "-"}
+        </div>
       </div>
     `;
   });
@@ -773,3 +831,14 @@ document.getElementById("menuButton").addEventListener("click", () => haptic());
 
 // Vibrazione su select pagine
 document.getElementById("viewSelect").addEventListener("change", () => haptic());
+
+// =============================
+// CARICAMENTO INIZIALE
+// =============================
+(async () => {
+  archivio = await getFrese();
+  progArchivio = await getSchede();
+  await renderArchivio();
+  renderProgArchivio();
+  renderProgTimeline();
+})();
