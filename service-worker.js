@@ -1,44 +1,23 @@
-// =========================
-// SERVICE WORKER NETWORK-FIRST
-// =========================
-self.addEventListener('install', () => {
+const CACHE_NAME = 'pwa-cache-v1';
+
+// Install: aggiorna subito
+self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
+// Activate: pulizia totale cache + reset SW
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then(keys => 
+    caches.keys().then(keys =>
       Promise.all(keys.map(key => caches.delete(key)))
     )
   );
   self.clients.claim();
 });
 
-const CACHE_NAME = "pwa-cache-v4";
-const FILES_TO_CACHE = [
-  "/",
-  "/index.html",
-  "/style.css",
-  "/app-v3.js",
-  "/manifest.json"
-];
-
-// Network-first strategy
-self.addEventListener("fetch", event => {
-
-  // 🔥 NON mettere favicon.ico in cache
-  if (event.request.url.endsWith("favicon.ico")) {
-    return event.respondWith(fetch(event.request));
-  }
-
+// Fetch: niente cache, sempre file freschi
+self.addEventListener('fetch', (event) => {
   event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, response.clone());
-        });
-        return response;
-      })
-      .catch(() => caches.match(event.request))
+    fetch(event.request).catch(() => caches.match(event.request))
   );
 });
