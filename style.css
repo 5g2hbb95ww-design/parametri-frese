@@ -1,3 +1,9 @@
+Cosa a blocchi
+
+/* ============================= */
+/* RESET + BASE */
+/* ============================= */
+
 * {
   box-sizing: border-box;
 }
@@ -11,7 +17,35 @@ body {
   padding-top: env(safe-area-inset-top);
 }
 
+/* ============================= */
+/* LAYOUT GENERALE */
+/* ============================= */
+
+main {
+  padding: 10px 8px 18px;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.col {
+  flex: 1;
+}
+/* ============================= */
 /* HEADER */
+/* ============================= */
+
 header {
   padding: 10px 14px;
   border-bottom: 1px solid rgba(255,255,255,0.12);
@@ -39,21 +73,10 @@ header {
   font-size: 14px;
   backdrop-filter: blur(24px);
 }
-
-/* PAGE */
-main {
-  padding: 10px 8px 18px;
-}
-
-.page {
-  display: none;
-}
-
-.page.active {
-  display: block;
-}
-
+/* ============================= */
 /* CARD VisionOS */
+/* ============================= */
+
 .card {
   margin: 14px 8px;
   padding: 14px 14px 16px;
@@ -86,8 +109,10 @@ main {
   display: flex;
   flex-direction: column;
 }
-
+/* ============================= */
 /* FORM */
+/* ============================= */
+
 label {
   display: block;
   margin-top: 8px;
@@ -145,19 +170,10 @@ select:focus {
     0 0 0 1px rgba(127,216,255,0.6),
     0 10px 20px rgba(0,0,0,0.65);
 }
-
-/* ROW / COL */
-.row {
-  display: flex;
-  gap: 8px;
-  margin-top: 6px;
-}
-
-.col {
-  flex: 1;
-}
-
+/* ============================= */
 /* BUTTONS */
+/* ============================= */
+
 button {
   border: none;
   cursor: pointer;
@@ -187,8 +203,10 @@ button {
   font-size: 15px;
   font-weight: 600;
 }
-
+/* ============================= */
 /* ARCHIVIO FRESE */
+/* ============================= */
+
 #lista {
   margin-top: 6px;
 }
@@ -214,8 +232,10 @@ button {
   margin-top: 2px;
   color: #c7e7ff;
 }
-
+/* ============================= */
 /* MODAL */
+/* ============================= */
+
 .modal {
   position: fixed;
   top: 0;
@@ -225,10 +245,9 @@ button {
   backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   z-index: 900;
   overflow-y: auto;
-  align-items: flex-start;
   padding-top: 20px;
   padding-bottom: 40px;
 }
@@ -247,8 +266,10 @@ button {
   max-height: calc(100vh - 60px);
   overflow-y: auto;
 }
+/* ============================= */
+/* TEMA TOGGLE */
+/* ============================= */
 
-/* TOGGLE TEMA */
 .theme-toggle {
   margin-top: 8px;
   display: flex;
@@ -280,79 +301,10 @@ button {
   height: 22px;
   vertical-align: middle;
 }
-
-/* MODALITÀ CHIARA — BASE COLORI */
-body.light {
-  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  background-attachment: fixed !important;
-  color: #0a1a3a !important;
-}
-
-body.light header {
-  border-bottom: 1px solid rgba(0,0,0,0.12);
-  background: transparent !important;
-}
-
-body.light .app-title {
-  color: #0056a8;
-}
-
-body.light .card.glass.volumetric {
-  background: radial-gradient(circle at top left,
-    rgba(255,255,255,0.85) 0%,
-    rgba(255,255,255,0.55) 35%,
-    rgba(200,200,200,0.35) 100%);
-  border: 1px solid rgba(0,0,0,0.15);
-  box-shadow:
-    0 22px 40px rgba(0,0,0,0.15),
-    inset 0 0 22px rgba(255,255,255,0.45),
-    inset 0 0 40px rgba(0,120,255,0.12);
-}
-
-body.light input,
-body.light textarea,
-body.light select {
-  background: rgba(255,255,255,0.9);
-  color: #0a0f1a;
-  border: 1px solid rgba(0,0,0,0.25);
-}
-
-body.light .arch-item {
-  background: rgba(255,255,255,0.85);
-  border: 1px solid rgba(0,0,0,0.15);
-  color: #0a0f1a;
-}
-
-body.light .card h2 {
-  color: #0A1A33;
-}
-
-body.light label {
-  color: #0A1A33;
-}
-
-body.light .arch-item-title {
-  color: #0A1A33;
-  text-shadow: 0 1px 2px rgba(255,255,255,0.6);
-}
-
-body.light .arch-item-meta {
-  color: #1a1f2a;
-}
-
-body.light .btn-theme {
-  background: rgba(0,0,0,0.08);
-  color: #000;
-  border-color: rgba(0,0,0,0.25);
-}
-
-body.light .badge {
-  border: 1px solid rgba(0,0,0,0.15);
-}
-
+/* ============================= */
 /* TOAST */
+/* ============================= */
+
 .toast {
   position: fixed;
   bottom: 20px;
@@ -378,7 +330,10 @@ body.light .badge {
   display: none;
 }
 
+/* ============================= */
 /* BADGE */
+/* ============================= */
+
 .badge {
   display: inline-block;
   padding: 4px 10px;
@@ -393,7 +348,10 @@ body.light .badge {
 .badge.in_produzione { background: #ff8c00; }
 .badge.finito { background: #00cc66; }
 
+/* ============================= */
 /* PROGRESS BAR */
+/* ============================= */
+
 .prog-progress {
   margin-top: 10px;
 }
@@ -420,14 +378,10 @@ body.light .badge {
 .progress-fill.produzione {
   background: linear-gradient(90deg, #ff8c00, #00cc66);
 }
-
-/* Testo del bottone Elimina in modalità Chiara */
-body.light .btn-secondary {
-  color: #0b1020 !important;
-  font-weight: 600;
-}
-
+/* ============================= */
 /* TIMELINE ANIMATA */
+/* ============================= */
+
 .timeline-item {
   position: relative;
   padding-left: 28px;
@@ -505,8 +459,10 @@ body.light .timeline-dot {
   font-size: 13px;
   opacity: 0.8;
 }
-
+/* ============================= */
 /* DASHBOARD */
+/* ============================= */
+
 .dash-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -574,8 +530,10 @@ body.light .dash-item-title {
 body.light .dash-item-meta {
   color: #1a1f2a;
 }
-
+/* ============================= */
 /* MENU LATERALE */
+/* ============================= */
+
 .side-menu {
   position: fixed;
   top: 0;
@@ -595,11 +553,10 @@ body.light .dash-item-meta {
 .side-menu-content {
   height: 100%;
   padding: 20px;
-  border-radius: 0;
+  border-radius: 22px;
   backdrop-filter: blur(22px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(180%);
-  background: rgba(255, 255, 255, 0.18); /* acqua vetro */
-  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.18);
   border: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
@@ -618,18 +575,22 @@ body.light .dash-item-meta {
 .side-menu-item:active {
   transform: scale(0.96);
 }
+/* ============================= */
+/* ICONA INFERIORE — MENU BUTTON */
+/* ============================= */
 
-/* ICONA INFERIORE — BASE */
 .menu-button {
-  position: fixed;
-  bottom: 18px;
-  right: 18px;
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: fixed !important;
+  bottom: 18px !important;
+  right: 18px !important;
+  width: 58px !important;
+  height: 58px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 0 !important;
+  overflow: visible !important;
   font-size: 26px;
   cursor: pointer;
   z-index: 1000;
@@ -639,65 +600,99 @@ body.light .dash-item-meta {
   box-shadow:
     0 8px 16px rgba(0,0,0,0.55),
     inset 0 1px 2px rgba(255,255,255,0.25);
-  padding: 6px; /* migliora l’icona interna */
 }
 
 .menu-button svg {
-  width: 30px;
-  height: 30px;
+  width: 32px !important;
+  height: 32px !important;
+  display: block !important;
 }
 
-/* DASHBOARD SHORTCUTS */
-.dash-shortcuts {
-  display: flex;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.shortcut {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.12);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 22px;
-  cursor: pointer;
-  box-shadow: inset 0 1px 2px rgba(255,255,255,0.25);
-  transition: transform 0.2s ease;
-}
-
-.shortcut:active {
-  transform: scale(0.85);
-}
-
-/* FIX CONTRASTO MENU SFERICO IN MODALITÀ CHIARA */
-body.light .menu-button {
-  color: #0a1a3a !important; /* blu scuro leggibile */
-  text-shadow: none !important;
-}
-
-/* FIX CONTRASTO MENU LATERALE IN MODALITÀ CHIARA */
-body.light .side-menu-item {
-  color: #0a1a3a !important; /* blu scuro */
-}
-
-body.light .side-menu-content h2 {
-  color: #0a1a3a !important; /* titolo blu scuro */
-}
-
-/* FIX NUMERI DASHBOARD IN MODALITÀ CHIARA */
-body.light .dash-number {
-  color: #0a1a3a !important; /* blu scuro */
-}
-
-body.light .dash-label {
-  color: #0a1a3a !important; /* blu scuro */
+/* Posizione corretta in entrambi i temi */
+body.light .menu-button,
+body.dark .menu-button {
+  position: fixed !important;
+  bottom: 18px !important;
+  right: 18px !important;
+  left: auto !important;
+  margin: 0 !important;
+  transform: none !important;
 }
 
 /* ============================= */
-/* MODALITÀ CHIARA — GLASS ACQUA / GHIACCIO iOS (B) */
+/* MODALITÀ CHIARA — BASE */
+/* ============================= */
+
+body.light {
+  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  color: #0a1a3a !important;
+}
+
+body.light header {
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+  background: transparent !important;
+}
+
+body.light .app-title {
+  color: #0056a8;
+}
+
+body.light .card.glass.volumetric {
+  background: radial-gradient(circle at top left,
+    rgba(255,255,255,0.85) 0%,
+    rgba(255,255,255,0.55) 35%,
+    rgba(200,200,200,0.35) 100%);
+  border: 1px solid rgba(0,0,0,0.15);
+  box-shadow:
+    0 22px 40px rgba(0,0,0,0.15),
+    inset 0 0 22px rgba(255,255,255,0.45),
+    inset 0 0 40px rgba(0,120,255,0.12);
+}
+
+body.light input,
+body.light textarea,
+body.light select {
+  background: rgba(255,255,255,0.9);
+  color: #0a0f1a;
+  border: 1px solid rgba(0,0,0,0.25);
+}
+
+body.light .arch-item {
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,0,0,0.15);
+  color: #0a0f1a;
+}
+
+body.light .card h2,
+body.light label,
+body.light .arch-item-title {
+  color: #0A1A33;
+}
+
+body.light .arch-item-meta {
+  color: #1a1f2a;
+}
+
+body.light .btn-theme {
+  background: rgba(0,0,0,0.08);
+  color: #000;
+  border-color: rgba(0,0,0,0.25);
+}
+
+body.light .badge {
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+body.light .btn-secondary {
+  color: #0b1020 !important;
+  font-weight: 600;
+}
+
+/* ============================= */
+/* MODALITÀ CHIARA — GLASS ACQUA */
 /* ============================= */
 
 body.light .container,
@@ -706,7 +701,7 @@ body.light .dashboard-box,
 body.light .side-menu-content {
   backdrop-filter: blur(26px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(26px) saturate(180%) !important;
-  background: rgba(255, 255, 255, 0.55) !important; /* vetro acqua */
+  background: rgba(255, 255, 255, 0.55) !important;
   border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.35);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
@@ -758,16 +753,19 @@ body.light .side-menu-content {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
 }
 
-/* =========================================================
-   EFFETTO ACQUA — OVERLAY SICURO (NON ALTERA IL LAYOUT)
-========================================================= */
+/* ============================= */
+/* EFFETTO ACQUA — OVERLAY */
+/* ============================= */
 
-/* DASHBOARD BOX — riflesso acqua */
-body.light .dash-box {
+body.light .dash-box,
+body.light .shortcut,
+body.light .side-menu-content,
+body.light .menu-button {
   position: relative;
-  overflow: hidden; /* necessario per l'effetto, NON cambia layout */
+  overflow: hidden;
 }
 
+/* Riflesso acqua — dashboard */
 body.light .dash-box::after {
   content: "";
   position: absolute;
@@ -778,7 +776,7 @@ body.light .dash-box::after {
   opacity: 0.35;
   filter: blur(35px);
   animation: acquaDash 7s ease-in-out infinite;
-  pointer-events: none; /* NON interferisce con click */
+  pointer-events: none;
 }
 
 @keyframes acquaDash {
@@ -787,12 +785,7 @@ body.light .dash-box::after {
   100% { transform: translate(0,0); }
 }
 
-/* SHORTCUT — riflesso acqua */
-body.light .shortcut {
-  position: relative;
-  overflow: hidden;
-}
-
+/* Riflesso acqua — shortcut */
 body.light .shortcut::after {
   content: "";
   position: absolute;
@@ -812,12 +805,7 @@ body.light .shortcut::after {
   100% { transform: translate(0,0); }
 }
 
-/* MENU LATERALE — vetro liquido animato */
-body.light .side-menu-content {
-  position: relative;
-  overflow: hidden;
-}
-
+/* Riflesso acqua — menu laterale */
 body.light .side-menu-content::after {
   content: "";
   position: absolute;
@@ -837,12 +825,7 @@ body.light .side-menu-content::after {
   100% { transform: translate(0,0) rotate(360deg); }
 }
 
-/* PULSANTE TONDO — riflesso acqua */
-body.light .menu-button {
-  position: relative;
-  overflow: hidden;
-}
-
+/* Riflesso acqua — pulsante tondo */
 body.light .menu-button::after {
   content: "";
   position: absolute;
@@ -863,7 +846,7 @@ body.light .menu-button::after {
 }
 
 /* ============================= */
-/* TEMA SCURO GLASS iOS VISIONOS */
+/* TEMA SCURO — GLASS */
 /* ============================= */
 
 body.dark {
@@ -871,20 +854,18 @@ body.dark {
   color: #e6ecff;
 }
 
-/* Contenitori glass scuri */
 body.dark .container,
 body.dark .card,
 body.dark .dashboard-box,
 body.dark .side-menu-content {
   backdrop-filter: blur(26px) saturate(180%);
   -webkit-backdrop-filter: blur(26px) saturate(180%);
-  background: rgba(10, 14, 35, 0.45); /* blu notte vetroso */
+  background: rgba(10, 14, 35, 0.45);
   border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
 }
 
-/* Testi scuri glass */
 body.dark .dash-number,
 body.dark .dash-label,
 body.dark .shortcut,
@@ -894,7 +875,7 @@ body.dark .menu-button {
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
 }
 
-/* MENU LATERALE GLASS SCURO */
+/* Menu laterale scuro */
 body.dark .side-menu-content {
   backdrop-filter: blur(32px) saturate(180%);
   -webkit-backdrop-filter: blur(32px) saturate(180%);
@@ -904,7 +885,7 @@ body.dark .side-menu-content {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
 }
 
-/* SHORTCUT TONDE GLASS SCURE */
+/* Shortcut scure */
 body.dark .shortcut {
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -920,7 +901,7 @@ body.dark .shortcut:active {
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
 }
 
-/* CELLE DASHBOARD 3D SCURE */
+/* Dashboard scura */
 body.dark .dashboard-box {
   background: rgba(20, 25, 55, 0.35);
   border-radius: 18px;
@@ -938,53 +919,4 @@ body.dark .dashboard-box:active {
     inset 0 0 16px rgba(255, 255, 255, 0.12),
     inset 0 -6px 14px rgba(0, 0, 0, 0.45),
     0 10px 24px rgba(0, 0, 0, 0.65);
-}
-
-/* =========================================================
-   FIX DEFINITIVO — BOTTONE SFERICO (POSIZIONE + ICONA)
-========================================================= */
-
-/* Posizione SEMPRE a destra in entrambe le modalità */
-body.light .menu-button,
-body.dark .menu-button {
-  position: fixed !important;
-  bottom: 18px !important;
-  right: 18px !important;
-  left: auto !important;
-  margin: 0 !important;
-  transform: none !important;
-}
-
-/* Icona interna ingrandita e NON ritagliata */
-.menu-button {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  padding: 0 !important;          /* niente ritaglio */
-  overflow: visible !important;   /* evita quadratura */
-}
-
-.menu-button svg {
-  width: 32px !important;         /* icona più grande */
-  height: 32px !important;
-}
-
-.menu-button {
-  position: fixed !important;
-  bottom: 18px !important;
-  right: 18px !important;
-  width: 58px !important;
-  height: 58px !important;
-  border-radius: 50% !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  padding: 0 !important;
-  overflow: visible !important;
-}
-
-.menu-button svg {
-  width: 32px !important;
-  height: 32px !important;
-  display: block !important;
 }
