@@ -1,50 +1,140 @@
-* {
-  box-sizing: border-box;
+/* =========================
+   VARIABILI TEMA
+   ========================= */
+:root {
+  --bg-dark: radial-gradient(circle at top, #1b2b4f 0, #050814 55%, #02030a 100%);
+  --bg-light: radial-gradient(circle at top, #e9f3ff 0, #f5f8ff 40%, #ffffff 100%);
+  --glass-dark: rgba(10, 18, 35, 0.85);
+  --glass-light: rgba(255, 255, 255, 0.85);
+  --border-dark: rgba(140, 190, 255, 0.35);
+  --border-light: rgba(120, 160, 220, 0.35);
+  --text-dark: #e9faff;
+  --text-light: #0b1020;
+  --accent: #4cc3ff;
+  --accent-soft: rgba(76, 195, 255, 0.18);
+  --danger: #ff4c6a;
+  --success: #4cff9a;
 }
 
-body {
+/* =========================
+   SFONDO SCURO STILE COPILOT
+   ========================= */
+/* =========================
+   SFONDO IDENTICO A COPILOT
+   ========================= */
+html, body {
   margin: 0;
   padding: 0;
+  width: 100%;
+  min-height: 100vh;
+
+  /* COLORE IDENTICO A QUESTA CHAT */
+  background-color: #0a0f1c; /* blu-notte uniforme */
+
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  overflow-x: hidden;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-  background: radial-gradient(circle at top, #141b3a 0%, #050814 55%, #02030a 100%);
-  color: #e9faff;
-  padding-top: env(safe-area-inset-top);
 }
 
-/* HEADER */
+/* SAFE AREA iPhone */
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  background-clip: border-box;
+}
+
+/* Tema scuro – identico alla chat */
+body.dark {
+  background-color: #0a0f1c; /* NESSUN GRADIENT */
+  color: #e9faff;
+}
+
+/* Tema chiaro – stile Copilot */
+body.light {
+  background-color: #f5f7fa; /* chiaro uniforme */
+  color: #0b1020;
+}
+
+/* =========================
+   HEADER
+   ========================= */
 header {
-  padding: 10px 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.12);
-  backdrop-filter: blur(24px);
-  background: transparent !important; /* FIX pannello bianco */
+  padding: 10px 14px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  box-sizing: border-box;
 }
 
 .app-title {
   font-size: 18px;
   font-weight: 600;
-  color: #7fd8ff;
 }
 
-.view-selector {
-  margin-top: 8px;
+.header-row {
+  flex: 1;
 }
 
-.view-selector select {
-  width: 160px;
-  padding: 6px 10px;
+/* Select vista */
+#viewSelect {
+  width: 100%;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.25);
-  background: rgba(255,255,255,0.08);
-  color: #e9faff;
+  border: 1px solid var(--border-dark);
+  background: rgba(8, 16, 32, 0.85);
+  color: var(--text-dark);
+  padding: 6px 12px;
   font-size: 14px;
-  backdrop-filter: blur(24px);
+  outline: none;
 }
 
-/* PAGE */
+body.light #viewSelect {
+  border-color: var(--border-light);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-light);
+}
+
+/* Toggle tema */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-theme {
+  border-radius: 999px;
+  border: 1px solid var(--border-dark);
+  background: rgba(8, 16, 32, 0.9);
+  color: var(--accent);
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+}
+
+body.light .btn-theme {
+  border-color: var(--border-light);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--accent);
+}
+
+/* =========================
+   MAIN / PAGINE
+   ========================= */
 main {
-  padding: 10px 8px 18px;
+  flex: 1;
+  padding: 8px 10px 60px;
+  box-sizing: border-box;
 }
 
+/* Pagine */
 .page {
   display: none;
 }
@@ -53,938 +143,492 @@ main {
   display: block;
 }
 
-/* CARD VisionOS */
-.card {
-  margin: 14px 8px;
-  padding: 14px 14px 16px;
-  border-radius: 26px;
-}
-
-.glass.volumetric {
-  background: radial-gradient(circle at top left,
-    rgba(255,255,255,0.18) 0%,
-    rgba(255,255,255,0.08) 35%,
-    rgba(0,0,0,0.65) 100%);
-  border: 1px solid rgba(255,255,255,0.25);
-  backdrop-filter: blur(40px) saturate(180%);
+/* =========================
+   CARD GLASS
+   ========================= */
+/* CARD GLASS – stile Copilot */
+.card.glass {
+  border-radius: 22px;
+  padding: 14px 14px 12px;
+  margin-bottom: 10px;
+  background: rgba(10, 18, 35, 0.92); /* più pieno, meno trasparente */
+  border: 1px solid rgba(140, 190, 255, 0.35);
   box-shadow:
-    0 22px 40px rgba(0,0,0,0.55),
-    inset 0 0 22px rgba(255,255,255,0.18),
-    inset 0 0 40px rgba(0,200,255,0.08);
+    0 18px 40px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
+  box-sizing: border-box;
 }
 
-.card h2 {
+body.light .card.glass {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(120, 160, 220, 0.45);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.7);
+}
+
+.card.glass h2 {
   margin: 0 0 10px;
   font-size: 16px;
   font-weight: 600;
-  color: #9fe4ff;
 }
 
-.glass-cell {
-  margin-top: 10px;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
+/* =========================
+   INPUT / SELECT / TEXTAREA
+   ========================= */
+input,
+select,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 14px;
+  border: 1px solid rgba(140, 190, 255, 0.35);
+  background: rgba(5, 10, 22, 0.9);
+  color: var(--text-dark);
+  padding: 7px 10px;
+  font-size: 14px;
+  margin-bottom: 8px;
+  outline: none;
 }
 
-/* FORM */
+body.light input,
+body.light select,
+body.light textarea {
+  border-color: rgba(120, 160, 220, 0.45);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--text-light);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(180, 210, 255, 0.6);
+}
+
+body.light input::placeholder,
+body.light textarea::placeholder {
+  color: rgba(120, 140, 170, 0.7);
+}
+
 label {
   display: block;
-  margin-top: 8px;
   font-size: 13px;
-  color: #c7e7ff;
+  margin-bottom: 4px;
+  opacity: 0.85;
 }
 
-input,
-textarea,
-select {
-  width: 100%;
-  margin-top: 4px;
-  padding: 8px 10px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.25);
-  background: rgba(5,15,35,0.85);
-  color: #e9faff;
-  font-size: 16px !important; /* anti-zoom iPhone */
-  outline: none;
-  box-shadow:
-    inset 0 1px 2px rgba(255,255,255,0.25),
-    0 8px 16px rgba(0,0,0,0.55);
-}
-
-/* CORREZIONE iPhone per input date */
-input[type="date"] {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.25);
-  background: rgba(5,15,35,0.85);
-  color: #e9faff;
-  font-size: 16px !important;
-  box-shadow:
-    inset 0 1px 2px rgba(255,255,255,0.25),
-    0 8px 16px rgba(0,0,0,0.55);
-}
-
-input[type="date"]::-webkit-datetime-edit {
-  padding: 0;
-}
-
-input[type="date"]::-webkit-date-and-time-value {
-  text-align: left;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: #7fd8ff;
-  box-shadow:
-    inset 0 1px 2px rgba(255,255,255,0.35),
-    0 0 0 1px rgba(127,216,255,0.6),
-    0 10px 20px rgba(0,0,0,0.65);
-}
-
-/* ROW / COL */
+/* =========================
+   GRID / ROW / COL
+   ========================= */
 .row {
   display: flex;
   gap: 8px;
-  margin-top: 6px;
+  margin-bottom: 6px;
 }
 
 .col {
   flex: 1;
 }
 
-/* BUTTONS */
-button {
+/* =========================
+   BOTTONI
+   ========================= */
+.btn-primary,
+.btn-secondary {
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 14px;
   border: none;
   cursor: pointer;
+  margin-top: 8px;
 }
 
 .btn-primary {
-  width: 100%;
-  margin-top: 12px;
-  padding: 10px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #7fd8ff, #00ffb3);
-  color: #02030a;
-  font-size: 15px;
-  font-weight: 600;
-  box-shadow:
-    0 10px 20px rgba(0,0,0,0.65),
-    0 0 18px rgba(127,216,255,0.6);
+  background: linear-gradient(135deg, #4cc3ff, #7af0ff);
+  color: #02101c;
+  box-shadow: 0 10px 24px rgba(76, 195, 255, 0.45);
 }
 
 .btn-secondary {
-  width: 100%;
-  margin-top: 12px;
-  padding: 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.15);
-  color: #e9faff;
-  font-size: 15px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-dark);
+  border: 1px solid rgba(140, 190, 255, 0.35);
+}
+
+body.light .btn-secondary {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-light);
+  border-color: rgba(120, 160, 220, 0.45);
+}
+
+/* =========================
+   DASHBOARD
+   ========================= */
+.dash-shortcuts {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.shortcut {
+  flex: 1;
+  border-radius: 18px;
+  background-color: #0f1524; /* identico alla chat */
+  border: 1px solid rgba(140, 190, 255, 0.25);
+  color: #4cc3ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+body.light .shortcut {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(120, 160, 220, 0.45);
+  color: var(--accent);
+}
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.dashboard-box {
+  border-radius: 18px;
+  padding: 10px 10px 8px;
+  background: rgba(8, 16, 32, 0.9);
+  border: 1px solid rgba(140, 190, 255, 0.35);
+  box-sizing: border-box;
+}
+
+body.light .dashboard-box {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(120, 160, 220, 0.45);
+}
+
+.dash-number {
+  font-size: 18px;
   font-weight: 600;
 }
 
-/* ARCHIVIO FRESE */
-#lista {
-  margin-top: 6px;
+.dash-label {
+  font-size: 12px;
+  opacity: 0.8;
 }
 
-.arch-item {
-  margin-top: 8px;
+.dash-item {
+  border-radius: 14px;
   padding: 8px 10px;
-  border-radius: 18px;
-  background: rgba(5,15,35,0.9);
-  border: 1px solid rgba(255,255,255,0.18);
-  box-shadow:
-    0 8px 16px rgba(0,0,0,0.6),
-    inset 0 1px 2px rgba(255,255,255,0.18);
-  font-size: 13px;
+  background: rgba(8, 16, 32, 0.9);
+  border: 1px solid rgba(140, 190, 255, 0.35);
+  margin-bottom: 6px;
+}
+
+body.light .dash-item {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(120, 160, 220, 0.45);
+}
+
+.dash-item-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.dash-item-meta {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* =========================
+   ARCHIVIO / LISTE
+   ========================= */
+.arch-item {
+  border-radius: 16px;
+  padding: 10px 10px 8px;
+  background: rgba(8, 16, 32, 0.9);
+  border: 1px solid rgba(140, 190, 255, 0.35);
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+body.light .arch-item {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(120, 160, 220, 0.45);
 }
 
 .arch-item-title {
-  font-weight: 600;
-  color: #9fe4ff;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .arch-item-meta {
-  margin-top: 2px;
-  color: #c7e7ff;
+  font-size: 12px;
+  opacity: 0.8;
 }
 
-/* MODAL */
+/* Badge stato */
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.badge.in_programmazione { background: rgba(255, 200, 80, 0.18); color: #ffd45c; }
+.badge.programmato       { background: rgba(76, 195, 255, 0.18); color: #4cc3ff; }
+.badge.in_produzione     { background: rgba(120, 255, 180, 0.18); color: #4cff9a; }
+.badge.sospeso           { background: rgba(255, 120, 120, 0.18); color: #ff8c8c; }
+.badge.finito            { background: rgba(180, 180, 255, 0.18); color: #b0b4ff; }
+
+/* =========================
+   PROGRESS BAR
+   ========================= */
+.prog-progress {
+  margin-top: 8px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(8, 16, 32, 0.9);
+  border: 1px solid rgba(140, 190, 255, 0.35);
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+
+body.light .progress-bar {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(120, 160, 220, 0.45);
+}
+
+.progress-fill.programmazione {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #4cc3ff, #7af0ff);
+}
+
+/* =========================
+   TIMELINE
+   ========================= */
+.timeline-item {
+  position: relative;
+  border-radius: 18px;
+  padding: 10px 10px 10px;
+  background: rgba(8, 16, 32, 0.9);
+  border: 1px solid rgba(140, 190, 255, 0.35);
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+body.light .timeline-item {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(120, 160, 220, 0.45);
+}
+
+.timeline-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.timeline-meta {
+  font-size: 12px;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(140, 190, 255, 0.35);
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 2px;
+  top: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 2px solid rgba(8, 16, 32, 0.9);
+}
+
+/* Colori dot per stato */
+.dot_in_programmazione { background: #ffd45c; }
+.dot_programmato       { background: #4cc3ff; }
+.dot_in_produzione     { background: #4cff9a; }
+.dot_sospeso           { background: #ff8c8c; }
+.dot_finito            { background: #b0b4ff; }
+
+/* =========================
+   MODAL
+   ========================= */
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(10px);
+  inset: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 900;
-  overflow-y: auto;
-  align-items: flex-start;
-  padding-top: 20px;
-  padding-bottom: 40px;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 50;
 }
 
 .modal.hidden {
   display: none;
 }
 
-.modal-content {
+/* MODAL GLASS – stile Copilot */
+.modal-content.glass {
   width: 90%;
-  max-width: 380px;
-  padding: 20px;
-  border-radius: 26px;
-  position: relative;
-  z-index: 901;
-  max-height: calc(100vh - 60px);
-  overflow-y: auto;
-}
-
-/* TOGGLE TEMA */
-.theme-toggle {
-  margin-top: 8px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.btn-theme {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.25);
-  background: rgba(255,255,255,0.12);
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  backdrop-filter: blur(20px);
+  max-width: 420px;
+  border-radius: 22px;
+  padding: 14px 14px 12px;
+  background: rgba(10, 18, 35, 0.95);
+  border: 1px solid rgba(140, 190, 255, 0.45);
   box-shadow:
-    0 6px 12px rgba(0,0,0,0.45),
-    inset 0 1px 2px rgba(255,255,255,0.25);
-  transition: all 0.25s ease;
+    0 22px 50px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  box-sizing: border-box;
 }
 
-.btn-theme:active {
-  transform: scale(0.92);
-}
-
-.btn-theme svg {
-  width: 22px;
-  height: 22px;
-  vertical-align: middle;
-}
-
-/* MODALITÀ CHIARA — BASE COLORI */
-body.light {
-  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  background-attachment: fixed !important;
-  color: #0a1a3a !important;
-}
-
-body.light header {
-  border-bottom: 1px solid rgba(0,0,0,0.12);
-  background: transparent !important;
-}
-
-body.light .app-title {
-  color: #0056a8;
-}
-
-body.light .card.glass.volumetric {
-  background: radial-gradient(circle at top left,
-    rgba(255,255,255,0.85) 0%,
-    rgba(255,255,255,0.55) 35%,
-    rgba(200,200,200,0.35) 100%);
-  border: 1px solid rgba(0,0,0,0.15);
+body.light .modal-content.glass {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(120, 160, 220, 0.55);
   box-shadow:
-    0 22px 40px rgba(0,0,0,0.15),
-    inset 0 0 22px rgba(255,255,255,0.45),
-    inset 0 0 40px rgba(0,120,255,0.12);
+    0 22px 50px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.8);
 }
 
-body.light input,
-body.light textarea,
-body.light select {
-  background: rgba(255,255,255,0.9);
-  color: #0a0f1a;
-  border: 1px solid rgba(0,0,0,0.25);
-}
-
-body.light .arch-item {
-  background: rgba(255,255,255,0.85);
-  border: 1px solid rgba(0,0,0,0.15);
-  color: #0a0f1a;
-}
-
-body.light .card h2 {
-  color: #0A1A33;
-}
-
-body.light label {
-  color: #0A1A33;
-}
-
-body.light .arch-item-title {
-  color: #0A1A33;
-  text-shadow: 0 1px 2px rgba(255,255,255,0.6);
-}
-
-body.light .arch-item-meta {
-  color: #1a1f2a;
-}
-
-body.light .btn-theme {
-  background: rgba(0,0,0,0.08);
-  color: #000;
-  border-color: rgba(0,0,0,0.25);
-}
-
-body.light .badge {
-  border: 1px solid rgba(0,0,0,0.15);
-}
-
-/* TOAST */
+/* =========================
+   TOAST
+   ========================= */
 .toast {
   position: fixed;
-  bottom: 20px;
   left: 50%;
+  bottom: 70px;
   transform: translateX(-50%);
-  padding: 12px 22px;
-  background: rgba(255,255,255,0.18);
-  backdrop-filter: blur(20px);
-  border-radius: 14px;
-  color: #fff;
-  font-size: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(8, 16, 32, 0.95);
+  border: 1px solid rgba(140, 190, 255, 0.45);
+  color: var(--text-dark);
+  font-size: 13px;
   opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 999;
+  pointer-events: none;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  z-index: 60;
+}
+
+body.light .toast {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(120, 160, 220, 0.55);
+  color: var(--text-light);
 }
 
 .toast.show {
   opacity: 1;
+  transform: translateX(-50%) translateY(-6px);
 }
 
-.toast.hidden {
-  display: none;
-}
-
-/* BADGE */
-.badge {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 13px;
-  color: #fff;
-  margin-top: 4px;
-}
-
-.badge.in_programmazione { background: #0050ff; }
-.badge.programmato { background: #00cfff; }
-.badge.in_produzione { background: #ff8c00; }
-.badge.finito { background: #00cc66; }
-
-/* PROGRESS BAR */
-.prog-progress {
-  margin-top: 10px;
-}
-
-.progress-bar {
-  width: 100%;
-  height: 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.12);
-  overflow: hidden;
-  margin-bottom: 6px;
-}
-
-.progress-fill {
-  height: 100%;
-  border-radius: 999px;
-  transition: width 0.3s ease;
-}
-
-.progress-fill.programmazione {
-  background: linear-gradient(90deg, #0050ff, #00cfff);
-}
-
-.progress-fill.produzione {
-  background: linear-gradient(90deg, #ff8c00, #00cc66);
-}
-
-/* Testo del bottone Elimina in modalità Chiara */
-body.light .btn-secondary {
-  color: #0b1020 !important;
-  font-weight: 600;
-}
-
-/* TIMELINE ANIMATA */
-.timeline-item {
-  position: relative;
-  padding-left: 28px;
-  margin-bottom: 26px;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: timelineFadeIn 0.45s ease forwards;
-}
-
-@keyframes timelineFadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.timeline-line {
-  position: absolute;
-  left: 10px;
-  top: 0;
-  bottom: -10px;
-  width: 2px;
-  background: rgba(0,0,0,0.15);
-  animation: lineGrow 0.6s ease forwards;
-  transform-origin: top;
-  transform: scaleY(0);
-}
-
-@keyframes lineGrow {
-  to {
-    transform: scaleY(1);
-  }
-}
-
-body.light .timeline-line {
-  background: rgba(0,0,0,0.25);
-}
-
-.timeline-dot {
-  position: absolute;
-  left: 2px;
-  top: 4px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 3px solid #0b1020;
-  background: white;
-  animation: dotPop 0.35s ease forwards;
-  transform: scale(0);
-}
-
-@keyframes dotPop {
-  60% { transform: scale(1.25); }
-  100% { transform: scale(1); }
-}
-
-body.light .timeline-dot {
-  border-color: #0b1020;
-  background: #fff;
-}
-
-.dot-in_programmazione { background: #4da3ff; }
-.dot-programmato { background: #5cff8d; }
-.dot-in_produzione { background: #ffb84d; }
-.dot-sospeso { background: #ffe24d; }
-.dot-finito { background: #b47dff; }
-
-.timeline-title {
-  font-weight: 600;
-  font-size: 15px;
-  margin-bottom: 4px;
-}
-
-.timeline-meta {
-  font-size: 13px;
-  opacity: 0.8;
-}
-
-/* DASHBOARD */
-.dash-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 10px;
-}
-
-.dash-box {
-  background: rgba(255,255,255,0.12);
-  border-radius: 20px;
-  padding: 12px;
-  text-align: center;
-  box-shadow:
-    0 8px 16px rgba(0,0,0,0.45),
-    inset 0 1px 2px rgba(255,255,255,0.25);
-}
-
-.dash-number {
-  font-size: 22px;
-  font-weight: 700;
-  color: #9fe4ff;
-}
-
-.dash-label {
-  font-size: 13px;
-  opacity: 0.8;
-  margin-top: 4px;
-}
-
-.dash-item {
-  margin-top: 8px;
-  padding: 8px 10px;
-  border-radius: 18px;
-  background: rgba(5,15,35,0.9);
-  border: 1px solid rgba(255,255,255,0.18);
-  box-shadow:
-    0 8px 16px rgba(0,0,0,0.6),
-    inset 0 1px 2px rgba(255,255,255,0.18);
-}
-
-.dash-item-title {
-  font-weight: 600;
-  color: #9fe4ff;
-}
-
-.dash-item-meta {
-  margin-top: 2px;
-  color: #c7e7ff;
-}
-
-/* Modalità chiara dashboard */
-body.light .dash-box {
-  background: rgba(0,0,0,0.08);
-}
-
-body.light .dash-item {
-  background: rgba(255,255,255,0.85);
-  border: 1px solid rgba(0,0,0,0.15);
-}
-
-body.light .dash-item-title {
-  color: #0A1A33;
-}
-
-body.light .dash-item-meta {
-  color: #1a1f2a;
-}
-
-/* MENU LATERALE */
+/* =========================
+   MENU LATERALE
+   ========================= */
 .side-menu {
   position: fixed;
-  top: 0;
-  right: 0;
-  width: 260px;
-  height: 100%;
-  backdrop-filter: blur(20px);
-  z-index: 999;
-  transform: translateX(100%);
-  transition: transform 0.35s ease;
+  inset: 0;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 40;
 }
 
 .side-menu.show {
-  transform: translateX(0);
+  display: flex;
 }
 
-.side-menu-content {
-  height: 100%;
-  padding: 20px;
-  border-radius: 0;
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  background: rgba(255, 255, 255, 0.18); /* acqua vetro */
+.side-menu-content.glass {
+  width: 94%;
+  max-width: 420px;
+  margin-bottom: 70px;
   border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  padding: 12px 12px 10px;
+  background: var(--glass-dark);
+  border: 1px solid var(--border-dark);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
+  box-sizing: border-box;
+}
+
+body.light .side-menu-content.glass {
+  background: var(--glass-light);
+  border-color: var(--border-light);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.7);
 }
 
 .side-menu-item {
-  padding: 12px;
-  margin-top: 10px;
   border-radius: 16px;
-  background: rgba(255,255,255,0.12);
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  background: rgba(8, 16, 32, 0.9);
+  border: 1px solid rgba(140, 190, 255, 0.35);
+  font-size: 14px;
   cursor: pointer;
-  font-size: 16px;
-  color: #e9faff;
-  box-shadow: inset 0 1px 2px rgba(255,255,255,0.25);
 }
 
-.side-menu-item:active {
-  transform: scale(0.96);
+body.light .side-menu-item {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(120, 160, 220, 0.45);
 }
 
-/* ICONA INFERIORE — BASE */
+/* =========================
+   PULSANTE TONDO INFERIORE
+   ========================= */
 .menu-button {
   position: fixed;
   bottom: 18px;
   right: 18px;
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: rgba(8, 16, 32, 0.95);
+  border: 1px solid rgba(140, 190, 255, 0.45);
+  color: var(--accent);
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 26px;
-  cursor: pointer;
-  z-index: 1000;
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.25);
-  box-shadow:
-    0 8px 16px rgba(0,0,0,0.55),
-    inset 0 1px 2px rgba(255,255,255,0.25);
-  padding: 6px; /* migliora l’icona interna */
-}
-
-.menu-button svg {
-  width: 30px;
-  height: 30px;
-}
-
-/* DASHBOARD SHORTCUTS */
-.dash-shortcuts {
-  display: flex;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.shortcut {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.12);
-  display: flex;
   justify-content: center;
-  align-items: center;
-  font-size: 22px;
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.02);
   cursor: pointer;
-  box-shadow: inset 0 1px 2px rgba(255,255,255,0.25);
-  transition: transform 0.2s ease;
+  z-index: 45;
 }
 
-.shortcut:active {
-  transform: scale(0.85);
-}
-
-/* FIX CONTRASTO MENU SFERICO IN MODALITÀ CHIARA */
 body.light .menu-button {
-  color: #0a1a3a !important; /* blu scuro leggibile */
-  text-shadow: none !important;
-}
-
-/* FIX CONTRASTO MENU LATERALE IN MODALITÀ CHIARA */
-body.light .side-menu-item {
-  color: #0a1a3a !important; /* blu scuro */
-}
-
-body.light .side-menu-content h2 {
-  color: #0a1a3a !important; /* titolo blu scuro */
-}
-
-/* FIX NUMERI DASHBOARD IN MODALITÀ CHIARA */
-body.light .dash-number {
-  color: #0a1a3a !important; /* blu scuro */
-}
-
-body.light .dash-label {
-  color: #0a1a3a !important; /* blu scuro */
-}
-
-/* ============================= */
-/* MODALITÀ CHIARA — GLASS ACQUA / GHIACCIO iOS (B) */
-/* ============================= */
-
-body.light .container,
-body.light .card,
-body.light .dashboard-box,
-body.light .side-menu-content {
-  backdrop-filter: blur(26px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(26px) saturate(180%) !important;
-  background: rgba(255, 255, 255, 0.55) !important; /* vetro acqua */
-  border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-}
-
-/* Shortcut tonde glass chiara */
-body.light .shortcut {
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-  background: rgba(255, 255, 255, 0.35) !important;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-body.light .shortcut:active {
-  transform: scale(0.92);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
-}
-
-/* Dashboard 3D chiara */
-body.light .dashboard-box {
-  background: rgba(255, 255, 255, 0.35) !important;
-  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(120, 160, 220, 0.55);
+  color: var(--accent);
   box-shadow:
-    inset 0 0 14px rgba(255, 255, 255, 0.5),
-    inset 0 -4px 12px rgba(0, 0, 0, 0.1),
-    0 8px 20px rgba(0, 0, 0, 0.15);
-  padding: 18px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-body.light .dashboard-box:active {
-  transform: scale(0.97);
-  box-shadow:
-    inset 0 0 16px rgba(255, 255, 255, 0.6),
-    inset 0 -6px 14px rgba(0, 0, 0, 0.15),
-    0 10px 24px rgba(0, 0, 0, 0.25);
-}
-
-/* Menu laterale glass acqua chiaro */
-body.light .side-menu-content {
-  backdrop-filter: blur(32px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
-  background: rgba(255, 255, 255, 0.45) !important;
-  border-radius: 26px !important;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-}
-
-/* =========================================================
-   EFFETTO ACQUA — OVERLAY SICURO (NON ALTERA IL LAYOUT)
-========================================================= */
-
-/* DASHBOARD BOX — riflesso acqua */
-body.light .dash-box {
-  position: relative;
-  overflow: hidden; /* necessario per l'effetto, NON cambia layout */
-}
-
-body.light .dash-box::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 30% 30%,
-    rgba(255,255,255,0.35) 0%,
-    rgba(255,255,255,0) 60%);
-  opacity: 0.35;
-  filter: blur(35px);
-  animation: acquaDash 7s ease-in-out infinite;
-  pointer-events: none; /* NON interferisce con click */
-}
-
-@keyframes acquaDash {
-  0%   { transform: translate(0,0); }
-  50%  { transform: translate(12%,10%); }
-  100% { transform: translate(0,0); }
-}
-
-/* SHORTCUT — riflesso acqua */
-body.light .shortcut {
-  position: relative;
-  overflow: hidden;
-}
-
-body.light .shortcut::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle,
-    rgba(255,255,255,0.45) 0%,
-    rgba(255,255,255,0) 70%);
-  opacity: 0.30;
-  filter: blur(25px);
-  animation: acquaShortcut 6s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes acquaShortcut {
-  0%   { transform: translate(0,0); }
-  50%  { transform: translate(10%,8%); }
-  100% { transform: translate(0,0); }
-}
-
-/* MENU LATERALE — vetro liquido animato */
-body.light .side-menu-content {
-  position: relative;
-  overflow: hidden;
-}
-
-body.light .side-menu-content::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 40% 40%,
-    rgba(255,255,255,0.40) 0%,
-    rgba(255,255,255,0) 70%);
-  opacity: 0.30;
-  filter: blur(45px);
-  animation: acquaNav 9s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes acquaNav {
-  0%   { transform: translate(0,0) rotate(0deg); }
-  50%  { transform: translate(18%,14%) rotate(180deg); }
-  100% { transform: translate(0,0) rotate(360deg); }
-}
-
-/* PULSANTE TONDO — riflesso acqua */
-body.light .menu-button {
-  position: relative;
-  overflow: hidden;
-}
-
-body.light .menu-button::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle,
-    rgba(255,255,255,0.40) 0%,
-    rgba(255,255,255,0) 70%);
-  opacity: 0.30;
-  filter: blur(30px);
-  animation: acquaBtn 7s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes acquaBtn {
-  0%   { transform: translate(0,0); }
-  50%  { transform: translate(14%,10%); }
-  100% { transform: translate(0,0); }
-}
-
-/* ============================= */
-/* TEMA SCURO GLASS iOS VISIONOS */
-/* ============================= */
-
-body.dark {
-  background: linear-gradient(135deg, #02030a 0%, #0a0f2a 100%);
-  color: #e6ecff;
-}
-
-/* Contenitori glass scuri */
-body.dark .container,
-body.dark .card,
-body.dark .dashboard-box,
-body.dark .side-menu-content {
-  backdrop-filter: blur(26px) saturate(180%);
-  -webkit-backdrop-filter: blur(26px) saturate(180%);
-  background: rgba(10, 14, 35, 0.45); /* blu notte vetroso */
-  border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-}
-
-/* Testi scuri glass */
-body.dark .dash-number,
-body.dark .dash-label,
-body.dark .shortcut,
-body.dark .side-menu-item,
-body.dark .menu-button {
-  color: #dfe6ff !important;
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
-}
-
-/* MENU LATERALE GLASS SCURO */
-body.dark .side-menu-content {
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  background: rgba(10, 14, 35, 0.55);
-  border-radius: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
-}
-
-/* SHORTCUT TONDE GLASS SCURE */
-body.dark .shortcut {
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  background: rgba(20, 25, 55, 0.45);
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-body.dark .shortcut:active {
-  transform: scale(0.92);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
-}
-
-/* CELLE DASHBOARD 3D SCURE */
-body.dark .dashboard-box {
-  background: rgba(20, 25, 55, 0.35);
-  border-radius: 18px;
-  box-shadow:
-    inset 0 0 14px rgba(255, 255, 255, 0.08),
-    inset 0 -4px 12px rgba(0, 0, 0, 0.35),
-    0 8px 20px rgba(0, 0, 0, 0.55);
-  padding: 18px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-body.dark .dashboard-box:active {
-  transform: scale(0.97);
-  box-shadow:
-    inset 0 0 16px rgba(255, 255, 255, 0.12),
-    inset 0 -6px 14px rgba(0, 0, 0, 0.45),
-    0 10px 24px rgba(0, 0, 0, 0.65);
-}
-
-/* =========================================================
-   FIX DEFINITIVO — BOTTONE SFERICO (POSIZIONE + ICONA)
-========================================================= */
-
-/* Posizione SEMPRE a destra in entrambe le modalità */
-body.light .menu-button,
-body.dark .menu-button {
-  position: fixed !important;
-  bottom: 18px !important;
-  right: 18px !important;
-  left: auto !important;
-  margin: 0 !important;
-  transform: none !important;
-}
-
-/* Icona interna ingrandita e NON ritagliata */
-.menu-button {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  padding: 0 !important;          /* niente ritaglio */
-  overflow: visible !important;   /* evita quadratura */
+    0 12px 28px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.8);
 }
 
 .menu-button svg {
-  width: 32px !important;         /* icona più grande */
-  height: 32px !important;
-}
-
-.menu-button {
-  position: fixed !important;
-  bottom: 18px !important;
-  right: 18px !important;
-  width: 58px !important;
-  height: 58px !important;
-  border-radius: 50% !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  padding: 0 !important;
-  overflow: visible !important;
-}
-
-.menu-button svg {
-  width: 32px !important;
-  height: 32px !important;
-  display: block !important;
+  width: 22px;
+  height: 22px;
 }
