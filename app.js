@@ -815,9 +815,23 @@ document.getElementById("viewSelect").addEventListener("change", () => haptic())
 // =============================
 // CARICAMENTO INIZIALE VELOCE
 // =============================
+// =============================
+// AVVIO SUPER VELOCE
+// =============================
 (async () => {
-  archivio = await getFrese();
-  progArchivio = await getSchede();
+  // Mostra subito la dashboard senza attendere Firestore
+  renderDashboard();
+
+  // Carica frese e schede in parallelo
+  const [frese, schede] = await Promise.all([
+    getFrese(),
+    getSchede()
+  ]);
+
+  archivio = frese;
+  progArchivio = schede;
+
+  // Aggiorna tutto appena arrivano i dati
   renderArchivio();
   renderProgArchivio();
   renderProgTimeline();
