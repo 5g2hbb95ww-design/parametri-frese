@@ -969,3 +969,22 @@ body.dark .menu-button {
   height: 32px !important;
 }
 
+.menu-button {
+  position: fixed !important;
+  bottom: 18px !important;
+  right: 18px !important;
+  width: 58px !important;
+  height: 58px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.menu-button svg {
+  width: 32px !important;
+  height: 32px !important;
+  display: block !important;
+}
