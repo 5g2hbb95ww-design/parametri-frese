@@ -150,6 +150,31 @@ btnTheme.addEventListener("click", () => {
 });
 
 // =========================
+// ELEMENTI MODAL FRESE
+// =========================
+const edit_denominazione = document.getElementById("edit_denominazione");
+const edit_diametro = document.getElementById("edit_diametro");
+const edit_taglienti = document.getElementById("edit_taglienti");
+const edit_s = document.getElementById("edit_s");
+const edit_avanzamento = document.getElementById("edit_avanzamento");
+const edit_materiale = document.getElementById("edit_materiale");
+const edit_refrigerante = document.getElementById("edit_refrigerante");
+const edit_dettagli = document.getElementById("edit_dettagli");
+
+// =========================
+// ELEMENTI MODAL PROGRAMMAZIONE
+// =========================
+const edit_prog_macchina = document.getElementById("edit_prog_macchina");
+const edit_prog_commessa = document.getElementById("edit_prog_commessa");
+const edit_prog_disegno = document.getElementById("edit_prog_disegno");
+const edit_prog_rev = document.getElementById("edit_prog_rev");
+const edit_prog_data = document.getElementById("edit_prog_data");
+const edit_prog_tempo = document.getElementById("edit_prog_tempo");
+const edit_prog_operatore = document.getElementById("edit_prog_operatore");
+const edit_prog_stato = document.getElementById("edit_prog_stato");
+const edit_prog_note = document.getElementById("edit_prog_note");
+
+// =========================
 // ELEMENTI PAGINA NUOVO
 // =========================
 const den = document.getElementById("denominazione_fresa");
