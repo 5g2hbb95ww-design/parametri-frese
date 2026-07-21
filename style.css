@@ -8,6 +8,7 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
   background: radial-gradient(circle at top, #141b3a 0%, #050814 55%, #02030a 100%);
   color: #e9faff;
+  padding-top: env(safe-area-inset-top);
 }
 
 /* HEADER */
@@ -104,7 +105,7 @@ select {
   border: 1px solid rgba(255,255,255,0.25);
   background: rgba(5,15,35,0.85);
   color: #e9faff;
-  font-size: 14px;
+  font-size: 16px !important; /* anti-zoom iPhone */
   outline: none;
   box-shadow:
     inset 0 1px 2px rgba(255,255,255,0.25),
@@ -121,7 +122,7 @@ input[type="date"] {
   border: 1px solid rgba(255,255,255,0.25);
   background: rgba(5,15,35,0.85);
   color: #e9faff;
-  font-size: 14px;
+  font-size: 16px !important;
   box-shadow:
     inset 0 1px 2px rgba(255,255,255,0.25),
     0 8px 16px rgba(0,0,0,0.55);
@@ -226,6 +227,10 @@ button {
   justify-content: center;
   align-items: center;
   z-index: 900;
+  overflow-y: auto;
+  align-items: flex-start;
+  padding-top: 20px;
+  padding-bottom: 40px;
 }
 
 .modal.hidden {
@@ -239,16 +244,6 @@ button {
   border-radius: 26px;
   position: relative;
   z-index: 901;
-}
-
-.modal {
-  overflow-y: auto;
-  align-items: flex-start;
-  padding-top: 20px;
-  padding-bottom: 40px;
-}
-
-.modal-content {
   max-height: calc(100vh - 60px);
   overflow-y: auto;
 }
@@ -286,14 +281,18 @@ button {
   vertical-align: middle;
 }
 
-/* MODALITÀ CHIARA BASE (vecchia, tenuta per coerenza colori) */
+/* MODALITÀ CHIARA — BASE COLORI */
 body.light {
-  background: radial-gradient(circle at top, #f2f6ff 0%, #e6ecf7 55%, #dfe6f3 100%);
-  color: #0a0f1a;
+  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  color: #0a1a3a !important;
 }
 
 body.light header {
   border-bottom: 1px solid rgba(0,0,0,0.12);
+  background: transparent !important;
 }
 
 body.light .app-title {
@@ -597,6 +596,12 @@ body.light .dash-item-meta {
   height: 100%;
   padding: 20px;
   border-radius: 0;
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  background: rgba(255, 255, 255, 0.18); /* acqua vetro */
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
 
 .side-menu-item {
@@ -634,6 +639,12 @@ body.light .dash-item-meta {
   box-shadow:
     0 8px 16px rgba(0,0,0,0.55),
     inset 0 1px 2px rgba(255,255,255,0.25);
+  padding: 6px; /* migliora l’icona interna */
+}
+
+.menu-button svg {
+  width: 30px;
+  height: 30px;
 }
 
 /* DASHBOARD SHORTCUTS */
@@ -661,20 +672,6 @@ body.light .dash-item-meta {
   transform: scale(0.85);
 }
 
-/* SFONDO ESTESO (FIX PANNELLO BIANCO) */
-header {
-  background: transparent !important;
-}
-
-/* FIX STRISCIA BIANCA SU IPHONE + SAFE AREA */
-body {
-  padding-top: env(safe-area-inset-top);
-}
-
-:root {
-  color-scheme: dark;
-}
-
 /* FIX CONTRASTO MENU SFERICO IN MODALITÀ CHIARA */
 body.light .menu-button {
   color: #0a1a3a !important; /* blu scuro leggibile */
@@ -699,33 +696,10 @@ body.light .dash-label {
   color: #0a1a3a !important; /* blu scuro */
 }
 
-/* DISABILITA LO ZOOM AUTOMATICO SU INPUT (IPHONE) */
-input,
-select,
-textarea {
-  font-size: 16px !important; /* valore minimo per evitare lo zoom */
-}
-
-/* MENU LATERALE GLASS EFFETTO ACQUA iOS */
-.side-menu-content {
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  background: rgba(255, 255, 255, 0.18); /* acqua vetro */
-  border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-}
-
 /* ============================= */
-/* MODALITÀ CHIARA — EFFETTO ACQUA / GHIACCIO iOS (B) */
+/* MODALITÀ CHIARA — GLASS ACQUA / GHIACCIO iOS (B) */
 /* ============================= */
 
-body.light {
-  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
-  color: #0a1a3a !important;
-}
-
-/* Contenitori glass acqua */
 body.light .container,
 body.light .card,
 body.light .dashboard-box,
@@ -736,16 +710,6 @@ body.light .side-menu-content {
   border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.35);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-}
-
-/* Colori acqua / azzurro / blu scuro */
-body.light .dash-number,
-body.light .dash-label,
-body.light .shortcut,
-body.light .side-menu-item,
-body.light .menu-button {
-  color: #0a1a3a !important; /* blu scuro elegante */
-  text-shadow: none !important;
 }
 
 /* Shortcut tonde glass chiara */
@@ -974,161 +938,4 @@ body.dark .dashboard-box:active {
     inset 0 0 16px rgba(255, 255, 255, 0.12),
     inset 0 -6px 14px rgba(0, 0, 0, 0.45),
     0 10px 24px rgba(0, 0, 0, 0.65);
-}
-
-/* =========================================================
-   PULSANTE SFERICO — POSIZIONE FISSA A DESTRA (CHIARA + SCURA)
-========================================================= */
-
-body.light .menu-button,
-body.dark .menu-button {
-  right: 18px !important;
-  left: auto !important;
-}
-
-/* =========================================================
-   POSIZIONE FISSA DEL BOTTONE SFERICO (CHIARA + SCURA)
-   — RISOLVE SPOSTAMENTI TRA PAGINE
-   — RISOLVE POSIZIONE A SINISTRA IN MODALITÀ CHIARA
-========================================================= */
-
-body.light .menu-button,
-body.dark .menu-button {
-  position: fixed !important;
-  bottom: 18px !important;
-  right: 18px !important;
-  left: auto !important;
-  margin: 0 !important;
-  transform: none !important;
-}
-
-/* =========================================================
-   FIX DEFINITIVO — SFONDO COMPLETO (CHIARA + SCURA)
-   ELIMINA STRISCIA BIANCA IN ALTO E IN BASSO
-========================================================= */
-
-/* Annulla il background fisso che creava la banda */
-html,
-body {
-  background-color: transparent !important;
-}
-
-/* Modalità SCURA — espansione sfondo */
-body.dark {
-  background: linear-gradient(135deg, #02030a 0%, #0a0f2a 100%) !important;
-  background-attachment: fixed !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
-}
-
-/* Header deve essere sempre trasparente */
-header {
-  background: transparent !important;
-}
-
-/* Safe-area iPhone corretta */
-body {
-  padding-top: env(safe-area-inset-top);
-}
-
-
-/* =========================================================
-   FIX FINALE — ELIMINA STRISCIA SCURA IN ALTO (SOLO CHIARA)
-========================================================= */
-
-/* Annulla il background scuro ereditato */
-html.light {
-  background-color: transparent !important;
-}
-
-/* Espande lo sfondo acqua/ghiaccio su tutta la schermata */
-body.light {
-  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  background-attachment: fixed !important;
-
-/* =========================================================
-   FIX FINALE — ELIMINA STRISCIA SCURA IN ALTO (SOLO CHIARA)
-========================================================= */
-
-/* Annulla il background scuro che rimane attivo */
-body.light {
-  background-color: transparent !important;
-}
-
-/* Espande il gradient chiaro su TUTTO lo schermo */
-body.light {
-  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
-  background-size: 100% 100% !important;
-  background-repeat: no-repeat !important;
-  background-attachment: fixed !important;
-}
-
-/* Header deve essere completamente trasparente */
-body.light header {
-  background: transparent !important;
-}
-
-/* Safe-area iPhone chiara */
-body.light {
-  padding-top: env(safe-area-inset-top);
-}
-
-
-/* =========================================================
-   FIX — STRISCIA SCURA IN ALTO (SOLO MODALITÀ CHIARA)
-========================================================= */
-
-/* Annulla il background scuro ereditato */
-body.light,
-html.light {
-  background-color: transparent !important;
-}
-
-/* Espande lo sfondo chiaro su tutto lo schermo */
-body.light {
-  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  background-attachment: fixed !important;
-  padding-top: env(safe-area-inset-top);
-}
-
-/* Header deve essere completamente trasparente */
-body.light header {
-  background: transparent !important;
-}
-
-
-/* =========================================================
-   FIX — ICONA DEL BOTTONE SFERICO (INGRANDITA E PERFETTA)
-========================================================= */
-
-/* Ingrandisce l’icona interna */
-.menu-button svg {
-  width: 28px !important;
-  height: 28px !important;
-}
-
-/* Evita l’effetto “bordo quadrato” */
-.menu-button {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  padding: 4px !important; /* leggero padding per arrotondare l’icona */
-}
-
-/* Mantiene la sfera perfettamente rotonda */
-.menu-button {
-  border-radius: 50% !important;
-}
-
-/* Posizione fissa a destra (chiara + scura) */
-body.light .menu-button,
-body.dark .menu-button {
-  right: 18px !important;
-  left: auto !important;
-  bottom: 18px !important;
-  position: fixed !important;
 }
