@@ -1,56 +1,56 @@
-/* ============================
-   SAFE-AREA + BASE iOS
-   ============================ */
+/* =========================================
+   SAFE-AREA iOS + BASE
+   ========================================= */
 
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    background-color: var(--app-bg); /* colore che la status bar usa */
+    background-color: var(--app-bg); /* colore della status bar */
 }
 
 :root {
     color-scheme: light dark;
 }
 
-/* ============================
-   TEMA CHIARO (solo safe-area)
-   ============================ */
+/* =========================================
+   SAFE-AREA CHIARA (solo la parte alta)
+   ========================================= */
 @media (prefers-color-scheme: light) {
     :root {
         --app-bg: #f2f2f7; /* colore chiaro della safe-area */
     }
 
     body {
-        background-color: transparent; /* lascia che body.light gestisca lo sfondo */
+        background-color: transparent; /* lo sfondo vero lo fa body.light */
         padding-top: env(safe-area-inset-top);
     }
 }
 
-/* ============================
-   TEMA SCURO (solo safe-area)
-   ============================ */
+/* =========================================
+   SAFE-AREA SCURA (solo la parte alta)
+   ========================================= */
 @media (prefers-color-scheme: dark) {
     :root {
         --app-bg: #000000; /* colore scuro della safe-area */
     }
 
     body {
-        background-color: transparent; /* lascia che body.dark gestisca lo sfondo */
+        background-color: transparent; /* lo sfondo vero lo fa body.dark */
         padding-top: env(safe-area-inset-top);
     }
 }
 
-/* ============================
+/* =========================================
    FIX SAFE-AREA
-   ============================ */
+   ========================================= */
 body {
     margin-top: calc(-1 * env(safe-area-inset-top));
 }
 
-/* ============================
+/* =========================================
    RESET BASE
-   ============================ */
+   ========================================= */
 * {
     box-sizing: border-box;
 }
