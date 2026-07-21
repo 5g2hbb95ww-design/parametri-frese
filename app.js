@@ -12,11 +12,6 @@ import {
   CURRENT_USER
 } from "./firebase-config.js";
 
-(async () => {
-  archivio = await getFrese();
-  progArchivio = await getSchede();
-})();
-
 // =========================
 // FIREBASE – FRESE
 // =========================
@@ -82,6 +77,11 @@ async function getTimeline() {
   snap.forEach(d => result.push({ id: d.id, ...d.data() }));
   return result;
 }
+
+(async () => {
+  archivio = await getFrese();
+  progArchivio = await getSchede();
+})();
 
 // =========================
 // REGISTRAZIONE SERVICE WORKER
