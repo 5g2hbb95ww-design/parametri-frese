@@ -1,52 +1,68 @@
+/* ============================
+   SAFE-AREA + BASE iOS
+   ============================ */
+
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    background-color: var(--app-bg);
+    background-color: var(--app-bg); /* colore che la status bar usa */
 }
 
 :root {
     color-scheme: light dark;
 }
 
-/* Tema chiaro */
+/* ============================
+   TEMA CHIARO (solo safe-area)
+   ============================ */
 @media (prefers-color-scheme: light) {
     :root {
-        --app-bg: #f2f2f7; /* chiaro stile iOS */
+        --app-bg: #f2f2f7; /* colore chiaro della safe-area */
     }
 
     body {
-        background-color: #f2f2f7;
-        /* Copre la safe-area superiore */
+        background-color: transparent; /* lascia che body.light gestisca lo sfondo */
         padding-top: env(safe-area-inset-top);
     }
 }
 
-/* Tema scuro */
+/* ============================
+   TEMA SCURO (solo safe-area)
+   ============================ */
 @media (prefers-color-scheme: dark) {
+    :root {
+        --app-bg: #000000; /* colore scuro della safe-area */
+    }
+
     body {
-        background-color: transparent; 
-        /* lascia che body.dark gestisca lo sfondo */
+        background-color: transparent; /* lascia che body.dark gestisca lo sfondo */
         padding-top: env(safe-area-inset-top);
     }
 }
 
-
+/* ============================
+   FIX SAFE-AREA
+   ============================ */
 body {
     margin-top: calc(-1 * env(safe-area-inset-top));
 }
 
+/* ============================
+   RESET BASE
+   ============================ */
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-  color: #e9faff;
-  padding-top: env(safe-area-inset-top);
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    color: #e9faff;
+    padding-top: env(safe-area-inset-top);
 }
+
 
 /* HEADER */
 header {
