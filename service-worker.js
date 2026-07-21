@@ -1,6 +1,18 @@
 // =========================
 // SERVICE WORKER NETWORK-FIRST
 // =========================
+self.addEventListener('install', () => {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then(keys => 
+      Promise.all(keys.map(key => caches.delete(key)))
+    )
+  );
+  self.clients.claim();
+});
 
 const CACHE_NAME = "pwa-cache-v4";
 const FILES_TO_CACHE = [
