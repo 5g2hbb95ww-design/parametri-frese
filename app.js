@@ -1,18 +1,6 @@
 // =============================
 // APP PRINCIPALE
 // =============================
-
-// Ripristina tema salvato + icona corretta
-const savedTheme = localStorage.getItem("theme");
-
-if (savedTheme === "light") {
-  document.body.classList.add("light");
-  themeIcon.innerHTML = iconSun;
-} else {
-  document.body.classList.add("dark");
-  themeIcon.innerHTML = iconMoon;
-}
-
 // =========================
 // REGISTRAZIONE SERVICE WORKER
 // =========================
@@ -47,6 +35,18 @@ const iconSun = `
   </g>
 </svg>
 `;
+
+
+// Ripristina tema salvato + icona corretta
+const savedTheme = localStorage.getItem("theme");
+
+if (savedTheme === "light") {
+  document.body.classList.add("light");
+  themeIcon.innerHTML = iconSun;
+} else {
+  document.body.classList.add("dark");
+  themeIcon.innerHTML = iconMoon;
+}
 
 // =============================
 // TEMA CHIARO/SCURO (VERSIONE PERFETTA STILE CHAT)
