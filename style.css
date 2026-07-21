@@ -1038,3 +1038,32 @@ header {
 body {
   padding-top: env(safe-area-inset-top);
 }
+
+
+/* =========================================================
+   FIX FINALE — ELIMINA STRISCIA SCURA IN ALTO (SOLO CHIARA)
+========================================================= */
+
+/* Annulla il background scuro ereditato */
+body.light,
+html.light {
+  background-color: transparent !important;
+}
+
+/* Espande lo sfondo acqua/ghiaccio su tutta la schermata */
+body.light {
+  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+/* Header deve essere completamente trasparente */
+body.light header {
+  background: transparent !important;
+}
+
+/* Safe-area iPhone chiara */
+body.light {
+  padding-top: env(safe-area-inset-top);
+}
