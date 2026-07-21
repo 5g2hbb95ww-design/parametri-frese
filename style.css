@@ -5,11 +5,6 @@ html, body {
     background-color: var(--app-bg);
 }
 
-body {
-    /* Forza l’estensione sotto la status bar */
-    padding-top: env(safe-area-inset-top);
-}
-
 :root {
     color-scheme: light dark;
 }
@@ -17,16 +12,28 @@ body {
 /* Tema chiaro */
 @media (prefers-color-scheme: light) {
     :root {
-        --app-bg: #f2f2f7; /* colore chiaro stile iOS */
+        --app-bg: #f2f2f7; /* chiaro stile iOS */
+    }
+
+    body {
+        background-color: #f2f2f7;
+        /* Copre la safe-area superiore */
+        padding-top: env(safe-area-inset-top);
     }
 }
 
 /* Tema scuro */
 @media (prefers-color-scheme: dark) {
     :root {
-        --app-bg: #000000; /* nero pieno stile iOS */
+        --app-bg: #000000; /* scuro stile iOS */
+    }
+
+    body {
+        background-color: #000000;
+        padding-top: env(safe-area-inset-top);
     }
 }
+
 
 body {
     margin-top: calc(-1 * env(safe-area-inset-top));
