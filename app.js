@@ -13,7 +13,18 @@ import {
 } from "./firebase-config.js";
 
 // =========================
-// FIREBASE – FRESE (VERSIONE VELOCE)
+// STATE GLOBALE
+// =========================
+let archivio = [];
+let progArchivio = [];
+
+// =========================
+// UTILITY
+// =========================
+const num = (v) => Number(v) || 0;
+
+// =========================
+// FIREBASE – FRESE
 // =========================
 async function saveFresa(item) {
   const colRef = collection(db, "archivio_frese");
@@ -36,7 +47,7 @@ async function getFrese() {
 }
 
 // =========================
-// FIREBASE – PROGRAMMAZIONE (VERSIONE VELOCE)
+// FIREBASE – PROGRAMMAZIONE
 // =========================
 async function saveScheda(item) {
   const colRef = collection(db, "programmazione_schede");
@@ -59,7 +70,7 @@ async function getSchede() {
 }
 
 // =========================
-// FIREBASE – TIMELINE (VERSIONE VELOCE)
+// FIREBASE – TIMELINE
 // =========================
 async function saveTimelineEntry(entry) {
   const colRef = collection(db, "storia_timeline");
@@ -72,14 +83,14 @@ async function saveTimelineEntry(entry) {
 }
 
 // =========================
-// REGISTRAZIONE SERVICE WORKER
+// SERVICE WORKER
 // =========================
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("service-worker.js");
 }
 
 // =========================
-// ICONE TEMA (SOLE / LUNA)
+// TEMA (SOLE / LUNA)
 // =========================
 const btnTheme = document.getElementById("btnTheme");
 const themeIcon = document.getElementById("themeIcon");
@@ -106,9 +117,7 @@ const iconSun = `
 </svg>
 `;
 
-// Ripristina tema salvato + icona corretta
 const savedTheme = localStorage.getItem("theme");
-
 if (savedTheme === "light") {
   document.body.classList.add("light");
   themeIcon.innerHTML = iconSun;
@@ -117,12 +126,8 @@ if (savedTheme === "light") {
   themeIcon.innerHTML = iconMoon;
 }
 
-// =============================
-// TEMA CHIARO/SCURO
-// =============================
 btnTheme.addEventListener("click", () => {
   const isLight = document.body.classList.toggle("light");
-
   if (isLight) {
     document.body.classList.remove("dark");
     themeIcon.innerHTML = iconSun;
@@ -134,12 +139,9 @@ btnTheme.addEventListener("click", () => {
   }
 });
 
-// Utility
-const num = (v) => Number(v) || 0;
-
-// =============================
-// PAGINA NUOVO
-// =============================
+// =========================
+// ELEMENTI PAGINA NUOVO
+// =========================
 const den = document.getElementById("denominazione_fresa");
 const diam = document.getElementById("diametro");
 const tagl = document.getElementById("taglienti");
@@ -157,22 +159,20 @@ const materiale = document.getElementById("materiale");
 const refrigerante = document.getElementById("refrigerante");
 const dettagli = document.getElementById("dettagli");
 
-// =============================
+// =========================
 // DASHBOARD
-// =============================
+// =========================
 const dash_tot_schede = document.getElementById("dash_tot_schede");
 const dash_in_prog = document.getElementById("dash_in_prog");
 const dash_programmato = document.getElementById("dash_programmato");
 const dash_produzione = document.getElementById("dash_produzione");
 const dash_sospeso = document.getElementById("dash_sospeso");
 const dash_finito = document.getElementById("dash_finito");
-
 const dash_recent_schede = document.getElementById("dash_recent_schede");
 const dash_recent_frese = document.getElementById("dash_recent_frese");
 
 function renderDashboard() {
   dash_tot_schede.textContent = progArchivio.length;
-
   dash_in_prog.textContent = progArchivio.filter(x => x.stato === "in_programmazione").length;
   dash_programmato.textContent = progArchivio.filter(x => x.stato === "programmato").length;
   dash_produzione.textContent = progArchivio.filter(x => x.stato === "in_produzione").length;
@@ -202,14 +202,13 @@ function renderDashboard() {
     .join("");
 }
 
-// =============================
-// TIMELINE (render)
-// =============================
+// =========================
+// TIMELINE
+// =========================
 const prog_timeline = document.getElementById("prog_timeline");
 
 function renderProgTimeline() {
   prog_timeline.innerHTML = "";
-
   progArchivio.forEach(item => {
     const div = document.createElement("div");
     div.className = "timeline-item";
@@ -235,9 +234,9 @@ function renderProgTimeline() {
   });
 }
 
-// =============================
+// =========================
 // POPOLA LISTE
-// =============================
+// =========================
 materiale.innerHTML = `
   <option>Acciaio</option>
   <option>Temprato</option>
@@ -258,13 +257,12 @@ refrigerante.innerHTML = `
 
 document.getElementById("edit_materiale").innerHTML =
   document.getElementById("materiale").innerHTML;
-
 document.getElementById("edit_refrigerante").innerHTML =
   document.getElementById("refrigerante").innerHTML;
 
-// =============================
+// =========================
 // TOAST
-// =============================
+// =========================
 const toast = document.getElementById("toast");
 function showToast(msg) {
   toast.textContent = msg;
@@ -276,9 +274,9 @@ function showToast(msg) {
   }, 1800);
 }
 
-// =============================
+// =========================
 // CALCOLI PAGINA NUOVO
-// =============================
+// =========================
 diam.addEventListener("input", calcolaS);
 mmin.addEventListener("input", calcolaS);
 
@@ -316,9 +314,9 @@ function calcolaF() {
   }
 }
 
-// =============================
+// =========================
 // CAMBIO PAGINA
-// =============================
+// =========================
 const pages = {
   dashboard: document.getElementById("page-dashboard"),
   nuovo: document.getElementById("page-nuovo"),
@@ -327,7 +325,9 @@ const pages = {
   timeline: document.getElementById("page-timeline")
 };
 
-document.getElementById("viewSelect").addEventListener("change", (e) => {
+const viewSelect = document.getElementById("viewSelect");
+
+viewSelect.addEventListener("change", (e) => {
   Object.values(pages).forEach(p => p.classList.remove("active"));
   pages[e.target.value].classList.add("active");
 
@@ -346,11 +346,9 @@ document.getElementById("viewSelect").addEventListener("change", (e) => {
   }
 });
 
-// =============================
-// ARCHIVIO FRESE — VERSIONE VELOCE
-// =============================
-let archivio = [];
-
+// =========================
+// ARCHIVIO FRESE
+// =========================
 const lista = document.getElementById("lista");
 const sortSelect = document.getElementById("sortSelect");
 const orderSelect = document.getElementById("orderSelect");
@@ -404,7 +402,6 @@ function renderArchivio() {
   lista.innerHTML = "";
 
   let arr = [...archivio];
-
   const key = sortSelect.value;
   const ord = orderSelect.value;
 
@@ -446,9 +443,9 @@ function renderArchivio() {
   });
 }
 
-// =============================
+// =========================
 // MODAL FRESE
-// =============================
+// =========================
 const modalEdit = document.getElementById("modalEdit");
 const btnCloseModal = document.getElementById("btnCloseModal");
 let editIndex = null;
@@ -494,10 +491,10 @@ document.getElementById("btnUpdate").addEventListener("click", async () => {
   showToast("Fresa aggiornata ✔");
 });
 
-// =============================
-// PROGRAMMAZIONE — VERSIONE VELOCE
-// =============================
-let progArchivio = [];
+// =========================
+// PROGRAMMAZIONE
+// =========================
+let progEditIndex = null;
 
 const prog_lista = document.getElementById("prog_lista");
 const prog_progress = document.getElementById("prog_progress");
@@ -608,16 +605,14 @@ function renderProgArchivio() {
   });
 }
 
-// =============================
+// =========================
 // MODAL PROGRAMMAZIONE
-// =============================
+// =========================
 const modalProgEdit = document.getElementById("modalProgEdit");
 const btnProgClose = document.getElementById("btnProgClose");
 btnProgClose.addEventListener("click", () => {
   modalProgEdit.classList.add("hidden");
 });
-
-let progEditIndex = null;
 
 function apriProgPopup(idx) {
   progEditIndex = idx;
@@ -678,9 +673,9 @@ btnProgUpdate.addEventListener("click", async () => {
   showToast("Scheda aggiornata ✔");
 });
 
-// =============================
+// =========================
 // EXPORT PDF
-// =============================
+// =========================
 document.getElementById("btnExportPDF").addEventListener("click", () => {
   let html = `
     <html>
@@ -755,42 +750,12 @@ document.getElementById("btnExportPDF").addEventListener("click", () => {
   window.open(url, "_blank");
 });
 
-// =============================
-// MENU LATERALE VISIONOS
-// =============================
+// =========================
+// MENU LATERALE + HAPTIC
+// =========================
 const sideMenu = document.getElementById("sideMenu");
 const menuButton = document.getElementById("menuButton");
 
-menuButton.addEventListener("click", () => {
-  haptic();
-  sideMenu.classList.toggle("show");
-});
-
-document.querySelectorAll(".side-menu-item").forEach(item => {
-  item.addEventListener("click", () => {
-    haptic();
-    const page = item.dataset.page;
-    document.getElementById("viewSelect").value = page;
-    document.getElementById("viewSelect").dispatchEvent(new Event("change"));
-    sideMenu.classList.remove("show");
-  });
-});
-
-// =============================
-// SHORTCUTS DASHBOARD
-// =============================
-document.querySelectorAll(".shortcut").forEach(btn => {
-  btn.addEventListener("click", () => {
-    haptic();
-    const page = btn.dataset.page;
-    document.getElementById("viewSelect").value = page;
-    document.getElementById("viewSelect").dispatchEvent(new Event("change"));
-  });
-});
-
-// =============================
-// HAPTIC FEEDBACK iPhone
-// =============================
 function haptic() {
   try {
     if (window.navigator && navigator.vibrate) {
@@ -801,25 +766,38 @@ function haptic() {
   }
 }
 
+menuButton.addEventListener("click", () => {
+  haptic();
+  sideMenu.classList.toggle("show");
+});
+
+document.querySelectorAll(".side-menu-item").forEach(item => {
+  item.addEventListener("click", () => {
+    haptic();
+    const page = item.dataset.page;
+    viewSelect.value = page;
+    viewSelect.dispatchEvent(new Event("change"));
+    sideMenu.classList.remove("show");
+  });
+});
+
 document.querySelectorAll(".shortcut").forEach(btn => {
-  btn.addEventListener("click", () => haptic());
+  btn.addEventListener("click", () => {
+    haptic();
+    const page = btn.dataset.page;
+    viewSelect.value = page;
+    viewSelect.dispatchEvent(new Event("change"));
+  });
 });
 
-document.querySelectorAll(".side-menu-item").forEach(btn => {
-  btn.addEventListener("click", () => haptic());
-});
+viewSelect.addEventListener("change", () => haptic());
 
-document.getElementById("menuButton").addEventListener("click", () => haptic());
-document.getElementById("viewSelect").addEventListener("change", () => haptic());
-
-// =============================
-// CARICAMENTO INIZIALE VELOCE
-// =============================
-// =============================
+// =========================
 // AVVIO SUPER VELOCE
-// =============================
+// =========================
 (async () => {
-  // Mostra subito la dashboard senza attendere Firestore
+  // Mostra subito dashboard vuota
+  pages.dashboard.classList.add("active");
   renderDashboard();
 
   // Carica frese e schede in parallelo
