@@ -208,30 +208,34 @@ function renderDashboard() {
 const prog_timeline = document.getElementById("prog_timeline");
 
 function renderProgTimeline() {
-  prog_timeline.innerHTML = "";
+  const frag = document.createDocumentFragment();
+
   progArchivio.forEach(item => {
     const div = document.createElement("div");
     div.className = "timeline-item";
+
+    div.innerHTML = `
+      <div class="timeline-title">${item.commessa}</div>
+      <div class="timeline-meta"><strong>Stato attuale:</strong> ${item.stato.replace("_"," ")}</div>
+      <div class="timeline-meta"><strong>Storico:</strong><br>
+        ${item.history.map(h => `${h.timestamp} → ${h.stato.replace("_"," ")}`).join("<br>")}
+      </div>
+    `;
 
     const line = document.createElement("div");
     line.className = "timeline-line";
 
     const dot = document.createElement("div");
-    dot.className = `timeline-dot dot-${item.stato}`;
-
-    div.innerHTML = `
-      <div class="timeline-title">${item.commessa}</div>
-      <div class="timeline-meta"><strong>Stato attuale:</strong> ${item.stato.replace("_"," ")}</div>
-      <div class="timeline-meta">
-        <strong>Storico:</strong><br>
-        ${item.history.map(h => `${h.timestamp} → ${h.stato.replace("_"," ")}`).join("<br>")}
-      </div>
-    `;
+    dot.className = `timeline-dot dot_${item.stato}`;
 
     div.appendChild(line);
     div.appendChild(dot);
-    prog_timeline.appendChild(div);
+
+    frag.appendChild(div);
   });
+
+  prog_timeline.innerHTML = "";
+  prog_timeline.appendChild(frag);
 }
 
 // =========================
@@ -277,8 +281,8 @@ function showToast(msg) {
 // =========================
 // CALCOLI PAGINA NUOVO
 // =========================
-diam.addEventListener("input", calcolaS);
-mmin.addEventListener("input", calcolaS);
+diam.addEventListener("input", debounce(calcolaS));
+mmin.addEventListener("input", debounce(calcolaS));
 
 function calcolaS() {
   const D = num(diam.value);
@@ -290,10 +294,18 @@ function calcolaS() {
   }
 }
 
-tagl.addEventListener("input", calcolaF);
-avanzamento.addEventListener("input", calcolaF);
-s_calc.addEventListener("input", calcolaF);
-f.addEventListener("input", calcolaF);
+function debounce(fn, delay = 80) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), delay);
+  };
+}
+
+tagl.addEventListener("input", debounce(calcolaF));
+avanzamento.addEventListener("input", debounce(calcolaF));
+s_calc.addEventListener("input", debounce(calcolaF));
+f.addEventListener("input", debounce(calcolaF));
 
 function calcolaF() {
   const S = num(s_calc.value);
@@ -328,23 +340,33 @@ const pages = {
 const viewSelect = document.getElementById("viewSelect");
 
 viewSelect.addEventListener("change", (e) => {
-  Object.values(pages).forEach(p => p.classList.remove("active"));
-  pages[e.target.value].classList.add("active");
+  const page = e.target.value;
 
-  if (e.target.value === "dashboard") {
-    renderDashboard();
-  }
-  if (e.target.value === "archivio") {
-    renderArchivio();
-  }
-  if (e.target.value === "programmazione") {
-    renderProgArchivio();
-    renderProgTimeline();
-  }
-  if (e.target.value === "timeline") {
-    renderProgTimeline();
+  Object.values(pages).forEach(p => p.classList.remove("active"));
+  pages[page].classList.add("active");
+
+  switch (page) {
+    case "dashboard":
+      requestIdleCallback(renderDashboard);
+      break;
+
+    case "archivio":
+      requestIdleCallback(renderArchivio);
+      break;
+
+    case "programmazione":
+      requestIdleCallback(() => {
+        renderProgArchivio();
+        renderProgTimeline();
+      });
+      break;
+
+    case "timeline":
+      requestIdleCallback(renderProgTimeline);
+      break;
   }
 });
+
 
 // =========================
 // ARCHIVIO FRESE
@@ -399,16 +421,13 @@ document.getElementById("btnSalva").addEventListener("click", async () => {
 });
 
 function renderArchivio() {
-  lista.innerHTML = "";
-
-  let arr = [...archivio];
+  const arr = [...archivio];
   const key = sortSelect.value;
   const ord = orderSelect.value;
 
-  arr.sort((a, b) => {
-    if (ord === "asc") return a[key] > b[key] ? 1 : -1;
-    return a[key] < b[key] ? 1 : -1;
-  });
+  arr.sort((a, b) => ord === "asc" ? a[key] - b[key] : b[key] - a[key]);
+
+  const frag = document.createDocumentFragment();
 
   arr.forEach((item, idx) => {
     const div = document.createElement("div");
@@ -423,25 +442,28 @@ function renderArchivio() {
     btnMod.textContent = "Modifica";
     btnMod.className = "btn-primary";
     btnMod.style.marginTop = "6px";
-    btnMod.addEventListener("click", () => apriPopup(idx));
+    btnMod.onclick = () => apriPopup(idx);
 
     const btnDel = document.createElement("button");
     btnDel.textContent = "Elimina";
     btnDel.className = "btn-secondary";
     btnDel.style.marginTop = "6px";
-    btnDel.addEventListener("click", async () => {
-      const id = archivio[idx].id;
-      await deleteDoc(doc(db, "archivio_frese", id));
+    btnDel.onclick = async () => {
+      await deleteDoc(doc(db, "archivio_frese", item.id));
       archivio.splice(idx, 1);
       renderArchivio();
       showToast("Fresa eliminata ✔");
-    });
+    };
 
     div.appendChild(btnMod);
     div.appendChild(btnDel);
-    lista.appendChild(div);
+    frag.appendChild(div);
   });
+
+  lista.innerHTML = "";
+  lista.appendChild(frag);
 }
+
 
 // =========================
 // MODAL FRESE
@@ -757,10 +779,9 @@ const sideMenu = document.getElementById("sideMenu");
 const menuButton = document.getElementById("menuButton");
 
 function haptic() {
-  try {
-    if (window.navigator && navigator.vibrate) {
-      navigator.vibrate([30]);
-    }
+  if (navigator.vibrate) navigator.vibrate(20);
+}
+
   } catch (e) {
     console.log("Haptic non supportato:", e);
   }
@@ -796,11 +817,9 @@ viewSelect.addEventListener("change", () => haptic());
 // AVVIO SUPER VELOCE
 // =========================
 (async () => {
-  // Mostra subito dashboard vuota
   pages.dashboard.classList.add("active");
   renderDashboard();
 
-  // Carica frese e schede in parallelo
   const [frese, schede] = await Promise.all([
     getFrese(),
     getSchede()
@@ -809,9 +828,10 @@ viewSelect.addEventListener("change", () => haptic());
   archivio = frese;
   progArchivio = schede;
 
-  // Aggiorna tutto appena arrivano i dati
-  renderArchivio();
-  renderProgArchivio();
-  renderProgTimeline();
-  renderDashboard();
+  requestIdleCallback(() => {
+    renderArchivio();
+    renderProgArchivio();
+    renderProgTimeline();
+    renderDashboard();
+  });
 })();
