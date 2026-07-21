@@ -8,6 +8,7 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
   background: radial-gradient(circle at top, #141b3a 0%, #050814 55%, #02030a 100%);
   color: #e9faff;
+  padding-top: env(safe-area-inset-top);
 }
 
 /* HEADER */
@@ -104,7 +105,7 @@ select {
   border: 1px solid rgba(255,255,255,0.25);
   background: rgba(5,15,35,0.85);
   color: #e9faff;
-  font-size: 14px;
+  font-size: 16px !important; /* anti-zoom iPhone */
   outline: none;
   box-shadow:
     inset 0 1px 2px rgba(255,255,255,0.25),
@@ -121,7 +122,7 @@ input[type="date"] {
   border: 1px solid rgba(255,255,255,0.25);
   background: rgba(5,15,35,0.85);
   color: #e9faff;
-  font-size: 14px;
+  font-size: 16px !important;
   box-shadow:
     inset 0 1px 2px rgba(255,255,255,0.25),
     0 8px 16px rgba(0,0,0,0.55);
@@ -226,6 +227,10 @@ button {
   justify-content: center;
   align-items: center;
   z-index: 900;
+  overflow-y: auto;
+  align-items: flex-start;
+  padding-top: 20px;
+  padding-bottom: 40px;
 }
 
 .modal.hidden {
@@ -239,16 +244,6 @@ button {
   border-radius: 26px;
   position: relative;
   z-index: 901;
-}
-
-.modal {
-  overflow-y: auto;
-  align-items: flex-start;
-  padding-top: 20px;
-  padding-bottom: 40px;
-}
-
-.modal-content {
   max-height: calc(100vh - 60px);
   overflow-y: auto;
 }
@@ -286,14 +281,18 @@ button {
   vertical-align: middle;
 }
 
-/* MODALITÀ CHIARA */
+/* MODALITÀ CHIARA — BASE COLORI */
 body.light {
-  background: radial-gradient(circle at top, #f2f6ff 0%, #e6ecf7 55%, #dfe6f3 100%);
-  color: #0a0f1a;
+  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  color: #0a1a3a !important;
 }
 
 body.light header {
   border-bottom: 1px solid rgba(0,0,0,0.12);
+  background: transparent !important;
 }
 
 body.light .app-title {
@@ -558,7 +557,7 @@ body.light .timeline-dot {
   color: #c7e7ff;
 }
 
-/* Modalità chiara */
+/* Modalità chiara dashboard */
 body.light .dash-box {
   background: rgba(0,0,0,0.08);
 }
@@ -597,6 +596,12 @@ body.light .dash-item-meta {
   height: 100%;
   padding: 20px;
   border-radius: 0;
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  background: rgba(255, 255, 255, 0.18); /* acqua vetro */
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
 
 .side-menu-item {
@@ -614,7 +619,7 @@ body.light .dash-item-meta {
   transform: scale(0.96);
 }
 
-/* ICONA INFERIORE */
+/* ICONA INFERIORE — BASE */
 .menu-button {
   position: fixed;
   bottom: 18px;
@@ -634,6 +639,12 @@ body.light .dash-item-meta {
   box-shadow:
     0 8px 16px rgba(0,0,0,0.55),
     inset 0 1px 2px rgba(255,255,255,0.25);
+  padding: 6px; /* migliora l’icona interna */
+}
+
+.menu-button svg {
+  width: 30px;
+  height: 30px;
 }
 
 /* DASHBOARD SHORTCUTS */
@@ -661,27 +672,6 @@ body.light .dash-item-meta {
   transform: scale(0.85);
 }
 
-/* SFONDO ESTESO (FIX PANNELLO BIANCO) */
-header {
-  background: transparent !important;
-}
-
-/* FIX STRISCIA BIANCA SU IPHONE */
-header {
-  background: transparent !important;
-  padding-top: env(safe-area-inset-top);
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #02030a;
-}
-
-:root {
-  color-scheme: dark;
-}
-
 /* FIX CONTRASTO MENU SFERICO IN MODALITÀ CHIARA */
 body.light .menu-button {
   color: #0a1a3a !important; /* blu scuro leggibile */
@@ -706,276 +696,27 @@ body.light .dash-label {
   color: #0a1a3a !important; /* blu scuro */
 }
 
-/* DISABILITA LO ZOOM AUTOMATICO SU INPUT (IPHONE) */
-input,
-select,
-textarea {
-  font-size: 16px !important; /* valore minimo per evitare lo zoom */
-}
-
-/* MENU LATERALE GLASS EFFETTO ACQUA iOS */
-.side-menu-content {
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  background: rgba(255, 255, 255, 0.18); /* acqua vetro */
-  border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-}
-
 /* ============================= */
-/* MODALITÀ CHIARA — EFFETTO ACQUA / GHIACCIO iOS */
+/* MODALITÀ CHIARA — GLASS ACQUA / GHIACCIO iOS (B) */
 /* ============================= */
 
-body.light {
-  background: linear-gradient(135deg, #e9f2ff 0%, #ffffff 100%);
-  color: #0a1a3a;
-}
-
-/* Contenitori glass */
 body.light .container,
 body.light .card,
 body.light .dashboard-box,
 body.light .side-menu-content {
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(26px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(180%) !important;
+  background: rgba(255, 255, 255, 0.55) !important; /* vetro acqua */
   border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.35);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
-/* Testi blu scuro */
-body.light .dash-number,
-body.light .dash-label,
-body.light .shortcut,
-body.light .side-menu-item,
-body.light .menu-button {
-  color: #0a1a3a !important;
-  text-shadow: none !important;
-}
-
-/* ============================= */
-/* MENU LATERALE GLASS ACQUA iOS */
-/* ============================= */
-
-.side-menu-content {
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  background: rgba(255, 255, 255, 0.22);
-  border-radius: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-}
-
-/* ============================= */
-/* SHORTCUT TONDE GLASS iOS */
-/* ============================= */
-
-.shortcut {
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.shortcut:active {
-  transform: scale(0.92);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
-}
-
-/* ============================= */
-/* CELLE DASHBOARD 3D PROFONDE */
-/* ============================= */
-
-.dashboard-box {
-  background: rgba(255, 255, 255, 0.18);
-  border-radius: 18px;
-  box-shadow:
-    inset 0 0 12px rgba(255, 255, 255, 0.4),
-    inset 0 -4px 12px rgba(0, 0, 0, 0.15),
-    0 8px 20px rgba(0, 0, 0, 0.25);
-  padding: 18px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.dashboard-box:active {
-  transform: scale(0.97);
-  box-shadow:
-    inset 0 0 14px rgba(255, 255, 255, 0.5),
-    inset 0 -6px 14px rgba(0, 0, 0, 0.2),
-    0 10px 24px rgba(0, 0, 0, 0.3);
-}
-
-/* ============================= */
-/* ANTI-ZOOM iPHONE */
-/* ============================= */
-
-input,
-select,
-textarea {
-  font-size: 16px !important;
-}
-
-/* ============================= */
-/* SAFE-AREA iPHONE */
-/* ============================= */
-
-html, body {
-  background-color: #02030a;
-}
-
-body {
-  padding-top: env(safe-area-inset-top);
-}
-
-header {
-  background-color: #02030a !important;
-}
-
-/* ============================= */
-/* TEMA SCURO GLASS iOS VISIONOS */
-/* ============================= */
-
-body.dark {
-  background: linear-gradient(135deg, #02030a 0%, #0a0f2a 100%);
-  color: #e6ecff;
-}
-
-/* Contenitori glass scuri */
-body.dark .container,
-body.dark .card,
-body.dark .dashboard-box,
-body.dark .side-menu-content {
-  backdrop-filter: blur(26px) saturate(180%);
-  -webkit-backdrop-filter: blur(26px) saturate(180%);
-  background: rgba(10, 14, 35, 0.45); /* blu notte vetroso */
-  border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-}
-
-/* Testi scuri glass */
-body.dark .dash-number,
-body.dark .dash-label,
-body.dark .shortcut,
-body.dark .side-menu-item,
-body.dark .menu-button {
-  color: #dfe6ff !important;
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
-}
-
-/* ============================= */
-/* MENU LATERALE GLASS SCURO */
-/* ============================= */
-
-body.dark .side-menu-content {
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  background: rgba(10, 14, 35, 0.55);
-  border-radius: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
-}
-
-/* ============================= */
-/* SHORTCUT TONDE GLASS SCURE */
-/* ============================= */
-
-body.dark .shortcut {
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  background: rgba(20, 25, 55, 0.45);
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-body.dark .shortcut:active {
-  transform: scale(0.92);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
-}
-
-/* ============================= */
-/* CELLE DASHBOARD 3D SCURE */
-/* ============================= */
-
-body.dark .dashboard-box {
-  background: rgba(20, 25, 55, 0.35);
-  border-radius: 18px;
-  box-shadow:
-    inset 0 0 14px rgba(255, 255, 255, 0.08),
-    inset 0 -4px 12px rgba(0, 0, 0, 0.35),
-    0 8px 20px rgba(0, 0, 0, 0.55);
-  padding: 18px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-body.dark .dashboard-box:active {
-  transform: scale(0.97);
-  box-shadow:
-    inset 0 0 16px rgba(255, 255, 255, 0.12),
-    inset 0 -6px 14px rgba(0, 0, 0, 0.45),
-    0 10px 24px rgba(0, 0, 0, 0.65);
-}
-
-/* ============================= */
-/* SAFE-AREA iPHONE */
-/* ============================= */
-
-html, body {
-  background-color: #02030a;
-}
-
-body {
-  padding-top: env(safe-area-inset-top);
-}
-
-header {
-  background-color: #02030a !important;
-}
-
-/* ============================= */
-/* TEMA CHIARO GLASS ACQUA iOS */
-/* ============================= */
-
-body.light {
-  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%);
-  color: #0a1a3a;
-}
-
-/* Contenitori glass acqua */
-body.light .container,
-body.light .card,
-body.light .dashboard-box,
-body.light .side-menu-content {
-  backdrop-filter: blur(26px) saturate(180%);
-  -webkit-backdrop-filter: blur(26px) saturate(180%);
-  background: rgba(255, 255, 255, 0.55); /* vetro acqua */
-  border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-}
-
-/* Colori acqua / azzurro / blu scuro */
-body.light .dash-number,
-body.light .dash-label,
-body.light .shortcut,
-body.light .side-menu-item,
-body.light .menu-button {
-  color: #0a1a3a !important; /* blu scuro elegante */
-  text-shadow: none !important;
-}
-
-/* Shortcut tonde glass */
+/* Shortcut tonde glass chiara */
 body.light .shortcut {
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  background: rgba(255, 255, 255, 0.35) !important;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.35);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
@@ -989,7 +730,7 @@ body.light .shortcut:active {
 
 /* Dashboard 3D chiara */
 body.light .dashboard-box {
-  background: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.35) !important;
   border-radius: 18px;
   box-shadow:
     inset 0 0 14px rgba(255, 255, 255, 0.5),
@@ -1007,21 +748,14 @@ body.light .dashboard-box:active {
     0 10px 24px rgba(0, 0, 0, 0.25);
 }
 
-/* Menu laterale glass acqua */
+/* Menu laterale glass acqua chiaro */
 body.light .side-menu-content {
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  background: rgba(255, 255, 255, 0.45);
-  border-radius: 26px;
+  backdrop-filter: blur(32px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
+  background: rgba(255, 255, 255, 0.45) !important;
+  border-radius: 26px !important;
   border: 1px solid rgba(255, 255, 255, 0.35);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-}
-
-/* Anti-zoom iPhone */
-input,
-select,
-textarea {
-  font-size: 16px !important;
 }
 
 /* =========================================================
@@ -1128,47 +862,129 @@ body.light .menu-button::after {
   100% { transform: translate(0,0); }
 }
 
-/* =========================================================
-   FIX SFONDO MODALITÀ CHIARA — UNIFORME SENZA BANDE NERE
-========================================================= */
+/* ============================= */
+/* TEMA SCURO GLASS iOS VISIONOS */
+/* ============================= */
 
-body.light {
-  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
-  background-color: #ffffff !important;
+body.dark {
+  background: linear-gradient(135deg, #02030a 0%, #0a0f2a 100%);
+  color: #e6ecff;
 }
 
-/* Rimuove override scuro che copriva lo sfondo */
-html, body {
-  background-color: transparent !important;
+/* Contenitori glass scuri */
+body.dark .container,
+body.dark .card,
+body.dark .dashboard-box,
+body.dark .side-menu-content {
+  backdrop-filter: blur(26px) saturate(180%);
+  -webkit-backdrop-filter: blur(26px) saturate(180%);
+  background: rgba(10, 14, 35, 0.45); /* blu notte vetroso */
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
 }
 
-/* Header chiaro uniforme */
-body.light header {
-  background: transparent !important;
-  border-bottom-color: rgba(0,0,0,0.12);
-}
-
-/* =========================================================
-   PULSANTE TONDO — A SINISTRA IN MODALITÀ CHIARA
-========================================================= */
-
-body.light .menu-button {
-  right: auto !important;
-  left: 18px !important;
-}
-
-/* Modalità scura rimane a destra */
+/* Testi scuri glass */
+body.dark .dash-number,
+body.dark .dash-label,
+body.dark .shortcut,
+body.dark .side-menu-item,
 body.dark .menu-button {
-  right: 18px !important;
-  left: auto !important;
+  color: #dfe6ff !important;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+/* MENU LATERALE GLASS SCURO */
+body.dark .side-menu-content {
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  background: rgba(10, 14, 35, 0.55);
+  border-radius: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* SHORTCUT TONDE GLASS SCURE */
+body.dark .shortcut {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(20, 25, 55, 0.45);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+body.dark .shortcut:active {
+  transform: scale(0.92);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+}
+
+/* CELLE DASHBOARD 3D SCURE */
+body.dark .dashboard-box {
+  background: rgba(20, 25, 55, 0.35);
+  border-radius: 18px;
+  box-shadow:
+    inset 0 0 14px rgba(255, 255, 255, 0.08),
+    inset 0 -4px 12px rgba(0, 0, 0, 0.35),
+    0 8px 20px rgba(0, 0, 0, 0.55);
+  padding: 18px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+body.dark .dashboard-box:active {
+  transform: scale(0.97);
+  box-shadow:
+    inset 0 0 16px rgba(255, 255, 255, 0.12),
+    inset 0 -6px 14px rgba(0, 0, 0, 0.45),
+    0 10px 24px rgba(0, 0, 0, 0.65);
 }
 
 /* =========================================================
-   PULSANTE TONDO — SEMPRE A DESTRA (CHIARA + SCURA)
+   FIX DEFINITIVO — BOTTONE SFERICO (POSIZIONE + ICONA)
 ========================================================= */
 
+/* Posizione SEMPRE a destra in entrambe le modalità */
 body.light .menu-button,
 body.dark .menu-button {
-  left: auto !important;
+  position: fixed !important;
+  bottom: 18px !important;
   right: 18px !important;
+  left: auto !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+/* Icona interna ingrandita e NON ritagliata */
+.menu-button {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 0 !important;          /* niente ritaglio */
+  overflow: visible !important;   /* evita quadratura */
+}
+
+.menu-button svg {
+  width: 32px !important;         /* icona più grande */
+  height: 32px !important;
+}
+
+.menu-button {
+  position: fixed !important;
+  bottom: 18px !important;
+  right: 18px !important;
+  width: 58px !important;
+  height: 58px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.menu-button svg {
+  width: 32px !important;
+  height: 32px !important;
+  display: block !important;
 }
