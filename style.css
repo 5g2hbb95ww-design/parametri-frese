@@ -1074,3 +1074,61 @@ body.light header {
 body.light {
   padding-top: env(safe-area-inset-top);
 }
+
+
+/* =========================================================
+   FIX — STRISCIA SCURA IN ALTO (SOLO MODALITÀ CHIARA)
+========================================================= */
+
+/* Annulla il background scuro ereditato */
+body.light,
+html.light {
+  background-color: transparent !important;
+}
+
+/* Espande lo sfondo chiaro su tutto lo schermo */
+body.light {
+  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Header deve essere completamente trasparente */
+body.light header {
+  background: transparent !important;
+}
+
+
+/* =========================================================
+   FIX — ICONA DEL BOTTONE SFERICO (INGRANDITA E PERFETTA)
+========================================================= */
+
+/* Ingrandisce l’icona interna */
+.menu-button svg {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+/* Evita l’effetto “bordo quadrato” */
+.menu-button {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 4px !important; /* leggero padding per arrotondare l’icona */
+}
+
+/* Mantiene la sfera perfettamente rotonda */
+.menu-button {
+  border-radius: 50% !important;
+}
+
+/* Posizione fissa a destra (chiara + scura) */
+body.light .menu-button,
+body.dark .menu-button {
+  right: 18px !important;
+  left: auto !important;
+  bottom: 18px !important;
+  position: fixed !important;
+}
