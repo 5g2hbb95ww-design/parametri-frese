@@ -908,7 +908,7 @@ body.light .menu-button::after {
 /* ============================= */
 
 body.dark {
-  background: linear-gradient(135deg, #02030a 0%, #0a0f2a 100%);
+  background: radial-gradient(circle at top, #141b3a 0%, #050814 55%, #02030a 100%) !important;
   color: #e6ecff;
 }
 
