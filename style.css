@@ -273,9 +273,9 @@ body.light .btn-secondary {
 .shortcut {
   flex: 1;
   border-radius: 18px;
-  background: rgba(8, 16, 32, 0.9);
-  border: 1px solid rgba(140, 190, 255, 0.35);
-  color: var(--accent);
+  background-color: #0f1524; /* identico alla chat */
+  border: 1px solid rgba(140, 190, 255, 0.25);
+  color: #4cc3ff;
   display: flex;
   align-items: center;
   justify-content: center;
