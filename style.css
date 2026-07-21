@@ -1021,14 +1021,6 @@ body.dark {
   background-size: cover !important;
 }
 
-/* Modalità CHIARA — espansione sfondo */
-body.light {
-  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
-  background-attachment: fixed !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
-}
-
 /* Header deve essere sempre trasparente */
 header {
   background: transparent !important;
@@ -1045,7 +1037,6 @@ body {
 ========================================================= */
 
 /* Annulla il background scuro ereditato */
-body.light,
 html.light {
   background-color: transparent !important;
 }
@@ -1054,6 +1045,22 @@ html.light {
 body.light {
   background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
   background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+
+/* =========================================================
+   FIX FINALE — ELIMINA STRISCIA SCURA IN ALTO (SOLO CHIARA)
+========================================================= */
+
+/* Annulla il background scuro che rimane attivo */
+body.light {
+  background-color: transparent !important;
+}
+
+/* Espande il gradient chiaro su TUTTO lo schermo */
+body.light {
+  background: linear-gradient(135deg, #dff7ff 0%, #e8fff9 50%, #ffffff 100%) !important;
+  background-size: 100% 100% !important;
   background-repeat: no-repeat !important;
   background-attachment: fixed !important;
 }
