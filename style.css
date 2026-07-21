@@ -188,7 +188,10 @@ textarea {
   background: rgba(5, 10, 22, 0.9);
   color: var(--text-dark);
   padding: 7px 10px;
-  font-size: 14px;
+
+  /* iPhone – disattiva zoom automatico */
+  font-size: 16px;
+
   margin-bottom: 8px;
   outline: none;
 }
