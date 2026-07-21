@@ -1,5 +1,9 @@
 // firebase-config.js
+
+// Import Firebase core
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+// Import Firestore
 import {
   getFirestore,
   collection,
@@ -8,10 +12,11 @@ import {
   query,
   where,
   updateDoc,
+  deleteDoc,
   doc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Configurazione Firebase (questa è corretta)
+// Configurazione Firebase del tuo progetto
 const firebaseConfig = {
   apiKey: "AIzaSyAZ6lMMVoqzvtREmDW1Ixn0_7qu4QRsvOU",
   authDomain: "programmazione-3754c.firebaseapp.com",
@@ -31,5 +36,16 @@ const db = getFirestore(app);
 // Utente fisso (per ora)
 const CURRENT_USER = "antonio";
 
-// Esporta tutto
-export { db, collection, addDoc, getDocs, query, where, updateDoc, doc, CURRENT_USER };
+// Esporta tutto per app.js
+export {
+  db,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  deleteDoc,
+  doc,
+  CURRENT_USER
+};
