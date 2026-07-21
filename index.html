@@ -3,18 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Parametri Fresa</title>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
 </head>
 
 <body>
 
-<!-- HEADER -->
+  <!-- HEADER -->
 <header>
   <div class="app-title">Parametri Fresa</div>
 
@@ -35,386 +31,385 @@
   </div>
 </header>
 
-<!-- MAIN -->
-<main>
+  <!-- MAIN -->
+  <main>
 
-<!-- PAGINA DASHBOARD -->
-<section id="page-dashboard" class="page active">
+    <!-- PAGINA DASHBOARD -->
+    <section id="page-dashboard" class="page active">
 
-  <div class="card glass">
-    <h2>Dashboard</h2>
+      <div class="card glass volumetric">
+        <h2>Dashboard</h2>
 
-    <div class="dash-shortcuts">
-      <div class="shortcut" data-page="nuovo">➕</div>
-      <div class="shortcut" data-page="archivio">📁</div>
-      <div class="shortcut" data-page="programmazione">🛠</div>
-      <div class="shortcut" data-page="timeline">📊</div>
+        <div class="dash-shortcuts">
+          <div class="shortcut" data-page="nuovo">➕</div>
+          <div class="shortcut" data-page="archivio">📁</div>
+          <div class="shortcut" data-page="programmazione">🛠</div>
+          <div class="shortcut" data-page="timeline">📊</div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="dash-box">
+            <div class="dash-number" id="dash_tot_schede">0</div>
+            <div class="dash-label">Schede totali</div>
+          </div>
+
+          <div class="dash-box">
+            <div class="dash-number" id="dash_in_prog">0</div>
+            <div class="dash-label">In programmazione</div>
+          </div>
+
+          <div class="dash-box">
+            <div class="dash-number" id="dash_programmato">0</div>
+            <div class="dash-label">Programmato</div>
+          </div>
+
+          <div class="dash-box">
+            <div class="dash-number" id="dash_produzione">0</div>
+            <div class="dash-label">In produzione</div>
+          </div>
+
+          <div class="dash-box">
+            <div class="dash-number" id="dash_sospeso">0</div>
+            <div class="dash-label">Sospeso</div>
+          </div>
+
+          <div class="dash-box">
+            <div class="dash-number" id="dash_finito">0</div>
+            <div class="dash-label">Finito</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card glass volumetric">
+        <h2>Ultime schede modificate</h2>
+        <div id="dash_recent_schede"></div>
+      </div>
+
+      <div class="card glass volumetric">
+        <h2>Ultime frese aggiunte</h2>
+        <div id="dash_recent_frese"></div>
+      </div>
+
+    </section>
+
+    <!-- PAGINA NUOVO -->
+    <section id="page-nuovo" class="page">
+
+      <div class="card glass volumetric">
+        <h2>Dati fresa</h2>
+
+        <label>Denominazione fresa</label>
+        <input id="denominazione_fresa" type="text">
+
+        <div class="row">
+          <div class="col">
+            <label>Diametro (mm)</label>
+            <input id="diametro" type="number" step="0.01">
+          </div>
+          <div class="col">
+            <label>N. taglienti</label>
+            <input id="taglienti" type="number">
+          </div>
+        </div>
+      </div>
+
+      <div class="card glass volumetric">
+        <h2>Parametri di taglio</h2>
+
+        <div class="row">
+          <div class="col">
+            <label>S (giri/min)</label>
+            <input id="s" type="number">
+          </div>
+          <div class="col">
+            <label>F (mm/giro)</label>
+            <input id="f" type="number" step="0.01">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label>M/min</label>
+            <input id="mmin" type="number" step="0.1">
+          </div>
+          <div class="col">
+            <label>S calcolata</label>
+            <input id="s_calc" type="number" readonly>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label>Avanzamento (mm/dente)</label>
+            <input id="avanzamento" type="number" step="0.01">
+          </div>
+          <div class="col">
+            <label>F calcolata (mm/min)</label>
+            <input id="f_calc" type="number" readonly>
+          </div>
+        </div>
+      </div>
+
+      <div class="card glass volumetric">
+        <h2>Profondità / Passate</h2>
+
+        <div class="row">
+          <div class="col">
+            <label>Z Ap</label>
+            <input id="zap" type="number" step="0.01">
+          </div>
+          <div class="col">
+            <label>XY Ae</label>
+            <input id="xyae" type="number" step="0.01">
+          </div>
+        </div>
+      </div>
+
+      <div class="card glass volumetric">
+        <h2>Codici utensile</h2>
+
+        <label>Codice fresa</label>
+        <input id="codice_fresa" type="text">
+
+        <label>Codice inserto</label>
+        <input id="codice_inserto" type="text">
+      </div>
+
+      <div class="card glass volumetric">
+        <h2>Dettagli lavorazione</h2>
+
+        <div class="row">
+          <div class="col">
+            <label>Materiale</label>
+            <select id="materiale"></select>
+          </div>
+          <div class="col">
+            <label>Refrigerante</label>
+            <select id="refrigerante"></select>
+          </div>
+        </div>
+
+        <label>Dettagli</label>
+        <textarea id="dettagli" rows="3"></textarea>
+
+        <button id="btnSalva" class="btn-primary">Salva in archivio</button>
+      </div>
+    </section>
+
+    <!-- PAGINA ARCHIVIO -->
+    <section id="page-archivio" class="page">
+      <div class="card glass volumetric">
+        <h2>Archivio frese</h2>
+
+        <label>Ordina per</label>
+        <select id="sortSelect">
+          <option value="diametro">Diametro</option>
+          <option value="materiale">Materiale</option>
+          <option value="codiceFresa">Codice fresa</option>
+          <option value="refrigerante">Refrigerante</option>
+          <option value="mmin">Velocità di taglio (M/min)</option>
+          <option value="fCalc">Avanzamento (F calcolata)</option>
+        </select>
+
+        <label>Ordine</label>
+        <select id="orderSelect">
+          <option value="asc">Crescente</option>
+          <option value="desc">Decrescente</option>
+        </select>
+
+        <button id="btnExport" class="btn-primary">Esporta CSV</button>
+
+        <div id="lista"></div>
+      </div>
+    </section>
+
+    <!-- PAGINA PROGRAMMAZIONE -->
+    <section id="page-programmazione" class="page">
+
+      <div class="card glass volumetric">
+        <h2>Nuova scheda lavoro</h2>
+
+        <label>Macchina</label>
+        <select id="prog_macchina">
+          <option value="">—</option>
+          <option>Duravertical 3Ax (45)</option>
+          <option>Duravertical 3Ax (46)</option>
+          <option>NVX 5060 (58)</option>
+          <option>Okuma (59)</option>
+          <option>DMF-200/7 (57)</option>
+          <option>DMU 65 5Axis (89)</option>
+          <option>DMU 75 5Axis (90)</option>
+        </select>
+
+        <label>Commessa</label>
+        <input id="prog_commessa" type="text">
+
+        <label>Disegno</label>
+        <input id="prog_disegno" type="text">
+
+        <label>Revisione</label>
+        <input id="prog_rev" type="text">
+
+        <label>Data Programma</label>
+        <input id="prog_data" type="date">
+
+        <label>Tempo programmazione (min)</label>
+        <input id="prog_tempo" type="number">
+
+        <label>Operatore CNC</label>
+        <select id="prog_operatore">
+          <option value="">—</option>
+          <option>Marco T.</option>
+          <option>Nicola B.</option>
+          <option>Roberto Q.</option>
+          <option>Daniel D.</option>
+          <option>Igor B.</option>
+          <option>Altri</option>
+        </select>
+
+        <label>Stato</label>
+        <select id="prog_stato">
+          <option value="in_programmazione">In programmazione</option>
+          <option value="programmato">Programmato</option>
+          <option value="in_produzione">In produzione</option>
+          <option value="sospeso">Sospeso</option>
+          <option value="finito">Finito</option>
+        </select>
+
+        <label>Note</label>
+        <textarea id="prog_note" rows="3"></textarea>
+
+        <button id="btnSalvaProgrammazione" class="btn-primary">Salva scheda</button>
+      </div>
+
+      <div class="card glass volumetric">
+        <h2>Archivio schede</h2>
+
+        <label>Filtra per stato</label>
+        <select id="prog_filter">
+          <option value="">Tutti</option>
+          <option value="in_programmazione">In programmazione</option>
+          <option value="programmato">Programmato</option>
+          <option value="in_produzione">In produzione</option>
+          <option value="sospeso">Sospeso</option>
+          <option value="finito">Finito</option>
+        </select>
+
+        <div id="prog_progress" class="prog-progress"></div>
+        <div id="prog_lista"></div>
+      </div>
+
+    </section>
+
+    <!-- PAGINA TIMELINE -->
+    <section id="page-timeline" class="page">
+      <div class="card glass volumetric">
+        <h2>Timeline programmazione</h2>
+        <div id="prog_timeline"></div>
+      </div>
+
+      <button id="btnExportPDF" class="btn-primary">Esporta PDF</button>
+    </section>
+
+  </main>
+
+  <!-- MODAL FRESE -->
+  <div id="modalEdit" class="modal hidden">
+    <div class="modal-content glass volumetric">
+      <h2>Modifica fresa</h2>
+
+      <label>Denominazione</label>
+      <input id="edit_denominazione" type="text">
+
+      <label>Diametro</label>
+      <input id="edit_diametro" type="number">
+
+      <label>Taglienti</label>
+      <input id="edit_taglienti" type="number">
+
+      <label>S</label>
+      <input id="edit_s" type="number">
+
+      <label>Avanzamento</label>
+      <input id="edit_avanzamento" type="number">
+
+      <label>Materiale</label>
+      <select id="edit_materiale"></select>
+
+      <label>Refrigerante</label>
+      <select id="edit_refrigerante"></select>
+
+      <label>Dettagli</label>
+      <textarea id="edit_dettagli"></textarea>
+
+      <button id="btnUpdate" class="btn-primary">Aggiorna</button>
+      <button id="btnCloseModal" class="btn-secondary">Chiudi</button>
     </div>
+  </div>
 
-    <div class="dash-grid">
-      <div class="dashboard-box">
-        <div class="dash-number" id="dash_tot_schede">0</div>
-        <div class="dash-label">Schede totali</div>
-      </div>
+  <!-- MODAL PROGRAMMAZIONE -->
+  <div id="modalProgEdit" class="modal hidden">
+    <div class="modal-content glass volumetric">
 
-      <div class="dashboard-box">
-        <div class="dash-number" id="dash_in_prog">0</div>
-        <div class="dash-label">In programmazione</div>
-      </div>
+      <h2>Modifica scheda</h2>
 
-      <div class="dashboard-box">
-        <div class="dash-number" id="dash_programmato">0</div>
-        <div class="dash-label">Programmato</div>
-      </div>
+      <label>Macchina</label>
+      <select id="edit_prog_macchina"></select>
 
-      <div class="dashboard-box">
-        <div class="dash-number" id="dash_produzione">0</div>
-        <div class="dash-label">In produzione</div>
-      </div>
+      <label>Commessa</label>
+      <input id="edit_prog_commessa" type="text">
 
-      <div class="dashboard-box">
-        <div class="dash-number" id="dash_sospeso">0</div>
-        <div class="dash-label">Sospeso</div>
-      </div>
+      <label>Disegno</label>
+      <input id="edit_prog_disegno" type="text">
 
-      <div class="dashboard-box">
-        <div class="dash-number" id="dash_finito">0</div>
-        <div class="dash-label">Finito</div>
-      </div>
+      <label>Revisione</label>
+      <input id="edit_prog_rev" type="text">
+
+      <label>Data Programma</label>
+      <input id="edit_prog_data" type="date">
+
+      <label>Tempo programmazione (min)</label>
+      <input id="edit_prog_tempo" type="number">
+
+      <label>Operatore CNC</label>
+      <select id="edit_prog_operatore"></select>
+
+      <label>Stato</label>
+      <select id="edit_prog_stato">
+        <option value="in_programmazione">In programmazione</option>
+        <option value="programmato">Programmato</option>
+        <option value="in_produzione">In produzione</option>
+        <option value="sospeso">Sospeso</option>
+        <option value="finito">Finito</option>
+      </select>
+
+      <label>Note</label>
+      <textarea id="edit_prog_note" rows="3"></textarea>
+
+      <button id="btnProgUpdate" class="btn-primary">Aggiorna</button>
+      <button id="btnProgClose" class="btn-secondary">Chiudi</button>
+
     </div>
   </div>
 
-  <div class="card glass">
-    <h2>Ultime schede modificate</h2>
-    <div id="dash_recent_schede"></div>
-  </div>
+  <!-- TOAST -->
+  <div id="toast" class="toast hidden">Operazione completata ✔</div>
 
-  <div class="card glass">
-    <h2>Ultime frese aggiunte</h2>
-    <div id="dash_recent_frese"></div>
-  </div>
+  <!-- MENU LATERALE -->
+  <div id="sideMenu" class="side-menu hidden">
+    <div class="side-menu-content glass volumetric">
+      <h2>Navigazione</h2>
 
-</section>
-
-<!-- PAGINA NUOVO -->
-<section id="page-nuovo" class="page">
-
-  <div class="card glass">
-    <h2>Dati fresa</h2>
-
-    <label>Denominazione fresa</label>
-    <input id="denominazione_fresa" type="text">
-
-    <div class="row">
-      <div class="col">
-        <label>Diametro (mm)</label>
-        <input id="diametro" type="number" step="0.01">
-      </div>
-      <div class="col">
-        <label>N. taglienti</label>
-        <input id="taglienti" type="number">
-      </div>
+      <div class="side-menu-item" data-page="dashboard">🏠 Dashboard</div>
+      <div class="side-menu-item" data-page="nuovo">➕ Nuovo</div>
+      <div class="side-menu-item" data-page="archivio">📁 Archivio</div>
+      <div class="side-menu-item" data-page="programmazione">🛠 Programmazione</div>
+      <div class="side-menu-item" data-page="timeline">📊 Timeline</div>
     </div>
   </div>
 
-  <div class="card glass">
-    <h2>Parametri di taglio</h2>
-
-    <div class="row">
-      <div class="col">
-        <label>S (giri/min)</label>
-        <input id="s" type="number">
-      </div>
-      <div class="col">
-        <label>F (mm/giro)</label>
-        <input id="f" type="number" step="0.01">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <label>M/min</label>
-        <input id="mmin" type="number" step="0.1">
-      </div>
-      <div class="col">
-        <label>S calcolata</label>
-        <input id="s_calc" type="number" readonly>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <label>Avanzamento (mm/dente)</label>
-        <input id="avanzamento" type="number" step="0.01">
-      </div>
-      <div class="col">
-        <label>F calcolata (mm/min)</label>
-        <input id="f_calc" type="number" readonly>
-      </div>
-    </div>
-  </div>
-
-  <div class="card glass">
-    <h2>Profondità / Passate</h2>
-
-    <div class="row">
-      <div class="col">
-        <label>Z Ap</label>
-        <input id="zap" type="number" step="0.01">
-      </div>
-      <div class="col">
-        <label>XY Ae</label>
-        <input id="xyae" type="number" step="0.01">
-      </div>
-    </div>
-  </div>
-
-  <div class="card glass">
-    <h2>Codici utensile</h2>
-
-    <label>Codice fresa</label>
-    <input id="codice_fresa" type="text">
-
-    <label>Codice inserto</label>
-    <input id="codice_inserto" type="text">
-  </div>
-
-  <div class="card glass">
-    <h2>Dettagli lavorazione</h2>
-
-    <div class="row">
-      <div class="col">
-        <label>Materiale</label>
-        <select id="materiale"></select>
-      </div>
-      <div class="col">
-        <label>Refrigerante</label>
-        <select id="refrigerante"></select>
-      </div>
-    </div>
-
-    <label>Dettagli</label>
-    <textarea id="dettagli" rows="3"></textarea>
-
-    <button id="btnSalva" class="btn-primary">Salva in archivio</button>
-  </div>
-
-</section>
-
-<!-- PAGINA ARCHIVIO -->
-<section id="page-archivio" class="page">
-  <div class="card glass">
-    <h2>Archivio frese</h2>
-
-    <label>Ordina per</label>
-    <select id="sortSelect">
-      <option value="diametro">Diametro</option>
-      <option value="materiale">Materiale</option>
-      <option value="codiceFresa">Codice fresa</option>
-      <option value="refrigerante">Refrigerante</option>
-      <option value="mmin">Velocità di taglio (M/min)</option>
-      <option value="fCalc">Avanzamento (F calcolata)</option>
-    </select>
-
-    <label>Ordine</label>
-    <select id="orderSelect">
-      <option value="asc">Crescente</option>
-      <option value="desc">Decrescente</option>
-    </select>
-
-    <button id="btnExport" class="btn-primary">Esporta CSV</button>
-
-    <div id="lista"></div>
-  </div>
-</section>
-
-<!-- PAGINA PROGRAMMAZIONE -->
-<section id="page-programmazione" class="page">
-
-  <div class="card glass">
-    <h2>Nuova scheda lavoro</h2>
-
-    <label>Macchina</label>
-    <select id="prog_macchina">
-      <option value="">—</option>
-      <option>Duravertical 3Ax (45)</option>
-      <option>Duravertical 3Ax (46)</option>
-      <option>NVX 5060 (58)</option>
-      <option>Okuma (59)</option>
-      <option>DMF-200/7 (57)</option>
-      <option>DMU 65 5Axis (89)</option>
-      <option>DMU 75 5Axis (90)</option>
-    </select>
-
-    <label>Commessa</label>
-    <input id="prog_commessa" type="text">
-
-    <label>Disegno</label>
-    <input id="prog_disegno" type="text">
-
-    <label>Revisione</label>
-    <input id="prog_rev" type="text">
-
-    <label>Data Programma</label>
-    <input id="prog_data" type="date">
-
-    <label>Tempo programmazione (min)</label>
-    <input id="prog_tempo" type="number">
-
-    <label>Operatore CNC</label>
-    <select id="prog_operatore">
-      <option value="">—</option>
-      <option>Marco T.</option>
-      <option>Nicola B.</option>
-      <option>Roberto Q.</option>
-      <option>Daniel D.</option>
-      <option>Igor B.</option>
-      <option>Altri</option>
-    </select>
-
-    <label>Stato</label>
-    <select id="prog_stato">
-      <option value="in_programmazione">In programmazione</option>
-      <option value="programmato">Programmato</option>
-      <option value="in_produzione">In produzione</option>
-      <option value="sospeso">Sospeso</option>
-      <option value="finito">Finito</option>
-    </select>
-
-    <label>Note</label>
-    <textarea id="prog_note" rows="3"></textarea>
-
-    <button id="btnSalvaProgrammazione" class="btn-primary">Salva scheda</button>
-  </div>
-
-  <div class="card glass">
-    <h2>Archivio schede</h2>
-
-    <label>Filtra per stato</label>
-    <select id="prog_filter">
-      <option value="">Tutti</option>
-      <option value="in_programmazione">In programmazione</option>
-      <option value="programmato">Programmato</option>
-      <option value="in_produzione">In produzione</option>
-      <option value="sospeso">Sospeso</option>
-      <option value="finito">Finito</option>
-    </select>
-
-    <div id="prog_progress" class="prog-progress"></div>
-    <div id="prog_lista"></div>
-  </div>
-
-</section>
-
-<!-- PAGINA TIMELINE -->
-<section id="page-timeline" class="page">
-  <div class="card glass">
-    <h2>Timeline programmazione</h2>
-    <div id="prog_timeline"></div>
-  </div>
-
-  <button id="btnExportPDF" class="btn-primary">Esporta PDF</button>
-</section>
-
-</main>
-
-<!-- MODAL FRESE -->
-<div id="modalEdit" class="modal hidden">
-  <div class="modal-content glass">
-    <h2>Modifica fresa</h2>
-
-    <label>Denominazione</label>
-    <input id="edit_denominazione" type="text">
-
-    <label>Diametro</label>
-    <input id="edit_diametro" type="number">
-
-    <label>Taglienti</label>
-    <input id="edit_taglienti" type="number">
-
-    <label>S</label>
-    <input id="edit_s" type="number">
-
-    <label>Avanzamento</label>
-    <input id="edit_avanzamento" type="number">
-
-    <label>Materiale</label>
-    <select id="edit_materiale"></select>
-
-    <label>Refrigerante</label>
-    <select id="edit_refrigerante"></select>
-
-    <label>Dettagli</label>
-    <textarea id="edit_dettagli"></textarea>
-
-    <button id="btnUpdate" class="btn-primary">Aggiorna</button>
-    <button id="btnCloseModal" class="btn-secondary">Chiudi</button>
-  </div>
-</div>
-
-<!-- MODAL PROGRAMMAZIONE -->
-<div id="modalProgEdit" class="modal hidden">
-  <div class="modal-content glass">
-
-    <h2>Modifica scheda</h2>
-
-    <label>Macchina</label>
-    <select id="edit_prog_macchina"></select>
-
-    <label>Commessa</label>
-    <input id="edit_prog_commessa" type="text">
-
-    <label>Disegno</label>
-    <input id="edit_prog_disegno" type="text">
-
-    <label>Revisione</label>
-    <input id="edit_prog_rev" type="text">
-
-    <label>Data Programma</label>
-    <input id="edit_prog_data" type="date">
-
-    <label>Tempo programmazione (min)</label>
-    <input id="edit_prog_tempo" type="number">
-
-    <label>Operatore CNC</label>
-    <select id="edit_prog_operatore"></select>
-
-    <label>Stato</label>
-    <select id="edit_prog_stato">
-      <option value="in_programmazione">In programmazione</option>
-      <option value="programmato">Programmato</option>
-      <option value="in_produzione">In produzione</option>
-      <option value="sospeso">Sospeso</option>
-      <option value="finito">Finito</option>
-    </select>
-
-    <label>Note</label>
-    <textarea id="edit_prog_note" rows="3"></textarea>
-
-    <button id="btnProgUpdate" class="btn-primary">Aggiorna</button>
-    <button id="btnProgClose" class="btn-secondary">Chiudi</button>
-
-  </div>
-</div>
-
-<!-- TOAST -->
-<div id="toast" class="toast hidden">Operazione completata ✔</div>
-
-<!-- MENU LATERALE -->
-<div id="sideMenu" class="side-menu hidden">
-  <div class="side-menu-content glass">
-    <h2>Navigazione</h2>
-
-    <div class="side-menu-item" data-page="dashboard">🏠 Dashboard</div>
-    <div class="side-menu-item" data-page="nuovo">➕ Nuovo</div>
-    <div class="side-menu-item" data-page="archivio">📁 Archivio</div>
-    <div class="side-menu-item" data-page="programmazione">🛠 Programmazione</div>
-    <div class="side-menu-item" data-page="timeline">📊 Timeline</div>
-  </div>
-</div>
-
-<!-- ICONA INFERIORE -->
-<div id="menuButton" class="menu-button">
+  <!-- ICONA INFERIORE -->
+  <div id="menuButton" class="menu-button">
   <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
     <rect x="8" y="10" width="16" height="2" rx="1"/>
     <rect x="8" y="15" width="16" height="2" rx="1"/>
@@ -422,7 +417,8 @@
   </svg>
 </div>
 
-<script src="app.js"></script>
+
+  <script src="app.js"></script>
 
 </body>
 </html>
