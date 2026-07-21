@@ -24,12 +24,9 @@ html, body {
 
 /* Tema scuro */
 @media (prefers-color-scheme: dark) {
-    :root {
-        --app-bg: #000000; /* scuro stile iOS */
-    }
-
     body {
-        background-color: #000000;
+        background-color: transparent; 
+        /* lascia che body.dark gestisca lo sfondo */
         padding-top: env(safe-area-inset-top);
     }
 }
