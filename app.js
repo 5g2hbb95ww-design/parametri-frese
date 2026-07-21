@@ -12,6 +12,11 @@ import {
   CURRENT_USER
 } from "./firebase-config.js";
 
+(async () => {
+  archivio = await getFrese();
+  progArchivio = await getSchede();
+})();
+
 // =========================
 // FIREBASE – FRESE
 // =========================
