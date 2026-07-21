@@ -12,6 +12,72 @@ import {
 } from "./firebase-config.js";
 
 // =========================
+// FIREBASE – FRESE
+// =========================
+async function saveFresa(item) {
+  const colRef = collection(db, "archivio_frese");
+  const payload = {
+    ...item,
+    utente: CURRENT_USER,
+    data_creazione: new Date().toISOString()
+  };
+  await addDoc(colRef, payload);
+}
+
+async function getFrese() {
+  const colRef = collection(db, "archivio_frese");
+  const q = query(colRef, where("utente", "==", CURRENT_USER));
+  const snap = await getDocs(q);
+  const result = [];
+  snap.forEach(d => result.push({ id: d.id, ...d.data() }));
+  return result;
+}
+
+// =========================
+// FIREBASE – PROGRAMMAZIONE
+// =========================
+async function saveScheda(item) {
+  const colRef = collection(db, "programmazione_schede");
+  const payload = {
+    ...item,
+    utente: CURRENT_USER,
+    data_creazione: new Date().toISOString()
+  };
+  await addDoc(colRef, payload);
+}
+
+async function getSchede() {
+  const colRef = collection(db, "programmazione_schede");
+  const q = query(colRef, where("utente", "==", CURRENT_USER));
+  const snap = await getDocs(q);
+  const result = [];
+  snap.forEach(d => result.push({ id: d.id, ...d.data() }));
+  return result;
+}
+
+// =========================
+// FIREBASE – TIMELINE
+// =========================
+async function saveTimelineEntry(entry) {
+  const colRef = collection(db, "storia_timeline");
+  const payload = {
+    ...entry,
+    utente: CURRENT_USER,
+    data_evento: new Date().toISOString()
+  };
+  await addDoc(colRef, payload);
+}
+
+async function getTimeline() {
+  const colRef = collection(db, "storia_timeline");
+  const q = query(colRef, where("utente", "==", CURRENT_USER));
+  const snap = await getDocs(q);
+  const result = [];
+  snap.forEach(d => result.push({ id: d.id, ...d.data() }));
+  return result;
+}
+
+// =========================
 // REGISTRAZIONE SERVICE WORKER
 // =========================
 if ("serviceWorker" in navigator) {
