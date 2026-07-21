@@ -1,3 +1,37 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: var(--app-bg);
+}
+
+body {
+    /* Forza l’estensione sotto la status bar */
+    padding-top: env(safe-area-inset-top);
+}
+
+:root {
+    color-scheme: light dark;
+}
+
+/* Tema chiaro */
+@media (prefers-color-scheme: light) {
+    :root {
+        --app-bg: #f2f2f7; /* colore chiaro stile iOS */
+    }
+}
+
+/* Tema scuro */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --app-bg: #000000; /* nero pieno stile iOS */
+    }
+}
+
+body {
+    margin-top: calc(-1 * env(safe-area-inset-top));
+}
+
 * {
   box-sizing: border-box;
 }
