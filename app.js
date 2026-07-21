@@ -1,19 +1,5 @@
-// app.js
-import {
-  db,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  where,
-  updateDoc,
-  doc,
-  deleteDoc,
-  CURRENT_USER
-} from "./firebase-config.js";
-
 // =========================
-// FIREBASE – FRESE
+// FIREBASE – FRESE (VERSIONE VELOCE)
 // =========================
 async function saveFresa(item) {
   const colRef = collection(db, "archivio_frese");
@@ -22,7 +8,10 @@ async function saveFresa(item) {
     utente: CURRENT_USER,
     data_creazione: new Date().toISOString()
   };
-  await addDoc(colRef, payload);
+  const ref = await addDoc(colRef, payload);
+
+  // Aggiornamento locale immediato
+  archivio.push({ id: ref.id, ...payload });
 }
 
 async function getFrese() {
@@ -35,7 +24,7 @@ async function getFrese() {
 }
 
 // =========================
-// FIREBASE – PROGRAMMAZIONE
+// FIREBASE – PROGRAMMAZIONE (VERSIONE VELOCE)
 // =========================
 async function saveScheda(item) {
   const colRef = collection(db, "programmazione_schede");
@@ -44,7 +33,10 @@ async function saveScheda(item) {
     utente: CURRENT_USER,
     data_creazione: new Date().toISOString()
   };
-  await addDoc(colRef, payload);
+  const ref = await addDoc(colRef, payload);
+
+  // Aggiornamento locale immediato
+  progArchivio.push({ id: ref.id, ...payload });
 }
 
 async function getSchede() {
@@ -57,7 +49,7 @@ async function getSchede() {
 }
 
 // =========================
-// FIREBASE – TIMELINE
+// FIREBASE – TIMELINE (VERSIONE VELOCE)
 // =========================
 async function saveTimelineEntry(entry) {
   const colRef = collection(db, "storia_timeline");
@@ -69,20 +61,523 @@ async function saveTimelineEntry(entry) {
   await addDoc(colRef, payload);
 }
 
-async function getTimeline() {
-  const colRef = collection(db, "storia_timeline");
-  const q = query(colRef, where("utente", "==", CURRENT_USER));
-  const snap = await getDocs(q);
-  const result = [];
-  snap.forEach(d => result.push({ id: d.id, ...d.data() }));
-  return result;
-}
+// =============================
+// CARICAMENTO INIZIALE VELOCE
+// =============================
+let archivio = [];
+let progArchivio = [];
 
 (async () => {
   archivio = await getFrese();
   progArchivio = await getSchede();
-})();
 
+  renderArchivio();
+  renderProgArchivio();
+  renderProgTimeline();
+  renderDashboard();
+})();
+// =============================
+// ARCHIVIO FRESE — VERSIONE VELOCE
+// =============================
+let archivio = [];
+
+const lista = document.getElementById("lista");
+const sortSelect = document.getElementById("sortSelect");
+const orderSelect = document.getElementById("orderSelect");
+
+// Reset campi pagina NUOVO
+function resetCampiNuovo() {
+  den.value = "";
+  diam.value = "";
+  tagl.value = "";
+  s.value = "";
+  f.value = "";
+  mmin.value = "";
+  s_calc.value = "";
+  avanzamento.value = "";
+  f_calc.value = "";
+  zap.value = "";
+  xyae.value = "";
+  codFresa.value = "";
+  codInserto.value = "";
+  materiale.value = "";
+  refrigerante.value = "";
+  dettagli.value = "";
+}
+
+// =============================
+// SALVATAGGIO FRESE — VELOCE
+// =============================
+document.getElementById("btnSalva").addEventListener("click", async () => {
+  const item = {
+    denominazione: den.value.trim(),
+    diametro: num(diam.value),
+    taglienti: num(tagl.value),
+    s: num(s.value),
+    f: num(f.value),
+    mmin: num(mmin.value),
+    sCalc: num(s_calc.value),
+    avanzamento: num(avanzamento.value),
+    fCalc: num(f_calc.value),
+    zap: num(zap.value),
+    xyae: num(xyae.value),
+    codiceFresa: codFresa.value.trim(),
+    codiceInserto: codInserto.value.trim(),
+    materiale: materiale.value,
+    refrigerante: refrigerante.value,
+    dettagli: dettagli.value.trim()
+  };
+
+  // Salva su Firestore
+  const colRef = collection(db, "archivio_frese");
+  const payload = {
+    ...item,
+    utente: CURRENT_USER,
+    data_creazione: new Date().toISOString()
+  };
+  const ref = await addDoc(colRef, payload);
+
+  // Aggiornamento locale immediato
+  archivio.push({ id: ref.id, ...payload });
+
+  renderArchivio();
+  showToast("Fresa salvata ✔");
+  resetCampiNuovo();
+});
+
+// =============================
+// RENDER ARCHIVIO — VELOCE
+// =============================
+function renderArchivio() {
+  lista.innerHTML = "";
+
+  let arr = [...archivio];
+
+  const key = sortSelect.value;
+  const ord = orderSelect.value;
+
+  arr.sort((a, b) => {
+    if (ord === "asc") return a[key] > b[key] ? 1 : -1;
+    return a[key] < b[key] ? 1 : -1;
+  });
+
+  arr.forEach((item, idx) => {
+    const div = document.createElement("div");
+    div.className = "arch-item";
+
+    div.innerHTML = `
+      <div class="arch-item-title">${item.denominazione}</div>
+      <div class="arch-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
+    `;
+
+    // MODIFICA
+    const btnMod = document.createElement("button");
+    btnMod.textContent = "Modifica";
+    btnMod.className = "btn-primary";
+    btnMod.style.marginTop = "6px";
+    btnMod.addEventListener("click", () => apriPopup(idx));
+
+    // ELIMINA — VELOCE
+    const btnDel = document.createElement("button");
+    btnDel.textContent = "Elimina";
+    btnDel.className = "btn-secondary";
+    btnDel.style.marginTop = "6px";
+    btnDel.addEventListener("click", async () => {
+      const id = archivio[idx].id;
+
+      await deleteDoc(doc(db, "archivio_frese", id));
+
+      // Aggiornamento locale immediato
+      archivio.splice(idx, 1);
+
+      renderArchivio();
+      showToast("Fresa eliminata ✔");
+    });
+
+    div.appendChild(btnMod);
+    div.appendChild(btnDel);
+    lista.appendChild(div);
+  });
+}
+
+// =============================
+// MODAL FRESE — VERSIONE VELOCE
+// =============================
+const modalEdit = document.getElementById("modalEdit");
+const btnCloseModal = document.getElementById("btnCloseModal");
+let editIndex = null;
+
+function apriPopup(idx) {
+  editIndex = idx;
+  const item = archivio[idx];
+
+  edit_denominazione.value = item.denominazione;
+  edit_diametro.value = item.diametro;
+  edit_taglienti.value = item.taglienti;
+  edit_s.value = item.s;
+  edit_avanzamento.value = item.avanzamento;
+  edit_materiale.value = item.materiale;
+  edit_refrigerante.value = item.refrigerante;
+  edit_dettagli.value = item.dettagli;
+
+  modalEdit.classList.remove("hidden");
+}
+
+btnCloseModal.addEventListener("click", () => {
+  modalEdit.classList.add("hidden");
+});
+
+// =============================
+// AGGIORNAMENTO FRESE — VELOCE
+// =============================
+document.getElementById("btnUpdate").addEventListener("click", async () => {
+  const item = archivio[editIndex];
+
+  const updated = {
+    denominazione: edit_denominazione.value.trim(),
+    diametro: num(edit_diametro.value),
+    taglienti: num(edit_taglienti.value),
+    s: num(edit_s.value),
+    avanzamento: num(edit_avanzamento.value),
+    materiale: edit_materiale.value,
+    refrigerante: edit_refrigerante.value,
+    dettagli: edit_dettagli.value.trim()
+  };
+
+  await updateDoc(doc(db, "archivio_frese", item.id), updated);
+
+  // Aggiornamento locale immediato
+  archivio[editIndex] = { id: item.id, ...updated };
+
+  renderArchivio();
+  modalEdit.classList.add("hidden");
+  showToast("Fresa aggiornata ✔");
+});
+// =============================
+// PROGRAMMAZIONE — VERSIONE VELOCE
+// =============================
+let progArchivio = [];
+
+const prog_lista = document.getElementById("prog_lista");
+const prog_progress = document.getElementById("prog_progress");
+const prog_timeline = document.getElementById("prog_timeline");
+const prog_filter = document.getElementById("prog_filter");
+
+// Reset campi pagina PROGRAMMAZIONE
+function resetCampiProgrammazione() {
+  prog_macchina.value = "";
+  prog_commessa.value = "";
+  prog_disegno.value = "";
+  prog_rev.value = "";
+  prog_data.value = "";
+  prog_tempo.value = "";
+  prog_operatore.value = "";
+  prog_stato.value = "in_programmazione";
+  prog_note.value = "";
+}
+
+// =============================
+// SALVATAGGIO SCHEDA — VELOCE
+// =============================
+document.getElementById("btnSalvaProgrammazione").addEventListener("click", async () => {
+  const item = {
+    macchina: prog_macchina.value,
+    commessa: prog_commessa.value.trim(),
+    disegno: prog_disegno.value.trim(),
+    revisione: prog_rev.value.trim(),
+    dataProgramma: prog_data.value,
+    tempo: num(prog_tempo.value),
+    operatore: prog_operatore.value,
+    stato: prog_stato.value,
+    note: prog_note.value.trim(),
+    history: [
+      {
+        stato: prog_stato.value,
+        timestamp: new Date().toLocaleString()
+      }
+    ]
+  };
+
+  // Salva su Firestore
+  const colRef = collection(db, "programmazione_schede");
+  const payload = {
+    ...item,
+    utente: CURRENT_USER,
+    data_creazione: new Date().toISOString()
+  };
+  const ref = await addDoc(colRef, payload);
+
+  // Aggiornamento locale immediato
+  progArchivio.push({ id: ref.id, ...payload });
+
+  // Timeline immediata
+  await saveTimelineEntry({
+    commessa: item.commessa,
+    stato: item.stato,
+    timestamp: new Date().toLocaleString()
+  });
+
+  renderProgArchivio();
+  renderProgTimeline();
+  showToast("Scheda salvata ✔");
+  resetCampiProgrammazione();
+});
+
+// =============================
+// RENDER PROGRAMMAZIONE — VELOCE
+// =============================
+function renderProgArchivio() {
+  prog_lista.innerHTML = "";
+  prog_progress.innerHTML = "";
+
+  let arr = [...progArchivio];
+
+  if (prog_filter.value) {
+    arr = arr.filter(x => x.stato === prog_filter.value);
+  }
+
+  arr.forEach((item, idx) => {
+    const div = document.createElement("div");
+    div.className = "arch-item";
+
+    div.innerHTML = `
+      <div class="arch-item-title">${item.commessa}</div>
+      <div class="arch-item-meta">${item.macchina} — ${item.operatore}</div>
+      <span class="badge ${item.stato}">${item.stato.replace("_", " ")}</span>
+      <div class="arch-item-meta">${item.dataProgramma}</div>
+    `;
+
+    // MODIFICA
+    const btnMod = document.createElement("button");
+    btnMod.textContent = "Modifica";
+    btnMod.className = "btn-primary";
+    btnMod.style.marginTop = "6px";
+    btnMod.addEventListener("click", () => apriProgPopup(idx));
+
+    // ELIMINA — VELOCE
+    const btnDel = document.createElement("button");
+    btnDel.textContent = "Elimina";
+    btnDel.className = "btn-secondary";
+    btnDel.style.marginTop = "6px";
+    btnDel.addEventListener("click", async () => {
+      const id = progArchivio[idx].id;
+
+      await deleteDoc(doc(db, "programmazione_schede", id));
+
+      // Aggiornamento locale immediato
+      progArchivio.splice(idx, 1);
+
+      renderProgArchivio();
+      renderProgTimeline();
+      showToast("Scheda eliminata ✔");
+    });
+
+    div.appendChild(btnMod);
+    div.appendChild(btnDel);
+    prog_lista.appendChild(div);
+
+    // PROGRESS BAR — VELOCE
+    const pb = document.createElement("div");
+    pb.className = "progress-bar";
+
+    const pf = document.createElement("div");
+    pf.className = "progress-fill programmazione";
+
+    pf.style.width =
+      item.stato === "finito" ? "100%" :
+      item.stato === "in_produzione" ? "70%" :
+      item.stato === "programmato" ? "40%" :
+      "10%";
+
+    pb.appendChild(pf);
+    prog_progress.appendChild(pb);
+  });
+}
+
+// =============================
+// MODAL PROGRAMMAZIONE — VELOCE
+// =============================
+const modalProgEdit = document.getElementById("modalProgEdit");
+const btnProgClose = document.getElementById("btnProgClose");
+btnProgClose.addEventListener("click", () => {
+  modalProgEdit.classList.add("hidden");
+});
+
+let progEditIndex = null;
+
+function apriProgPopup(idx) {
+  progEditIndex = idx;
+  const item = progArchivio[idx];
+
+  edit_prog_macchina.value = item.macchina;
+  edit_prog_commessa.value = item.commessa;
+  edit_prog_disegno.value = item.disegno;
+  edit_prog_rev.value = item.revisione;
+  edit_prog_data.value = item.dataProgramma;
+  edit_prog_tempo.value = item.tempo;
+  edit_prog_operatore.value = item.operatore;
+  edit_prog_stato.value = item.stato;
+  edit_prog_note.value = item.note || "";
+
+  modalProgEdit.classList.remove("hidden");
+}
+
+// =============================
+// AGGIORNAMENTO SCHEDA — VELOCE
+// =============================
+btnProgUpdate.addEventListener("click", async () => {
+  const item = progArchivio[progEditIndex];
+
+  const nuovoStato = edit_prog_stato.value;
+  const timestamp = new Date().toLocaleString();
+
+  const updated = {
+    macchina: edit_prog_macchina.value,
+    commessa: edit_prog_commessa.value.trim(),
+    disegno: edit_prog_disegno.value.trim(),
+    revisione: edit_prog_rev.value.trim(),
+    dataProgramma: edit_prog_data.value,
+    tempo: num(edit_prog_tempo.value),
+    operatore: edit_prog_operatore.value,
+    stato: nuovoStato,
+    note: edit_prog_note.value.trim(),
+    history: [...item.history]
+  };
+
+  // Se cambia stato → aggiorna timeline + history
+  if (item.stato !== nuovoStato) {
+    updated.history.push({
+      stato: nuovoStato,
+      timestamp
+    });
+
+    await saveTimelineEntry({
+      commessa: updated.commessa,
+      stato: nuovoStato,
+      timestamp
+    });
+  }
+
+  await updateDoc(doc(db, "programmazione_schede", item.id), updated);
+
+  // Aggiornamento locale immediato
+  progArchivio[progEditIndex] = { id: item.id, ...updated };
+
+  renderProgArchivio();
+  renderProgTimeline();
+
+  modalProgEdit.classList.add("hidden");
+  showToast("Scheda aggiornata ✔");
+});
+
+// =============================
+// TIMELINE — VELOCE
+// =============================
+function renderProgTimeline() {
+  prog_timeline.innerHTML = "";
+
+  progArchivio.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "timeline-item";
+
+    const line = document.createElement("div");
+    line.className = "timeline-line";
+
+    const dot = document.createElement("div");
+    dot.className = `timeline-dot dot-${item.stato}`;
+
+    div.innerHTML = `
+      <div class="timeline-title">${item.commessa}</div>
+      <div class="timeline-meta"><strong>Stato attuale:</strong> ${item.stato.replace("_"," ")}</div>
+      <div class="timeline-meta">
+        <strong>Storico:</strong><br>
+        ${item.history.map(h => `${h.timestamp} → ${h.stato.replace("_"," ")}`).join("<br>")}
+      </div>
+    `;
+
+    div.appendChild(line);
+    div.appendChild(dot);
+    prog_timeline.appendChild(div);
+  });
+}
+// =============================
+// DASHBOARD — VERSIONE VELOCE
+// =============================
+const dash_tot_schede = document.getElementById("dash_tot_schede");
+const dash_in_prog = document.getElementById("dash_in_prog");
+const dash_programmato = document.getElementById("dash_programmato");
+const dash_produzione = document.getElementById("dash_produzione");
+const dash_sospeso = document.getElementById("dash_sospeso");
+const dash_finito = document.getElementById("dash_finito");
+
+const dash_recent_schede = document.getElementById("dash_recent_schede");
+const dash_recent_frese = document.getElementById("dash_recent_frese");
+
+function renderDashboard() {
+  // Conteggi immediati
+  dash_tot_schede.textContent = progArchivio.length;
+
+  dash_in_prog.textContent = progArchivio.filter(x => x.stato === "in_programmazione").length;
+  dash_programmato.textContent = progArchivio.filter(x => x.stato === "programmato").length;
+  dash_produzione.textContent = progArchivio.filter(x => x.stato === "in_produzione").length;
+  dash_sospeso.textContent = progArchivio.filter(x => x.stato === "sospeso").length;
+  dash_finito.textContent = progArchivio.filter(x => x.stato === "finito").length;
+
+  // Ultime schede
+  dash_recent_schede.innerHTML = progArchivio
+    .slice(-5)
+    .reverse()
+    .map(item => `
+      <div class="dash-item">
+        <div class="dash-item-title">${item.commessa}</div>
+        <div class="dash-item-meta">${item.stato.replace("_"," ")}</div>
+      </div>
+    `)
+    .join("");
+
+  // Ultime frese
+  dash_recent_frese.innerHTML = archivio
+    .slice(-5)
+    .reverse()
+    .map(item => `
+      <div class="dash-item">
+        <div class="dash-item-title">${item.denominazione}</div>
+        <div class="dash-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
+      </div>
+    `)
+    .join("");
+}
+
+// =============================
+// CAMBIO PAGINA — VERSIONE VELOCE
+// =============================
+const pages = {
+  dashboard: document.getElementById("page-dashboard"),
+  nuovo: document.getElementById("page-nuovo"),
+  archivio: document.getElementById("page-archivio"),
+  programmazione: document.getElementById("page-programmazione"),
+  timeline: document.getElementById("page-timeline")
+};
+
+document.getElementById("viewSelect").addEventListener("change", (e) => {
+  Object.values(pages).forEach(p => p.classList.remove("active"));
+  pages[e.target.value].classList.add("active");
+
+  // Nessuna query Firestore: tutto già in memoria
+  if (e.target.value === "dashboard") {
+    renderDashboard();
+  }
+  if (e.target.value === "archivio") {
+    renderArchivio();
+  }
+  if (e.target.value === "programmazione") {
+    renderProgArchivio();
+    renderProgTimeline();
+  }
+  if (e.target.value === "timeline") {
+    renderProgTimeline();
+  }
+});
 // =========================
 // REGISTRAZIONE SERVICE WORKER
 // =========================
@@ -150,103 +645,7 @@ btnTheme.addEventListener("click", () => {
 const num = (v) => Number(v) || 0;
 
 // =============================
-// PAGINA NUOVO
-// =============================
-const den = document.getElementById("denominazione_fresa");
-const diam = document.getElementById("diametro");
-const tagl = document.getElementById("taglienti");
-const s = document.getElementById("s");
-const f = document.getElementById("f");
-const mmin = document.getElementById("mmin");
-const s_calc = document.getElementById("s_calc");
-const avanzamento = document.getElementById("avanzamento");
-const f_calc = document.getElementById("f_calc");
-const zap = document.getElementById("zap");
-const xyae = document.getElementById("xyae");
-const codFresa = document.getElementById("codice_fresa");
-const codInserto = document.getElementById("codice_inserto");
-const materiale = document.getElementById("materiale");
-const refrigerante = document.getElementById("refrigerante");
-const dettagli = document.getElementById("dettagli");
-
-// =============================
-// DASHBOARD
-// =============================
-const dash_tot_schede = document.getElementById("dash_tot_schede");
-const dash_in_prog = document.getElementById("dash_in_prog");
-const dash_programmato = document.getElementById("dash_programmato");
-const dash_produzione = document.getElementById("dash_produzione");
-const dash_sospeso = document.getElementById("dash_sospeso");
-const dash_finito = document.getElementById("dash_finito");
-
-const dash_recent_schede = document.getElementById("dash_recent_schede");
-const dash_recent_frese = document.getElementById("dash_recent_frese");
-
-function renderDashboard() {
-  dash_tot_schede.textContent = progArchivio.length;
-
-  dash_in_prog.textContent = progArchivio.filter(x => x.stato === "in_programmazione").length;
-  dash_programmato.textContent = progArchivio.filter(x => x.stato === "programmato").length;
-  dash_produzione.textContent = progArchivio.filter(x => x.stato === "in_produzione").length;
-  dash_sospeso.textContent = progArchivio.filter(x => x.stato === "sospeso").length;
-  dash_finito.textContent = progArchivio.filter(x => x.stato === "finito").length;
-
-  dash_recent_schede.innerHTML = progArchivio
-    .slice(-5)
-    .reverse()
-    .map(item => `
-      <div class="dash-item">
-        <div class="dash-item-title">${item.commessa}</div>
-        <div class="dash-item-meta">${item.stato.replace("_"," ")}</div>
-      </div>
-    `)
-    .join("");
-
-  dash_recent_frese.innerHTML = archivio
-    .slice(-5)
-    .reverse()
-    .map(item => `
-      <div class="dash-item">
-        <div class="dash-item-title">${item.denominazione}</div>
-        <div class="dash-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
-      </div>
-    `)
-    .join("");
-}
-
-// =============================
-// TIMELINE (render)
-// =============================
-function renderProgTimeline() {
-  prog_timeline.innerHTML = "";
-
-  progArchivio.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "timeline-item";
-
-    const line = document.createElement("div");
-    line.className = "timeline-line";
-
-    const dot = document.createElement("div");
-    dot.className = `timeline-dot dot-${item.stato}`;
-
-    div.innerHTML = `
-      <div class="timeline-title">${item.commessa}</div>
-      <div class="timeline-meta"><strong>Stato attuale:</strong> ${item.stato.replace("_"," ")}</div>
-      <div class="timeline-meta">
-        <strong>Storico:</strong><br>
-        ${item.history.map(h => `${h.timestamp} → ${h.stato.replace("_"," ")}`).join("<br>")}
-      </div>
-    `;
-
-    div.appendChild(line);
-    div.appendChild(dot);
-    prog_timeline.appendChild(div);
-  });
-}
-
-// =============================
-// POPOLA LISTE
+// POPOLA LISTE MATERIALI
 // =============================
 materiale.innerHTML = `
   <option>Acciaio</option>
@@ -325,377 +724,6 @@ function calcolaF() {
     f_calc.value = "";
   }
 }
-
-// =============================
-// CAMBIO PAGINA
-// =============================
-const pages = {
-  dashboard: document.getElementById("page-dashboard"),
-  nuovo: document.getElementById("page-nuovo"),
-  archivio: document.getElementById("page-archivio"),
-  programmazione: document.getElementById("page-programmazione"),
-  timeline: document.getElementById("page-timeline")
-};
-
-document.getElementById("viewSelect").addEventListener("change", async (e) => {
-  Object.values(pages).forEach(p => p.classList.remove("active"));
-  pages[e.target.value].classList.add("active");
-
-  if (e.target.value === "dashboard") {
-    progArchivio = await getSchede();
-    archivio = await getFrese();
-    renderDashboard();
-  }
-  if (e.target.value === "archivio") {
-    archivio = await getFrese();
-    renderArchivio();
-  }
-  if (e.target.value === "programmazione") {
-    progArchivio = await getSchede();
-    renderProgArchivio();
-    renderProgTimeline();
-  }
-});
-
-// =============================
-// ARCHIVIO FRESE
-// =============================
-let archivio = [];
-
-const lista = document.getElementById("lista");
-const sortSelect = document.getElementById("sortSelect");
-const orderSelect = document.getElementById("orderSelect");
-
-function resetCampiNuovo() {
-  den.value = "";
-  diam.value = "";
-  tagl.value = "";
-  s.value = "";
-  f.value = "";
-  mmin.value = "";
-  s_calc.value = "";
-  avanzamento.value = "";
-  f_calc.value = "";
-  zap.value = "";
-  xyae.value = "";
-  codFresa.value = "";
-  codInserto.value = "";
-  materiale.value = "";
-  refrigerante.value = "";
-  dettagli.value = "";
-}
-
-document.getElementById("btnSalva").addEventListener("click", async () => {
-  const item = {
-    denominazione: den.value.trim(),
-    diametro: num(diam.value),
-    taglienti: num(tagl.value),
-    s: num(s.value),
-    f: num(f.value),
-    mmin: num(mmin.value),
-    sCalc: num(s_calc.value),
-    avanzamento: num(avanzamento.value),
-    fCalc: num(f_calc.value),
-    zap: num(zap.value),
-    xyae: num(xyae.value),
-    codiceFresa: codFresa.value.trim(),
-    codiceInserto: codInserto.value.trim(),
-    materiale: materiale.value,
-    refrigerante: refrigerante.value,
-    dettagli: dettagli.value.trim()
-  };
-
-  await saveFresa(item);
-  archivio = await getFrese();
-  renderArchivio();
-  showToast("Fresa salvata ✔");
-  resetCampiNuovo();
-});
-
-async function renderArchivio() {
-  lista.innerHTML = "";
-
-  let arr = [...archivio];
-
-  const key = sortSelect.value;
-  const ord = orderSelect.value;
-
-  arr.sort((a, b) => {
-    if (ord === "asc") return a[key] > b[key] ? 1 : -1;
-    return a[key] < b[key] ? 1 : -1;
-  });
-
-  arr.forEach((item, idx) => {
-    const div = document.createElement("div");
-    div.className = "arch-item";
-
-    div.innerHTML = `
-      <div class="arch-item-title">${item.denominazione}</div>
-      <div class="arch-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
-    `;
-
-    const btnMod = document.createElement("button");
-    btnMod.textContent = "Modifica";
-    btnMod.className = "btn-primary";
-    btnMod.style.marginTop = "6px";
-    btnMod.addEventListener("click", () => apriPopup(idx));
-
-    const btnDel = document.createElement("button");
-    btnDel.textContent = "Elimina";
-    btnDel.className = "btn-secondary";
-    btnDel.style.marginTop = "6px";
-    btnDel.addEventListener("click", async () => {
-      const id = archivio[idx].id;
-      await deleteDoc(doc(db, "archivio_frese", id));
-
-      archivio = await getFrese();
-      renderArchivio();
-      showToast("Fresa eliminata ✔");
-    });
-
-    div.appendChild(btnMod);
-    div.appendChild(btnDel);
-    lista.appendChild(div);
-  });
-}
-
-// =============================
-// MODAL FRESE
-// =============================
-const modalEdit = document.getElementById("modalEdit");
-const btnCloseModal = document.getElementById("btnCloseModal");
-let editIndex = null;
-
-function apriPopup(idx) {
-  editIndex = idx;
-  const item = archivio[idx];
-
-  edit_denominazione.value = item.denominazione;
-  edit_diametro.value = item.diametro;
-  edit_taglienti.value = item.taglienti;
-  edit_s.value = item.s;
-  edit_avanzamento.value = item.avanzamento;
-  edit_materiale.value = item.materiale;
-  edit_refrigerante.value = item.refrigerante;
-  edit_dettagli.value = item.dettagli;
-
-  modalEdit.classList.remove("hidden");
-}
-
-btnCloseModal.addEventListener("click", () => {
-  modalEdit.classList.add("hidden");
-});
-
-document.getElementById("btnUpdate").addEventListener("click", async () => {
-  const item = archivio[editIndex];
-
-  const updated = {
-    denominazione: edit_denominazione.value.trim(),
-    diametro: num(edit_diametro.value),
-    taglienti: num(edit_taglienti.value),
-    s: num(edit_s.value),
-    avanzamento: num(edit_avanzamento.value),
-    materiale: edit_materiale.value,
-    refrigerante: edit_refrigerante.value,
-    dettagli: edit_dettagli.value.trim()
-  };
-
-  await updateDoc(doc(db, "archivio_frese", item.id), updated);
-
-  archivio = await getFrese();
-  renderArchivio();
-  modalEdit.classList.add("hidden");
-  showToast("Fresa aggiornata ✔");
-});
-
-// =============================
-// PROGRAMMAZIONE
-// =============================
-let progArchivio = [];
-
-const prog_lista = document.getElementById("prog_lista");
-const prog_progress = document.getElementById("prog_progress");
-const prog_timeline = document.getElementById("prog_timeline");
-const prog_filter = document.getElementById("prog_filter");
-
-function resetCampiProgrammazione() {
-  prog_macchina.value = "";
-  prog_commessa.value = "";
-  prog_disegno.value = "";
-  prog_rev.value = "";
-  prog_data.value = "";
-  prog_tempo.value = "";
-  prog_operatore.value = "";
-  prog_stato.value = "in_programmazione";
-  prog_note.value = "";
-}
-
-document.getElementById("btnSalvaProgrammazione").addEventListener("click", async () => {
-  const item = {
-    macchina: prog_macchina.value,
-    commessa: prog_commessa.value.trim(),
-    disegno: prog_disegno.value.trim(),
-    revisione: prog_rev.value.trim(),
-    dataProgramma: prog_data.value,
-    tempo: num(prog_tempo.value),
-    operatore: prog_operatore.value,
-    stato: prog_stato.value,
-    note: prog_note.value.trim(),
-    history: [
-      {
-        stato: prog_stato.value,
-        timestamp: new Date().toLocaleString()
-      }
-    ]
-  };
-
-  await saveScheda(item);
-
-  await saveTimelineEntry({
-    commessa: item.commessa,
-    stato: item.stato,
-    timestamp: new Date().toLocaleString()
-  });
-
-  progArchivio = await getSchede();
-  renderProgArchivio();
-  renderProgTimeline();
-  showToast("Scheda salvata ✔");
-  resetCampiProgrammazione();
-});
-
-function renderProgArchivio() {
-  prog_lista.innerHTML = "";
-  prog_progress.innerHTML = "";
-
-  let arr = [...progArchivio];
-
-  if (prog_filter.value) {
-    arr = arr.filter(x => x.stato === prog_filter.value);
-  }
-
-  arr.forEach((item, idx) => {
-    const div = document.createElement("div");
-    div.className = "arch-item";
-
-    div.innerHTML = `
-      <div class="arch-item-title">${item.commessa}</div>
-      <div class="arch-item-meta">${item.macchina} — ${item.operatore}</div>
-      <span class="badge ${item.stato}">${item.stato.replace("_", " ")}</span>
-      <div class="arch-item-meta">${item.dataProgramma}</div>
-    `;
-
-    const btnMod = document.createElement("button");
-    btnMod.textContent = "Modifica";
-    btnMod.className = "btn-primary";
-    btnMod.style.marginTop = "6px";
-    btnMod.addEventListener("click", () => apriProgPopup(idx));
-
-    const btnDel = document.createElement("button");
-    btnDel.textContent = "Elimina";
-    btnDel.className = "btn-secondary";
-    btnDel.style.marginTop = "6px";
-    btnDel.addEventListener("click", async () => {
-      const id = progArchivio[idx].id;
-      await deleteDoc(doc(db, "programmazione_schede", id));
-
-      progArchivio = await getSchede();
-      renderProgArchivio();
-      renderProgTimeline();
-      showToast("Scheda eliminata ✔");
-    });
-
-    div.appendChild(btnMod);
-    div.appendChild(btnDel);
-    prog_lista.appendChild(div);
-
-    const pb = document.createElement("div");
-    pb.className = "progress-bar";
-
-    const pf = document.createElement("div");
-    pf.className = "progress-fill programmazione";
-    pf.style.width = item.stato === "finito" ? "100%" :
-                     item.stato === "in_produzione" ? "70%" :
-                     item.stato === "programmato" ? "40%" :
-                     "10%";
-
-    pb.appendChild(pf);
-    prog_progress.appendChild(pb);
-  });
-}
-
-// =============================
-// MODAL PROGRAMMAZIONE
-// =============================
-const modalProgEdit = document.getElementById("modalProgEdit");
-const btnProgClose = document.getElementById("btnProgClose");
-btnProgClose.addEventListener("click", () => {
-  modalProgEdit.classList.add("hidden");
-});
-
-// (serve progEditIndex e campi edit_... definiti nel tuo HTML/JS)
-let progEditIndex = null;
-function apriProgPopup(idx) {
-  progEditIndex = idx;
-  const item = progArchivio[idx];
-
-  edit_prog_macchina.value = item.macchina;
-  edit_prog_commessa.value = item.commessa;
-  edit_prog_disegno.value = item.disegno;
-  edit_prog_rev.value = item.revisione;
-  edit_prog_data.value = item.dataProgramma;
-  edit_prog_tempo.value = item.tempo;
-  edit_prog_operatore.value = item.operatore;
-  edit_prog_stato.value = item.stato;
-  edit_prog_note.value = item.note || "";
-
-  modalProgEdit.classList.remove("hidden");
-}
-
-// =============================
-// AGGIORNA SCHEDA PROGRAMMAZIONE
-// =============================
-btnProgUpdate.addEventListener("click", async () => {
-  const item = progArchivio[progEditIndex];
-
-  const nuovoStato = edit_prog_stato.value;
-  const timestamp = new Date().toLocaleString();
-
-  const updated = {
-    macchina: edit_prog_macchina.value,
-    commessa: edit_prog_commessa.value.trim(),
-    disegno: edit_prog_disegno.value.trim(),
-    revisione: edit_prog_rev.value.trim(),
-    dataProgramma: edit_prog_data.value,
-    tempo: num(edit_prog_tempo.value),
-    operatore: edit_prog_operatore.value,
-    stato: nuovoStato,
-    note: edit_prog_note.value.trim(),
-    history: [...item.history]
-  };
-
-  if (item.stato !== nuovoStato) {
-    updated.history.push({
-      stato: nuovoStato,
-      timestamp
-    });
-
-    await saveTimelineEntry({
-      commessa: updated.commessa,
-      stato: nuovoStato,
-      timestamp
-    });
-  }
-
-  await updateDoc(doc(db, "programmazione_schede", item.id), updated);
-
-  progArchivio = await getSchede();
-  renderProgArchivio();
-  renderProgTimeline();
-
-  modalProgEdit.classList.add("hidden");
-  showToast("Scheda aggiornata ✔");
-});
 
 // =============================
 // EXPORT PDF
@@ -836,14 +864,3 @@ document.getElementById("menuButton").addEventListener("click", () => haptic());
 
 // Vibrazione su select pagine
 document.getElementById("viewSelect").addEventListener("change", () => haptic());
-
-// =============================
-// CARICAMENTO INIZIALE
-// =============================
-(async () => {
-  archivio = await getFrese();
-  progArchivio = await getSchede();
-  await renderArchivio();
-  renderProgArchivio();
-  renderProgTimeline();
-})();
