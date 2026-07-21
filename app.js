@@ -165,49 +165,35 @@ const refrigerante = document.getElementById("refrigerante");
 const dettagli = document.getElementById("dettagli");
 
 // =============================
-// DASHBOARD
+// TIMELINE
 // =============================
-const dash_tot_schede = document.getElementById("dash_tot_schede");
-const dash_in_prog = document.getElementById("dash_in_prog");
-const dash_programmato = document.getElementById("dash_programmato");
-const dash_produzione = document.getElementById("dash_produzione");
-const dash_sospeso = document.getElementById("dash_sospeso");
-const dash_finito = document.getElementById("dash_finito");
+function renderProgTimeline() {
+  prog_timeline.innerHTML = "";
 
-const dash_recent_schede = document.getElementById("dash_recent_schede");
-const dash_recent_frese = document.getElementById("dash_recent_frese");
+  progArchivio.forEach(item => {
 
-function renderDashboard() {
+    const div = document.createElement("div");
+    div.className = "timeline-item";
 
-  dash_tot_schede.textContent = progArchivio.length;
+    const line = document.createElement("div");
+    line.className = "timeline-line";
 
-  dash_in_prog.textContent = progArchivio.filter(x => x.stato === "in_programmazione").length;
-  dash_programmato.textContent = progArchivio.filter(x => x.stato === "programmato").length;
-  dash_produzione.textContent = progArchivio.filter(x => x.stato === "in_produzione").length;
-  dash_sospeso.textContent = progArchivio.filter(x => x.stato === "sospeso").length;
-  dash_finito.textContent = progArchivio.filter(x => x.stato === "finito").length;
+    const dot = document.createElement("div");
+    dot.className = `timeline-dot dot-${item.stato}`;
 
-  dash_recent_schede.innerHTML = progArchivio
-    .slice(-5)
-    .reverse()
-    .map(item => `
-      <div class="dash-item">
-        <div class="dash-item-title">${item.commessa}</div>
-        <div class="dash-item-meta">${item.stato.replace("_"," ")}</div>
+    div.innerHTML = `
+      <div class="timeline-title">${item.commessa}</div>
+      <div class="timeline-meta"><strong>Stato attuale:</strong> ${item.stato.replace("_"," ")}</div>
+      <div class="timeline-meta">
+        <strong>Storico:</strong><br>
+        ${item.history.map(h => `${h.timestamp} → ${h.stato.replace("_"," ")}`).join("<br>")}
       </div>
-    `)
-    .join("");
+    `;
 
-  dash_recent_frese.innerHTML = archivio
-    .slice(-5)
-    .reverse()
-    .map(item => `
-      <div class="dash-item">
-        <div class="dash-item-title">${item.denominazione}</div>
-        <div class="dash-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
-      </div>
-    `)
-    .join("");
+    div.appendChild(line);
+    div.appendChild(dot);
+    prog_timeline.appendChild(div);
+  });
 }
 
 // =============================
@@ -359,10 +345,12 @@ document.getElementById("btnSalva").addEventListener("click", () => {
     dettagli: dettagli.value.trim()
   };
 
-  archivio.push(item);
-  renderArchivio();
-  showToast("Fresa salvata ✔");
-  resetCampiNuovo();
+await saveFresa(item);
+archivio = await getFrese();
+renderArchivio();
+showToast("Fresa salvata ✔");
+resetCampiNuovo();
+
 });
 
 function renderArchivio() {
@@ -398,9 +386,16 @@ function renderArchivio() {
     btnDel.className = "btn-secondary";
     btnDel.style.marginTop = "6px";
     btnDel.addEventListener("click", () => {
-      archivio.splice(idx, 1);
-      renderArchivio();
-      showToast("Fresa eliminata ✔");
+      
+    // Recupero ID Firestore
+    const id = archivio[idx].id;
+    await deleteDoc(doc(db, "archivio_frese", id));
+
+    archivio = await getFrese();
+    renderArchivio();
+    showToast("Fresa eliminata ✔");
+
+      
     });
 
     div.appendChild(btnMod);
@@ -495,14 +490,17 @@ document.getElementById("btnSalvaProgrammazione").addEventListener("click", () =
     ]
   };
 
-  progArchivio.push(item);
+  await saveScheda(item);
+  progArchivio = await getSchede();
   renderProgArchivio();
   renderProgTimeline();
   showToast("Scheda salvata ✔");
   resetCampiProgrammazione();
-});
 
-function renderProgArchivio() {
+  
+  });
+
+  function renderProgArchivio() {
   prog_lista.innerHTML = "";
   prog_progress.innerHTML = "";
 
@@ -534,10 +532,15 @@ function renderProgArchivio() {
     btnDel.className = "btn-secondary";
     btnDel.style.marginTop = "6px";
     btnDel.addEventListener("click", () => {
-      progArchivio.splice(idx, 1);
-      renderProgArchivio();
-      renderProgTimeline();
-      showToast("Scheda eliminata ✔");
+      
+    const id = progArchivio[idx].id;
+    await deleteDoc(doc(db, "programmazione_schede", id));
+
+    progArchivio = await getSchede();
+    renderProgArchivio();
+    renderProgTimeline();
+    showToast("Scheda eliminata ✔");
+
     });
 
     div.appendChild(btnMod);
