@@ -2,7 +2,7 @@
 // SERVICE WORKER NETWORK-FIRST
 // =========================
 
-const CACHE_NAME = "pwa-cache-v2";
+const CACHE_NAME = "pwa-cache-v4";
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
@@ -31,18 +31,20 @@ self.addEventListener("activate", event => {
 
 // Network-first strategy
 self.addEventListener("fetch", event => {
+
+  // 🔥 NON mettere favicon.ico in cache
+  if (event.request.url.endsWith("favicon.ico")) {
+    return event.respondWith(fetch(event.request));
+  }
+
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        // Aggiorna cache con la versione nuova
         caches.open(CACHE_NAME).then(cache => {
           cache.put(event.request, response.clone());
         });
         return response;
       })
-      .catch(() => {
-        // Se offline → usa cache
-        return caches.match(event.request);
-      })
+      .catch(() => caches.match(event.request))
   );
 });
