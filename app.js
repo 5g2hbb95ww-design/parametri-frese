@@ -1,3 +1,16 @@
+// app.js
+import {
+  db,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  doc,
+  CURRENT_USER
+} from "./firebase-config.js";
+
 // =========================
 // REGISTRAZIONE SERVICE WORKER
 // =========================
