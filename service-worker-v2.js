@@ -65,6 +65,15 @@ self.addEventListener("activate", (event) => {
 // ===============================
 self.addEventListener("fetch", (event) => {
 
+  // Fallback per PWA su iPhone
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      caches.match("/parametri-frese/index.html")
+        .then(resp => resp || fetch("/parametri-frese/index.html"))
+    );
+    return;
+  }
+
   // NON mettere in cache richieste POST, PUT, DELETE, ecc.
   if (event.request.method !== "GET") {
     event.respondWith(fetch(event.request));
