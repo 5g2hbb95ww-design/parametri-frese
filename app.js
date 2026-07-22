@@ -206,13 +206,23 @@ const dash_finito = document.getElementById("dash_finito");
 const dash_recent_schede = document.getElementById("dash_recent_schede");
 const dash_recent_frese = document.getElementById("dash_recent_frese");
 
-function renderDashboard() {
-  dash_tot_schede.textContent = progArchivio.length;
-  dash_in_prog.textContent = progArchivio.filter(x => x.stato === "in_programmazione").length;
-  dash_programmato.textContent = progArchivio.filter(x => x.stato === "programmato").length;
-  dash_produzione.textContent = progArchivio.filter(x => x.stato === "in_produzione").length;
-  dash_sospeso.textContent = progArchivio.filter(x => x.stato === "sospeso").length;
-  dash_finito.textContent = progArchivio.filter(x => x.stato === "finito").length;
+ function renderDashboard() {
+  const tot = progArchivio.length;
+  const inProg = progArchivio.filter(x => x.stato === "in_programmazione").length;
+  const programmato = progArchivio.filter(x => x.stato === "programmato").length;
+  const produzione = progArchivio.filter(x => x.stato === "in_produzione").length;
+  const sospeso = progArchivio.filter(x => x.stato === "sospeso").length;
+  const finito = progArchivio.filter(x => x.stato === "finito").length;
+
+  dash_tot_schede.textContent = tot;
+  dash_in_prog.textContent = inProg;
+  dash_programmato.textContent = programmato;
+  dash_produzione.textContent = produzione;
+  dash_sospeso.textContent = sospeso;
+  dash_finito.textContent = finito;
+
+  // resto identico
+}
 
   dash_recent_schede.innerHTML = progArchivio
     .slice(-5)
