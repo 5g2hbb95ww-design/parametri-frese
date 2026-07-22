@@ -853,3 +853,19 @@ viewSelect.addEventListener("change", () => haptic());
   renderProgTimeline();
   renderDashboard();
 })();
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.addEventListener("message", async (event) => {
+    if (event.data && event.data.type === "NEW_VERSION") {
+      console.log("[APP] Nuova versione disponibile — ricarico…");
+
+      // Aspetta che il controller sia pronto
+      if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage("skipWaiting");
+      }
+
+      window.location.reload();
+    }
+  });
+}
+
