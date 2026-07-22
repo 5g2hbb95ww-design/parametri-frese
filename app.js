@@ -253,8 +253,15 @@ function renderProgTimeline() {
 const frag = document.createDocumentFragment();
 
 progArchivio.forEach(item => {
-  const div = document.createElement("div");
-  // tutto identico
+ const div = document.createElement("div");
+div.className = "timeline-item";
+
+div.innerHTML = `
+  <div class="timeline-title">${item.commessa}</div>
+  <div class="timeline-meta">${item.stato.replace("_"," ")}</div>
+  <div class="timeline-date">${item.dataProgramma || item.data_evento}</div>
+`;
+
   frag.appendChild(div);
 });
 
