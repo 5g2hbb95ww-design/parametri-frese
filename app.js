@@ -10,6 +10,10 @@ const CURRENT_USER = "antonio";
 let archivio = [];
 let progArchivio = [];
 
+// iPhone: elimina ritardo click
+document.addEventListener("touchstart", () => {}, { passive: true });
+
+
 // =========================
 // UTILITY
 // =========================
@@ -240,30 +244,16 @@ const prog_timeline = document.getElementById("prog_timeline");
 
 function renderProgTimeline() {
   prog_timeline.innerHTML = "";
-  progArchivio.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "timeline-item";
 
-    const line = document.createElement("div");
-    line.className = "timeline-line";
+const frag = document.createDocumentFragment();
 
-    const dot = document.createElement("div");
-    dot.className = `timeline-dot dot_${item.stato}`;
+progArchivio.forEach(item => {
+  const div = document.createElement("div");
+  // tutto identico
+  frag.appendChild(div);
+});
 
-    div.innerHTML = `
-      <div class="timeline-title">${item.commessa}</div>
-      <div class="timeline-meta"><strong>Stato attuale:</strong> ${item.stato.replace("_"," ")}</div>
-      <div class="timeline-meta">
-        <strong>Storico:</strong><br>
-        ${item.history.map(h => `${h.timestamp} → ${h.stato.replace("_"," ")}`).join("<br>")}
-      </div>
-    `;
-
-    div.appendChild(line);
-    div.appendChild(dot);
-    prog_timeline.appendChild(div);
-  });
-}
+prog_timeline.appendChild(frag);
 
 // =========================
 // POPOLA LISTE
@@ -359,8 +349,10 @@ const viewSelect = document.getElementById("viewSelect");
 viewSelect.addEventListener("change", (e) => {
   const page = e.target.value;
 
-  Object.values(pages).forEach(p => p.classList.remove("active"));
-  pages[page].classList.add("active");
+  Object.values(pages).forEach(p => {
+  p.style.display = "none";
+});
+pages[page].style.display = "block";
 
   if (page === "dashboard") renderDashboard();
   if (page === "archivio") renderArchivio();
@@ -488,11 +480,13 @@ function apriPopup(idx) {
   edit_refrigerante.value = item.refrigerante;
   edit_dettagli.value = item.dettagli;
 
-  modalEdit.classList.remove("hidden");
+  // APRI MODAL – versione fluida iPhone
+  modalEdit.style.display = "flex";
 }
 
 btnCloseModal.addEventListener("click", () => {
-  modalEdit.classList.add("hidden");
+  // CHIUDI MODAL – versione fluida iPhone
+  modalEdit.style.display = "none";
 });
 
 document.getElementById("btnUpdate").addEventListener("click", async () => {
@@ -634,8 +628,10 @@ function renderProgArchivio() {
 // =========================
 const modalProgEdit = document.getElementById("modalProgEdit");
 const btnProgClose = document.getElementById("btnProgClose");
+
 btnProgClose.addEventListener("click", () => {
-  modalProgEdit.classList.add("hidden");
+  // CHIUDI MODAL – versione fluida iPhone
+  modalProgEdit.style.display = "none";
 });
 
 function apriProgPopup(idx) {
@@ -652,12 +648,13 @@ function apriProgPopup(idx) {
   edit_prog_stato.value = item.stato;
   edit_prog_note.value = item.note || "";
 
-  modalProgEdit.classList.remove("hidden");
+  // APRI MODAL – versione fluida iPhone
+  modalProgEdit.style.display = "flex";
 }
 
 btnProgUpdate.addEventListener("click", async () => {
   const item = progArchivio[progEditIndex];
-
+  
   const nuovoStato = edit_prog_stato.value;
   const timestamp = new Date().toLocaleString();
 
@@ -782,12 +779,8 @@ const menuButton = document.getElementById("menuButton");
 
 function haptic() {
   try {
-    if (window.navigator && navigator.vibrate) {
-      navigator.vibrate(20);
-    }
-  } catch (e) {
-    console.log("Haptic non supportato:", e);
-  }
+    navigator.vibrate?.(10);
+  } catch (_) {}
 }
 
 menuButton.addEventListener("click", () => {
