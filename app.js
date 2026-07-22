@@ -232,9 +232,6 @@ const dash_recent_frese = document.getElementById("dash_recent_frese");
   dash_sospeso.textContent = sospeso;
   dash_finito.textContent = finito;
 
-  // resto identico
-}
-
   dash_recent_schede.innerHTML = progArchivio
     .slice(-5)
     .reverse()
@@ -527,7 +524,7 @@ document.getElementById("btnUpdate").addEventListener("click", async () => {
   await db.collection("archivio_frese").doc(item.id).update(updated);
   archivio[editIndex] = { id: item.id, ...updated };
   renderArchivio();
-  modalEdit.classList.add("hidden");
+  modalEdit.style.display = "none";
   showToast("Fresa aggiornata ✔");
 });
 
@@ -708,13 +705,13 @@ btnProgUpdate.addEventListener("click", async () => {
     });
   }
 
-  await db.collection("programmazione_schede").doc(item.id).update(updated);
+    await db.collection("programmazione_schede").doc(item.id).update(updated);
   progArchivio[progEditIndex] = { id: item.id, ...updated };
 
   renderProgArchivio();
   renderProgTimeline();
 
-  modalProgEdit.classList.add("hidden");
+  modalProgEdit.style.display = "none";
   showToast("Scheda aggiornata ✔");
 });
 
