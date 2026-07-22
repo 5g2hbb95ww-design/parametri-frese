@@ -456,7 +456,7 @@ function renderArchivio() {
     btnDel.style.marginTop = "6px";
     btnDel.addEventListener("click", async () => {
       const id = archivio[idx].id;
-      await deleteDoc(doc(db, "archivio_frese", id));
+      await db.collection("archivio_frese").doc(id).delete();
       archivio.splice(idx, 1);
       renderArchivio();
       showToast("Fresa eliminata ✔");
@@ -508,8 +508,7 @@ document.getElementById("btnUpdate").addEventListener("click", async () => {
     refrigerante: edit_refrigerante.value,
     dettagli: edit_dettagli.value.trim()
   };
-
-  await updateDoc(doc(db, "archivio_frese", item.id), updated);
+  await db.collection("archivio_frese").doc(item.id).update(updated);
   archivio[editIndex] = { id: item.id, ...updated };
   renderArchivio();
   modalEdit.classList.add("hidden");
