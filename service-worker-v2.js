@@ -64,18 +64,32 @@ self.addEventListener("activate", (event) => {
 // FETCH
 // ===============================
 self.addEventListener("fetch", (event) => {
+
+  // NON mettere in cache richieste POST, PUT, DELETE, ecc.
+  if (event.request.method !== "GET") {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
   event.respondWith(
-    fetch(event.request)
-      .then((response) => {
+    caches.match(event.request).then((cachedResponse) => {
+      // Se esiste in cache → restituisci subito
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+
+      // Altrimenti fai fetch e metti in cache
+      return fetch(event.request).then((response) => {
         const clone = response.clone();
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(event.request, clone);
         });
         return response;
-      })
-      .catch(() => caches.match(event.request))
+      });
+    })
   );
 });
+
 
 // ===============================
 // AUTO‑RELOAD
