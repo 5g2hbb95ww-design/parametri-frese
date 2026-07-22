@@ -141,15 +141,6 @@ main {
   box-sizing: border-box;
 }
 
-/* Pagine */
-.page {
-  display: none;
-}
-
-.page.active {
-  display: block;
-}
-
 /* =========================
    CARD GLASS
    ========================= */
@@ -492,10 +483,6 @@ body.light .timeline-item {
   z-index: 50;
 }
 
-.modal.hidden {
-  display: none;
-}
-
 /* MODAL GLASS – stile Copilot */
 .modal-content.glass {
   width: 90%;
@@ -566,6 +553,11 @@ body.light .toast {
 .side-menu.show {
   display: flex;
 }
+
+.side-menu.hidden {
+  display: none;
+}
+
 
 .side-menu-content.glass {
   width: 94%;
