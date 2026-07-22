@@ -452,5 +452,11 @@
   }
 </style>
 
+  <script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker-v2.js");
+  }
+</script>
+
 </body>
 </html>
