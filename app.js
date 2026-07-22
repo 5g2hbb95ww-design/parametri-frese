@@ -173,7 +173,18 @@ const edit_prog_tempo = document.getElementById("edit_prog_tempo");
 const edit_prog_operatore = document.getElementById("edit_prog_operatore");
 const edit_prog_stato = document.getElementById("edit_prog_stato");
 const edit_prog_note = document.getElementById("edit_prog_note");
-
+// =========================
+// ELEMENTI PAGINA PROGRAMMAZIONE
+// =========================
+const prog_macchina = document.getElementById("prog_macchina");
+const prog_commessa = document.getElementById("prog_commessa");
+const prog_disegno = document.getElementById("prog_disegno");
+const prog_rev = document.getElementById("prog_rev");
+const prog_data = document.getElementById("prog_data");
+const prog_tempo = document.getElementById("prog_tempo");
+const prog_operatore = document.getElementById("prog_operatore");
+const prog_stato = document.getElementById("prog_stato");
+const prog_note = document.getElementById("prog_note");
 // =========================
 // ELEMENTI PAGINA NUOVO
 // =========================
@@ -605,14 +616,16 @@ function renderProgArchivio() {
     btnDel.textContent = "Elimina";
     btnDel.className = "btn-secondary";
     btnDel.style.marginTop = "6px";
-    btnDel.addEventListener("click", async () => {
-      const id = progArchivio[idx].id;
-      await deleteDoc(doc(db, "programmazione_schede", id));
-      progArchivio.splice(idx, 1);
-      renderProgArchivio();
-      renderProgTimeline();
-      showToast("Scheda eliminata ✔");
-    });
+ 
+btnDel.addEventListener("click", async () => {
+  const id = progArchivio[idx].id;
+  await db.collection("programmazione_schede").doc(id).delete();
+  progArchivio.splice(idx, 1);
+  renderProgArchivio();
+  renderProgTimeline();
+  showToast("Scheda eliminata ✔");
+});
+
 
     div.appendChild(btnMod);
     div.appendChild(btnDel);
@@ -695,7 +708,7 @@ btnProgUpdate.addEventListener("click", async () => {
     });
   }
 
-  await updateDoc(doc(db, "programmazione_schede", item.id), updated);
+  await db.collection("programmazione_schede").doc(item.id).update(updated);
   progArchivio[progEditIndex] = { id: item.id, ...updated };
 
   renderProgArchivio();
