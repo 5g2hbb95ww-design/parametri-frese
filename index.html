@@ -417,5 +417,40 @@
   <!-- APP -->
   <script src="app.js"></script>
 
+  <div id="updateBanner" class="update-banner hidden">
+  <span>Nuova versione disponibile</span>
+  <button id="btnUpdateNow">Aggiorna ora</button>
+</div>
+
+<style>
+  .update-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 14px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .update-banner button {
+    background: #00aaff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: 600;
+  }
+  .hidden {
+    display: none;
+  }
+</style>
+
 </body>
 </html>
