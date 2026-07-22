@@ -91,13 +91,6 @@ async function saveTimelineEntry(entry) {
 }
 
 // =========================
-// SERVICE WORKER
-// =========================
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker-v2.js");
-}
-
-// =========================
 // TEMA (SOLE / LUNA)
 // =========================
 const btnTheme = document.getElementById("btnTheme");
