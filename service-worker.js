@@ -1,7 +1,16 @@
-// Nome cache (incrementa la versione quando fai un aggiornamento)
-const CACHE_NAME = "pwa-cache-v3";
+// ===============================
+// VERSIONING AUTOMATICO
+// ===============================
 
-// File statici da mettere in cache
+// Versione basata sulla data (si aggiorna ogni volta che pubblichi)
+const CACHE_VERSION = new Date().toISOString().slice(0, 10);
+const CACHE_NAME = `pwa-cache-${CACHE_VERSION}`;
+
+console.log("[SW] Versione cache:", CACHE_NAME);
+
+// ===============================
+// FILE STATICI DA METTERE IN CACHE
+// ===============================
 const ASSETS = [
   "/",
   "/index.html",
@@ -11,41 +20,83 @@ const ASSETS = [
   "/manifest.json"
 ];
 
-// INSTALL — attiva subito la nuova versione
+// ===============================
+// INSTALL — scarica sempre file nuovi
+// ===============================
 self.addEventListener("install", (event) => {
+  console.log("[SW] Install — scarico nuovi file…");
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME).then((cache) => {
+      console.log("[SW] Caching assets:", ASSETS);
+      return cache.addAll(ASSETS);
+    })
   );
 });
 
-// ACTIVATE — elimina tutte le cache vecchie
+// ===============================
+// ACTIVATE — elimina TUTTE le cache vecchie
+// ===============================
 self.addEventListener("activate", (event) => {
+  console.log("[SW] Activate — pulizia cache vecchie…");
+
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
+    caches.keys().then((keys) => {
+      console.log("[SW] Cache trovate:", keys);
+      return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
+            console.log("[SW] Eliminazione cache:", key);
             return caches.delete(key);
           }
         })
-      )
-    )
+      );
+    })
   );
+
   self.clients.claim();
 });
 
-// FETCH — sempre file freschi, fallback offline
+// ===============================
+// FETCH — sempre file freschi
+// fallback offline se necessario
+// ===============================
 self.addEventListener("fetch", (event) => {
   event.respondWith(
     fetch(event.request)
       .then((response) => {
+        console.log("[SW] Fetch OK:", event.request.url);
+
+        // Aggiorna la cache con la versione nuova
         const clone = response.clone();
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(event.request, clone);
         });
+
         return response;
       })
-      .catch(() => caches.match(event.request))
+      .catch(() => {
+        console.warn("[SW] Offline — uso cache:", event.request.url);
+        return caches.match(event.request);
+      })
   );
+});
+
+// ===============================
+// AUTO‑RELOAD QUANDO C’È UNA NUOVA VERSIONE
+// ===============================
+self.addEventListener("message", (event) => {
+  if (event.data === "skipWaiting") {
+    console.log("[SW] skipWaiting ricevuto — aggiorno subito");
+    self.skipWaiting();
+  }
+});
+
+// Notifica ai client che esiste una nuova versione
+self.addEventListener("install", () => {
+  self.clients.matchAll().then((clients) => {
+    clients.forEach((client) => {
+      client.postMessage({ type: "NEW_VERSION" });
+    });
+  });
 });
