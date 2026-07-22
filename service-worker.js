@@ -1,15 +1,13 @@
 // ===============================
 // VERSIONING AUTOMATICO
 // ===============================
-
-// Versione basata sulla data (si aggiorna ogni volta che pubblichi)
 const CACHE_VERSION = new Date().toISOString().slice(0, 10);
 const CACHE_NAME = `pwa-cache-${CACHE_VERSION}`;
 
 console.log("[SW] Versione cache:", CACHE_NAME);
 
 // ===============================
-// FILE STATICI DA METTERE IN CACHE
+// FILE STATICI
 // ===============================
 const ASSETS = [
   "/",
@@ -21,7 +19,7 @@ const ASSETS = [
 ];
 
 // ===============================
-// INSTALL — scarica sempre file nuovi
+// INSTALL
 // ===============================
 self.addEventListener("install", (event) => {
   console.log("[SW] Install — scarico nuovi file…");
@@ -35,7 +33,7 @@ self.addEventListener("install", (event) => {
 });
 
 // ===============================
-// ACTIVATE — elimina TUTTE le cache vecchie
+// ACTIVATE
 // ===============================
 self.addEventListener("activate", (event) => {
   console.log("[SW] Activate — pulizia cache vecchie…");
@@ -58,8 +56,7 @@ self.addEventListener("activate", (event) => {
 });
 
 // ===============================
-// FETCH — sempre file freschi
-// fallback offline se necessario
+// FETCH
 // ===============================
 self.addEventListener("fetch", (event) => {
   event.respondWith(
@@ -67,7 +64,6 @@ self.addEventListener("fetch", (event) => {
       .then((response) => {
         console.log("[SW] Fetch OK:", event.request.url);
 
-        // Aggiorna la cache con la versione nuova
         const clone = response.clone();
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(event.request, clone);
@@ -83,7 +79,7 @@ self.addEventListener("fetch", (event) => {
 });
 
 // ===============================
-// AUTO‑RELOAD QUANDO C’È UNA NUOVA VERSIONE
+// AUTO‑RELOAD
 // ===============================
 self.addEventListener("message", (event) => {
   if (event.data === "skipWaiting") {
