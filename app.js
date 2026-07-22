@@ -1,6 +1,3 @@
-
-const db = firebase.firestore();
-
 // =========================
 // STATE GLOBALE
 // =========================
