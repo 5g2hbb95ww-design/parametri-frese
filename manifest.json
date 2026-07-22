@@ -1,7 +1,6 @@
 {
   "name": "Parametri Fresa",
   "short_name": "Fresa",
-  "version": "2",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
