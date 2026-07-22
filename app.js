@@ -1,16 +1,8 @@
-// app.js
-import {
-  db,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  where,
-  updateDoc,
-  doc,
-  deleteDoc,
-  CURRENT_USER
-} from "./firebase-config.js";
+// =========================
+// FIREBASE v8 – SETUP
+// =========================
+const db = firebase.firestore();
+const CURRENT_USER = "antonio";
 
 // =========================
 // STATE GLOBALE
@@ -35,20 +27,22 @@ function debounce(fn, delay = 80) {
 // FIREBASE – FRESE
 // =========================
 async function saveFresa(item) {
-  const colRef = collection(db, "archivio_frese");
   const payload = {
     ...item,
     utente: CURRENT_USER,
     data_creazione: new Date().toISOString()
   };
-  const ref = await addDoc(colRef, payload);
+
+  const ref = await db.collection("archivio_frese").add(payload);
   archivio.push({ id: ref.id, ...payload });
 }
 
 async function getFrese() {
-  const colRef = collection(db, "archivio_frese");
-  const q = query(colRef, where("utente", "==", CURRENT_USER));
-  const snap = await getDocs(q);
+  const snap = await db
+    .collection("archivio_frese")
+    .where("utente", "==", CURRENT_USER)
+    .get();
+
   const result = [];
   snap.forEach(d => result.push({ id: d.id, ...d.data() }));
   return result;
@@ -58,20 +52,22 @@ async function getFrese() {
 // FIREBASE – PROGRAMMAZIONE
 // =========================
 async function saveScheda(item) {
-  const colRef = collection(db, "programmazione_schede");
   const payload = {
     ...item,
     utente: CURRENT_USER,
     data_creazione: new Date().toISOString()
   };
-  const ref = await addDoc(colRef, payload);
+
+  const ref = await db.collection("programmazione_schede").add(payload);
   progArchivio.push({ id: ref.id, ...payload });
 }
 
 async function getSchede() {
-  const colRef = collection(db, "programmazione_schede");
-  const q = query(colRef, where("utente", "==", CURRENT_USER));
-  const snap = await getDocs(q);
+  const snap = await db
+    .collection("programmazione_schede")
+    .where("utente", "==", CURRENT_USER)
+    .get();
+
   const result = [];
   snap.forEach(d => result.push({ id: d.id, ...d.data() }));
   return result;
@@ -81,13 +77,13 @@ async function getSchede() {
 // FIREBASE – TIMELINE
 // =========================
 async function saveTimelineEntry(entry) {
-  const colRef = collection(db, "storia_timeline");
   const payload = {
     ...entry,
     utente: CURRENT_USER,
     data_evento: new Date().toISOString()
   };
-  await addDoc(colRef, payload);
+
+  await db.collection("storia_timeline").add(payload);
 }
 
 // =========================
