@@ -2,7 +2,6 @@
 // FIREBASE v8 – SETUP
 // =========================
 const db = firebase.firestore();
-const CURRENT_USER = "antonio";
 
 // =========================
 // STATE GLOBALE
