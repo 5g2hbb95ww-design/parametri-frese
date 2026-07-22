@@ -854,18 +854,30 @@ viewSelect.addEventListener("change", () => haptic());
   renderDashboard();
 })();
 
+// ===============================
+// NOTIFICA GRAFICA + AUTO‑RELOAD
+// ===============================
 if ("serviceWorker" in navigator) {
+  const updateBanner = document.getElementById("updateBanner");
+  const btnUpdateNow = document.getElementById("btnUpdateNow");
+
   navigator.serviceWorker.addEventListener("message", async (event) => {
     if (event.data && event.data.type === "NEW_VERSION") {
-      console.log("[APP] Nuova versione disponibile — ricarico…");
+      console.log("[APP] Nuova versione disponibile — banner attivo");
 
-      // Aspetta che il controller sia pronto
-      if (navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage("skipWaiting");
-      }
+      // Mostra la notifica grafica
+      updateBanner.classList.remove("hidden");
 
-      window.location.reload();
+      btnUpdateNow.addEventListener("click", async () => {
+        console.log("[APP] Aggiorno ora…");
+
+        if (navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage("skipWaiting");
+        }
+
+        // Ricarica la PWA
+        window.location.reload();
+      });
     }
   });
 }
-
