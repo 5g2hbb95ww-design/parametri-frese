@@ -264,6 +264,7 @@ progArchivio.forEach(item => {
 });
 
 prog_timeline.appendChild(frag);
+}
 
 // =========================
 // POPOLA LISTE
