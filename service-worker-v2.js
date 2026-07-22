@@ -1,7 +1,7 @@
 // ===============================
-// VERSIONING AUTOMATICO
+// VERSIONING AUTOMATICO (stabile)
 // ===============================
-const CACHE_VERSION = new Date().toISOString().slice(0, 10);
+const CACHE_VERSION = "v1"; 
 const CACHE_NAME = `pwa-cache-${CACHE_VERSION}`;
 
 console.log("[SW] Versione cache:", CACHE_NAME);
@@ -18,7 +18,7 @@ const ASSETS = [
 ];
 
 // ===============================
-// INSTALL
+// INSTALL (unificato)
 // ===============================
 self.addEventListener("install", (event) => {
   console.log("[SW] Install — scarico nuovi file…");
@@ -26,16 +26,20 @@ self.addEventListener("install", (event) => {
 
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      for (const asset of ASSETS) {
-        try {
-          console.log("[SW] Caching:", asset);
-          await cache.add(asset);
-        } catch (err) {
-          console.warn("[SW] Errore cache asset:", asset, err);
-        }
+      try {
+        await cache.addAll(ASSETS);
+      } catch (err) {
+        console.warn("[SW] Errore durante cache.addAll:", err);
       }
     })
   );
+
+  // Notifica nuova versione
+  self.clients.matchAll().then((clients) => {
+    clients.forEach((client) => {
+      client.postMessage({ type: "NEW_VERSION" });
+    });
+  });
 });
 
 // ===============================
@@ -68,8 +72,8 @@ self.addEventListener("fetch", (event) => {
   // Fallback per PWA su iPhone
   if (event.request.mode === "navigate") {
     event.respondWith(
-      caches.match("/parametri-frese/index.html")
-        .then(resp => resp || fetch("/parametri-frese/index.html"))
+      caches.match("index.html")
+        .then(resp => resp || fetch("index.html"))
     );
     return;
   }
@@ -99,7 +103,6 @@ self.addEventListener("fetch", (event) => {
   );
 });
 
-
 // ===============================
 // AUTO‑RELOAD
 // ===============================
@@ -107,12 +110,4 @@ self.addEventListener("message", (event) => {
   if (event.data === "skipWaiting") {
     self.skipWaiting();
   }
-});
-
-self.addEventListener("install", () => {
-  self.clients.matchAll().then((clients) => {
-    clients.forEach((client) => {
-      client.postMessage({ type: "NEW_VERSION" });
-    });
-  });
 });
