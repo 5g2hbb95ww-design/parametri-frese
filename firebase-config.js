@@ -1,3 +1,5 @@
+// Firebase v8 – Configurazione corretta
+
 const firebaseConfig = {
   apiKey: "AIzaSyAZ6lMMVoqzvtREmDW1Ixn0_7qu4QRsvOU",
   authDomain: "programmazione-3754c.firebaseapp.com",
@@ -8,6 +10,11 @@ const firebaseConfig = {
   measurementId: "G-8B6Z8WRX0M"
 };
 
+// Inizializza Firebase
 firebase.initializeApp(firebaseConfig);
+
+// Firestore
 const db = firebase.firestore();
+
+// Utente corrente
 const CURRENT_USER = "antonio";
