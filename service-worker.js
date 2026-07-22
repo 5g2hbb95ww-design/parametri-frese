@@ -1,26 +1,25 @@
-// Nome cache (sempre nuova ad ogni deploy)
-const CACHE_NAME = "pwa-cache-v1";
+// Nome cache (incrementa la versione quando fai un aggiornamento)
+const CACHE_NAME = "pwa-cache-v3";
 
-// File da mettere in cache (solo quelli statici)
+// File statici da mettere in cache
 const ASSETS = [
   "/",
   "/index.html",
   "/style.css",
   "/app.js",
-  "/firebase-config.js"
+  "/firebase.config.js",
+  "/manifest.json"
 ];
 
-// INSTALL — aggiorna subito
+// INSTALL — attiva subito la nuova versione
 self.addEventListener("install", (event) => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
 });
 
-// ACTIVATE — elimina TUTTE le cache vecchie
+// ACTIVATE — elimina tutte le cache vecchie
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -41,16 +40,12 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        // Aggiorna la cache con la versione nuova
         const clone = response.clone();
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(event.request, clone);
         });
         return response;
       })
-      .catch(() => {
-        // Se offline → prova dalla cache
-        return caches.match(event.request);
-      })
+      .catch(() => caches.match(event.request))
   );
 });
