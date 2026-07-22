@@ -538,6 +538,43 @@ body.light .toast {
   transform: translateX(-50%) translateY(-6px);
 }
 
+
+/* MENU LATERALE */
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 260px;
+  height: 100vh;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(18px);
+  border-left: 1px solid rgba(255,255,255,0.18);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.25s ease;
+  transform: translateX(100%);
+  z-index: 999;
+}
+
+.side-menu.show {
+  transform: translateX(0);
+}
+
+.side-menu.hidden {
+  transform: translateX(100%);
+}
+
+.side-menu-item {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: #e9faff;
+  font-size: 15px;
+}
+
 /* =========================
    MENU LATERALE
    ========================= */
