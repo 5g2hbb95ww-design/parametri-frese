@@ -649,6 +649,7 @@ btnDel.addEventListener("click", async () => {
 // =========================
 const modalProgEdit = document.getElementById("modalProgEdit");
 const btnProgClose = document.getElementById("btnProgClose");
+const btnProgUpdate = document.getElementById("btnProgUpdate");
 
 btnProgClose.addEventListener("click", () => {
   // CHIUDI MODAL – versione fluida iPhone
