@@ -1,4 +1,3 @@
-// =========================
 // FIREBASE v8 – SETUP
 // =========================
 const db = firebase.firestore();
