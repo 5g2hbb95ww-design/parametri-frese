@@ -824,7 +824,9 @@ viewSelect.addEventListener("change", () => haptic());
 // AVVIO
 // =========================
 (async () => {
-  pages.dashboard.classList.add("active");
+  Object.values(pages).forEach(p => p.style.display = "none");
+  pages.dashboard.style.display = "block";
+
   renderDashboard();
 
   const [frese, schede] = await Promise.all([
@@ -840,6 +842,7 @@ viewSelect.addEventListener("change", () => haptic());
   renderProgTimeline();
   renderDashboard();
 })();
+
 
 // ===============================
 // NOTIFICA GRAFICA + AUTO‑RELOAD
