@@ -8,7 +8,7 @@
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0b1020" />
+  <meta name="theme-color" content="#0a0f1c" />
 
   <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
@@ -18,21 +18,47 @@
 
   <!-- MENU LATERALE -->
   <div id="sideMenu" class="side-menu hidden">
-    <div class="side-menu-item" data-page="dashboard">Dashboard</div>
-    <div class="side-menu-item" data-page="nuovo">Nuova Fresa</div>
-    <div class="side-menu-item" data-page="archivio">Archivio Frese</div>
-    <div class="side-menu-item" data-page="programmazione">Programmazione</div>
-    <div class="side-menu-item" data-page="timeline">Timeline</div>
+    <div class="side-menu-content glass">
+      <div class="side-menu-item" data-page="dashboard">Dashboard</div>
+      <div class="side-menu-item" data-page="nuovo">Nuova Fresa</div>
+      <div class="side-menu-item" data-page="archivio">Archivio Frese</div>
+      <div class="side-menu-item" data-page="programmazione">Programmazione</div>
+      <div class="side-menu-item" data-page="timeline">Timeline</div>
+    </div>
   </div>
 
-  <!-- CONTENUTO PAGINE -->
-  <div id="page-dashboard" class="page"></div>
-  <div id="page-nuovo" class="page"></div>
-  <div id="page-archivio" class="page"></div>
-  <div id="page-programmazione" class="page"></div>
-  <div id="page-timeline" class="page"></div>
+  <!-- SELECTOR PAGINE -->
+  <header>
+    <div class="header-row">
+      <select id="viewSelect">
+        <option value="dashboard">Dashboard</option>
+        <option value="nuovo">Nuova Fresa</option>
+        <option value="archivio">Archivio Frese</option>
+        <option value="programmazione">Programmazione</option>
+        <option value="timeline">Timeline</option>
+      </select>
+    </div>
 
-  <!-- ICONA MENU INFERIORE -->
+    <div class="theme-toggle">
+      <button id="btnTheme" class="btn-theme">
+        <span id="themeIcon"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENUTO PAGINE -->
+  <main>
+    <div id="page-dashboard" class="page"></div>
+    <div id="page-nuovo" class="page"></div>
+    <div id="page-archivio" class="page"></div>
+    <div id="page-programmazione" class="page"></div>
+    <div id="page-timeline" class="page"></div>
+  </main>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- PULSANTE MENU INFERIORE -->
   <div id="menuButton" class="menu-button">
     <svg viewBox="0 0 32 32" fill="currentColor">
       <rect x="8" y="10" width="16" height="2" rx="1"/>
