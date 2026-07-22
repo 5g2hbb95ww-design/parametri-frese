@@ -1,3 +1,5 @@
+// Firebase v8 – compatibile con GitHub Pages e con il tuo app.js
+
 const firebaseConfig = {
   apiKey: "AIzaSyAZ6lMMVoqzvtREmDW1Ixn0_7qu4QRsvOU",
   authDomain: "programmazione-3754c.firebaseapp.com",
@@ -10,3 +12,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+
+// Utente corrente (se lo usi)
+window.CURRENT_USER = "antonio";
