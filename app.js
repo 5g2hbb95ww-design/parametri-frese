@@ -754,6 +754,12 @@ document.getElementById("btnExportPDF").addEventListener("click", () => {
       <h1>Report schede programmazione</h1>
   `;
 
+  document.getElementById("btnExportPDFTimeline").addEventListener("click", () => {
+  viewSelect.value = "programmazione";
+  showPage("programmazione");
+  document.getElementById("btnExportPDF").click();
+});
+
   progArchivio.forEach(item => {
     html += `
       <div class="card">
