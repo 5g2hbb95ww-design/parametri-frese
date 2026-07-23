@@ -1,113 +1,84 @@
 // ===============================
-// VERSIONING AUTOMATICO (stabile)
+// SERVICE WORKER — VERSIONE 3.0
 // ===============================
-const CACHE_VERSION = "v1"; 
-const CACHE_NAME = `pwa-cache-${CACHE_VERSION}`;
 
-console.log("[SW] Versione cache:", CACHE_NAME);
-
-// ===============================
-// FILE STATICI (senza "/")
-// ===============================
-const ASSETS = [
+const CACHE_NAME = "parametri-frese-v3";
+const APP_SHELL = [
+  "./",
   "./index.html",
   "./style.css",
   "./app.js",
-  "./firebase.config.js",
-  "./manifest.json"
+  "./manifest.json",
+  "./firebase.config.js"
 ];
 
-// ===============================
-// INSTALL (unificato)
-// ===============================
+// Install SW + cache base files
 self.addEventListener("install", (event) => {
-  console.log("[SW] Install — scarico nuovi file…");
+  console.log("[SW] Install");
   self.skipWaiting();
 
   event.waitUntil(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      try {
-        await cache.addAll(ASSETS);
-      } catch (err) {
-        console.warn("[SW] Errore durante cache.addAll:", err);
-      }
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(APP_SHELL);
     })
   );
-
-  // Notifica nuova versione
-  self.clients.matchAll().then((clients) => {
-    clients.forEach((client) => {
-      client.postMessage({ type: "NEW_VERSION" });
-    });
-  });
 });
 
-// ===============================
-// ACTIVATE
-// ===============================
+// Activate SW + delete old caches
 self.addEventListener("activate", (event) => {
-  console.log("[SW] Activate — pulizia cache vecchie…");
+  console.log("[SW] Activate");
 
   event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
+    caches.keys().then((keys) =>
+      Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
-            console.log("[SW] Eliminazione cache:", key);
+            console.log("[SW] Delete old cache:", key);
             return caches.delete(key);
           }
         })
-      );
-    })
+      )
+    )
   );
 
   self.clients.claim();
 });
 
-// ===============================
-// FETCH
-// ===============================
+// Fetch strategy: network first, fallback cache
 self.addEventListener("fetch", (event) => {
+  const req = event.request;
 
-  // Fallback per PWA su iPhone
-  if (event.request.mode === "navigate") {
-    event.respondWith(
-      caches.match("./index.html")
-        .then(resp => resp || fetch("./index.html"))
-    );
-    return;
-  }
-
-  // NON mettere in cache richieste POST, PUT, DELETE, ecc.
-  if (event.request.method !== "GET") {
-    event.respondWith(fetch(event.request));
+  // Avoid caching Firebase requests
+  if (req.url.includes("firestore.googleapis.com")) {
     return;
   }
 
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      // Se esiste in cache → restituisci subito
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-
-      // Altrimenti fai fetch e metti in cache
-      return fetch(event.request).then((response) => {
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, clone);
-        });
-        return response;
-      });
-    })
+    fetch(req)
+      .then((res) => {
+        const clone = res.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(req, clone));
+        return res;
+      })
+      .catch(() => caches.match(req))
   );
 });
 
 // ===============================
-// AUTO‑RELOAD
+// AUTO‑UPDATE NOTIFICATION
 // ===============================
 self.addEventListener("message", (event) => {
   if (event.data === "skipWaiting") {
+    console.log("[SW] Skip waiting requested");
     self.skipWaiting();
   }
+});
+
+// Detect new version
+self.addEventListener("install", () => {
+  self.clients.matchAll().then((clients) => {
+    clients.forEach((client) => {
+      client.postMessage({ type: "NEW_VERSION" });
+    });
+  });
 });
