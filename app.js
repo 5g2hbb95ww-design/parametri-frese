@@ -1,12 +1,12 @@
-// ========================
-// STATE GLOBALE
-// ========================
-let archivio = [];
-let progArchivio = [];
+// =============================
+// APP PRINCIPALE
+// =============================
 
-// iPhone: elimina ritardo click
-document.addEventListener("touchstart", () => {}, { passive: true });
-
+// Ripristina tema salvato
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "light") {
+  document.body.classList.add("light");
+}
 
 // =========================
 // UTILITY
@@ -289,6 +289,7 @@ refrigerante.innerHTML = `
   <option>Secco</option>
 `;
 
+// Popola anche i select del modal modifica
 document.getElementById("edit_materiale").innerHTML =
   document.getElementById("materiale").innerHTML;
 document.getElementById("edit_refrigerante").innerHTML =
@@ -446,7 +447,7 @@ function renderArchivio() {
 
     div.innerHTML = `
       <div class="arch-item-title">${item.denominazione}</div>
-      <div class="arch-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
+      <div class="arch-item-meta">Ø ${item.diametro} — ${item.materialale}</div>
     `;
 
     const btnMod = document.createElement("button");
