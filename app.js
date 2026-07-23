@@ -814,7 +814,7 @@ const dashBtn = document.getElementById("dashboardBtn");
 if (dashBtn) {
   dashBtn.addEventListener("click", () => {
     viewSelect.value = "dashboard";
-    viewSelect.dispatchEvent(new Event("change"));
+    showPage(page);
   });
 }
 
@@ -841,7 +841,7 @@ document.querySelectorAll(".bubble").forEach(b => {
     haptic();
     const page = b.dataset.page;
     viewSelect.value = page;
-    viewSelect.dispatchEvent(new Event("change"));
+    showPage(page);
     bubbleMenu.classList.remove("show");
     bubbleMenu.classList.add("hidden");
   });
@@ -930,3 +930,16 @@ btnTheme.addEventListener("click", () => {
   document.body.classList.toggle("dark", !isLight);
   themeIcon.textContent = isLight ? "☀️" : "🌙";
 });
+
+function showPage(page) {
+  Object.values(pages).forEach(p => p.classList.remove("active"));
+  pages[page].classList.add("active");
+
+  if (page === "dashboard") renderDashboard();
+  if (page === "archivio") renderArchivio();
+  if (page === "programmazione") {
+    renderProgArchivio();
+    renderProgTimeline();
+  }
+  if (page === "timeline") renderProgTimeline();
+}
