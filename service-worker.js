@@ -72,8 +72,8 @@ self.addEventListener("fetch", (event) => {
   // Fallback per PWA su iPhone
   if (event.request.mode === "navigate") {
     event.respondWith(
-      caches.match(".index.html")
-        .then(resp => resp || fetch(".index.html"))
+      caches.match("./index.html")
+        .then(resp => resp || fetch("./index.html"))
     );
     return;
   }
