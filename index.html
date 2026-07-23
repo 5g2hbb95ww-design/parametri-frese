@@ -42,62 +42,59 @@
   <main>
 
     <!-- PAGINA DASHBOARD -->
-    <section id="page-dashboard" class="page active">
-      <div class="card glass volumetric">
-        <h2>Dashboard</h2>
+<section id="page-dashboard" class="page active">
 
-<div class="shortcut-row">
-  <div class="shortcut" data-page="nuovo">➕</div>
-  <div class="shortcut" data-page="archivio">📁</div>
-  <div class="shortcut" data-page="programmazione">🛠</div>
-  <div class="shortcut" data-page="timeline">📊</div>
-</div>
+  <div class="dash-grid-new">
 
+    <div class="dash-card glass volumetric">
+      <div class="dash-icon">📄</div>
+      <div class="dash-number" id="dash_tot_schede">0</div>
+      <div class="dash-label">Schede totali</div>
+    </div>
 
-        <div class="dash-grid">
-          <div class="dashboard-box">
-            <div class="dash-number" id="dash_tot_schede">0</div>
-            <div class="dash-label">Schede totali</div>
-          </div>
+    <div class="dash-card glass volumetric">
+      <div class="dash-icon">⚙️</div>
+      <div class="dash-number" id="dash_in_prog">0</div>
+      <div class="dash-label">In programmazione</div>
+    </div>
 
-          <div class="dashboard-box">
-            <div class="dash-number" id="dash_in_prog">0</div>
-            <div class="dash-label">In programmazione</div>
-          </div>
+    <div class="dash-card glass volumetric">
+      <div class="dash-icon">📌</div>
+      <div class="dash-number" id="dash_programmato">0</div>
+      <div class="dash-label">Programmato</div>
+    </div>
 
-          <div class="dashboard-box">
-            <div class="dash-number" id="dash_programmato">0</div>
-            <div class="dash-label">Programmato</div>
-          </div>
+    <div class="dash-card glass volumetric">
+      <div class="dash-icon">🏭</div>
+      <div class="dash-number" id="dash_produzione">0</div>
+      <div class="dash-label">In produzione</div>
+    </div>
 
-          <div class="dashboard-box">
-            <div class="dash-number" id="dash_produzione">0</div>
-            <div class="dash-label">In produzione</div>
-          </div>
+    <div class="dash-card glass volumetric">
+      <div class="dash-icon">⏸️</div>
+      <div class="dash-number" id="dash_sospeso">0</div>
+      <div class="dash-label">Sospeso</div>
+    </div>
 
-          <div class="dashboard-box">
-            <div class="dash-number" id="dash_sospeso">0</div>
-            <div class="dash-label">Sospeso</div>
-          </div>
+    <div class="dash-card glass volumetric">
+      <div class="dash-icon">✔️</div>
+      <div class="dash-number" id="dash_finito">0</div>
+      <div class="dash-label">Finito</div>
+    </div>
 
-          <div class="dashboard-box">
-            <div class="dash-number" id="dash_finito">0</div>
-            <div class="dash-label">Finito</div>
-          </div>
-        </div>
-      </div>
+  </div>
 
-      <div class="card glass volumetric">
-        <h2>Ultime schede modificate</h2>
-        <div id="dash_recent_schede"></div>
-      </div>
+  <div class="card glass volumetric">
+    <h2>Ultime schede modificate</h2>
+    <div id="dash_recent_schede"></div>
+  </div>
 
-      <div class="card glass volumetric">
-        <h2>Ultime frese aggiunte</h2>
-        <div id="dash_recent_frese"></div>
-      </div>
+  <div class="card glass volumetric">
+    <h2>Ultime frese aggiunte</h2>
+    <div id="dash_recent_frese"></div>
+  </div>
 
-    </section>
+</section>
 
     <!-- PAGINA NUOVO -->
     <section id="page-nuovo" class="page">
