@@ -823,34 +823,6 @@ if (dashBtn) {
   });
 }
 
-// ===============================
-// MENU A BOLLE LATERALE (VisionOS)
-// ===============================
-const bubbleMenu = document.getElementById("bubbleMenu");
-const openModalBtn = document.getElementById("openModalBtn");
-
-function haptic() {
-  try {
-    navigator.vibrate?.(10);
-  } catch (_) {}
-}
-
-openModalBtn.addEventListener("click", () => {
-  haptic();
-  bubbleMenu.classList.toggle("show");
-  bubbleMenu.classList.toggle("hidden");
-});
-
-document.querySelectorAll(".bubble").forEach(b => {
-  b.addEventListener("click", () => {
-    haptic();
-    const page = b.dataset.page;
-    viewSelect.value = page;
-    showPage(page);
-    bubbleMenu.classList.remove("show");
-    bubbleMenu.classList.add("hidden");
-  });
-});
 
 // bubble per tema nel menu
 const bubbleTheme = document.getElementById("bubbleTheme");
