@@ -124,15 +124,9 @@ if (savedTheme === "light") {
 
 btnTheme.addEventListener("click", () => {
   const isLight = document.body.classList.toggle("light");
-  if (isLight) {
-    document.body.classList.remove("dark");
-    themeIcon.innerHTML = iconSun;
-    localStorage.setItem("theme", "light");
-  } else {
-    document.body.classList.add("dark");
-    themeIcon.innerHTML = iconMoon;
-    localStorage.setItem("theme", "dark");
-  }
+  document.body.classList.toggle("dark", !isLight);
+  themeIcon.innerHTML = isLight ? iconSun : iconMoon;
+  localStorage.setItem("theme", isLight ? "light" : "dark");
 });
 
 // =========================
@@ -350,6 +344,8 @@ function calcolaF() {
 }
 
 // =========================
+// PAGINE
+// =========================
 const pages = {
   dashboard: document.getElementById("page-dashboard"),
   nuovo: document.getElementById("page-nuovo"),
@@ -487,7 +483,6 @@ function apriPopup(idx) {
 }
 
 btnCloseModal.addEventListener("click", () => {
-  
   modalEdit.classList.add("hidden");
   modalEdit.style.display = "none";
 });
@@ -510,6 +505,7 @@ document.getElementById("btnUpdate").addEventListener("click", async () => {
   archivio[editIndex] = { id: item.id, ...updated };
 
   renderArchivio();
+  modalEdit.classList.add("hidden");
   modalEdit.style.display = "none";
   showToast("Fresa aggiornata ✔");
 });
@@ -636,6 +632,7 @@ const btnProgClose = document.getElementById("btnProgClose");
 const btnProgUpdate = document.getElementById("btnProgUpdate");
 
 btnProgClose.addEventListener("click", () => {
+  modalProgEdit.classList.add("hidden");
   modalProgEdit.style.display = "none";
 });
 
@@ -653,6 +650,7 @@ function apriProgPopup(idx) {
   edit_prog_stato.value = item.stato;
   edit_prog_note.value = item.note || "";
 
+  modalProgEdit.classList.remove("hidden");
   modalProgEdit.style.display = "flex";
 }
 
@@ -694,6 +692,7 @@ btnProgUpdate.addEventListener("click", async () => {
   renderProgArchivio();
   renderProgTimeline();
 
+  modalProgEdit.classList.add("hidden");
   modalProgEdit.style.display = "none";
   showToast("Scheda aggiornata ✔");
 });
@@ -823,6 +822,26 @@ if (dashBtn) {
   });
 }
 
+// ===============================
+// MENU PAGINE A BOLLE (rapido)
+// ===============================
+const pageMenu = document.getElementById("pageMenu");
+const rightBtn = document.getElementById("openModalBtn");
+
+if (rightBtn && pageMenu) {
+  rightBtn.addEventListener("click", () => {
+    pageMenu.classList.toggle("hidden");
+  });
+
+  document.querySelectorAll(".page-menu .bubble").forEach(b => {
+    b.addEventListener("click", () => {
+      const page = b.dataset.page;
+      viewSelect.value = page;
+      showPage(page);
+      pageMenu.classList.add("hidden");
+    });
+  });
+}
 
 // bubble per tema nel menu
 const bubbleTheme = document.getElementById("bubbleTheme");
