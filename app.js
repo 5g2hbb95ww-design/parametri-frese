@@ -482,10 +482,13 @@ function apriPopup(idx) {
   edit_refrigerante.value = item.refrigerante;
   edit_dettagli.value = item.dettagli;
 
+  modalEdit.classList.remove("hidden");
   modalEdit.style.display = "flex";
 }
 
 btnCloseModal.addEventListener("click", () => {
+  
+  modalEdit.classList.add("hidden");
   modalEdit.style.display = "none";
 });
 
