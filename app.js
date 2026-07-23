@@ -11,6 +11,42 @@ document.addEventListener("touchstart", () => {}, { passive: true });
 // UTILITY
 // =========================
 const num = (v) => Number(v) || 0;
+const safeText = (v, fallback = "-") => {
+  const text = String(v ?? "").trim();
+  return text || fallback;
+};
+
+const escapeHtml = (v) =>
+  safeText(v, "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+function labelStato(stato) {
+  const labels = {
+    in_programmazione: "In programmazione",
+    programmato: "Programmato",
+    in_produzione: "In produzione",
+    sospeso: "Sospeso",
+    finito: "Finito"
+  };
+
+  return labels[stato] || safeText(stato).replaceAll("_", " ");
+}
+
+function progressByStato(stato) {
+  const progress = {
+    in_programmazione: "12%",
+    programmato: "42%",
+    in_produzione: "72%",
+    sospeso: "28%",
+    finito: "100%"
+  };
+
+  return progress[stato] || "10%";
+}
 
 function debounce(fn, delay = 80) {
   let t;
@@ -219,22 +255,22 @@ function renderDashboard() {
     .reverse()
     .map(item => `
       <div class="dash-item">
-        <div class="dash-item-title">${item.commessa}</div>
-        <div class="dash-item-meta">${item.stato.replace("_"," ")}</div>
+        <div class="dash-item-title">${escapeHtml(item.commessa)}</div>
+        <div class="dash-item-meta">${escapeHtml(labelStato(item.stato))}</div>
       </div>
     `)
-    .join("");
+    .join("") || `<div class="empty-state">Nessuna scheda recente</div>`;
 
   dash_recent_frese.innerHTML = archivio
     .slice(-5)
     .reverse()
     .map(item => `
       <div class="dash-item">
-        <div class="dash-item-title">${item.denominazione}</div>
-        <div class="dash-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
+        <div class="dash-item-title">${escapeHtml(item.denominazione)}</div>
+        <div class="dash-item-meta">D ${escapeHtml(item.diametro)} - ${escapeHtml(item.materiale)}</div>
       </div>
     `)
-    .join("");
+    .join("") || `<div class="empty-state">Nessuna fresa recente</div>`;
 }
 
 // =========================
@@ -245,6 +281,11 @@ const prog_timeline = document.getElementById("prog_timeline");
 function renderProgTimeline() {
   prog_timeline.innerHTML = "";
 
+  if (!progArchivio.length) {
+    prog_timeline.innerHTML = `<div class="empty-state">Nessun evento in timeline</div>`;
+    return;
+  }
+
   const frag = document.createDocumentFragment();
 
   progArchivio.forEach(item => {
@@ -252,9 +293,9 @@ function renderProgTimeline() {
     div.className = "timeline-item";
 
     div.innerHTML = `
-      <div class="timeline-title">${item.commessa}</div>
-      <div class="timeline-meta">${item.stato.replace("_"," ")}</div>
-      <div class="timeline-date">${item.dataProgramma || item.data_evento}</div>
+      <div class="timeline-title">${escapeHtml(item.commessa)}</div>
+      <div class="timeline-meta">${escapeHtml(labelStato(item.stato))}</div>
+      <div class="timeline-date">${escapeHtml(item.dataProgramma || item.data_evento)}</div>
     `;
 
     frag.appendChild(div);
@@ -266,28 +307,62 @@ function renderProgTimeline() {
 // =========================
 // POPOLA LISTE
 // =========================
-materiale.innerHTML = `
-  <option>Acciaio</option>
-  <option>Temprato</option>
-  <option>Inox</option>
-  <option>Alluminio</option>
-  <option>Ghisa</option>
-  <option>Rame</option>
-  <option>Ottone</option>
-`;
+const fallbackMateriali = [
+  "Acciaio",
+  "Temprato",
+  "Inox",
+  "Alluminio",
+  "Ghisa",
+  "Rame",
+  "Ottone"
+];
 
-refrigerante.innerHTML = `
-  <option>Acqua interna</option>
-  <option>Acqua esterna</option>
-  <option>Aria intero</option>
-  <option>Aria esterna</option>
-  <option>Secco</option>
-`;
+const fallbackRefrigeranti = [
+  "Acqua interna",
+  "Acqua esterna",
+  "Aria interna",
+  "Aria esterna",
+  "Secco"
+];
 
-document.getElementById("edit_materiale").innerHTML =
-  document.getElementById("materiale").innerHTML;
-document.getElementById("edit_refrigerante").innerHTML =
-  document.getElementById("refrigerante").innerHTML;
+function setSelectOptions(select, values, placeholder = "") {
+  select.innerHTML = [
+    placeholder ? `<option value="">${escapeHtml(placeholder)}</option>` : "",
+    ...values.map((value) => `<option>${escapeHtml(value)}</option>`)
+  ].join("");
+}
+
+function syncEditSelects() {
+  edit_materiale.innerHTML = materiale.innerHTML;
+  edit_refrigerante.innerHTML = refrigerante.innerHTML;
+  edit_prog_macchina.innerHTML = prog_macchina.innerHTML;
+  edit_prog_operatore.innerHTML = prog_operatore.innerHTML;
+}
+
+function populateDefaultOptions() {
+  setSelectOptions(materiale, fallbackMateriali, "Seleziona materiale");
+  setSelectOptions(refrigerante, fallbackRefrigeranti, "Seleziona refrigerante");
+  syncEditSelects();
+}
+
+async function loadMaterialOptions() {
+  try {
+    const res = await fetch("./materials.json", { cache: "no-cache" });
+    if (!res.ok) return;
+
+    const data = await res.json();
+    const materiali = (data.materiali || []).map((item) => item.nome).filter(Boolean);
+    const refrigeranti = (data.refrigeranti || []).map((item) => item.nome).filter(Boolean);
+
+    if (materiali.length) setSelectOptions(materiale, materiali, "Seleziona materiale");
+    if (refrigeranti.length) setSelectOptions(refrigerante, refrigeranti, "Seleziona refrigerante");
+    syncEditSelects();
+  } catch (err) {
+    console.warn("[APP] materials.json non disponibile", err);
+  }
+}
+
+populateDefaultOptions();
 
 // =========================
 // TOAST
@@ -368,6 +443,9 @@ const lista = document.getElementById("lista");
 const sortSelect = document.getElementById("sortSelect");
 const orderSelect = document.getElementById("orderSelect");
 
+sortSelect.addEventListener("change", renderArchivio);
+orderSelect.addEventListener("change", renderArchivio);
+
 function resetCampiNuovo() {
   den.value = "";
   diam.value = "";
@@ -416,44 +494,65 @@ document.getElementById("btnSalva").addEventListener("click", async () => {
 function renderArchivio() {
   lista.innerHTML = "";
 
-  let arr = [...archivio];
+  let arr = archivio.map((item, index) => ({ item, index }));
   const key = sortSelect.value;
   const ord = orderSelect.value;
 
   arr.sort((a, b) => {
-    if (ord === "asc") return a[key] > b[key] ? 1 : -1;
-    return a[key] < b[key] ? 1 : -1;
+    const valueA = a.item[key] ?? "";
+    const valueB = b.item[key] ?? "";
+    if (ord === "asc") return valueA > valueB ? 1 : -1;
+    return valueA < valueB ? 1 : -1;
   });
 
-  arr.forEach((item, idx) => {
+  if (!arr.length) {
+    lista.innerHTML = `<div class="empty-state">Nessuna fresa in archivio</div>`;
+    return;
+  }
+
+  arr.forEach(({ item, index }) => {
     const div = document.createElement("div");
     div.className = "arch-item";
 
     div.innerHTML = `
-      <div class="arch-item-title">${item.denominazione}</div>
-      <div class="arch-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
+      <div class="arch-item-head">
+        <div>
+          <div class="arch-item-title">${escapeHtml(item.denominazione)}</div>
+          <div class="arch-item-meta">${escapeHtml(item.codiceFresa)}${item.codiceInserto ? " - " + escapeHtml(item.codiceInserto) : ""}</div>
+        </div>
+        <span class="arch-pill">${escapeHtml(item.materiale)}</span>
+      </div>
+      <div class="arch-details">
+        <span><strong>D</strong>${escapeHtml(item.diametro)}</span>
+        <span><strong>Z</strong>${escapeHtml(item.taglienti)}</span>
+        <span><strong>S</strong>${escapeHtml(item.sCalc || item.s)}</span>
+        <span><strong>F</strong>${escapeHtml(item.fCalc || item.f)}</span>
+      </div>
+      <div class="arch-item-meta">${escapeHtml(item.refrigerante)}${item.dettagli ? " - " + escapeHtml(item.dettagli) : ""}</div>
     `;
 
     const btnMod = document.createElement("button");
     btnMod.textContent = "Modifica";
     btnMod.className = "btn-primary";
-    btnMod.style.marginTop = "6px";
-    btnMod.addEventListener("click", () => apriPopup(idx));
+    btnMod.addEventListener("click", () => apriPopup(index));
 
     const btnDel = document.createElement("button");
     btnDel.textContent = "Elimina";
     btnDel.className = "btn-secondary";
-    btnDel.style.marginTop = "6px";
     btnDel.addEventListener("click", async () => {
-      const id = archivio[idx].id;
+      const id = archivio[index].id;
       await db.collection("archivio_frese").doc(id).delete();
-      archivio.splice(idx, 1);
+      archivio.splice(index, 1);
       renderArchivio();
       showToast("Fresa eliminata ✔");
     });
 
-    div.appendChild(btnMod);
-    div.appendChild(btnDel);
+    const actions = document.createElement("div");
+    actions.className = "item-actions";
+    actions.appendChild(btnMod);
+    actions.appendChild(btnDel);
+
+    div.appendChild(actions);
     lista.appendChild(div);
   });
 }
@@ -464,6 +563,20 @@ function renderArchivio() {
 const modalEdit = document.getElementById("modalEdit");
 const btnCloseModal = document.getElementById("btnCloseModal");
 let editIndex = null;
+
+function openAppModal(modal) {
+  modal.classList.remove("hidden");
+  modal.style.display = "flex";
+  requestAnimationFrame(() => modal.classList.add("open"));
+}
+
+function closeAppModal(modal) {
+  modal.classList.remove("open");
+  setTimeout(() => {
+    modal.classList.add("hidden");
+    modal.style.display = "none";
+  }, 220);
+}
 
 function apriPopup(idx) {
   editIndex = idx;
@@ -478,13 +591,11 @@ function apriPopup(idx) {
   edit_refrigerante.value = item.refrigerante;
   edit_dettagli.value = item.dettagli;
 
-  modalEdit.classList.remove("hidden");
-  modalEdit.style.display = "flex";
+  openAppModal(modalEdit);
 }
 
 btnCloseModal.addEventListener("click", () => {
-  modalEdit.classList.add("hidden");
-  modalEdit.style.display = "none";
+  closeAppModal(modalEdit);
 });
 
 document.getElementById("btnUpdate").addEventListener("click", async () => {
@@ -505,8 +616,7 @@ document.getElementById("btnUpdate").addEventListener("click", async () => {
   archivio[editIndex] = { id: item.id, ...updated };
 
   renderArchivio();
-  modalEdit.classList.add("hidden");
-  modalEdit.style.display = "none";
+  closeAppModal(modalEdit);
   showToast("Fresa aggiornata ✔");
 });
 
@@ -518,6 +628,8 @@ let progEditIndex = null;
 const prog_lista = document.getElementById("prog_lista");
 const prog_progress = document.getElementById("prog_progress");
 const prog_filter = document.getElementById("prog_filter");
+
+prog_filter.addEventListener("change", renderProgArchivio);
 
 function resetCampiProgrammazione() {
   prog_macchina.value = "";
@@ -568,59 +680,63 @@ function renderProgArchivio() {
   prog_lista.innerHTML = "";
   prog_progress.innerHTML = "";
 
-  let arr = [...progArchivio];
+  let arr = progArchivio.map((item, index) => ({ item, index }));
 
   if (prog_filter.value) {
-    arr = arr.filter(x => x.stato === prog_filter.value);
+    arr = arr.filter(({ item }) => item.stato === prog_filter.value);
   }
 
-  arr.forEach((item, idx) => {
+  if (!arr.length) {
+    prog_lista.innerHTML = `<div class="empty-state">Nessuna scheda per questo filtro</div>`;
+    return;
+  }
+
+  arr.forEach(({ item, index }) => {
     const div = document.createElement("div");
     div.className = "arch-item";
 
     div.innerHTML = `
-      <div class="arch-item-title">${item.commessa}</div>
-      <div class="arch-item-meta">${item.macchina} — ${item.operatore}</div>
-      <span class="badge ${item.stato}">${item.stato.replace("_", " ")}</span>
-      <div class="arch-item-meta">${item.dataProgramma}</div>
+      <div class="arch-item-head">
+        <div>
+          <div class="arch-item-title">${escapeHtml(item.commessa)}</div>
+          <div class="arch-item-meta">${escapeHtml(item.macchina)} - ${escapeHtml(item.operatore)}</div>
+        </div>
+        <span class="badge ${escapeHtml(item.stato)}">${escapeHtml(labelStato(item.stato))}</span>
+      </div>
+      <div class="arch-details">
+        <span><strong>Disegno</strong>${escapeHtml(item.disegno)}</span>
+        <span><strong>Rev</strong>${escapeHtml(item.revisione)}</span>
+        <span><strong>Data</strong>${escapeHtml(item.dataProgramma)}</span>
+        <span><strong>Min</strong>${escapeHtml(item.tempo)}</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill ${escapeHtml(item.stato)}" style="width:${progressByStato(item.stato)}"></div></div>
+      <div class="arch-item-meta">${escapeHtml(item.note)}</div>
     `;
 
     const btnMod = document.createElement("button");
     btnMod.textContent = "Modifica";
     btnMod.className = "btn-primary";
-    btnMod.style.marginTop = "6px";
-    btnMod.addEventListener("click", () => apriProgPopup(idx));
+    btnMod.addEventListener("click", () => apriProgPopup(index));
 
     const btnDel = document.createElement("button");
     btnDel.textContent = "Elimina";
     btnDel.className = "btn-secondary";
-    btnDel.style.marginTop = "6px";
     btnDel.addEventListener("click", async () => {
-      const id = progArchivio[idx].id;
+      const id = progArchivio[index].id;
       await db.collection("programmazione_schede").doc(id).delete();
-      progArchivio.splice(idx, 1);
+      progArchivio.splice(index, 1);
       renderProgArchivio();
       renderProgTimeline();
       showToast("Scheda eliminata ✔");
     });
 
-    div.appendChild(btnMod);
-    div.appendChild(btnDel);
+    const actions = document.createElement("div");
+    actions.className = "item-actions";
+    actions.appendChild(btnMod);
+    actions.appendChild(btnDel);
+
+    div.appendChild(actions);
     prog_lista.appendChild(div);
-
-    const pb = document.createElement("div");
-    pb.className = "progress-bar";
-
-    const pf = document.createElement("div");
-    pf.className = "progress-fill programmazione";
-    pf.style.width =
-      item.stato === "finito" ? "100%" :
-      item.stato === "in_produzione" ? "70%" :
-      item.stato === "programmato" ? "40%" :
-      "10%";
-
-    pb.appendChild(pf);
-    prog_progress.appendChild(pb);
   });
 }
 
@@ -632,8 +748,7 @@ const btnProgClose = document.getElementById("btnProgClose");
 const btnProgUpdate = document.getElementById("btnProgUpdate");
 
 btnProgClose.addEventListener("click", () => {
-  modalProgEdit.classList.add("hidden");
-  modalProgEdit.style.display = "none";
+  closeAppModal(modalProgEdit);
 });
 
 function apriProgPopup(idx) {
@@ -650,8 +765,7 @@ function apriProgPopup(idx) {
   edit_prog_stato.value = item.stato;
   edit_prog_note.value = item.note || "";
 
-  modalProgEdit.classList.remove("hidden");
-  modalProgEdit.style.display = "flex";
+  openAppModal(modalProgEdit);
 }
 
 btnProgUpdate.addEventListener("click", async () => {
@@ -670,7 +784,7 @@ btnProgUpdate.addEventListener("click", async () => {
     operatore: edit_prog_operatore.value,
     stato: nuovoStato,
     note: edit_prog_note.value.trim(),
-    history: [...item.history]
+    history: [...(item.history || [])]
   };
 
   if (item.stato !== nuovoStato) {
@@ -692,8 +806,7 @@ btnProgUpdate.addEventListener("click", async () => {
   renderProgArchivio();
   renderProgTimeline();
 
-  modalProgEdit.classList.add("hidden");
-  modalProgEdit.style.display = "none";
+  closeAppModal(modalProgEdit);
   showToast("Scheda aggiornata ✔");
 });
 
@@ -791,8 +904,14 @@ if ("serviceWorker" in navigator) {
   const updateBanner = document.getElementById("updateBanner");
   const btnUpdateNow = document.getElementById("btnUpdateNow");
 
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("./service-worker.js")
+      .catch((err) => console.warn("[APP] Service worker non registrato", err));
+  });
+
   navigator.serviceWorker.addEventListener("message", async (event) => {
-    if (event.data && event.data.type === "NEW_VERSION") {
+    if (event.data && event.data.type === "NEW_VERSION" && updateBanner) {
       updateBanner.classList.remove("hidden");
     }
   });
@@ -809,6 +928,33 @@ if ("serviceWorker" in navigator) {
     });
   }
 }
+
+// ===============================
+// INSTALLAZIONE PWA
+// ===============================
+const installAppBtn = document.getElementById("installAppBtn");
+let deferredInstallPrompt = null;
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  installAppBtn?.classList.remove("hidden");
+});
+
+installAppBtn?.addEventListener("click", async () => {
+  if (!deferredInstallPrompt) return;
+
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  installAppBtn.classList.add("hidden");
+  pageMenu?.classList.add("hidden");
+});
+
+window.addEventListener("appinstalled", () => {
+  deferredInstallPrompt = null;
+  installAppBtn?.classList.add("hidden");
+});
 
 // ===============================
 // BOTTONE SFERICO SINISTRO → DASHBOARD
@@ -830,16 +976,26 @@ const rightBtn = document.getElementById("openModalBtn");
 
 if (rightBtn && pageMenu) {
   rightBtn.addEventListener("click", () => {
-    pageMenu.classList.toggle("hidden");
+    const isHidden = pageMenu.classList.toggle("hidden");
+    rightBtn.setAttribute("aria-expanded", String(!isHidden));
   });
 
-  document.querySelectorAll(".page-menu .bubble").forEach(b => {
+  document.querySelectorAll(".page-menu .bubble[data-page]").forEach(b => {
     b.addEventListener("click", () => {
       const page = b.dataset.page;
       viewSelect.value = page;
       showPage(page);
       pageMenu.classList.add("hidden");
+      rightBtn.setAttribute("aria-expanded", "false");
     });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (pageMenu.classList.contains("hidden")) return;
+    if (pageMenu.contains(event.target) || rightBtn.contains(event.target)) return;
+
+    pageMenu.classList.add("hidden");
+    rightBtn.setAttribute("aria-expanded", "false");
   });
 }
 
@@ -848,6 +1004,8 @@ const bubbleTheme = document.getElementById("bubbleTheme");
 if (bubbleTheme) {
   bubbleTheme.addEventListener("click", () => {
     btnTheme.click();
+    pageMenu?.classList.add("hidden");
+    rightBtn?.setAttribute("aria-expanded", "false");
   });
 }
 
@@ -857,6 +1015,8 @@ if (bubbleTheme) {
 (async () => {
   Object.values(pages).forEach(p => p.classList.remove("active"));
   pages.dashboard.classList.add("active");
+
+  await loadMaterialOptions();
 
   const [frese, schede] = await Promise.all([
     getFrese(),
@@ -876,6 +1036,8 @@ if (bubbleTheme) {
 // FIX PAGINE
 // ===============================
 function showPage(page) {
+  if (!pages[page]) return;
+
   Object.values(pages).forEach(p => p.classList.remove("active"));
   pages[page].classList.add("active");
 
