@@ -886,4 +886,13 @@ if (dashBtn) {
     window.location.href = "#dashboard";
   });
 }
+// ===============================
+// BOTTONE MODAL
+// ===============================
+const openModalBtn = document.getElementById("openModalBtn");
+if (openModalBtn) {
+  openModalBtn.addEventListener("click", () => {
+    document.getElementById("modalEdit").classList.add("open");
+  });
+}
 
