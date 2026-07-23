@@ -804,11 +804,14 @@ if ("serviceWorker" in navigator) {
   });
 
   if (btnUpdateNow) {
-    btnUpdateNow.addEventListener("click", async () => {
-      if (navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage("skipWaiting");
-      }
-      window.location.reload();
+  btnUpdateNow.addEventListener("click", async () => {
+  console.log("[APP] Aggiorno ora…");
+
+  if (navigator.serviceWorker.controller) {
+    navigator.serviceWorker.controller.postMessage("skipWaiting");
+  }
+
+  window.location.reload();
     });
   }
 }
