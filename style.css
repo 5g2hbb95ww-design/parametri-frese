@@ -193,6 +193,7 @@ body.light .dash-label {
 /* =========================
    MODAL
    ========================= */
+/*
 .modal {
   position: fixed;
   top: 0;
@@ -205,6 +206,19 @@ body.light .dash-label {
   transition: transform 0.3s ease;
   z-index: 9999;
 }
+*/
+
+
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: flex-end;
+  background: rgba(0,0,0,0.45);
+  z-index: 9999;
+}
+
 
 .modal.open {
   transform: translateX(0);
@@ -356,11 +370,27 @@ body.light {
   background: var(--bg-light);
 }
 
+/*
 main {
   width: min(100%, 980px);
   margin: 0 auto;
   padding: 10px 14px 96px;
 }
+*/
+
+main {
+  width: min(100%, 980px);
+  max-width: 100vw;
+  margin: 0 auto;
+  padding:
+    calc(10px + env(safe-area-inset-top))
+    calc(14px + env(safe-area-inset-right))
+    calc(96px + env(safe-area-inset-bottom))
+    calc(14px + env(safe-area-inset-left));
+}
+
+
+
 
 .app-title {
   min-width: 96px;
@@ -802,4 +832,45 @@ body.light .modal-content {
   .modal-content {
     max-width: none;
   }
+}
+
+
+
+/* BLOCCA QUALSIASI ELEMENTO DENTRO LO SCHERMO */
+html, body, main, .page, .card.glass {
+  max-width: 100vw;
+}
+
+img, table, canvas, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* iPhone safe area */
+body {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+
+
+
+html,
+body,
+main,
+.card,
+.modal-content,
+.page,
+.row,
+.col {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+img,
+canvas,
+svg,
+video,
+table {
+    max-width: 100%;
+    height: auto;
 }
