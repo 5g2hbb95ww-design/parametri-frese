@@ -362,19 +362,7 @@ const viewSelect = document.getElementById("viewSelect");
 
 viewSelect.addEventListener("change", (e) => {
   const page = e.target.value;
-
-  Object.values(pages).forEach(p => {
-    p.style.display = "none";
-  });
-  pages[page].style.display = "block";
-
-  if (page === "dashboard") renderDashboard();
-  if (page === "archivio") renderArchivio();
-  if (page === "programmazione") {
-    renderProgArchivio();
-    renderProgTimeline();
-  }
-  if (page === "timeline") renderProgTimeline();
+  showPage(page);
 });
 
 // =========================
@@ -754,12 +742,6 @@ document.getElementById("btnExportPDF").addEventListener("click", () => {
       <h1>Report schede programmazione</h1>
   `;
 
-  document.getElementById("btnExportPDFTimeline").addEventListener("click", () => {
-  viewSelect.value = "programmazione";
-  showPage("programmazione");
-  document.getElementById("btnExportPDF").click();
-});
-
   progArchivio.forEach(item => {
     html += `
       <div class="card">
@@ -790,6 +772,16 @@ document.getElementById("btnExportPDF").addEventListener("click", () => {
   window.open(url, "_blank");
 });
 
+// listener per PDF dalla timeline
+const btnExportTimeline = document.getElementById("btnExportPDFTimeline");
+if (btnExportTimeline) {
+  btnExportTimeline.addEventListener("click", () => {
+    viewSelect.value = "programmazione";
+    showPage("programmazione");
+    document.getElementById("btnExportPDF").click();
+  });
+}
+
 // ===============================
 // BANNER UPDATE + AUTO‑RELOAD
 // ===============================
@@ -804,16 +796,17 @@ if ("serviceWorker" in navigator) {
   });
 
   if (btnUpdateNow) {
-  btnUpdateNow.addEventListener("click", async () => {
-  console.log("[APP] Aggiorno ora…");
+    btnUpdateNow.addEventListener("click", async () => {
+      console.log("[APP] Aggiorno ora…");
 
-  if (navigator.serviceWorker.controller) {
-    navigator.serviceWorker.controller.postMessage("skipWaiting");
-  }
+      if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage("skipWaiting");
+      }
 
-  window.location.reload();
+      window.location.reload();
     });
   }
+}
 
 // ===============================
 // BOTTONE SFERICO SINISTRO → DASHBOARD
@@ -856,14 +849,20 @@ document.querySelectorAll(".bubble").forEach(b => {
   });
 });
 
+// bubble per tema nel menu
+const bubbleTheme = document.getElementById("bubbleTheme");
+if (bubbleTheme) {
+  bubbleTheme.addEventListener("click", () => {
+    btnTheme.click();
+  });
+}
+
 // ===============================
 // AVVIO APP
 // ===============================
 (async () => {
-  Object.values(pages).forEach(p => p.style.display = "none");
-  pages.dashboard.style.display = "block";
-
-  renderDashboard();
+  Object.values(pages).forEach(p => p.classList.remove("active"));
+  pages.dashboard.classList.add("active");
 
   const [frese, schede] = await Promise.all([
     getFrese(),
@@ -903,56 +902,3 @@ document.querySelectorAll(".shortcut").forEach(btn => {
     showPage(page);
   });
 });
-
-// ===============================
-// MENU PAGINE A BOLLE
-// ===============================
-document.getElementById("bubbleTheme").addEventListener("click", () => {
-  btnTheme.click();
-});
-
-const pageMenu = document.getElementById("pageMenu");
-const rightBtn = document.getElementById("openModalBtn");
-
-rightBtn.addEventListener("click", () => {
-  pageMenu.classList.toggle("hidden");
-});
-
-document.querySelectorAll(".page-menu .bubble").forEach(b => {
-  b.addEventListener("click", () => {
-    const page = b.dataset.page;
-    viewSelect.value = page;
-    showPage(page);
-    pageMenu.classList.add("hidden");
-  });
-});
-
-// ===============================
-// BOTTONE SINISTRO → DASHBOARD
-// ===============================
-document.getElementById("dashboardBtn").addEventListener("click", () => {
-  viewSelect.value = "dashboard";
-  showPage("dashboard");
-});
-
-// ===============================
-// FIX TEMA
-// ===============================
-btnTheme.addEventListener("click", () => {
-  const isLight = document.body.classList.toggle("light");
-  document.body.classList.toggle("dark", !isLight);
-  themeIcon.textContent = isLight ? "☀️" : "🌙";
-});
-
-function showPage(page) {
-  Object.values(pages).forEach(p => p.classList.remove("active"));
-  pages[page].classList.add("active");
-
-  if (page === "dashboard") renderDashboard();
-  if (page === "archivio") renderArchivio();
-  if (page === "programmazione") {
-    renderProgArchivio();
-    renderProgTimeline();
-  }
-  if (page === "timeline") renderProgTimeline();
-}
