@@ -1,12 +1,11 @@
-// =============================
-// APP PRINCIPALE
-// =============================
+// ========================
+// STATE GLOBALE
+// ========================
+let archivio = [];
+let progArchivio = [];
 
-// Ripristina tema salvato
-const savedTheme = localStorage.getItem("theme");
-if (savedTheme === "light") {
-  document.body.classList.add("light");
-}
+// iPhone: elimina ritardo click
+document.addEventListener("touchstart", () => {}, { passive: true });
 
 // =========================
 // UTILITY
@@ -160,6 +159,7 @@ const edit_prog_tempo = document.getElementById("edit_prog_tempo");
 const edit_prog_operatore = document.getElementById("edit_prog_operatore");
 const edit_prog_stato = document.getElementById("edit_prog_stato");
 const edit_prog_note = document.getElementById("edit_prog_note");
+
 // =========================
 // ELEMENTI PAGINA PROGRAMMAZIONE
 // =========================
@@ -172,6 +172,7 @@ const prog_tempo = document.getElementById("prog_tempo");
 const prog_operatore = document.getElementById("prog_operatore");
 const prog_stato = document.getElementById("prog_stato");
 const prog_note = document.getElementById("prog_note");
+
 // =========================
 // ELEMENTI PAGINA NUOVO
 // =========================
@@ -204,7 +205,7 @@ const dash_finito = document.getElementById("dash_finito");
 const dash_recent_schede = document.getElementById("dash_recent_schede");
 const dash_recent_frese = document.getElementById("dash_recent_frese");
 
- function renderDashboard() {
+function renderDashboard() {
   const tot = progArchivio.length;
   const inProg = progArchivio.filter(x => x.stato === "in_programmazione").length;
   const programmato = progArchivio.filter(x => x.stato === "programmato").length;
@@ -250,22 +251,22 @@ const prog_timeline = document.getElementById("prog_timeline");
 function renderProgTimeline() {
   prog_timeline.innerHTML = "";
 
-const frag = document.createDocumentFragment();
+  const frag = document.createDocumentFragment();
 
-progArchivio.forEach(item => {
- const div = document.createElement("div");
-div.className = "timeline-item";
+  progArchivio.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "timeline-item";
 
-div.innerHTML = `
-  <div class="timeline-title">${item.commessa}</div>
-  <div class="timeline-meta">${item.stato.replace("_"," ")}</div>
-  <div class="timeline-date">${item.dataProgramma || item.data_evento}</div>
-`;
+    div.innerHTML = `
+      <div class="timeline-title">${item.commessa}</div>
+      <div class="timeline-meta">${item.stato.replace("_"," ")}</div>
+      <div class="timeline-date">${item.dataProgramma || item.data_evento}</div>
+    `;
 
-  frag.appendChild(div);
-});
+    frag.appendChild(div);
+  });
 
-prog_timeline.appendChild(frag);
+  prog_timeline.appendChild(frag);
 }
 
 // =========================
@@ -289,7 +290,6 @@ refrigerante.innerHTML = `
   <option>Secco</option>
 `;
 
-// Popola anche i select del modal modifica
 document.getElementById("edit_materiale").innerHTML =
   document.getElementById("materiale").innerHTML;
 document.getElementById("edit_refrigerante").innerHTML =
@@ -364,9 +364,9 @@ viewSelect.addEventListener("change", (e) => {
   const page = e.target.value;
 
   Object.values(pages).forEach(p => {
-  p.style.display = "none";
-});
-pages[page].style.display = "block";
+    p.style.display = "none";
+  });
+  pages[page].style.display = "block";
 
   if (page === "dashboard") renderDashboard();
   if (page === "archivio") renderArchivio();
@@ -447,7 +447,7 @@ function renderArchivio() {
 
     div.innerHTML = `
       <div class="arch-item-title">${item.denominazione}</div>
-      <div class="arch-item-meta">Ø ${item.diametro} — ${item.materialale}</div>
+      <div class="arch-item-meta">Ø ${item.diametro} — ${item.materiale}</div>
     `;
 
     const btnMod = document.createElement("button");
@@ -482,426 +482,4 @@ const btnCloseModal = document.getElementById("btnCloseModal");
 let editIndex = null;
 
 function apriPopup(idx) {
-  editIndex = idx;
-  const item = archivio[idx];
-
-  edit_denominazione.value = item.denominazione;
-  edit_diametro.value = item.diametro;
-  edit_taglienti.value = item.taglienti;
-  edit_s.value = item.s;
-  edit_avanzamento.value = item.avanzamento;
-  edit_materiale.value = item.materiale;
-  edit_refrigerante.value = item.refrigerante;
-  edit_dettagli.value = item.dettagli;
-
-  // APRI MODAL – versione fluida iPhone
-  modalEdit.style.display = "flex";
-}
-
-btnCloseModal.addEventListener("click", () => {
-  // CHIUDI MODAL – versione fluida iPhone
-  modalEdit.style.display = "none";
-});
-
-document.getElementById("btnUpdate").addEventListener("click", async () => {
-  const item = archivio[editIndex];
-
-  const updated = {
-    denominazione: edit_denominazione.value.trim(),
-    diametro: num(edit_diametro.value),
-    taglienti: num(edit_taglienti.value),
-    s: num(edit_s.value),
-    avanzamento: num(edit_avanzamento.value),
-    materiale: edit_materiale.value,
-    refrigerante: edit_refrigerante.value,
-    dettagli: edit_dettagli.value.trim()
-  };
-  await db.collection("archivio_frese").doc(item.id).update(updated);
-  archivio[editIndex] = { id: item.id, ...updated };
-  renderArchivio();
-  modalEdit.style.display = "none";
-  showToast("Fresa aggiornata ✔");
-});
-
-// =========================
-// PROGRAMMAZIONE
-// =========================
-let progEditIndex = null;
-
-const prog_lista = document.getElementById("prog_lista");
-const prog_progress = document.getElementById("prog_progress");
-const prog_filter = document.getElementById("prog_filter");
-
-function resetCampiProgrammazione() {
-  prog_macchina.value = "";
-  prog_commessa.value = "";
-  prog_disegno.value = "";
-  prog_rev.value = "";
-  prog_data.value = "";
-  prog_tempo.value = "";
-  prog_operatore.value = "";
-  prog_stato.value = "in_programmazione";
-  prog_note.value = "";
-}
-
-document.getElementById("btnSalvaProgrammazione").addEventListener("click", async () => {
-  const item = {
-    macchina: prog_macchina.value,
-    commessa: prog_commessa.value.trim(),
-    disegno: prog_disegno.value.trim(),
-    revisione: prog_rev.value.trim(),
-    dataProgramma: prog_data.value,
-    tempo: num(prog_tempo.value),
-    operatore: prog_operatore.value,
-    stato: prog_stato.value,
-    note: prog_note.value.trim(),
-    history: [
-      {
-        stato: prog_stato.value,
-        timestamp: new Date().toLocaleString()
-      }
-    ]
-  };
-
-  await saveScheda(item);
-
-  await saveTimelineEntry({
-    commessa: item.commessa,
-    stato: item.stato,
-    timestamp: new Date().toLocaleString()
-  });
-
-  renderProgArchivio();
-  renderProgTimeline();
-  showToast("Scheda salvata ✔");
-  resetCampiProgrammazione();
-});
-
-function renderProgArchivio() {
-  prog_lista.innerHTML = "";
-  prog_progress.innerHTML = "";
-
-  let arr = [...progArchivio];
-
-  if (prog_filter.value) {
-    arr = arr.filter(x => x.stato === prog_filter.value);
-  }
-
-  arr.forEach((item, idx) => {
-    const div = document.createElement("div");
-    div.className = "arch-item";
-
-    div.innerHTML = `
-      <div class="arch-item-title">${item.commessa}</div>
-      <div class="arch-item-meta">${item.macchina} — ${item.operatore}</div>
-      <span class="badge ${item.stato}">${item.stato.replace("_", " ")}</span>
-      <div class="arch-item-meta">${item.dataProgramma}</div>
-    `;
-
-    const btnMod = document.createElement("button");
-    btnMod.textContent = "Modifica";
-    btnMod.className = "btn-primary";
-    btnMod.style.marginTop = "6px";
-    btnMod.addEventListener("click", () => apriProgPopup(idx));
-
-    const btnDel = document.createElement("button");
-    btnDel.textContent = "Elimina";
-    btnDel.className = "btn-secondary";
-    btnDel.style.marginTop = "6px";
- 
-btnDel.addEventListener("click", async () => {
-  const id = progArchivio[idx].id;
-  await db.collection("programmazione_schede").doc(id).delete();
-  progArchivio.splice(idx, 1);
-  renderProgArchivio();
-  renderProgTimeline();
-  showToast("Scheda eliminata ✔");
-});
-
-
-    div.appendChild(btnMod);
-    div.appendChild(btnDel);
-    prog_lista.appendChild(div);
-
-    const pb = document.createElement("div");
-    pb.className = "progress-bar";
-
-    const pf = document.createElement("div");
-    pf.className = "progress-fill programmazione";
-    pf.style.width =
-      item.stato === "finito" ? "100%" :
-      item.stato === "in_produzione" ? "70%" :
-      item.stato === "programmato" ? "40%" :
-      "10%";
-
-    pb.appendChild(pf);
-    prog_progress.appendChild(pb);
-  });
-}
-
-// =========================
-// MODAL PROGRAMMAZIONE
-// =========================
-const modalProgEdit = document.getElementById("modalProgEdit");
-const btnProgClose = document.getElementById("btnProgClose");
-const btnProgUpdate = document.getElementById("btnProgUpdate");
-
-btnProgClose.addEventListener("click", () => {
-  // CHIUDI MODAL – versione fluida iPhone
-  modalProgEdit.style.display = "none";
-});
-
-function apriProgPopup(idx) {
-  progEditIndex = idx;
-  const item = progArchivio[idx];
-
-  edit_prog_macchina.value = item.macchina;
-  edit_prog_commessa.value = item.commessa;
-  edit_prog_disegno.value = item.disegno;
-  edit_prog_rev.value = item.revisione;
-  edit_prog_data.value = item.dataProgramma;
-  edit_prog_tempo.value = item.tempo;
-  edit_prog_operatore.value = item.operatore;
-  edit_prog_stato.value = item.stato;
-  edit_prog_note.value = item.note || "";
-
-  // APRI MODAL – versione fluida iPhone
-  modalProgEdit.style.display = "flex";
-}
-
-btnProgUpdate.addEventListener("click", async () => {
-  const item = progArchivio[progEditIndex];
-  
-  const nuovoStato = edit_prog_stato.value;
-  const timestamp = new Date().toLocaleString();
-
-  const updated = {
-    macchina: edit_prog_macchina.value,
-    commessa: edit_prog_commessa.value.trim(),
-    disegno: edit_prog_disegno.value.trim(),
-    revisione: edit_prog_rev.value.trim(),
-    dataProgramma: edit_prog_data.value,
-    tempo: num(edit_prog_tempo.value),
-    operatore: edit_prog_operatore.value,
-    stato: nuovoStato,
-    note: edit_prog_note.value.trim(),
-    history: [...item.history]
-  };
-
-  if (item.stato !== nuovoStato) {
-    updated.history.push({
-      stato: nuovoStato,
-      timestamp
-    });
-
-    await saveTimelineEntry({
-      commessa: updated.commessa,
-      stato: nuovoStato,
-      timestamp
-    });
-  }
-
-    await db.collection("programmazione_schede").doc(item.id).update(updated);
-  progArchivio[progEditIndex] = { id: item.id, ...updated };
-
-  renderProgArchivio();
-  renderProgTimeline();
-
-  modalProgEdit.style.display = "none";
-  showToast("Scheda aggiornata ✔");
-});
-
-// =========================
-// EXPORT PDF
-// =========================
-document.getElementById("btnExportPDF").addEventListener("click", () => {
-  let html = `
-    <html>
-    <head>
-      <meta charset="UTF-8">
-      <title>Report schede</title>
-      <style>
-        body {
-          font-family: system-ui, -apple-system, sans-serif;
-          background: #0b1020;
-          color: #e9faff;
-          padding: 20px;
-        }
-        h1 {
-          font-size: 20px;
-          margin-bottom: 16px;
-          color: #9fe4ff;
-        }
-        .card {
-          margin-bottom: 16px;
-          padding: 14px;
-          border-radius: 18px;
-          background: rgba(255,255,255,0.06);
-          border: 1px solid rgba(255,255,255,0.18);
-        }
-        .title {
-          font-size: 16px;
-          font-weight: 600;
-          margin-bottom: 6px;
-          color: #9fe4ff;
-        }
-        .row {
-          margin: 2px 0;
-          font-size: 14px;
-        }
-        .label {
-          font-weight: 600;
-        }
-      </style>
-    </head>
-    <body>
-      <h1>Report schede programmazione</h1>
-  `;
-
-  progArchivio.forEach(item => {
-    html += `
-      <div class="card">
-        <div class="title">${item.commessa}</div>
-        <div class="row"><span class="label">Macchina:</span> ${item.macchina}</div>
-        <div class="row"><span class="label">Disegno:</span> ${item.disegno}</div>
-        <div class="row"><span class="label">Revisione:</span> ${item.revisione}</div>
-        <div class="row"><span class="label">Data:</span> ${item.dataProgramma}</div>
-        <div class="row"><span class="label">Tempo:</span> ${item.tempo} min</div>
-        <div class="row"><span class="label">Operatore:</span> ${item.operatore}</div>
-        <div class="row"><span class="label">Stato attuale:</span> ${item.stato}</div>
-        <div class="row"><span class="label">Storico stati:</span><br>
-          ${item.history.map(h => `${h.timestamp} → ${h.stato}`).join("<br>")}
-        </div>
-        <div class="row"><span class="label">Note:</span> ${item.note || "-"}
-        </div>
-      </div>
-    `;
-  });
-
-  html += `
-    </body>
-    </html>
-  `;
-
-  const blob = new Blob([html], { type: "text/html" });
-  const url = URL.createObjectURL(blob);
-  window.open(url, "_blank");
-});
-
-// =========================
-// MENU LATERALE + HAPTIC
-// =========================
-const sideMenu = document.getElementById("sideMenu");
-const menuButton = document.getElementById("menuButton");
-
-function haptic() {
-  try {
-    navigator.vibrate?.(10);
-  } catch (_) {}
-}
-
-menuButton.addEventListener("click", () => {
-  haptic();
-  sideMenu.classList.toggle("show");
-  sideMenu.classList.toggle("hidden");
-});
-
-document.querySelectorAll(".side-menu-item").forEach(item => {
-  item.addEventListener("click", () => {
-    haptic();
-    const page = item.dataset.page;
-    viewSelect.value = page;
-    viewSelect.dispatchEvent(new Event("change"));
-    sideMenu.classList.remove("show");
-    sideMenu.classList.add("hidden");
-  });
-});
-
-document.querySelectorAll(".shortcut").forEach(btn => {
-  btn.addEventListener("click", () => {
-    haptic();
-    const page = btn.dataset.page;
-    viewSelect.value = page;
-    viewSelect.dispatchEvent(new Event("change"));
-  });
-});
-
-viewSelect.addEventListener("change", () => haptic());
-
-// =========================
-// AVVIO
-// =========================
-(async () => {
-  Object.values(pages).forEach(p => p.style.display = "none");
-  pages.dashboard.style.display = "block";
-
-  renderDashboard();
-
-  const [frese, schede] = await Promise.all([
-    getFrese(),
-    getSchede()
-  ]);
-
-  archivio = frese;
-  progArchivio = schede;
-
-  renderArchivio();
-  renderProgArchivio();
-  renderProgTimeline();
-  renderDashboard();
-})();
-
-
-// ===============================
-// NOTIFICA GRAFICA + AUTO‑RELOAD
-// ===============================
-if ("serviceWorker" in navigator) {
-  const updateBanner = document.getElementById("updateBanner");
-  const btnUpdateNow = document.getElementById("btnUpdateNow");
-
-  navigator.serviceWorker.addEventListener("message", async (event) => {
-    if (event.data && event.data.type === "NEW_VERSION") {
-      console.log("[APP] Nuova versione disponibile — banner attivo");
-      updateBanner.classList.remove("hidden");
-    }
-  });
-
-  if (btnUpdateNow) {
-    btnUpdateNow.addEventListener("click", async () => {
-      console.log("[APP] Aggiorno ora…");
-
-      if (navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage("skipWaiting");
-      }
-
-      window.location.reload();
-    });
-  }
-}
-
-
-
-// ===============================
-// BOTTONE SFERICO SINISTRO → DASHBOARD
-// ===============================
-const dashBtn = document.getElementById("dashboardBtn");
-if (dashBtn) {
-  dashBtn.addEventListener("click", () => {
-    haptic();
-    viewSelect.value = "dashboard";
-    viewSelect.dispatchEvent(new Event("change"));
-  });
-}
-
-// ===============================
-// BOTTONE SFERICO DESTRO → MENU LATERALE
-// ===============================
-const openModalBtn = document.getElementById("openModalBtn");
-if (openModalBtn) {
-  openModalBtn.addEventListener("click", () => {
-    haptic(); // usa la stessa vibrazione del menu
-    sideMenu.classList.toggle("show");
-    sideMenu.classList.toggle("hidden");
-  });
-}
-
+  edit
