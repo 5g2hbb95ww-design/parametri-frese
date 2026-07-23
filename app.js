@@ -814,16 +814,16 @@ if ("serviceWorker" in navigator) {
   window.location.reload();
     });
   }
-}
 
 // ===============================
 // BOTTONE SFERICO SINISTRO → DASHBOARD
 // ===============================
 const dashBtn = document.getElementById("dashboardBtn");
+
 if (dashBtn) {
   dashBtn.addEventListener("click", () => {
     viewSelect.value = "dashboard";
-    showPage(page);
+    showPage("dashboard");
   });
 }
 
@@ -907,6 +907,10 @@ document.querySelectorAll(".shortcut").forEach(btn => {
 // ===============================
 // MENU PAGINE A BOLLE
 // ===============================
+document.getElementById("bubbleTheme").addEventListener("click", () => {
+  btnTheme.click();
+});
+
 const pageMenu = document.getElementById("pageMenu");
 const rightBtn = document.getElementById("openModalBtn");
 
