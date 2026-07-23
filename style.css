@@ -187,3 +187,64 @@ input, select, textarea {
 .toast.show {
   opacity: 1;
 }
+/* ======================
+   FAB MENU iOS GLASS
+   ====================== */
+
+.fab-menu {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+}
+
+.fab-btn {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(22px);
+  color: #4cc3ff;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.55);
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.fab-btn:active {
+  transform: scale(0.92);
+}
+
+.fab-options {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.fab-options a {
+  padding: 12px 18px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(18px);
+  color: #e9faff;
+  text-decoration: none;
+  font-size: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+/* Apertura menu */
+.fab-menu.open .fab-options {
+  opacity: 1;
+  pointer-events: auto;
+}
