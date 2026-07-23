@@ -3,11 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>Parametri Fresa</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0a0f1c">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Fresa">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
 
   <!-- CSS -->
   <link rel="stylesheet" href="style.css">
@@ -20,7 +25,7 @@
     <div class="app-title">Parametri Fresa</div>
 
     <div class="header-row">
-      <select id="viewSelect">
+      <select id="viewSelect" aria-label="Seleziona pagina">
         <option value="dashboard">Dashboard</option>
         <option value="nuovo">Nuovo</option>
         <option value="archivio">Archivio</option>
@@ -30,7 +35,7 @@
     </div>
 
     <div class="theme-toggle">
-     <button id="btnTheme" class="theme-btn">
+     <button id="btnTheme" class="theme-btn" type="button" aria-label="Cambia tema">
        <span id="themeIcon">🌙</span>
      </button>
 
@@ -400,6 +405,12 @@
   <!-- TOAST -->
   <div id="toast" class="toast hidden"></div>
 
+  <!-- BANNER UPDATE -->
+  <div id="updateBanner" class="update-banner hidden">
+    <span>Nuova versione disponibile</span>
+    <button id="btnUpdateNow" type="button">Aggiorna ora</button>
+  </div>
+
   <!-- MENU A BOLLE LATERALE -->
 <div id="pageMenu" class="page-menu hidden">
   <div class="bubble" data-page="dashboard">🏠</div>
@@ -410,8 +421,10 @@
   <div id="bubbleTheme" class="bubble">🌓</div>
 </div>
 
+  <button id="installAppBtn" class="bubble install-bubble hidden" type="button" aria-label="Installa app">Installa</button>
+
   <!-- BOTTONI SFERICI -->
-  <div id="openModalBtn" class="floating-btn">+</div>
+  <button id="openModalBtn" class="floating-btn" type="button" aria-label="Apri menu" aria-expanded="false">+</button>
   <div id="dashboardBtn" class="floating-btn left-btn">🏠</div>
 
   <!-- FIREBASE v8 -->
@@ -423,12 +436,6 @@
 
   <!-- APP -->
   <script src="app.js"></script>
-
-  <!-- BANNER UPDATE -->
-  <div id="updateBanner" class="update-banner hidden">
-    <span>Nuova versione disponibile</span>
-    <button id="btnUpdateNow">Aggiorna ora</button>
-  </div>
 
 </body>
 </html>
