@@ -464,11 +464,14 @@
   }
 </style>
 
-  <script>
+<script>
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js");
+    navigator.serviceWorker.register("service-worker.js")
+      .then(() => console.log("SW registrato correttamente"))
+      .catch(err => console.error("Errore registrazione SW:", err));
   }
 </script>
+
 
 </body>
 </html>
