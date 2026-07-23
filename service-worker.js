@@ -1,5 +1,5 @@
 // ===============================
-// SERVICE WORKER — VERSIONE 3.0
+// SERVICE WORKER — VERSIONE 3.1
 // ===============================
 
 const CACHE_NAME = "parametri-frese-v3";
@@ -69,13 +69,12 @@ self.addEventListener("fetch", (event) => {
 // ===============================
 self.addEventListener("message", (event) => {
   if (event.data === "skipWaiting") {
-    console.log("[SW] Skip waiting requested");
     self.skipWaiting();
   }
 });
 
-// Detect new version
-self.addEventListener("install", () => {
+// Notify clients of new version
+self.addEventListener("activate", () => {
   self.clients.matchAll().then((clients) => {
     clients.forEach((client) => {
       client.postMessage({ type: "NEW_VERSION" });
