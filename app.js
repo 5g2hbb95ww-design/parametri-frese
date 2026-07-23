@@ -870,3 +870,63 @@ document.querySelectorAll(".bubble").forEach(b => {
   renderDashboard();
 })();
 
+// ===============================
+// FIX PAGINE
+// ===============================
+function showPage(page) {
+  Object.values(pages).forEach(p => p.classList.remove("active"));
+  pages[page].classList.add("active");
+
+  if (page === "dashboard") renderDashboard();
+  if (page === "archivio") renderArchivio();
+  if (page === "programmazione") {
+    renderProgArchivio();
+    renderProgTimeline();
+  }
+  if (page === "timeline") renderProgTimeline();
+}
+
+// Shortcut dashboard
+document.querySelectorAll(".shortcut").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const page = btn.dataset.page;
+    viewSelect.value = page;
+    showPage(page);
+  });
+});
+
+// ===============================
+// MENU PAGINE A BOLLE
+// ===============================
+const pageMenu = document.getElementById("pageMenu");
+const rightBtn = document.getElementById("openModalBtn");
+
+rightBtn.addEventListener("click", () => {
+  pageMenu.classList.toggle("hidden");
+});
+
+document.querySelectorAll(".page-menu .bubble").forEach(b => {
+  b.addEventListener("click", () => {
+    const page = b.dataset.page;
+    viewSelect.value = page;
+    showPage(page);
+    pageMenu.classList.add("hidden");
+  });
+});
+
+// ===============================
+// BOTTONE SINISTRO → DASHBOARD
+// ===============================
+document.getElementById("dashboardBtn").addEventListener("click", () => {
+  viewSelect.value = "dashboard";
+  showPage("dashboard");
+});
+
+// ===============================
+// FIX TEMA
+// ===============================
+btnTheme.addEventListener("click", () => {
+  const isLight = document.body.classList.toggle("light");
+  document.body.classList.toggle("dark", !isLight);
+  themeIcon.textContent = isLight ? "☀️" : "🌙";
+});
