@@ -336,3 +336,89 @@ body.light .shortcut {
   background: rgba(255,255,255,0.95);
   border-color: rgba(120,160,220,0.45);
 }
+
+/* ====== STRUTTURA GENERALE ====== */
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+/* ====== CELLE GRANDI (schede, parametri, archivio) ====== */
+.cell {
+    width: 100%;
+    margin: 12px auto;
+    padding: 18px;
+    border-radius: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    /* stile iOS glass */
+    backdrop-filter: blur(14px);
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+/* ====== CELLE INTERNE ====== */
+.inner-cell {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border-radius: 14px;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    background: rgba(255,255,255,0.18);
+}
+
+/* ====== TESTI ====== */
+.cell-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.cell-text {
+    font-size: 16px;
+    color: #e6e6e6;
+}
+
+/* ====== MODALITÀ CHIARA: testo Elimina visibile ====== */
+.delete-text {
+    color: #ff3b30 !important; /* rosso iOS */
+    font-weight: 600;
+}
+
+/* ====== PULSANTI ====== */
+.btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    box-sizing: border-box;
+}
+
+/* pulsante modifica */
+.btn-edit {
+    background: #0a84ff;
+    color: white;
+}
+
+/* pulsante elimina */
+.btn-delete {
+    background: #ff3b30;
+    color: white;
+}
+
+/* ====== CORREZIONE overflow globale ====== */
+* {
+    box-sizing: border-box;
+}
