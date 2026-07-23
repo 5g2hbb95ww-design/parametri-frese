@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="it">
 <head>
   <meta charset="UTF-8">
@@ -41,7 +41,6 @@
 
     <!-- PAGINA DASHBOARD -->
     <section id="page-dashboard" class="page active">
-
       <div class="card glass volumetric">
         <h2>Dashboard</h2>
 
@@ -99,7 +98,6 @@
 
     <!-- PAGINA NUOVO -->
     <section id="page-nuovo" class="page">
-
       <div class="card glass volumetric">
         <h2>Dati fresa</h2>
 
@@ -402,13 +400,13 @@
   <div id="toast" class="toast hidden"></div>
 
   <!-- MENU LATERALE -->
-<div id="sideMenu" class="side-menu hidden">
-  <div class="side-menu-item" data-page="dashboard">Dashboard</div>
-  <div class="side-menu-item" data-page="nuovo">Nuovo</div>
-  <div class="side-menu-item" data-page="archivio">Archivio</div>
-  <div class="side-menu-item" data-page="programmazione">Programmazione</div>
-  <div class="side-menu-item" data-page="timeline">Timeline</div>
-</div>
+  <div id="sideMenu" class="side-menu hidden">
+    <div class="side-menu-item" data-page="dashboard">Dashboard</div>
+    <div class="side-menu-item" data-page="nuovo">Nuovo</div>
+    <div class="side-menu-item" data-page="archivio">Archivio</div>
+    <div class="side-menu-item" data-page="programmazione">Programmazione</div>
+    <div class="side-menu-item" data-page="timeline">Timeline</div>
+  </div>
 
   <!-- ICONA INFERIORE -->
   <div id="menuButton" class="menu-button">
@@ -429,57 +427,11 @@
   <!-- APP -->
   <script src="app.js"></script>
 
+  <!-- BANNER UPDATE -->
   <div id="updateBanner" class="update-banner hidden">
-  <span>Nuova versione disponibile</span>
-  <button id="btnUpdateNow">Aggiorna ora</button>
-</div>
-
-<style>
-  .update-banner {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,0.75);
-    color: #fff;
-    padding: 12px 18px;
-    border-radius: 14px;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    z-index: 9999;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.2);
-  }
-  .update-banner button {
-    background: #00aaff;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 10px;
-    color: #fff;
-    font-weight: 600;
-  }
-  .hidden {
-    display: none;
-  }
-</style>
-
-<body>
-
-  <!-- contenuto app -->
-
-  <div id="openModalBtn" class="floating-btn">+</div>
-  <div id="dashboardBtn" class="floating-btn left-btn">🏠</div>
-
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js")
-        .then(() => console.log("SW registrato correttamente"))
-        .catch(err => console.error("Errore registrazione SW:", err));
-    }
-  </script>
-
-  <script src="app.js"></script>
+    <span>Nuova versione disponibile</span>
+    <button id="btnUpdateNow">Aggiorna ora</button>
+  </div>
 
 </body>
 </html>
