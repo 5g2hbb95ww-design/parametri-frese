@@ -70,6 +70,11 @@ body.light #viewSelect {
   color: var(--text-light);
 }
 
+header{
+    width:min(100%,980px);
+    margin:auto;
+}
+
 /* =========================
    CARD GLASS
    ========================= */
@@ -211,17 +216,18 @@ body.light .dash-label {
 
 
 .modal {
-  position: fixed;
-  inset: 0;
-  display: none;
-  justify-content: flex-end;
-  background: rgba(0,0,0,0.45);
-  z-index: 9999;
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: stretch;
+    justify-content: flex-end;
+    background: rgba(0,0,0,.45);
+    z-index: 9999;
 }
 
 
 .modal.open {
-  transform: translateX(0);
+    display:flex;
 }
 
 /* =========================
@@ -680,12 +686,16 @@ body.light .empty-state {
   color: rgba(11, 16, 32, 0.62);
 }
 
+
+/*
 .modal {
   display: none;
   left: auto;
   align-items: stretch;
   justify-content: flex-end;
 }
+*/
+
 
 .modal-content {
   width: 100%;
@@ -874,3 +884,20 @@ table {
     max-width: 100%;
     height: auto;
 }
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    overflow-x:hidden;
+}
+
+.page{
+    overflow-x:hidden;
+}
+
+html{
+    -webkit-text-size-adjust:100%;
+}
+
