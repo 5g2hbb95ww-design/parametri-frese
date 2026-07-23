@@ -73,7 +73,6 @@ self.addEventListener("message", (event) => {
   }
 });
 
-// Notify clients of new version
 self.addEventListener("activate", () => {
   self.clients.matchAll().then((clients) => {
     clients.forEach((client) => {
@@ -81,3 +80,4 @@ self.addEventListener("activate", () => {
     });
   });
 });
+
