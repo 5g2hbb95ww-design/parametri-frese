@@ -3,13 +3,15 @@
 // ===============================
 
 const CACHE_NAME = "parametri-frese-v3";
+const BASE = "/parametri-frese";
+
 const APP_SHELL = [
-  "./",
-  "./index.html",
-  "./style.css",
-  "./app.js",
-  "./manifest.json",
-  "./firebase.config.js"
+  `${BASE}/`,
+  `${BASE}/index.html`,
+  `${BASE}/style.css`,
+  `${BASE}/app.js`,
+  `${BASE}/manifest.json`,
+  `${BASE}/firebase.config.js`
 ];
 
 // Install SW + cache base files
@@ -80,4 +82,3 @@ self.addEventListener("activate", () => {
     });
   });
 });
-
