@@ -31,8 +31,9 @@
 
     <div class="theme-toggle">
       <button id="btnTheme" class="btn-theme">
-        <span id="themeIcon"></span>
-      </button>
+  <span id="themeIcon">🌙</span>
+</button>
+
     </div>
   </header>
 
@@ -44,12 +45,13 @@
       <div class="card glass volumetric">
         <h2>Dashboard</h2>
 
-        <div class="dash-shortcuts">
-          <div class="shortcut" data-page="nuovo">➕</div>
-          <div class="shortcut" data-page="archivio">📁</div>
-          <div class="shortcut" data-page="programmazione">🛠</div>
-          <div class="shortcut" data-page="timeline">📊</div>
-        </div>
+        <div id="pageMenu" class="page-menu hidden">
+  <div class="bubble" data-page="dashboard">🏠</div>
+  <div class="bubble" data-page="nuovo">➕</div>
+  <div class="bubble" data-page="archivio">📁</div>
+  <div class="bubble" data-page="programmazione">🛠</div>
+  <div class="bubble" data-page="timeline">📊</div>
+</div>
 
         <div class="dash-grid">
           <div class="dashboard-box">
