@@ -876,5 +876,9 @@ if ("serviceWorker" in navigator) {
         window.location.reload();
       });
     }
+    document.getElementById("dashboardBtn").addEventListener("click", () => {
+  window.location.href = "#dashboard";   // ← se usi hash
+  // oppure:
+  // window.location.href = "dashboard.html"; 
   });
 }
