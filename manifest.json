@@ -1,13 +1,18 @@
 {
   "name": "Parametri Fresa",
   "short_name": "Fresa",
+  "id": "./index.html",
   "description": "Gestione parametri frese, programmazione CNC, archivio utensili.",
   "start_url": "./index.html",
   "scope": "./",
+  "lang": "it-IT",
+  "dir": "ltr",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait",
   "theme_color": "#0a0f1c",
   "background_color": "#0a0f1c",
+  "categories": ["productivity", "utilities"],
   "icons": [
     {
       "src": "icons/icon-192.png",
@@ -18,6 +23,6 @@
       "src": "icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
-    },
+    }
   ]
 }
