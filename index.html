@@ -399,27 +399,18 @@
   <!-- TOAST -->
   <div id="toast" class="toast hidden"></div>
 
-  <!-- MENU LATERALE -->
-  <div id="sideMenu" class="side-menu hidden">
-    <div class="side-menu-item" data-page="dashboard">Dashboard</div>
-    <div class="side-menu-item" data-page="nuovo">Nuovo</div>
-    <div class="side-menu-item" data-page="archivio">Archivio</div>
-    <div class="side-menu-item" data-page="programmazione">Programmazione</div>
-    <div class="side-menu-item" data-page="timeline">Timeline</div>
-  </div>
-
-  <!-- ICONA INFERIORE -->
-  <div id="menuButton" class="menu-button">
-    <svg viewBox="0 0 32 32" fill="currentColor">
-      <rect x="8" y="10" width="16" height="2" rx="1"/>
-      <rect x="8" y="15" width="16" height="2" rx="1"/>
-      <rect x="8" y="20" width="16" height="2" rx="1"/>
-    </svg>
+  <!-- MENU A BOLLE LATERALE -->
+  <div id="bubbleMenu" class="bubble-menu hidden">
+    <div class="bubble glass" data-page="nuovo">➕</div>
+    <div class="bubble glass" data-page="archivio">📁</div>
+    <div class="bubble glass" data-page="programmazione">🛠</div>
+    <div class="bubble glass" data-page="timeline">📊</div>
+    <div class="bubble glass" data-page="dashboard">🏠</div>
   </div>
 
   <!-- BOTTONI SFERICI -->
-<div id="openModalBtn" class="floating-btn">+</div>
-<div id="dashboardBtn" class="floating-btn left-btn">🏠</div>
+  <div id="openModalBtn" class="floating-btn">+</div>
+  <div id="dashboardBtn" class="floating-btn left-btn">🏠</div>
 
   <!-- FIREBASE v8 -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
