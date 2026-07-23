@@ -666,6 +666,34 @@ body.light .side-menu-item {
   z-index: 45;
 }
 
+/* Bottone sferico destro (identico al tuo menu-button) */
+.floating-btn {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: rgba(8, 16, 32, 0.95);
+  border: 1px solid rgba(140, 190, 255, 0.45);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  z-index: 45;
+}
+
+/* Bottone sferico sinistro */
+.floating-btn.left-btn {
+  left: 18px;
+  right: auto;
+}
+
+
 body.light .menu-button {
   background: rgba(255, 255, 255, 0.98);
   border-color: rgba(120, 160, 220, 0.55);
