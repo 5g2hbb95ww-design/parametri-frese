@@ -862,7 +862,6 @@ if ("serviceWorker" in navigator) {
     if (event.data && event.data.type === "NEW_VERSION") {
       console.log("[APP] Nuova versione disponibile — banner attivo");
 
-      // Mostra la notifica grafica
       updateBanner.classList.remove("hidden");
 
       btnUpdateNow.addEventListener("click", async () => {
@@ -872,13 +871,19 @@ if ("serviceWorker" in navigator) {
           navigator.serviceWorker.controller.postMessage("skipWaiting");
         }
 
-        // Ricarica la PWA
         window.location.reload();
       });
     }
-    document.getElementById("dashboardBtn").addEventListener("click", () => {
-  window.location.href = "#dashboard";   // ← se usi hash
-  // oppure:
-  // window.location.href = "dashboard.html"; 
   });
 }
+
+// ===============================
+// BOTTONE DASHBOARD
+// ===============================
+const dashBtn = document.getElementById("dashboardBtn");
+if (dashBtn) {
+  dashBtn.addEventListener("click", () => {
+    window.location.href = "#dashboard";
+  });
+}
+
