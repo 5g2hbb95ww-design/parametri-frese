@@ -1,8 +1,8 @@
 {
   "name": "Parametri Fresa",
   "short_name": "Fresa",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#0a0f1c",
   "theme_color": "#0a0f1c",
