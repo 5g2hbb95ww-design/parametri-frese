@@ -686,6 +686,15 @@ body.light .side-menu-item {
   cursor: pointer;
   z-index: 9999;
 }
+body.light .floating-btn {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(120, 160, 220, 0.55);
+  color: var(--accent);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
 
 /* Bottone sferico sinistro */
 .floating-btn.left-btn {
