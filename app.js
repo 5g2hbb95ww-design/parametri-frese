@@ -861,38 +861,46 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker.addEventListener("message", async (event) => {
     if (event.data && event.data.type === "NEW_VERSION") {
       console.log("[APP] Nuova versione disponibile — banner attivo");
-
       updateBanner.classList.remove("hidden");
-
-      btnUpdateNow.addEventListener("click", async () => {
-        console.log("[APP] Aggiorno ora…");
-
-        if (navigator.serviceWorker.controller) {
-          navigator.serviceWorker.controller.postMessage("skipWaiting");
-        }
-
-        window.location.reload();
-      });
     }
   });
+
+  if (btnUpdateNow) {
+    btnUpdateNow.addEventListener("click", async () => {
+      console.log("[APP] Aggiorno ora…");
+
+      if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage("skipWaiting");
+      }
+
+      window.location.reload();
+    });
+  }
 }
 
+
+
 // ===============================
-// BOTTONE DASHBOARD
+// BOTTONE SFERICO SINISTRO → DASHBOARD
 // ===============================
 const dashBtn = document.getElementById("dashboardBtn");
 if (dashBtn) {
   dashBtn.addEventListener("click", () => {
-    window.location.href = "#dashboard";
+    haptic();
+    viewSelect.value = "dashboard";
+    viewSelect.dispatchEvent(new Event("change"));
   });
 }
+
 // ===============================
-// BOTTONE MODAL
+// BOTTONE SFERICO DESTRO → MENU LATERALE
 // ===============================
 const openModalBtn = document.getElementById("openModalBtn");
 if (openModalBtn) {
   openModalBtn.addEventListener("click", () => {
-    document.getElementById("modalEdit").classList.add("open");
+    haptic(); // usa la stessa vibrazione del menu
+    sideMenu.classList.toggle("show");
+    sideMenu.classList.toggle("hidden");
   });
 }
 
