@@ -357,7 +357,7 @@ body.light {
 }
 
 main {
-  width: min(100%, 980px);
+  width: min(100%, 600px);
   margin: 0 auto;
   padding: 10px 14px 96px;
 }
