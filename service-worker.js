@@ -10,11 +10,11 @@ console.log("[SW] Versione cache:", CACHE_NAME);
 // FILE STATICI (senza "/")
 // ===============================
 const ASSETS = [
-  "index.html",
-  "style.css",
-  "app.js",
-  "firebase.config.js",
-  "manifest.json"
+  "./index.html",
+  "./style.css",
+  "./app.js",
+  "./firebase.config.js",
+  "./manifest.json"
 ];
 
 // ===============================
