@@ -464,18 +464,22 @@
   }
 </style>
 
-<script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js")
-      .then(() => console.log("SW registrato correttamente"))
-      .catch(err => console.error("Errore registrazione SW:", err));
-  }
-</script>
+<body>
 
   <!-- contenuto app -->
 
   <div id="openModalBtn" class="floating-btn">+</div>
   <div id="dashboardBtn" class="floating-btn left-btn">🏠</div>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("SW registrato correttamente"))
+        .catch(err => console.error("Errore registrazione SW:", err));
+    }
+  </script>
+
+  <script src="app.js"></script>
 
 </body>
 </html>
