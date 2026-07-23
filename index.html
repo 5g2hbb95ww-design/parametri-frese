@@ -2,321 +2,272 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
+  <title>Parametri Fresa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Parametri Frese</title>
 
-  <link rel="stylesheet" href="style.css">
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0f1c">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="dark">
 
-  <!-- ===========================
-       TEMA
-       =========================== -->
-  <button id="btnTheme" class="theme-btn">
-    <span id="themeIcon"></span>
-  </button>
+  <!-- HEADER -->
+  <header>
+    <div class="app-title">Parametri Fresa</div>
 
-  <!-- ===========================
-       SELECTOR PAGINE
-       =========================== -->
-  <select id="viewSelect" class="hidden">
-    <option value="dashboard">Dashboard</option>
-    <option value="nuovo">Nuova Fresa</option>
-    <option value="archivio">Archivio Frese</option>
-    <option value="programmazione">Programmazione CNC</option>
-    <option value="timeline">Timeline</option>
-  </select>
-
-  <!-- ===========================
-       MENU A BOLLE
-       =========================== -->
-  <div id="pageMenu" class="page-menu hidden">
-    <div class="bubble" data-page="dashboard">🏠</div>
-    <div class="bubble" data-page="nuovo">➕</div>
-    <div class="bubble" data-page="archivio">📁</div>
-    <div class="bubble" data-page="programmazione">🛠️</div>
-    <div class="bubble" data-page="timeline">📅</div>
-    <div class="bubble" id="bubbleTheme">☀️/🌙</div>
-  </div>
-
-  <button id="openModalBtn" class="open-menu-btn">☰</button>
-
-  <!-- ===========================
-       TOAST
-       =========================== -->
-  <div id="toast" class="toast hidden"></div>
-
-  <!-- ===========================
-       BANNER UPDATE
-       =========================== -->
-  <div id="updateBanner" class="update-banner hidden">
-    Nuova versione disponibile
-    <button id="btnUpdateNow">Aggiorna</button>
-  </div>
-
-  <!-- ===========================
-       PAGINA: DASHBOARD
-       =========================== -->
-  <div id="page-dashboard" class="page active">
-
-    <h1>Dashboard</h1>
-
-    <div class="dash-grid">
-      <div class="dash-card">
-        <div class="dash-number" id="dash_tot_schede">0</div>
-        <div class="dash-label">Totale schede</div>
-      </div>
-
-      <div class="dash-card">
-        <div class="dash-number" id="dash_in_prog">0</div>
-        <div class="dash-label">In programmazione</div>
-      </div>
-
-      <div class="dash-card">
-        <div class="dash-number" id="dash_programmato">0</div>
-        <div class="dash-label">Programmato</div>
-      </div>
-
-      <div class="dash-card">
-        <div class="dash-number" id="dash_produzione">0</div>
-        <div class="dash-label">In produzione</div>
-      </div>
-
-      <div class="dash-card">
-        <div class="dash-number" id="dash_sospeso">0</div>
-        <div class="dash-label">Sospeso</div>
-      </div>
-
-      <div class="dash-card">
-        <div class="dash-number" id="dash_finito">0</div>
-        <div class="dash-label">Finito</div>
-      </div>
+    <div class="header-row">
+      <select id="viewSelect">
+        <option value="dashboard">Dashboard</option>
+        <option value="nuovo">Nuovo</option>
+        <option value="archivio">Archivio</option>
+        <option value="programmazione">Programmazione</option>
+        <option value="timeline">Timeline</option>
+      </select>
     </div>
 
-    <h2>Ultime schede</h2>
-    <div id="dash_recent_schede"></div>
+    <div class="theme-toggle">
+     <button id="btnTheme" class="theme-btn">
+       <span id="themeIcon">🌙</span>
+     </button>
 
-    <h2>Ultime frese</h2>
-    <div id="dash_recent_frese"></div>
+
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- PAGINA DASHBOARD -->
+<section id="page-dashboard" class="page active">
+
+  <div class="dash-grid-new">
+
+    <div class="dash-card glass volumetric">
+      <div class="dash-icon">📄</div>
+      <div class="dash-number" id="dash_tot_schede">0</div>
+      <div class="dash-label">Schede totali</div>
+    </div>
+
+    <div class="dash-card glass volumetric">
+      <div class="dash-icon">⚙️</div>
+      <div class="dash-number" id="dash_in_prog">0</div>
+      <div class="dash-label">In programmazione</div>
+    </div>
+
+    <div class="dash-card glass volumetric">
+      <div class="dash-icon">📌</div>
+      <div class="dash-number" id="dash_programmato">0</div>
+      <div class="dash-label">Programmato</div>
+    </div>
+
+    <div class="dash-card glass volumetric">
+      <div class="dash-icon">🏭</div>
+      <div class="dash-number" id="dash_produzione">0</div>
+      <div class="dash-label">In produzione</div>
+    </div>
+
+    <div class="dash-card glass volumetric">
+      <div class="dash-icon">⏸️</div>
+      <div class="dash-number" id="dash_sospeso">0</div>
+      <div class="dash-label">Sospeso</div>
+    </div>
+
+    <div class="dash-card glass volumetric">
+      <div class="dash-icon">✔️</div>
+      <div class="dash-number" id="dash_finito">0</div>
+      <div class="dash-label">Finito</div>
+    </div>
 
   </div>
 
-  <!-- ===========================
-       PAGINA: NUOVA FRESA
-       =========================== -->
-  <div id="page-nuovo" class="page">
+  <div class="card glass volumetric">
+    <h2>Ultime schede modificate</h2>
+    <div id="dash_recent_schede"></div>
+  </div>
 
-    <h1>Nuova Fresa</h1>
+  <div class="card glass volumetric">
+    <h2>Ultime frese aggiunte</h2>
+    <div id="dash_recent_frese"></div>
+  </div>
 
-    <div class="card">
+</section>
 
-      <div class="cell">
-        <label>Denominazione</label>
+    <!-- PAGINA NUOVO -->
+    <section id="page-nuovo" class="page">
+      <div class="card glass volumetric">
+        <h2>Dati fresa</h2>
+
+        <label>Denominazione fresa</label>
         <input id="denominazione_fresa" type="text">
+
+        <div class="row">
+          <div class="col">
+            <label>Diametro (mm)</label>
+            <input id="diametro" type="number" step="0.01">
+          </div>
+          <div class="col">
+            <label>N. taglienti</label>
+            <input id="taglienti" type="number">
+          </div>
+        </div>
       </div>
 
-      <div class="cell">
-        <label>Diametro</label>
-        <input id="diametro" type="number">
+      <div class="card glass volumetric">
+        <h2>Parametri di taglio</h2>
+
+        <div class="row">
+          <div class="col">
+            <label>S (giri/min)</label>
+            <input id="s" type="number">
+          </div>
+          <div class="col">
+            <label>F (mm/giro)</label>
+            <input id="f" type="number" step="0.01">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label>M/min</label>
+            <input id="mmin" type="number" step="0.1">
+          </div>
+          <div class="col">
+            <label>S calcolata</label>
+            <input id="s_calc" type="number" readonly>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label>Avanzamento (mm/dente)</label>
+            <input id="avanzamento" type="number" step="0.01">
+          </div>
+          <div class="col">
+            <label>F calcolata (mm/min)</label>
+            <input id="f_calc" type="number" readonly>
+          </div>
+        </div>
       </div>
 
-      <div class="cell">
-        <label>Giri/min (S)</label>
-        <input id="s" type="number">
+      <div class="card glass volumetric">
+        <h2>Profondità / Passate</h2>
+
+        <div class="row">
+          <div class="col">
+            <label>Z Ap</label>
+            <input id="zap" type="number" step="0.01">
+          </div>
+          <div class="col">
+            <label>XY Ae</label>
+            <input id="xyae" type="number" step="0.01">
+          </div>
+        </div>
       </div>
 
-      <div class="cell">
-        <label>M/min</label>
-        <input id="mmin" type="number">
-      </div>
+      <div class="card glass volumetric">
+        <h2>Codici utensile</h2>
 
-      <div class="cell">
-        <label>S calcolata</label>
-        <input id="s_calc" type="number" readonly>
-      </div>
-
-      <div class="cell">
-        <label>Taglienti</label>
-        <input id="taglienti" type="number">
-      </div>
-
-      <div class="cell">
-        <label>Avanzamento</label>
-        <input id="avanzamento" type="number">
-      </div>
-
-      <div class="cell">
-        <label>F (mm/min)</label>
-        <input id="f" type="number">
-      </div>
-
-      <div class="cell">
-        <label>F calcolata</label>
-        <input id="f_calc" type="number" readonly>
-      </div>
-
-      <div class="cell">
-        <label>ZAP</label>
-        <input id="zap" type="number">
-      </div>
-
-      <div class="cell">
-        <label>XY/AE</label>
-        <input id="xyae" type="number">
-      </div>
-
-      <div class="cell">
-        <label>Codice Fresa</label>
+        <label>Codice fresa</label>
         <input id="codice_fresa" type="text">
-      </div>
 
-      <div class="cell">
-        <label>Codice Inserto</label>
+        <label>Codice inserto</label>
         <input id="codice_inserto" type="text">
       </div>
 
-      <div class="cell">
-        <label>Materiale</label>
-        <select id="materiale"></select>
-      </div>
+      <div class="card glass volumetric">
+        <h2>Dettagli lavorazione</h2>
 
-      <div class="cell">
-        <label>Refrigerante</label>
-        <select id="refrigerante"></select>
-      </div>
+        <div class="row">
+          <div class="col">
+            <label>Materiale</label>
+            <select id="materiale"></select>
+          </div>
+          <div class="col">
+            <label>Refrigerante</label>
+            <select id="refrigerante"></select>
+          </div>
+        </div>
 
-      <div class="cell">
         <label>Dettagli</label>
-        <textarea id="dettagli"></textarea>
+        <textarea id="dettagli" rows="3"></textarea>
+
+        <button id="btnSalva" class="btn-primary">Salva in archivio</button>
       </div>
+    </section>
 
-      <button id="btnSalva" class="btn-primary">Salva Fresa</button>
+    <!-- PAGINA ARCHIVIO -->
+    <section id="page-archivio" class="page">
+      <div class="card glass volumetric">
+        <h2>Archivio frese</h2>
 
-    </div>
+        <label>Ordina per</label>
+        <select id="sortSelect">
+          <option value="diametro">Diametro</option>
+          <option value="materiale">Materiale</option>
+          <option value="codiceFresa">Codice fresa</option>
+          <option value="refrigerante">Refrigerante</option>
+          <option value="mmin">Velocità di taglio (M/min)</option>
+          <option value="fCalc">Avanzamento (F calcolata)</option>
+        </select>
 
-  </div>
+        <label>Ordine</label>
+        <select id="orderSelect">
+          <option value="asc">Crescente</option>
+          <option value="desc">Decrescente</option>
+        </select>
 
-  <!-- ===========================
-       PAGINA: ARCHIVIO FRESE
-       =========================== -->
-  <div id="page-archivio" class="page">
-
-    <h1>Archivio Frese</h1>
-
-    <div class="filters">
-      <select id="sortSelect">
-        <option value="denominazione">Nome</option>
-        <option value="diametro">Diametro</option>
-        <option value="materiale">Materiale</option>
-      </select>
-
-      <select id="orderSelect">
-        <option value="asc">Asc</option>
-        <option value="desc">Desc</option>
-      </select>
-    </div>
-
-    <div id="lista"></div>
-
-    <!-- MODAL EDIT -->
-    <div id="modalEdit" class="modal hidden">
-      <div class="modal-content">
-
-        <div class="cell">
-          <label>Denominazione</label>
-          <input id="edit_denominazione">
-        </div>
-
-        <div class="cell">
-          <label>Diametro</label>
-          <input id="edit_diametro" type="number">
-        </div>
-
-        <div class="cell">
-          <label>Taglienti</label>
-          <input id="edit_taglienti" type="number">
-        </div>
-
-        <div class="cell">
-          <label>S</label>
-          <input id="edit_s" type="number">
-        </div>
-
-        <div class="cell">
-          <label>Avanzamento</label>
-          <input id="edit_avanzamento" type="number">
-        </div>
-
-        <div class="cell">
-          <label>Materiale</label>
-          <select id="edit_materiale"></select>
-        </div>
-
-        <div class="cell">
-          <label>Refrigerante</label>
-          <select id="edit_refrigerante"></select>
-        </div>
-
-        <div class="cell">
-          <label>Dettagli</label>
-          <textarea id="edit_dettagli"></textarea>
-        </div>
-
-        <button id="btnUpdate" class="btn-primary">Aggiorna</button>
-        <button id="btnCloseModal" class="btn-secondary">Chiudi</button>
-
+        <div id="lista"></div>
       </div>
-    </div>
+    </section>
 
-  </div>
+    <!-- PAGINA PROGRAMMAZIONE -->
+    <section id="page-programmazione" class="page">
 
-  <!-- ===========================
-       PAGINA: PROGRAMMAZIONE CNC
-       =========================== -->
-  <div id="page-programmazione" class="page">
+      <div class="card glass volumetric">
+        <h2>Nuova scheda lavoro</h2>
 
-    <h1>Programmazione CNC</h1>
-
-    <div class="card">
-
-      <div class="cell">
         <label>Macchina</label>
-        <input id="prog_macchina">
-      </div>
+        <select id="prog_macchina">
+          <option value="">—</option>
+          <option>Duravertical 3Ax (45)</option>
+          <option>Duravertical 3Ax (46)</option>
+          <option>NVX 5060 (58)</option>
+          <option>Okuma (59)</option>
+          <option>DMF-200/7 (57)</option>
+          <option>DMU 65 5Axis (89)</option>
+          <option>DMU 75 5Axis (90)</option>
+        </select>
 
-      <div class="cell">
         <label>Commessa</label>
-        <input id="prog_commessa">
-      </div>
+        <input id="prog_commessa" type="text">
 
-      <div class="cell">
         <label>Disegno</label>
-        <input id="prog_disegno">
-      </div>
+        <input id="prog_disegno" type="text">
 
-      <div class="cell">
         <label>Revisione</label>
-        <input id="prog_rev">
-      </div>
+        <input id="prog_rev" type="text">
 
-      <div class="cell">
-        <label>Data</label>
+        <label>Data Programma</label>
         <input id="prog_data" type="date">
-      </div>
 
-      <div class="cell">
-        <label>Tempo (min)</label>
+        <label>Tempo programmazione (min)</label>
         <input id="prog_tempo" type="number">
-      </div>
 
-      <div class="cell">
-        <label>Operatore</label>
-        <input id="prog_operatore">
-      </div>
+        <label>Operatore CNC</label>
+        <select id="prog_operatore">
+          <option value="">—</option>
+          <option>Marco T.</option>
+          <option>Nicola B.</option>
+          <option>Roberto Q.</option>
+          <option>Daniel D.</option>
+          <option>Igor B.</option>
+          <option>Altri</option>
+        </select>
 
-      <div class="cell">
         <label>Stato</label>
         <select id="prog_stato">
           <option value="in_programmazione">In programmazione</option>
@@ -325,113 +276,159 @@
           <option value="sospeso">Sospeso</option>
           <option value="finito">Finito</option>
         </select>
-      </div>
 
-      <div class="cell">
         <label>Note</label>
-        <textarea id="prog_note"></textarea>
+        <textarea id="prog_note" rows="3"></textarea>
+
+        <button id="btnSalvaProgrammazione" class="btn-primary">Salva scheda</button>
       </div>
 
-      <button id="btnSalvaProgrammazione" class="btn-primary">Salva Scheda</button>
+      <div class="card glass volumetric">
+        <h2>Archivio schede</h2>
 
-    </div>
+        <label>Filtra per stato</label>
+        <select id="prog_filter">
+          <option value="">Tutti</option>
+          <option value="in_programmazione">In programmazione</option>
+          <option value="programmato">Programmato</option>
+          <option value="in_produzione">In produzione</option>
+          <option value="sospeso">Sospeso</option>
+          <option value="finito">Finito</option>
+        </select>
 
-    <h2>Filtra</h2>
-    <select id="prog_filter">
-      <option value="">Tutti</option>
-      <option value="in_programmazione">In programmazione</option>
-      <option value="programmato">Programmato</option>
-      <option value="in_produzione">In produzione</option>
-      <option value="sospeso">Sospeso</option>
-      <option value="finito">Finito</option>
-    </select>
-
-    <div id="prog_lista"></div>
-    <div id="prog_progress"></div>
-
-    <!-- MODAL PROGRAMMAZIONE -->
-    <div id="modalProgEdit" class="modal hidden">
-      <div class="modal-content">
-
-        <div class="cell">
-          <label>Macchina</label>
-          <input id="edit_prog_macchina">
-        </div>
-
-        <div class="cell">
-          <label>Commessa</label>
-          <input id="edit_prog_commessa">
-        </div>
-
-        <div class="cell">
-          <label>Disegno</label>
-          <input id="edit_prog_disegno">
-        </div>
-
-        <div class="cell">
-          <label>Revisione</label>
-          <input id="edit_prog_rev">
-        </div>
-
-        <div class="cell">
-          <label>Data</label>
-          <input id="edit_prog_data" type="date">
-        </div>
-
-        <div class="cell">
-          <label>Tempo</label>
-          <input id="edit_prog_tempo" type="number">
-        </div>
-
-        <div class="cell">
-          <label>Operatore</label>
-          <input id="edit_prog_operatore">
-        </div>
-
-        <div class="cell">
-          <label>Stato</label>
-          <select id="edit_prog_stato">
-            <option value="in_programmazione">In programmazione</option>
-            <option value="programmato">Programmato</option>
-            <option value="in_produzione">In produzione</option>
-            <option value="sospeso">Sospeso</option>
-            <option value="finito">Finito</option>
-          </select>
-        </div>
-
-        <div class="cell">
-          <label>Note</label>
-          <textarea id="edit_prog_note"></textarea>
-        </div>
-
-        <button id="btnProgUpdate" class="btn-primary">Aggiorna</button>
-        <button id="btnProgClose" class="btn-secondary">Chiudi</button>
-
+        <div id="prog_progress" class="prog-progress"></div>
+        <div id="prog_lista"></div>
+        <button id="btnExportPDF" class="btn-primary" style="margin-top: 20px;">
+         Esporta PDF
+        </button>
       </div>
+
+    </section>
+
+    <!-- PAGINA TIMELINE -->
+    <section id="page-timeline" class="page">
+      <div class="card glass volumetric">
+        <h2>Timeline programmazione</h2>
+        <div id="prog_timeline"></div>
+      </div>
+
+      <button id="btnExportPDFTimeline" class="btn-primary">Esporta PDF</button>
+
+    </section>
+
+  </main>
+
+  <!-- MODAL FRESE -->
+  <div id="modalEdit" class="modal">
+    <div class="modal-content glass volumetric">
+      <h2>Modifica fresa</h2>
+
+      <label>Denominazione</label>
+      <input id="edit_denominazione" type="text">
+
+      <label>Diametro</label>
+      <input id="edit_diametro" type="number">
+
+      <label>Taglienti</label>
+      <input id="edit_taglienti" type="number">
+
+      <label>S</label>
+      <input id="edit_s" type="number">
+
+      <label>Avanzamento</label>
+      <input id="edit_avanzamento" type="number">
+
+      <label>Materiale</label>
+      <select id="edit_materiale"></select>
+
+      <label>Refrigerante</label>
+      <select id="edit_refrigerante"></select>
+
+      <label>Dettagli</label>
+      <textarea id="edit_dettagli"></textarea>
+
+      <button id="btnUpdate" class="btn-primary">Aggiorna</button>
+      <button id="btnCloseModal" class="btn-secondary">Chiudi</button>
     </div>
-
   </div>
 
-  <!-- ===========================
-       PAGINA: TIMELINE
-       =========================== -->
-  <div id="page-timeline" class="page">
+  <!-- MODAL PROGRAMMAZIONE -->
+  <div id="modalProgEdit" class="modal">
+    <div class="modal-content glass volumetric">
 
-    <h1>Timeline</h1>
+      <h2>Modifica scheda</h2>
 
-    <div id="prog_timeline"></div>
+      <label>Macchina</label>
+      <select id="edit_prog_macchina"></select>
 
-    <button id="btnExportPDFTimeline" class="btn-primary">
-      Esporta PDF
-    </button>
+      <label>Commessa</label>
+      <input id="edit_prog_commessa" type="text">
 
+      <label>Disegno</label>
+      <input id="edit_prog_disegno" type="text">
+
+      <label>Revisione</label>
+      <input id="edit_prog_rev" type="text">
+
+      <label>Data Programma</label>
+      <input id="edit_prog_data" type="date">
+
+      <label>Tempo programmazione (min)</label>
+      <input id="edit_prog_tempo" type="number">
+
+      <label>Operatore CNC</label>
+      <select id="edit_prog_operatore"></select>
+
+      <label>Stato</label>
+      <select id="edit_prog_stato">
+        <option value="in_programmazione">In programmazione</option>
+        <option value="programmato">Programmato</option>
+        <option value="in_produzione">In produzione</option>
+        <option value="sospeso">Sospeso</option>
+        <option value="finito">Finito</option>
+      </select>
+
+      <label>Note</label>
+      <textarea id="edit_prog_note" rows="3"></textarea>
+
+      <button id="btnProgUpdate" class="btn-primary">Aggiorna</button>
+      <button id="btnProgClose" class="btn-secondary">Chiudi</button>
+
+    </div>
   </div>
 
-  <!-- ===========================
-       SCRIPT
-       =========================== -->
+  <!-- TOAST -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- MENU A BOLLE LATERALE -->
+<div id="pageMenu" class="page-menu hidden">
+  <div class="bubble" data-page="dashboard">🏠</div>
+  <div class="bubble" data-page="nuovo">➕</div>
+  <div class="bubble" data-page="archivio">📁</div>
+  <div class="bubble" data-page="programmazione">🛠</div>
+  <div class="bubble" data-page="timeline">📊</div>
+  <div id="bubbleTheme" class="bubble">🌓</div>
+</div>
+
+  <!-- BOTTONI SFERICI -->
+  <div id="openModalBtn" class="floating-btn">+</div>
+  <div id="dashboardBtn" class="floating-btn left-btn">🏠</div>
+
+  <!-- FIREBASE v8 -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <!-- CONFIG -->
   <script src="firebase.config.js"></script>
+
+  <!-- APP -->
   <script src="app.js"></script>
+
+  <!-- BANNER UPDATE -->
+  <div id="updateBanner" class="update-banner hidden">
+    <span>Nuova versione disponibile</span>
+    <button id="btnUpdateNow">Aggiorna ora</button>
+  </div>
 
 </body>
 </html>
