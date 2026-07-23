@@ -885,6 +885,13 @@ table {
     height: auto;
 }
 
+input,
+select,
+textarea,
+button {
+    max-width: 100%;
+}
+
 *{
     box-sizing:border-box;
 }
