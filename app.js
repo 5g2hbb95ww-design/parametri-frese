@@ -482,4 +482,391 @@ const btnCloseModal = document.getElementById("btnCloseModal");
 let editIndex = null;
 
 function apriPopup(idx) {
-  edit
+  editIndex = idx;
+  const item = archivio[idx];
+
+  edit_denominazione.value = item.denominazione;
+  edit_diametro.value = item.diametro;
+  edit_taglienti.value = item.taglienti;
+  edit_s.value = item.s;
+  edit_avanzamento.value = item.avanzamento;
+  edit_materiale.value = item.materiale;
+  edit_refrigerante.value = item.refrigerante;
+  edit_dettagli.value = item.dettagli;
+
+  modalEdit.style.display = "flex";
+}
+
+btnCloseModal.addEventListener("click", () => {
+  modalEdit.style.display = "none";
+});
+
+document.getElementById("btnUpdate").addEventListener("click", async () => {
+  const item = archivio[editIndex];
+
+  const updated = {
+    denominazione: edit_denominazione.value.trim(),
+    diametro: num(edit_diametro.value),
+    taglienti: num(edit_taglienti.value),
+    s: num(edit_s.value),
+    avanzamento: num(edit_avanzamento.value),
+    materiale: edit_materiale.value,
+    refrigerante: edit_refrigerante.value,
+    dettagli: edit_dettagli.value.trim()
+  };
+
+  await db.collection("archivio_frese").doc(item.id).update(updated);
+  archivio[editIndex] = { id: item.id, ...updated };
+
+  renderArchivio();
+  modalEdit.style.display = "none";
+  showToast("Fresa aggiornata ✔");
+});
+
+// =========================
+// PROGRAMMAZIONE
+// =========================
+let progEditIndex = null;
+
+const prog_lista = document.getElementById("prog_lista");
+const prog_progress = document.getElementById("prog_progress");
+const prog_filter = document.getElementById("prog_filter");
+
+function resetCampiProgrammazione() {
+  prog_macchina.value = "";
+  prog_commessa.value = "";
+  prog_disegno.value = "";
+  prog_rev.value = "";
+  prog_data.value = "";
+  prog_tempo.value = "";
+  prog_operatore.value = "";
+  prog_stato.value = "in_programmazione";
+  prog_note.value = "";
+}
+
+document.getElementById("btnSalvaProgrammazione").addEventListener("click", async () => {
+  const item = {
+    macchina: prog_macchina.value,
+    commessa: prog_commessa.value.trim(),
+    disegno: prog_disegno.value.trim(),
+    revisione: prog_rev.value.trim(),
+    dataProgramma: prog_data.value,
+    tempo: num(prog_tempo.value),
+    operatore: prog_operatore.value,
+    stato: prog_stato.value,
+    note: prog_note.value.trim(),
+    history: [
+      {
+        stato: prog_stato.value,
+        timestamp: new Date().toLocaleString()
+      }
+    ]
+  };
+
+  await saveScheda(item);
+
+  await saveTimelineEntry({
+    commessa: item.commessa,
+    stato: item.stato,
+    timestamp: new Date().toLocaleString()
+  });
+
+  renderProgArchivio();
+  renderProgTimeline();
+  showToast("Scheda salvata ✔");
+  resetCampiProgrammazione();
+});
+
+function renderProgArchivio() {
+  prog_lista.innerHTML = "";
+  prog_progress.innerHTML = "";
+
+  let arr = [...progArchivio];
+
+  if (prog_filter.value) {
+    arr = arr.filter(x => x.stato === prog_filter.value);
+  }
+
+  arr.forEach((item, idx) => {
+    const div = document.createElement("div");
+    div.className = "arch-item";
+
+    div.innerHTML = `
+      <div class="arch-item-title">${item.commessa}</div>
+      <div class="arch-item-meta">${item.macchina} — ${item.operatore}</div>
+      <span class="badge ${item.stato}">${item.stato.replace("_", " ")}</span>
+      <div class="arch-item-meta">${item.dataProgramma}</div>
+    `;
+
+    const btnMod = document.createElement("button");
+    btnMod.textContent = "Modifica";
+    btnMod.className = "btn-primary";
+    btnMod.style.marginTop = "6px";
+    btnMod.addEventListener("click", () => apriProgPopup(idx));
+
+    const btnDel = document.createElement("button");
+    btnDel.textContent = "Elimina";
+    btnDel.className = "btn-secondary";
+    btnDel.style.marginTop = "6px";
+    btnDel.addEventListener("click", async () => {
+      const id = progArchivio[idx].id;
+      await db.collection("programmazione_schede").doc(id).delete();
+      progArchivio.splice(idx, 1);
+      renderProgArchivio();
+      renderProgTimeline();
+      showToast("Scheda eliminata ✔");
+    });
+
+    div.appendChild(btnMod);
+    div.appendChild(btnDel);
+    prog_lista.appendChild(div);
+
+    const pb = document.createElement("div");
+    pb.className = "progress-bar";
+
+    const pf = document.createElement("div");
+    pf.className = "progress-fill programmazione";
+    pf.style.width =
+      item.stato === "finito" ? "100%" :
+      item.stato === "in_produzione" ? "70%" :
+      item.stato === "programmato" ? "40%" :
+      "10%";
+
+    pb.appendChild(pf);
+    prog_progress.appendChild(pb);
+  });
+}
+
+// =========================
+// MODAL PROGRAMMAZIONE
+// =========================
+const modalProgEdit = document.getElementById("modalProgEdit");
+const btnProgClose = document.getElementById("btnProgClose");
+const btnProgUpdate = document.getElementById("btnProgUpdate");
+
+btnProgClose.addEventListener("click", () => {
+  modalProgEdit.style.display = "none";
+});
+
+function apriProgPopup(idx) {
+  progEditIndex = idx;
+  const item = progArchivio[idx];
+
+  edit_prog_macchina.value = item.macchina;
+  edit_prog_commessa.value = item.commessa;
+  edit_prog_disegno.value = item.disegno;
+  edit_prog_rev.value = item.revisione;
+  edit_prog_data.value = item.dataProgramma;
+  edit_prog_tempo.value = item.tempo;
+  edit_prog_operatore.value = item.operatore;
+  edit_prog_stato.value = item.stato;
+  edit_prog_note.value = item.note || "";
+
+  modalProgEdit.style.display = "flex";
+}
+
+btnProgUpdate.addEventListener("click", async () => {
+  const item = progArchivio[progEditIndex];
+  
+  const nuovoStato = edit_prog_stato.value;
+  const timestamp = new Date().toLocaleString();
+
+  const updated = {
+    macchina: edit_prog_macchina.value,
+    commessa: edit_prog_commessa.value.trim(),
+    disegno: edit_prog_disegno.value.trim(),
+    revisione: edit_prog_rev.value.trim(),
+    dataProgramma: edit_prog_data.value,
+    tempo: num(edit_prog_tempo.value),
+    operatore: edit_prog_operatore.value,
+    stato: nuovoStato,
+    note: edit_prog_note.value.trim(),
+    history: [...item.history]
+  };
+
+  if (item.stato !== nuovoStato) {
+    updated.history.push({
+      stato: nuovoStato,
+      timestamp
+    });
+
+    await saveTimelineEntry({
+      commessa: updated.commessa,
+      stato: nuovoStato,
+      timestamp
+    });
+  }
+
+  await db.collection("programmazione_schede").doc(item.id).update(updated);
+  progArchivio[progEditIndex] = { id: item.id, ...updated };
+
+  renderProgArchivio();
+  renderProgTimeline();
+
+  modalProgEdit.style.display = "none";
+  showToast("Scheda aggiornata ✔");
+});
+
+// =========================
+// EXPORT PDF
+// =========================
+document.getElementById("btnExportPDF").addEventListener("click", () => {
+  let html = `
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Report schede</title>
+      <style>
+        body {
+          font-family: system-ui, -apple-system, sans-serif;
+          background: #0b1020;
+          color: #e9faff;
+          padding: 20px;
+        }
+        h1 {
+          font-size: 20px;
+          margin-bottom: 16px;
+          color: #9fe4ff;
+        }
+        .card {
+          margin-bottom: 16px;
+          padding: 14px;
+          border-radius: 18px;
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.18);
+        }
+        .title {
+          font-size: 16px;
+          font-weight: 600;
+          margin-bottom: 6px;
+          color: #9fe4ff;
+        }
+        .row {
+          margin: 2px 0;
+          font-size: 14px;
+        }
+        .label {
+          font-weight: 600;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>Report schede programmazione</h1>
+  `;
+
+  progArchivio.forEach(item => {
+    html += `
+      <div class="card">
+        <div class="title">${item.commessa}</div>
+        <div class="row"><span class="label">Macchina:</span> ${item.macchina}</div>
+        <div class="row"><span class="label">Disegno:</span> ${item.disegno}</div>
+        <div class="row"><span class="label">Revisione:</span> ${item.revisione}</div>
+        <div class="row"><span class="label">Data:</span> ${item.dataProgramma}</div>
+        <div class="row"><span class="label">Tempo:</span> ${item.tempo} min</div>
+        <div class="row"><span class="label">Operatore:</span> ${item.operatore}</div>
+        <div class="row"><span class="label">Stato attuale:</span> ${item.stato}</div>
+        <div class="row"><span class="label">Storico stati:</span><br>
+          ${item.history.map(h => `${h.timestamp} → ${h.stato}`).join("<br>")}
+        </div>
+        <div class="row"><span class="label">Note:</span> ${item.note || "-"}
+        </div>
+      </div>
+    `;
+  });
+
+  html += `
+    </body>
+    </html>
+  `;
+
+  const blob = new Blob([html], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  window.open(url, "_blank");
+});
+
+// ===============================
+// BANNER UPDATE + AUTO‑RELOAD
+// ===============================
+if ("serviceWorker" in navigator) {
+  const updateBanner = document.getElementById("updateBanner");
+  const btnUpdateNow = document.getElementById("btnUpdateNow");
+
+  navigator.serviceWorker.addEventListener("message", async (event) => {
+    if (event.data && event.data.type === "NEW_VERSION") {
+      updateBanner.classList.remove("hidden");
+    }
+  });
+
+  if (btnUpdateNow) {
+    btnUpdateNow.addEventListener("click", async () => {
+      if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage("skipWaiting");
+      }
+      window.location.reload();
+    });
+  }
+}
+
+// ===============================
+// BOTTONE SFERICO SINISTRO → DASHBOARD
+// ===============================
+const dashBtn = document.getElementById("dashboardBtn");
+if (dashBtn) {
+  dashBtn.addEventListener("click", () => {
+    viewSelect.value = "dashboard";
+    viewSelect.dispatchEvent(new Event("change"));
+  });
+}
+
+// ===============================
+// MENU A BOLLE LATERALE (VisionOS)
+// ===============================
+const bubbleMenu = document.getElementById("bubbleMenu");
+const openModalBtn = document.getElementById("openModalBtn");
+
+function haptic() {
+  try {
+    navigator.vibrate?.(10);
+  } catch (_) {}
+}
+
+openModalBtn.addEventListener("click", () => {
+  haptic();
+  bubbleMenu.classList.toggle("show");
+  bubbleMenu.classList.toggle("hidden");
+});
+
+document.querySelectorAll(".bubble").forEach(b => {
+  b.addEventListener("click", () => {
+    haptic();
+    const page = b.dataset.page;
+    viewSelect.value = page;
+    viewSelect.dispatchEvent(new Event("change"));
+    bubbleMenu.classList.remove("show");
+    bubbleMenu.classList.add("hidden");
+  });
+});
+
+// ===============================
+// AVVIO APP
+// ===============================
+(async () => {
+  Object.values(pages).forEach(p => p.style.display = "none");
+  pages.dashboard.style.display = "block";
+
+  renderDashboard();
+
+  const [frese, schede] = await Promise.all([
+    getFrese(),
+    getSchede()
+  ]);
+
+  archivio = frese;
+  progArchivio = schede;
+
+  renderArchivio();
+  renderProgArchivio();
+  renderProgTimeline();
+  renderDashboard();
+})();
+
